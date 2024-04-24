@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'My Site',
+  title: 'Architecture Center',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -58,21 +58,33 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'Architecture Center',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Deutsche Telekom Logo',
+        src: 'img/telekom-logo.svg',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Best Practices',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: 'Blueprints',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: 'Cloud Adoption Framework',
+        },
+        {to: '/blog', label: 'Blog', position: 'right'},
+        {
+          href: 'https://github.com/akyriako/docs-next',
           label: 'GitHub',
           position: 'right',
         },
@@ -85,8 +97,50 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Help Center',
+              to: 'https://docs.otc.t-systems.com/',
+            },
+            {
+              label: 'Medium',
+              href: 'https://designer.otc-service.com/#/',
+            },
+          ],
+        },
+        {
+          title: 'Developers',
+          items: [
+            {
+              label: 'SDKs',
+              to: '/blog',
+            },
+            {
+              label: 'Drivers & Tools',
+              to: 'https://github.com/akyriako/docs-next',
+            },
+            {
+              label: 'IaC & Automation',
+              to: '/blog',
+            },
+            {
+              label: 'Cloud Create',
+              to: 'https://designer.otc-service.com/',
+            },
+          ],
+        },
+        {
+          title: 'API',
+          items: [
+            {
+              label: 'REST API',
+              to: '/blog',
+            },
+            {
+              label: 'REST API Guideline',
+              to: 'https://github.com/akyriako/docs-next',
+            },
+            {
+              label: 'Endpoints',
+              to: '/blog',
             },
           ],
         },
@@ -94,8 +148,8 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Community Portal',
+              to: 'https://stackoverflow.com/questions/tagged/docusaurus',
             },
             {
               label: 'Discord',
@@ -104,19 +158,6 @@ const config: Config = {
             {
               label: 'Twitter',
               href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
             },
           ],
         },
