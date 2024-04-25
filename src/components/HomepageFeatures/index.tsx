@@ -10,28 +10,30 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Best Practices',
+    Svg: require('@site/static/img/best-practices.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Explore the recommended strategies for resource management, such as
+        efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
+        to ensure robust system performance.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Blueprints',
+    Svg: require('@site/static/img/blueprints.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Discover tailored out-of-the-box solutions and
+        practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal
+        application and infrastructure design using Open Telekom Cloud. 
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Cloud Adoption Framework',
+    Svg: require('@site/static/img/caf.svg').default,
     description: (
       <>
         Extend or customize your website layout by reusing React. Docusaurus can

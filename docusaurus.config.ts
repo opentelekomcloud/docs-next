@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Architecture Center',
-  tagline: 'Architecture Center',
+  tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -58,7 +58,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Architecture Center',
+      title: 'Open Telekom Cloud \n Architecture Center',
       logo: {
         alt: 'Deutsche Telekom Logo',
         src: 'img/telekom-logo.svg',
@@ -135,7 +135,7 @@ const config: Config = {
               to: '/blog',
             },
             {
-              label: 'REST API Guideline',
+              label: 'REST API Guidelines',
               to: 'https://github.com/akyriako/docs-next',
             },
             {
