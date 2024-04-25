@@ -66,19 +66,19 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'bestPracticesSidebar',
           position: 'left',
           label: 'Best Practices',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'blueprintsSidebar',
           position: 'left',
           label: 'Blueprints',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'cafSidebar',
           position: 'left',
           label: 'Cloud Adoption Framework',
         },
@@ -165,8 +165,8 @@ const config: Config = {
       copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.oneDark,
+      darkTheme: prismThemes.oneDark,
     },
   } satisfies Preset.ThemeConfig,
 };
