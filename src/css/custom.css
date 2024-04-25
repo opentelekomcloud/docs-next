@@ -71,8 +71,8 @@
 
 @media screen and (min-width: 997px) {
   :root {
-    --ifm-font-size-base: 17px;
-    font-weight: bold;
+    --ifm-font-size-base: 19px;
+    font-weight: normal;
   }
   article header h1 {
     font-size: 2rem !important;
@@ -80,7 +80,7 @@
   }
 }
 
-/* Adjust footer link colors */
+/* Adjust footer link colors
 #__docusaurus > footer > div > div.text--center > div > a {
   color: unset;
 }
@@ -88,7 +88,7 @@
 #__docusaurus > footer > div > div.text--center > div > a:hover {
   color: var(--ifm-link-color);
   text-decoration: none;
-}
+} */
 
 .footer {
   background-color:  var(--telekom-color-background-canvas);

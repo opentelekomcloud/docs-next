@@ -1,8 +1,9 @@
 ---
-sidebar_position: 1
+id: storage
+title: Storage
 ---
 
-# Best Practices
+# Storage
 
 Welcome to the Open Telekom Cloud Architecture Center Best Practices.
 Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that

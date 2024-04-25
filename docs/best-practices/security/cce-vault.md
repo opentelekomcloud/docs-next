@@ -1,8 +1,14 @@
+---
+id: cce-vault
+title: Secrets management with CCE and Hashicorp Vault
+tags: [cce, vault, hashicorp, security]
+---
+
 # Secrets management with CCE and Hashicorp Vault
 
 ## Overview
 
-Most modern IT setups are composed of several subsystems like databases,
+Most **modern** IT setups are composed of several subsystems like databases,
 object stores, master controller, node access, and more. To access one
 component from another, some form of credentials are required.
 Configuring and storing these secrets directly in the components is

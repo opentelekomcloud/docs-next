@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
@@ -38,14 +38,14 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -82,7 +82,7 @@ const config: Config = {
           position: 'left',
           label: 'Cloud Adoption Framework',
         },
-        {to: '/blog', label: 'Blog', position: 'right'},
+        { to: '/blog', label: 'Blog', position: 'right' },
         {
           href: 'https://github.com/akyriako/docs-next',
           label: 'GitHub',
@@ -167,6 +167,12 @@ const config: Config = {
     prism: {
       theme: prismThemes.oneDark,
       darkTheme: prismThemes.oneDark,
+    },
+    docs: {
+      sidebar: {
+        // hideable: true,
+        autoCollapseCategories: true,
+      },
     },
   } satisfies Preset.ThemeConfig,
 };
