@@ -37,6 +37,8 @@
   --ifm-color-primary-light: #f90080;
   --ifm-color-primary-lighter: #ff0585;
   --ifm-color-primary-lightest: #ff2796;
+  --ifm-footer-background-color: var(--background-footer);
+  --ifm-footer-link-color: black;
   --ifm-code-font-size: 90%; /*95%;*/
   --ifm-font-family-base: 'TeleNeoWeb';
 }
@@ -88,4 +90,22 @@
   text-decoration: none;
 }
 
+.footer {
+  background-color:  var(--telekom-color-background-canvas);
+}
+
+.footer__title {
+  color: black;
+  font-weight: bolder;
+}
+
+.footer__link-item {
+  color: black;
+}
+
+.footer__link-item:hover {
+  color: unset;
+  color: var(--ifm-link-color);
+  text-decoration: none;
+}
 
