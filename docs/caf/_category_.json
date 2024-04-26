@@ -1,7 +1,7 @@
 {
-  "label": "CAF",
-  "position": 1,
+  "label": "Cloud Adoption Framework",
   "link": {
     "type": "generated-index",
+    "description": "Welcome to the Open Telekom Cloud Architecture Center Cloud Adoption Framework"
   }
 }
