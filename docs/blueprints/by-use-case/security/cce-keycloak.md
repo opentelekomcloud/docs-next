@@ -1,0 +1,673 @@
+---
+id: cce-keycloak
+title: Deploy Keycloak on CCE
+tags: [cce, oauth, keycloak, security]
+---
+
+# Deploy Keycloak on CCE
+
+## Overview
+
+Keycloak is an open-source identity and access management (IAM) solution
+developed by Red Hat. It provides features for single sign-on (SSO),
+user authentication, authorization, and identity brokering. Keycloak
+aims to simplify the implementation of authentication and authorization
+mechanisms in applications by offering a centralized and configurable
+platform.
+
+Key features of Keycloak include:
+
+1. **Single Sign-On (SSO):** Keycloak enables users to log in once and
+    gain access to multiple applications without the need to re-enter
+    credentials for each application.
+2. **Identity Federation:** It supports identity brokering, allowing
+    users to log in with existing accounts from social networks (such as
+    Google, Facebook, or GitHub) or other identity providers.
+3. **User Authentication:** Keycloak provides a variety of
+    authentication mechanisms, including username and password,
+    multi-factor authentication, and support for external identity
+    providers.
+4. **Authorization Services:** It includes fine-grained access control
+    and authorization policies to manage what users can and cannot do
+    within applications.
+5. **User Account Management:** Keycloak offers user self-registration,
+    password reset, and other account management features.
+6. **LDAP and Active Directory Integration:** It supports integration
+    with LDAP (Lightweight Directory Access Protocol) and Microsoft
+    Active Directory for seamless user management.
+7. **Client Adapters:** Keycloak provides client adapters for various
+    platforms and languages, making it easier to integrate with
+    applications built using different technologies.
+8. **Security and Compliance:** Keycloak follows best practices for
+    security and compliance, including support for OAuth 2.0 and OpenID
+    Connect standards.
+
+Developers can integrate Keycloak with their applications using various
+protocols such as OpenID Connect, OAuth 2.0, SAML (Security Assertion
+Markup Language), and more. It is commonly used in microservices
+architectures and distributed systems to manage authentication and
+authorization in a centralized manner. Keycloak is often employed in
+scenarios where secure user authentication and access control are
+crucial, such as enterprise applications, web applications, and APIs.
+
+In this blueprint, we are going to discuss the steps to install
+Keycloak, in Open Telekom Cloud, on a CCE Cluster.
+
+## Create a VPC and a Subnet
+
+We are going to need a Virtual Private Cloud (VPC) and at least one
+Subnet where we are going to provision both RDS instances and CCE nodes.
+For enhanced security granularity, we could split those resources in two
+different Subnets.
+
+![image](/img/docs/SCR-20231208-ezg.png)
+
+::: warning
+::: title
+Warning
+:::
+
+RDS and CCE nodes have to be on the same VPC.
+:::
+
+## Deploy a PostgreSQL with RDS
+
+Keycloak, as a stateful workload, requires the presence of a persistent
+storage in order to maintain its data and configuration during pod
+restarts. We could deploy a PostgreSQL database as a CCE workload, but
+this would require additional administrative overhead from your side.
+The Managed Relational Database Service of Open Telekom Cloud is a
+perfect fit for this scenario. A scalable turn-key solution, that fully
+integrated with the rest of managed services of the platform without
+demanding from the consumer additional administrative effort.
+
+### Create Security Groups
+
+We are going to need two different Security Groups. One for the RDS
+nodes, so it can accept client calls on port `5432` (Inbound Rules),
+which they only reside in the same Subnet (in case we went for a single
+Subnet solution):
+
+![image](/img/docs/SCR-20231208-fh3.png)
+
+| 
+
+And one Security Group for the client nodes that need to access the
+database (Outbound Rules), in our case those would be the CCE nodes
+where Keycloak is going to be installed on.
+
+![image](/img/docs/SCR-20231208-k2x.png)
+
+### Provision a Database
+
+Now as next, we need to provision a PostgreSQL 14 database. Pick the
+instance and storage class size that fit your needs:
+
+![image](/img/docs/SCR-20231208-k8t.png)
+
+| 
+
+and make sure that you:
+
+- you place the RDS nodes in the same VPC with the CCE nodes
+- assign `rds-instances` as the Security Group for the RDS nodes
+
+![image](/img/docs/SCR-20231208-ka7.png)
+
+### Create a Private DNS Zone
+
+We are provisioning PostgreSQL in order to support the functionality of
+Keycloak. For that matter, although Open Telekom Cloud employs this RDS
+instance with a floating IP address, it would be better that we connect
+the RDS instance with Keycloak via a fully qualified domain name and let
+the Open Telekom Cloud\'s DNS service to manage the resolution of that
+endpoints. In the Domain Name Service management panel click Private
+Zone and create a new one that points to the VPC that CCE and RDS nodes
+are placed:
+
+![image](/img/docs/SCR-20231211-f5u.png)
+
+| 
+
+and then click Manage Record Set to add a new **A Record** to this zone:
+
+![image](/img/docs/SCR-20231211-ffb.png)
+
+| 
+
+::: note
+::: title
+Note
+:::
+
+The domain name, will be a fictitious domain representing your solution
+and not a public one. It can be virtually any domain or subdomain that
+conforms to the a FQDN rules.
+:::
+
+
+
+The floating IP of the RDS instance can be found in the Basic
+Information panel of the database:
+
+![image](/img/docs/SCR-20231211-fj8.png)
+
+## Provision a CCE Cluster
+
+We are going to need a CCE Cluster. In order to provision one, you can
+follow the configuration steps of the wizard paying attention to the
+following details:
+
+- We are not going to need an HA cluster - of course adjust to your
+    needs because this is not something you can change in the future.
+- We need to provision the CCE Cluster in the same VPC as the RDS
+    nodes.
+- If you follow the single Subnet lab instructions make sure you place
+    the CCE Nodes in the same Subnet that RDS nodes reside.
+
+| 
+
+![image](/img/docs/SCR-20231211-fp6.png)
+
+| 
+
+Add worker nodes to the CCE cluster using the wizard, and wait all nodes
+to become operational. Then add to **each** node an additional Security
+Group, in particular the `rds-client` that we created earlier in this
+lab.
+
+![image](/img/docs/SCR-20231211-g7y.png)
+
+::: note
+::: title
+Note
+:::
+
+Make your own decision how you\'re going to access this CCE Cluster
+afterwards. You can assign an Elastic IP Address and access it over the
+Internet or provision and additional public-facing bastion host and
+access it through this machine. **We categorically recommend the
+latter**.
+:::
+
+## Deploy Keycloak
+
+We are going to deploy Keycloak using simple Kubernetes manifests.
+Deploy those YAML manifests in the order described below using the
+command on your bastion host (or in any other machine if you chose to go
+for an EIP):
+
+``` yaml
+kubectl apply -f <<filename.yaml>>
+```
+
+### Deploy Keycloak Secrets
+
+First we are going to need a Namespace in our CCE Cluster, in order to
+deploy all the resources required by Keycloak:
+
+> kubectl create namespace keycloak
+
+We are going to need two Secrets. One, `postgres-credentials`, that will
+contain the credentials to access the PostgreSQL database instance and a
+second one, `keycloak-secrets`, that will contain the necessary
+credential to access the web console of Keycloak:
+
+``` {.yaml linenos="" emphasize-lines="9,20"}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-credentials
+  namespace: keycloak
+type: Opaque
+stringData:
+  POSTGRES_USER: root
+  POSTGRES_PASSWORD: <<POSTGRES_PASSWORD>>
+  POSTGRES_DB: postgres
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keycloak-secrets
+  namespace: keycloak
+type: Opaque
+stringData:
+  KEYCLOAK_ADMIN: admin
+  KEYCLOAK_ADMIN_PASSWORD: <<KEYCLOAK_ADMIN_PASSWORD>>
+```
+
+::: note
+::: title
+Note
+:::
+
+`POSTGRES_PASSWORD` is the password for the `root` user your provided
+during the creation of the RDS instance.
+:::
+
+`KEYCLOAK_ADMIN_PASSWORD`, as we mentioned before, is the password for
+the `admin` user of the Keycloak web console. You can easily create
+random strong passwords, in Linux terminal, with the following command:
+
+``` shell
+openssl rand -base64 14
+```
+
+### Deploy Keycloak Application
+
+Next step, is deploying Keycloak itself:
+
+``` {.yaml linenos="" emphasize-lines="23,26,27,31,32,48,49,50,51,55,56,60,61"}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:21.0.2
+        args: ["start-dev"]
+        env:
+        - name: KEYCLOAK_ADMIN
+          valueFrom:
+            secretKeyRef:
+              key: KEYCLOAK_ADMIN
+              name: keycloak-secrets
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: KEYCLOAK_ADMIN_PASSWORD
+              name: keycloak-secrets
+        - name: KC_PROXY
+          value: "edge"
+        - name: KC_HEALTH_ENABLED
+          value: "true"
+        - name: KC_METRICS_ENABLED
+          value: "true"
+        - name: KC_HOSTNAME_STRICT_HTTPS
+          value: "true"
+        - name: KC_LOG_LEVEL
+          value: INFO
+        - name: KC_DB
+          value: postgres
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: POSTGRES_DB
+        - name: KC_DB_URL
+          value: jdbc:postgresql://postgresql.blueprints.arc:5432/$(POSTGRES_DB)
+        - name: KC_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: POSTGRES_USER
+        - name: KC_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: POSTGRES_PASSWORD
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: 250
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: 500
+          periodSeconds: 30
+        resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+```
+
+As you will notice in the highlighted lines, we parameterize the
+credentials portion of this manifest by referencing the variables and
+their values we installed in the previous step with the Secrets.
+Important to mention the significance of line 51, where we connect
+Keycloak with the RDS instance using the FQDN we created in our Private
+DNS Zone for this instance.
+
+### Deploy Keycloak Service
+
+We deployed the application, but at the time being is not accessible by
+an internal or external actor (direct access from Pods does not count in
+this case). For that matter, we need to deploy a Service that will
+expose Keycloak\'s workload:
+
+``` {.yaml linenos="" emphasize-lines="15"}
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: keycloak
+  labels:
+    app: keycloak
+spec:
+  ports:
+  - name: https
+    port: 443
+    targetPort: 8080
+  selector:
+    app: keycloak
+  type: NodePort
+```
+
+::: note
+::: title
+Note
+:::
+
+Pay attention to **line 15**, where we set the `type` as `NodePort`.
+That\'s because we want to expose this service externally, in a later
+step, via an Ingress.
+:::
+
+## Expose Keycloak
+
+![image](/img/docs/SCR-20231211-di1.png)
+
+### Create an Elastic Load Balancer
+
+First in our list for this part, is to create an Elastic Load Balancer
+that will be employed with the following:
+
+- An EIP address
+- Support L4 and L7 load balancing
+- Be in the same VPC/Subnet as the nodes of our CCE Cluster
+- Associate backend servers by using their IP addresses (*IP as
+    Backend*)
+
+![image](/img/docs/SCR-20231211-i88.png)
+
+::: note
+::: title
+Note
+:::
+
+Note down the **ELB ID**, we are going to need it to configure the Nginx
+Ingress that we will deploy next.
+:::
+
+### Deploy Nginx Ingress on CCE
+
+We are going to deploy in this step the Ingress that will sit between
+our ELB and the Keycloak Service and expose it in the address of our
+preference (keycloak.example.com for this lab)
+
+::: warning
+::: title
+Warning
+:::
+
+Do not forget that the FQDN we are going to use to expose the Keycloak
+Service has to point to a **real** domain or subdomain that you actually
+**own**!
+:::
+
+We will use [Helm](https://helm.sh) to deploy Nginx Ingress to our CCE
+Cluster. Helm is the de-facto package manager of Kubernetes and if you
+don\'t have it already installed on your remote machine or your bastion
+host, you can do it with the following commands:
+
+``` shell
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+We have to provide to the helm chart a couple configuration values
+(`overrides.yaml`), among them the internal ID of the Elastic Load
+Balancer is the most important - as it will bind the future ingresses
+that will be created using this ingress class with the specific load
+balancer.
+
+``` {.yaml linenos="" emphasize-lines="6"}
+controller:
+  replicaCount: 1
+  service:
+    externalTrafficPolicy: Cluster
+    annotations:
+      kubernetes.io/elb.id: "0000000-0000-0000-0000-000000000000"
+```
+
+::: note
+::: title
+Note
+:::
+
+Special attention required at **line 6**, replace the placeholder value
+with the ID you copied from the main panel of your newly created Elastic
+Load Balancer.
+:::
+
+We can now install the chart (it will automatically create and deploy
+everything in a namespace named `nginx-system`):
+
+``` shell
+helm upgrade --install -f overrides.yaml --install ingress-nginx ingress-nginx \
+--repo https://kubernetes.github.io/ingress-nginx \
+--namespace nginx-system --create-namespace
+```
+
+### Create a Public DNS Endpoint
+
+As we will see later, when we will reach to the point that we are ready
+to register this Keycloak installation as an Identity Provider (IdP) in
+our Open Telekom Cloud tenant, it is really pertinent that the EIP of
+our ELB resolves to a real, secure URL address:
+
+![image](/img/docs/SCR-20231211-ni4.png)
+
+| 
+
+In order to accomplish that, we have to transfer the management of the
+NS-Records of your domain to the Domain Name Service of Open Telekom
+Cloud. Go on the site of your registar and make sure you configure the
+following:
+
+- Turn off any dynamic dns service for the domain or the subdomains
+    you are going to bind with Keycloak.
+- Change the NS-Records of your domain to point to:
+    `ns1.open-telekom-cloud.com` **and** `ns2.open-telekom-cloud.com`
+
+If those two prerequisites are met, then you are ready to configure a
+new DNS Public Zone and Record Sets for your domain in Open Telekom
+Cloud. We do have two mutually exclusive options to do that:
+
+- Create manually from Open Telekom Cloud Console, a new Public DNS
+    Zone that binds to your domain and an A-Record in that zone that
+    points to the EIP of the external load balancer.
+- Automate everything using
+    [ExternalDNS](https://github.com/kubernetes-sigs/external-dns).
+
+#### Create the Endpoint manually
+
+Follow the same steps we did earlier for the Private Zone, but this time
+create a Public Zone targeting to your domain and add an A-Record that
+binds your Keycloak\'s (sub)domain with the Elastic IP Address of the
+Elastic Load Balancer.
+
+#### Create the Endpoint with ExternalDNS
+
+What is ExternalDNS? Quoting directly from the official repo of the
+project:
+
+*Inspired by Kubernetes DNS, Kubernetes\' cluster-internal DNS server,
+ExternalDNS makes Kubernetes resources discoverable via public DNS
+servers. Like KubeDNS, it retrieves a list of resources (Services,
+Ingresses, etc.) from the Kubernetes API to determine a desired list of
+DNS records. Unlike KubeDNS, however, it\'s not a DNS server itself, but
+merely configures other DNS providers accordingly---e.g. AWS Route 53 or
+Google Cloud DNS.*
+
+*In a broader sense, ExternalDNS allows you to control DNS records
+dynamically via Kubernetes resources in a DNS provider-agnostic way.*
+
+##### Deploy ExternalDNS on CCE
+
+We are going to deploy ExternalDNS with Helm as well. First let\'s lay
+down the configuration of the chart in a file name `overrides.yaml`:
+
+``` {.yaml linenos="" emphasize-lines="11,13-14"}
+sources:
+  - crd
+  - service
+  - ingress
+provider: designate
+combineFQDNAnnotation: true
+crd:
+  create: true
+logFormat: json
+designate:
+  username: "OTCAC_DNS_ServiceAccount"
+  password: <<OTCAC_DNS_ServiceAccount_PASSWORD>>
+  authUrl: "https://iam.eu-de.otc.t-systems.com:443/v3"
+  regionName: "eu-de"
+  userDomainName: "OTCXXXXXXXXXXXXXXXXXXXX"
+  projectName: "eu-de_XXXXXXXXXXX"
+```
+
+::: warning
+::: title
+Warning
+:::
+
+Special attention required at **lines 13,14**. Although DNS is a global
+service, **all** changes have to be applied in Region **eu-de**.
+:::
+
+Install the chart (it will deploy all the necessary resources in an
+automatically created namespace called `external-dns`:
+
+``` shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm upgrade --install -f overrides.yaml external-dns bitnami/external-dns -n external-dns --create-namespace
+```
+
+| 
+
+##### Create a dedicated DNS Service Account
+
+::: note
+::: title
+Note
+:::
+
+This is required **only** when ExternalDNS is used.
+:::
+
+Go to IAM management console, and create a new User that permits
+programmatic access to Open Telekom Cloud resources:
+
+![image](/img/docs/SCR-20231212-dfp.png)
+
+| 
+
+Grant this User the following permissions or add him directly to User
+Group `dns-admins` (if it exists)
+
+![image](/img/docs/SCR-20231212-df8.png)
+
+| 
+
+##### Deploy a Keycloak Endpoint
+
+We have now laid all the groundwork in order to automatically provision
+a Public DNS Zone and a dedicated A-Record that will bind the EIP of our
+ELB with Keycloak\'s subdomain FQDN. For that matter we need to install
+a Custom Resource based on a CRD installed by ExternalDNS that is called
+`DNSEndpoint`:
+
+``` {.yaml linenos="" emphasize-lines="8, 12"}
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  endpoints:
+  - dnsName: keycloak.example.de
+    recordTTL: 300
+    recordType: A
+    targets:
+    - XXX.XXX.XXX.XXX
+```
+
+::: note
+::: title
+Note
+:::
+
+At line 12, replace the placeholder with the Elastic IP Address that is
+assigned to your Elastic Load Balancer. At line 8, replace the
+(sub)domain with the one of yours
+:::
+
+Wait for a couple of seconds, till the reconciliation loop of the
+ExternalDNS controller is done, and if all went well you should now see
+the Record Sets of your Public Zone populated with various entries:
+
+![image](/img/docs/SCR-20231212-dsj.png)
+
+| 
+
+### Deploy Keycloak Ingress
+
+And finally, the last step of this lab is to deploy an ingress for the
+Keycloak Service:
+
+``` {.yaml linenos=""}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: keycloak
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak
+            port:
+              number: 443
+```
+
+We can now open the url address we defined in our Public DNS Zone for
+this application and land on the welcome page of Keycloak:
+
+![image](/img/docs/SCR-20231212-fhq.png)
+
+## Next Steps
+
+- [Identity Federation throughKeycloak/GitHub](../../use-cases/security/keycloak_github.html)

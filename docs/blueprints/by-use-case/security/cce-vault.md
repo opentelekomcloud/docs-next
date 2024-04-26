@@ -140,7 +140,7 @@ import fmt
 Certificate paths and property names used here are referenced by the
 Zookeeper installation.
 
-## Deploying Zookeeper
+## Deploy Zookeeper
 
 Now that the secrets are stored safely in Vault and only allowed
 applications can fetch them it is time to look how exactly the
@@ -616,10 +616,5 @@ themselves. Not even using Kubernetes secrets is necessary.
 
 ## References
 
-::: seealso
-[Vault Agent with
-Kubernetes](https://learn.hashicorp.com/tutorials/vault/agent-kubernetes?in=vault/auth-methods)
-
-[Kubernetes auth
-method](https://www.vaultproject.io/docs/auth/kubernetes)
-:::
+- [Vault Agent with Kubernetes](https://learn.hashicorp.com/tutorials/vault/agent-kubernetes?in=vault/auth-methods)
+- [Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes)
