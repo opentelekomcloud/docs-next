@@ -1,7 +1,7 @@
 ---
 id: cce-keycloak
 title: Deploy Keycloak on CCE
-tags: [cce, oauth, keycloak, security, rds, postgresql]
+tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ngress, externaldns, dns]
 ---
 
 # Deploy Keycloak on CCE
@@ -18,11 +18,7 @@ different Subnets.
 
 ![image](/img/docs/SCR-20231208-ezg.png)
 
-::: warning
-::: title
-Warning
-:::
-
+:::warning
 RDS and CCE nodes have to be on the same VPC.
 :::
 
@@ -46,8 +42,6 @@ Subnet solution):
 
 ![image](/img/docs/SCR-20231208-fh3.png)
 
-| 
-
 And one Security Group for the client nodes that need to access the
 database (Outbound Rules), in our case those would be the CCE nodes
 where Keycloak is going to be installed on.
@@ -60,8 +54,6 @@ Now as next, we need to provision a PostgreSQL 14 database. Pick the
 instance and storage class size that fit your needs:
 
 ![image](/img/docs/SCR-20231208-k8t.png)
-
-| 
 
 and make sure that you:
 
@@ -83,25 +75,15 @@ are placed:
 
 ![image](/img/docs/SCR-20231211-f5u.png)
 
-| 
-
 and then click Manage Record Set to add a new **A Record** to this zone:
 
 ![image](/img/docs/SCR-20231211-ffb.png)
 
-| 
-
-::: note
-::: title
-Note
-:::
-
+:::note
 The domain name, will be a fictitious domain representing your solution
 and not a public one. It can be virtually any domain or subdomain that
 conforms to the a FQDN rules.
 :::
-
-
 
 The floating IP of the RDS instance can be found in the Basic
 Information panel of the database:
@@ -121,11 +103,7 @@ following details:
 - If you follow the single Subnet lab instructions make sure you place
     the CCE Nodes in the same Subnet that RDS nodes reside.
 
-| 
-
 ![image](/img/docs/SCR-20231211-fp6.png)
-
-| 
 
 Add worker nodes to the CCE cluster using the wizard, and wait all nodes
 to become operational. Then add to **each** node an additional Security
@@ -134,12 +112,8 @@ lab.
 
 ![image](/img/docs/SCR-20231211-g7y.png)
 
-::: note
-::: title
-Note
-:::
-
-Make your own decision how you\'re going to access this CCE Cluster
+:::note
+Make your own decision how you're going to access this CCE Cluster
 afterwards. You can assign an Elastic IP Address and access it over the
 Internet or provision and additional public-facing bastion host and
 access it through this machine. **We categorically recommend the
@@ -153,7 +127,7 @@ Deploy those YAML manifests in the order described below using the
 command on your bastion host (or in any other machine if you chose to go
 for an EIP):
 
-``` yaml
+```shell
 kubectl apply -f <<filename.yaml>>
 ```
 
@@ -162,14 +136,16 @@ kubectl apply -f <<filename.yaml>>
 First we are going to need a Namespace in our CCE Cluster, in order to
 deploy all the resources required by Keycloak:
 
-> kubectl create namespace keycloak
+```shell
+kubectl create namespace keycloak
+```
 
 We are going to need two Secrets. One, `postgres-credentials`, that will
 contain the credentials to access the PostgreSQL database instance and a
 second one, `keycloak-secrets`, that will contain the necessary
 credential to access the web console of Keycloak:
 
-``` {.yaml linenos="" emphasize-lines="9,20"}
+```yaml title="credentials.yaml" linenos="" emphasize-lines="9,20"}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -192,11 +168,7 @@ stringData:
   KEYCLOAK_ADMIN_PASSWORD: <<KEYCLOAK_ADMIN_PASSWORD>>
 ```
 
-::: note
-::: title
-Note
-:::
-
+:::note
 `POSTGRES_PASSWORD` is the password for the `root` user your provided
 during the creation of the RDS instance.
 :::
@@ -205,7 +177,7 @@ during the creation of the RDS instance.
 the `admin` user of the Keycloak web console. You can easily create
 random strong passwords, in Linux terminal, with the following command:
 
-``` shell
+```shell
 openssl rand -base64 14
 ```
 
@@ -213,7 +185,7 @@ openssl rand -base64 14
 
 Next step, is deploying Keycloak itself:
 
-``` {.yaml linenos="" emphasize-lines="23,26,27,31,32,48,49,50,51,55,56,60,61"}
+```yaml title="deployment.yaml" linenos="" emphasize-lines="23,26,27,31,32,48,49,50,51,55,56,60,61"}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -313,7 +285,7 @@ an internal or external actor (direct access from Pods does not count in
 this case). For that matter, we need to deploy a Service that will
 expose Keycloak\'s workload:
 
-``` {.yaml linenos="" emphasize-lines="15"}
+```yaml title="service.yaml" linenos="" emphasize-lines="15"
 apiVersion: v1
 kind: Service
 metadata:
@@ -331,11 +303,7 @@ spec:
   type: NodePort
 ```
 
-::: note
-::: title
-Note
-:::
-
+:::note
 Pay attention to **line 15**, where we set the `type` as `NodePort`.
 That\'s because we want to expose this service externally, in a later
 step, via an Ingress.
@@ -358,11 +326,7 @@ that will be employed with the following:
 
 ![image](/img/docs/SCR-20231211-i88.png)
 
-::: note
-::: title
-Note
-:::
-
+:::note
 Note down the **ELB ID**, we are going to need it to configure the Nginx
 Ingress that we will deploy next.
 :::
@@ -373,11 +337,7 @@ We are going to deploy in this step the Ingress that will sit between
 our ELB and the Keycloak Service and expose it in the address of our
 preference (keycloak.example.com for this lab)
 
-::: warning
-::: title
-Warning
-:::
-
+:::warning
 Do not forget that the FQDN we are going to use to expose the Keycloak
 Service has to point to a **real** domain or subdomain that you actually
 **own**!
@@ -388,7 +348,7 @@ Cluster. Helm is the de-facto package manager of Kubernetes and if you
 don\'t have it already installed on your remote machine or your bastion
 host, you can do it with the following commands:
 
-``` shell
+```shell
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
@@ -400,7 +360,7 @@ Balancer is the most important - as it will bind the future ingresses
 that will be created using this ingress class with the specific load
 balancer.
 
-``` {.yaml linenos="" emphasize-lines="6"}
+```yaml title="overrides.yaml" linenos="" emphasize-lines="6"
 controller:
   replicaCount: 1
   service:
@@ -409,11 +369,7 @@ controller:
       kubernetes.io/elb.id: "0000000-0000-0000-0000-000000000000"
 ```
 
-::: note
-::: title
-Note
-:::
-
+:::note
 Special attention required at **line 6**, replace the placeholder value
 with the ID you copied from the main panel of your newly created Elastic
 Load Balancer.
@@ -422,7 +378,7 @@ Load Balancer.
 We can now install the chart (it will automatically create and deploy
 everything in a namespace named `nginx-system`):
 
-``` shell
+```shell
 helm upgrade --install -f overrides.yaml --install ingress-nginx ingress-nginx \
 --repo https://kubernetes.github.io/ingress-nginx \
 --namespace nginx-system --create-namespace
@@ -436,8 +392,6 @@ our Open Telekom Cloud tenant, it is really pertinent that the EIP of
 our ELB resolves to a real, secure URL address:
 
 ![image](/img/docs/SCR-20231211-ni4.png)
-
-| 
 
 In order to accomplish that, we have to transfer the management of the
 NS-Records of your domain to the Domain Name Service of Open Telekom
@@ -484,10 +438,10 @@ dynamically via Kubernetes resources in a DNS provider-agnostic way.*
 
 ##### Deploy ExternalDNS on CCE
 
-We are going to deploy ExternalDNS with Helm as well. First let\'s lay
-down the configuration of the chart in a file name `overrides.yaml`:
+We are going to deploy ExternalDNS with Helm as well. First let's lay
+down the configuration of the chart:
 
-``` {.yaml linenos="" emphasize-lines="11,13-14"}
+```yaml title="overrides.yaml" linenos="" emphasize-lines="11,13-14"
 sources:
   - crd
   - service
@@ -506,11 +460,7 @@ designate:
   projectName: "eu-de_XXXXXXXXXXX"
 ```
 
-::: warning
-::: title
-Warning
-:::
-
+:::warning
 Special attention required at **lines 13,14**. Although DNS is a global
 service, **all** changes have to be applied in Region **eu-de**.
 :::
@@ -518,22 +468,16 @@ service, **all** changes have to be applied in Region **eu-de**.
 Install the chart (it will deploy all the necessary resources in an
 automatically created namespace called `external-dns`:
 
-``` shell
+```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 helm upgrade --install -f overrides.yaml external-dns bitnami/external-dns -n external-dns --create-namespace
 ```
 
-| 
-
 ##### Create a dedicated DNS Service Account
 
-::: note
-::: title
-Note
-:::
-
+:::note
 This is required **only** when ExternalDNS is used.
 :::
 
@@ -542,14 +486,10 @@ programmatic access to Open Telekom Cloud resources:
 
 ![image](/img/docs/SCR-20231212-dfp.png)
 
-| 
-
 Grant this User the following permissions or add him directly to User
 Group `dns-admins` (if it exists)
 
 ![image](/img/docs/SCR-20231212-df8.png)
-
-| 
 
 ##### Deploy a Keycloak Endpoint
 
@@ -559,7 +499,7 @@ ELB with Keycloak\'s subdomain FQDN. For that matter we need to install
 a Custom Resource based on a CRD installed by ExternalDNS that is called
 `DNSEndpoint`:
 
-``` {.yaml linenos="" emphasize-lines="8, 12"}
+```yaml title="dns-endpoint.yaml" linenos="" emphasize-lines="8, 12"
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
@@ -574,11 +514,7 @@ spec:
     - XXX.XXX.XXX.XXX
 ```
 
-::: note
-::: title
-Note
-:::
-
+:::note
 At line 12, replace the placeholder with the Elastic IP Address that is
 assigned to your Elastic Load Balancer. At line 8, replace the
 (sub)domain with the one of yours
@@ -590,14 +526,12 @@ the Record Sets of your Public Zone populated with various entries:
 
 ![image](/img/docs/SCR-20231212-dsj.png)
 
-| 
-
 ### Deploy Keycloak Ingress
 
 And finally, the last step of this lab is to deploy an ingress for the
 Keycloak Service:
 
-``` {.yaml linenos=""}
+```yaml title="ingress.yaml" linenos=""
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
