@@ -40,13 +40,13 @@ const config: Config = {
           editUrl:
             'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
-        },
+        // blog: {
+        //   showReadingTime: true,
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl:
+        //     'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
+        // },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -54,6 +54,7 @@ const config: Config = {
     ],
   ],
 
+  themes: ['docusaurus-theme-search-typesense'], 
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -76,16 +77,15 @@ const config: Config = {
           position: 'left',
           label: 'Blueprints',
         },
-        {
-          type: 'docSidebar',
-          sidebarId: 'cafSidebar',
-          position: 'left',
-          label: 'Cloud Adoption Framework 🚧',
-        },
-        { to: '/blog', label: 'Blog', position: 'right' },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'cafSidebar',
+        //   position: 'left',
+        //   label: 'Cloud Adoption Framework 🚧',
+        // },
+        // { to: '/blog', label: 'Blog', position: 'right' },
         { href: 'https://auth.otc.t-systems.com/', label: 'Console', position: 'right' },
-        { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',
-        },
+        // { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',},
       ],
     },
     footer: {
@@ -171,6 +171,28 @@ const config: Config = {
         hideable: true,
         autoCollapseCategories: true,
       },
+    },
+    typesense: {
+      // Replace this with the name of your index/collection.
+      // It should match the "index_name" entry in the scraper's "config.json" file.
+      typesenseCollectionName: 'docs-next',
+
+      typesenseServerConfig: {
+        nodes: [
+          {
+            host: 'localhost',
+            port: 8108,
+            protocol: 'http',
+          },
+        ],
+        apiKey: 'xyz',
+      },
+
+      // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
+      typesenseSearchParameters: {},
+
+      // Optional
+      contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
 };

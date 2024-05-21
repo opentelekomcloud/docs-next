@@ -560,4 +560,4 @@ this application and land on the welcome page of Keycloak:
 
 ## Next Steps
 
-- [Identity Federation through Keycloak/GitHub](../../use-cases/security/keycloak_github.html)
+<!-- - [Identity Federation through Keycloak/GitHub](../../use-cases/security/keycloak_github.html) -->
