@@ -30,8 +30,9 @@ if [ ! "$(docker ps -a | grep typesense-scraper)" ]; then
         --name typesense-scraper \
         --env-file=.devcontainer/docsearch-scraper.env \
         -e "CONFIG=$(cat .devcontainer/docsearch-config.json | jq -r tostring)" \
-        --add-host host.docker.internal:host-gateway \
-        typesense/docsearch-scraper:0.9.1
+        typesense/docsearch-scraper:0.9.1 \
+        --add-host host.docker.internal:host-gateway 
+
 fi
 
 
