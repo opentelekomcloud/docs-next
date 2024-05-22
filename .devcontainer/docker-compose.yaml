@@ -3,19 +3,19 @@ services:
     typesense:
         ports:
             - 8108:8108
-        container_name: typesense
         volumes:
             - typesense_data:/data
         image: typesense/typesense:26.0
         command: --data-dir /data --api-key=${TYPESENSE_API_KEY} --enable-cors=true
         hostname: typesense
-        healthcheck: # check the healthiness with the following configuration
+        healthcheck: 
             test: ['CMD', 'curl', 'http://localhost:8108']
             interval: 5s
             timeout: 3s
             retries: 5
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
     docsearch-scraper:
-        container_name: typesense-scraper
         restart: on-failure:5
         environment:
             - CONFIG=${CONFIG_JSON}
@@ -26,7 +26,8 @@ services:
         image: typesense/docsearch-scraper:0.9.1
         depends_on:
             - typesense
-            
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 volumes:
     typesense_data:
         external: true
