@@ -40,3 +40,7 @@ fi
 # docker run -d \
 #         --add-host host.docker.internal:host-gateway \
 #         busybox
+
+
+volumes:
+            - ./nginx-default.conf:/etc/nginx/conf.d/default.conf

@@ -2,7 +2,7 @@
     "index_name": "docs-next",
     "start_urls": [
         {
-            "url": "http://host.docker.internal:3000"
+            "url": "http://nginx.docs.next"
         }
       ],
     "js_render": true,
