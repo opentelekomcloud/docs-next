@@ -180,12 +180,12 @@ const config: Config = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: 'localhost',
+            host: 'typesense-headless',
             port: 8108,
             protocol: 'http',
           },
         ],
-        apiKey: 'xyz',
+        apiKey: 'Mycomplexpassword#6546',
       },
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
