@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://blueprints.hypelens.de',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -17,6 +17,7 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'akyriako', // Usually your GitHub org/user name.
   projectName: 'docs-next', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -85,7 +86,7 @@ const config: Config = {
         // },
         // { to: '/blog', label: 'Blog', position: 'right' },
         { href: 'https://auth.otc.t-systems.com/', label: 'Console', position: 'right' },
-        // { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',},
+        { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',},
       ],
     },
     footer: {
@@ -172,6 +173,43 @@ const config: Config = {
         autoCollapseCategories: true,
       },
     },
+    // typesense: {
+    //   // Replace this with the name of your index/collection.
+    //   // It should match the "index_name" entry in the scraper's "config.json" file.
+    //   typesenseCollectionName: 'docs-next',
+    //   typesenseServerConfig: {
+    //     nearestNode: {
+    //       host: 'typesense-headless.typesense.svc.cluster.local',
+    //       port: 8108,
+    //       protocol: 'http',
+    //     },
+    //     nodes: [
+    //       {
+    //         host: 'typesense-0.typesense-headless.typesense.svc.cluster.local',
+    //         port: 8108,
+    //         protocol: 'http',
+    //       },
+    //       {
+    //         host: 'typesense-1.typesense-headless.typesense.svc.cluster.local',
+    //         port: 8108,
+    //         protocol: 'http',
+    //       },
+    //       {
+    //         host: 'typesense-2.typesense-headless.typesense.svc.cluster.local',
+    //         port: 8108,
+    //         protocol: 'http',
+    //       },
+    //     ],
+    //     apiKey: 'Mycomplexpassword#6546',
+    //   },
+
+    //   // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
+    //   typesenseSearchParameters: {},
+
+    //   // Optional
+    //   contextualSearch: true,
+    // },
+
     typesense: {
       // Replace this with the name of your index/collection.
       // It should match the "index_name" entry in the scraper's "config.json" file.
@@ -180,12 +218,12 @@ const config: Config = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: 'typesense-headless',
-            port: 8108,
-            protocol: 'http',
+            host: process.env.TYPESENSE_HOST,
+            port: process.env.TYPESENSE_PORT,
+            protocol: process.env.TYPESENSE_PROTOCOL,
           },
         ],
-        apiKey: 'Mycomplexpassword#6546',
+        apiKey: process.env.TYPESENSE_API_KEY,
       },
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
