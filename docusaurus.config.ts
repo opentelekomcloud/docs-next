@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center',
+  title: 'Architecture Center docs-next',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
@@ -191,17 +191,17 @@ const config: Config = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: process.env.TYPESENSE_HOST,
-            port: process.env.TYPESENSE_PORT,
-            protocol: process.env.TYPESENSE_PROTOCOL,
+            host: "blueprints.hypelens.de",
+            port: 8108,
+            protocol: "http",
           },
         ],
-        apiKey: process.env.TYPESENSE_API_KEY,
+        apiKey: "MureoeGWbndo4Ly17a4E7y64fZa8XxRb",
       },
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
       typesenseSearchParameters: {},
-      searchPagePath: 'search',
+      searchPagePath: false,
       
       // Optional
       contextualSearch: true,

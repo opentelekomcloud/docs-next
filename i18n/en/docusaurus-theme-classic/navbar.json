@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "Open Telekom Cloud \n Architecture Center",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Deutsche Telekom Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Best Practices": {
+    "message": "Best Practices",
+    "description": "Navbar item with label Best Practices"
+  },
+  "item.label.Blueprints": {
+    "message": "Blueprints",
+    "description": "Navbar item with label Blueprints"
+  },
+  "item.label.Console": {
+    "message": "Console",
+    "description": "Navbar item with label Console"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
