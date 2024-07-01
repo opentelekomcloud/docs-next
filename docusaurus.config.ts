@@ -51,6 +51,15 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        sitemap: {
+          createSitemapItems: async ({
+            defaultCreateSitemapItems,
+            ...params
+          }) => {
+            const items = await defaultCreateSitemapItems(params);
+            return items.filter((item) => !item.url.includes('/tags/'));
+          },
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -173,43 +182,7 @@ const config: Config = {
         autoCollapseCategories: true,
       },
     },
-    // typesense: {
-    //   // Replace this with the name of your index/collection.
-    //   // It should match the "index_name" entry in the scraper's "config.json" file.
-    //   typesenseCollectionName: 'docs-next',
-    //   typesenseServerConfig: {
-    //     nearestNode: {
-    //       host: 'typesense-headless.typesense.svc.cluster.local',
-    //       port: 8108,
-    //       protocol: 'http',
-    //     },
-    //     nodes: [
-    //       {
-    //         host: 'typesense-0.typesense-headless.typesense.svc.cluster.local',
-    //         port: 8108,
-    //         protocol: 'http',
-    //       },
-    //       {
-    //         host: 'typesense-1.typesense-headless.typesense.svc.cluster.local',
-    //         port: 8108,
-    //         protocol: 'http',
-    //       },
-    //       {
-    //         host: 'typesense-2.typesense-headless.typesense.svc.cluster.local',
-    //         port: 8108,
-    //         protocol: 'http',
-    //       },
-    //     ],
-    //     apiKey: 'Mycomplexpassword#6546',
-    //   },
-
-    //   // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
-    //   typesenseSearchParameters: {},
-
-    //   // Optional
-    //   contextualSearch: true,
-    // },
-
+    
     typesense: {
       // Replace this with the name of your index/collection.
       // It should match the "index_name" entry in the scraper's "config.json" file.
@@ -228,7 +201,8 @@ const config: Config = {
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
       typesenseSearchParameters: {},
-
+      searchPagePath: 'search',
+      
       // Optional
       contextualSearch: true,
     },
