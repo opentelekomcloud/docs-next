@@ -3,12 +3,12 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next.rc.0',
+  title: 'Architecture Center docs-next:rc.2',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://docs-next.hypelens.de',
+  url: 'http://docs-next.hypelens.de',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
