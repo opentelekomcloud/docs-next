@@ -3,12 +3,12 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next',
+  title: 'Architecture Center docs-next.beta.5',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://blueprints.hypelens.de',
+  url: 'https://docs-next.hypelens.de',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -64,7 +64,7 @@ const config: Config = {
     ],
   ],
 
-  themes: ['docusaurus-theme-search-typesense'], 
+  themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -182,7 +182,7 @@ const config: Config = {
         autoCollapseCategories: true,
       },
     },
-    
+
     typesense: {
       // Replace this with the name of your index/collection.
       // It should match the "index_name" entry in the scraper's "config.json" file.
@@ -191,18 +191,18 @@ const config: Config = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: "blueprints.hypelens.de",
-            port: 8108,
+            host: "docs-search.hypelens.de",
+            port: 80,
             protocol: "http",
           },
         ],
-        apiKey: "MureoeGWbndo4Ly17a4E7y64fZa8XxRb",
+        apiKey: "j2Q51UsLuh9guYtc4x147Mv5X74g4iSI",
       },
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
       typesenseSearchParameters: {},
       searchPagePath: false,
-      
+
       // Optional
       contextualSearch: true,
     },
