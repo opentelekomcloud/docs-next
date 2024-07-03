@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next:rc.2',
+  title: 'Architecture Center docs-next:dev',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
@@ -69,15 +69,21 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Open Telekom Cloud \n Architecture Center',
+      // title: 't',
       logo: {
-        alt: 'Deutsche Telekom Logo',
-        src: 'img/telekom-logo.svg',
+        alt: 'Open Telekom Cloud Non-Logo',
+        src: 'img/logo_headline_kombination_m_s_m.png',
       },
       items: [
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'bestPracticesSidebar',
+        //   position: 'left',
+        //   label: 'Best Practices',
+        // },
         {
           type: 'docSidebar',
-          sidebarId: 'bestPracticesSidebar',
+          sidebarId: 'mySidebar',
           position: 'left',
           label: 'Best Practices',
         },
