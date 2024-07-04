@@ -43,7 +43,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/application-operations-management/index.html',
             },
           ],
         },
@@ -54,7 +54,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/api-gateway/index.html',
             },
           ],
         },
@@ -65,7 +65,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/distributed-message-service/index.html',
             },
           ],
         },
@@ -76,7 +76,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/simple-message-notification/index.html',
             },
           ],
         },
@@ -93,7 +93,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-search-service/index.html',
             },
           ],
         },
@@ -104,7 +104,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/data-arts-studio/index.html',
             },
           ],
         },
@@ -115,7 +115,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/data-ingestion-service/index.html',
             },
           ],
         },
@@ -126,7 +126,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/data-lake-insight/index.html',
             },
           ],
         },
@@ -137,7 +137,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/data-warehouse-service/index.html',
             },
           ],
         },
@@ -148,7 +148,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/modelarts/index.html',
             },
           ],
         },
@@ -159,7 +159,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/mapreduce-service/index.html',
             },
           ],
         },
@@ -170,7 +170,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/optical-character-recognition/index.html',
             },
           ],
         },
@@ -187,7 +187,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/auto-scaling/index.html',
             },
           ],
         },
@@ -198,7 +198,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/bare-metal-server/index.html',
             },
           ],
         },
@@ -209,7 +209,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/dedicated-host/index.html',
             },
           ],
         },
@@ -220,7 +220,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/elastic-cloud-server/index.html',
             },
           ],
         },
@@ -231,7 +231,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/function-graph/index.html',
             },
           ],
         },
@@ -242,7 +242,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/image-management-service/index.html',
             },
           ],
         },
@@ -259,7 +259,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-container-engine/index.html',
             },
           ],
         },
@@ -270,7 +270,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/software-repository-container/index.html',
             },
           ],
         },
@@ -287,7 +287,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/distributed-cache-service/index.html',
             },
           ],
         },
@@ -298,7 +298,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/distributed-database-middleware/index.html',
             },
           ],
         },
@@ -309,7 +309,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/document-database-service/index.html',
             },
           ],
         },
@@ -320,7 +320,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/data-replication-service/index.html',
             },
           ],
         },
@@ -331,7 +331,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/gaussdb-mysql/index.html',
             },
           ],
         },
@@ -342,7 +342,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
             },
           ],
         },
@@ -353,7 +353,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/relational-database-service/index.html',
             },
           ],
         },
@@ -370,7 +370,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/application-performance-management/index.html',
             },
           ],
         },
@@ -381,7 +381,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-create/index.html',
             },
           ],
         },
@@ -392,7 +392,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-eye/index.html',
             },
           ],
         },
@@ -403,7 +403,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-trace-service/index.html',
             },
           ],
         },
@@ -414,7 +414,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/log-tank-service/index.html',
             },
           ],
         },
@@ -425,7 +425,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/resource-management-service/index.html',
             },
           ],
         },
@@ -436,7 +436,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/tag-management-service/index.html',
             },
           ],
         },
@@ -453,7 +453,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/direct-connect/index.html',
             },
           ],
         },
@@ -464,7 +464,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/domain-name-service/index.html',
             },
           ],
         },
@@ -475,7 +475,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/elastic-ip/index.html',
             },
           ],
         },
@@ -486,7 +486,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/elastic-load-balancing/index.html',
             },
           ],
         },
@@ -497,7 +497,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/enterprise-router/index.html',
             },
           ],
         },
@@ -508,7 +508,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/nat-gateway/index.html',
             },
           ],
         },
@@ -519,7 +519,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/private-link-access-service/index.html',
             },
           ],
         },
@@ -530,7 +530,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/secure-mail-gateway/index.html',
             },
           ],
         },
@@ -541,7 +541,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/virtual-private-cloud/index.html',
             },
           ],
         },
@@ -552,7 +552,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/vpc-endpoint/index.html',
             },
           ],
         },
@@ -563,7 +563,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/virtual-private-network/index.html',
             },
           ],
         },
@@ -580,7 +580,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/anti-ddos/index.html',
             },
           ],
         },
@@ -591,7 +591,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/database-security-service/index.html',
             },
           ],
         },
@@ -602,7 +602,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/host-security-service/index.html',
             },
           ],
         },
@@ -613,7 +613,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/identity-access-management/index.html',
             },
           ],
         },
@@ -624,7 +624,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/key-management-service/index.html',
             },
           ],
         },
@@ -635,7 +635,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/web-application-firewall/index.html',
             },
           ],
         },
@@ -646,7 +646,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/web-application-firewall-dedicated/index.html',
             },
           ],
         },
@@ -663,7 +663,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-backup-recovery/index.html',
             },
           ],
         },
@@ -674,7 +674,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/cloud-server-backup-service/index.html',
             },
           ],
         },
@@ -685,7 +685,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/elastic-volume-service/index.html',
             },
           ],
         },
@@ -696,7 +696,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/object-storage-service/index.html',
             },
           ],
         },
@@ -707,7 +707,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/storage-disaster-recovery-service/index.html',
             },
           ],
         },
@@ -718,7 +718,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/scalable-file-service/index.html',
             },
           ],
         },
@@ -729,7 +729,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://example.com',
+              href: 'https://docs.otc.t-systems.com/volume-backup-service/index.html',
             },
           ],
         },
@@ -759,11 +759,11 @@ const sidebars: SidebarsConfig = {
     //     },
     //   ],
     // },
-    {
-      type: 'link',
-      label: 'Learn more',
-      href: 'https://example.com',
-    },
+    // {
+    //   type: 'link',
+    //   label: 'Learn more',
+    //   href: 'https://example.com',
+    // },
   ],
    
 };
