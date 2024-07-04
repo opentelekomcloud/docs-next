@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/Footer/Layout';
+import type { Props } from '@theme/Footer/Layout';
 
 export default function FooterLayout({
   style,
@@ -15,8 +15,8 @@ export default function FooterLayout({
         {(logo || copyright) && (
           <div className="footer__bottom text--center">
             {logo && <div className="margin-bottom--sm">{logo}
-          </div>}
-      </div>
+            </div>}
+          </div>
         )}
       </div>
       <scale-telekom-footer type="minimal">
@@ -24,22 +24,16 @@ export default function FooterLayout({
           {copyright}
           <ul slot="navigation">
             <li>
-              <a href="#"> Imprint </a>
+              <a href="https://open-telekom-cloud.com/en/contact"> Contact </a>
             </li>
             <li>
-              <a href="#"> Data privacy </a>
+              <a href="https://open-telekom-cloud.com/en/data-protection"> Data privacy </a>
             </li>
             <li>
-              <a href="#"> Terms and conditions </a>
+              <a href="https://open-telekom-cloud.com/en/disclaimer-of-liability"> Disclaimer of liabilities </a>
             </li>
             <li>
-              <a href="#"> Consumer protection </a>
-            </li>
-            <li>
-              <a href="#"> Product information sheet </a>
-            </li>
-            <li>
-              <a href="#"> Youth protection </a>
+              <a href="https://open-telekom-cloud.com/en/imprint"> Imprint </a>
             </li>
           </ul>
         </scale-telekom-footer-content>
