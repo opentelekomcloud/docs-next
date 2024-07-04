@@ -134,6 +134,10 @@ const config: Config = {
               label: 'Medium',
               href: 'https://medium.com',
             },
+            {
+              label: 'Portfolio Roadmap',
+              to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
+            },
           ],
         },
         {
@@ -175,6 +179,10 @@ const config: Config = {
             {
               label: 'Endpoints',
               to: 'https://docs.otc.t-systems.com/additional/endpoints.html',
+            },
+            {
+              label: 'Status Dashboard',
+              to: 'https://status.otc-service.com/',
             },
           ],
         },
