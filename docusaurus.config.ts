@@ -113,7 +113,7 @@ const config: Config = {
           "aria-label": 'GitHub',
         },
         { 
-          href: 'https://discord.gg/<invite-link>', 
+          href: 'https://discord.gg/m4x9Ctw5', 
           position: 'right',
           className: 'navbar--discord-link',
           "aria-label": 'Discord Invite',
@@ -199,7 +199,7 @@ const config: Config = {
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/opentelekomcloud',
+              href: 'https://discord.gg/m4x9Ctw5',
             },
             // {
             //   label: 'Twitter',
