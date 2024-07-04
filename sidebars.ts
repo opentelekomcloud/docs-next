@@ -30,7 +30,7 @@ const sidebars: SidebarsConfig = {
   mySidebar: [
     {
       type: 'doc',
-      id: 'best-practices',
+      id: 'best-practices/best-practices',
     },
     {
       type: 'category',
@@ -38,7 +38,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Application Operations Management',
           items: [
             {
               type: 'link',
@@ -49,7 +49,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'API Gateway (APIG)',
           items: [
             {
               type: 'link',
@@ -60,7 +60,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Distributed Message Service',
           items: [
             {
               type: 'link',
@@ -71,7 +71,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Simple Message Notification',
           items: [
             {
               type: 'link',
@@ -79,33 +79,6 @@ const sidebars: SidebarsConfig = {
               href: 'https://example.com',
             },
           ],
-        },
-        {
-          type: 'category',
-          label: 'FunctionGraph',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Image Management Service',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
         },
       ],
     },
@@ -115,7 +88,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Cloud Search Service',
           items: [
             {
               type: 'link',
@@ -126,7 +99,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'DataArts Studio',
           items: [
             {
               type: 'link',
@@ -137,7 +110,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Data Ingestion Service',
           items: [
             {
               type: 'link',
@@ -148,7 +121,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Data Lake Insight',
           items: [
             {
               type: 'link',
@@ -159,7 +132,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'Data Warehouse Service',
           items: [
             {
               type: 'link',
@@ -170,7 +143,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'ModelArts',
           items: [
             {
               type: 'link',
@@ -180,9 +153,26 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'MapReduce Service',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Optical Character Recognition',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
@@ -236,7 +226,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'FunctionGraph 🔥',
           items: [
             {
               type: 'link',
@@ -255,11 +245,6 @@ const sidebars: SidebarsConfig = {
               href: 'https://example.com',
             },
           ],
-        },
-        {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
         },
       ],
     },
@@ -269,7 +254,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Cloud Container Engine',
           items: [
             {
               type: 'link',
@@ -280,7 +265,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Software Repository for Container',
           items: [
             {
               type: 'link',
@@ -288,55 +273,6 @@ const sidebars: SidebarsConfig = {
               href: 'https://example.com',
             },
           ],
-        },
-        {
-          type: 'category',
-          label: 'Dedicated Host',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Elastic Cloud Server',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'FunctionGraph',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Image Management Service',
-          items: [
-            {
-              type: 'link',
-              label: 'Go to Documentation Center',
-              href: 'https://example.com',
-            },
-          ],
-        },
-        {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
         },
       ],
     },
@@ -346,7 +282,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Distributed Cache Service',
           items: [
             {
               type: 'link',
@@ -357,7 +293,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Distributed Database Middleware',
           items: [
             {
               type: 'link',
@@ -368,7 +304,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Document Database Service',
           items: [
             {
               type: 'link',
@@ -379,7 +315,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Data Replication Service',
           items: [
             {
               type: 'link',
@@ -390,7 +326,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'GaussDB (for MySQL)',
           items: [
             {
               type: 'link',
@@ -401,7 +337,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'GaussDB NoSQL',
           items: [
             {
               type: 'link',
@@ -411,9 +347,15 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'Relational Database Service',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
@@ -423,7 +365,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Application Performance Management',
           items: [
             {
               type: 'link',
@@ -434,7 +376,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Cloud Create 🔥',
           items: [
             {
               type: 'link',
@@ -445,7 +387,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Cloud Eye',
           items: [
             {
               type: 'link',
@@ -456,7 +398,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Cloud Trace Service',
           items: [
             {
               type: 'link',
@@ -467,7 +409,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'Log Tank Service',
           items: [
             {
               type: 'link',
@@ -478,7 +420,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'Resource Management Service',
           items: [
             {
               type: 'link',
@@ -488,9 +430,15 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'Tag Management Service',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
@@ -500,7 +448,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Direct Connect',
           items: [
             {
               type: 'link',
@@ -511,7 +459,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Domain Name Service',
           items: [
             {
               type: 'link',
@@ -522,7 +470,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Elastic IP',
           items: [
             {
               type: 'link',
@@ -533,7 +481,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Elastic Load Balancing',
           items: [
             {
               type: 'link',
@@ -544,7 +492,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'Enterprise Router',
           items: [
             {
               type: 'link',
@@ -555,7 +503,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'NAT Gateway',
           items: [
             {
               type: 'link',
@@ -565,9 +513,59 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'Private Link Access Service',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Secure Mail Gateway',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Virtual Private Cloud',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'VPC Endpoint',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Virtual Private Network',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
@@ -577,7 +575,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Anti DDoS',
           items: [
             {
               type: 'link',
@@ -588,7 +586,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Database Security Service',
           items: [
             {
               type: 'link',
@@ -599,7 +597,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Host Security Service',
           items: [
             {
               type: 'link',
@@ -610,7 +608,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Identity and Access Management',
           items: [
             {
               type: 'link',
@@ -621,7 +619,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'Key Management Service',
           items: [
             {
               type: 'link',
@@ -632,7 +630,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'Web Application Firewall',
           items: [
             {
               type: 'link',
@@ -642,9 +640,15 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'Dedicated Web Application Firewall',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
@@ -654,7 +658,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Cloud Backup and Recovery',
           items: [
             {
               type: 'link',
@@ -665,7 +669,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Bare Metal',
+          label: 'Cloud Server Backup Service',
           items: [
             {
               type: 'link',
@@ -676,7 +680,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Dedicated Host',
+          label: 'Elastic Volume Service',
           items: [
             {
               type: 'link',
@@ -687,7 +691,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Elastic Cloud Server',
+          label: 'Object Storage Service',
           items: [
             {
               type: 'link',
@@ -698,7 +702,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph',
+          label: 'Storage Disaster Recovery Service',
           items: [
             {
               type: 'link',
@@ -709,7 +713,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Image Management Service',
+          label: 'Scalable File Service',
           items: [
             {
               type: 'link',
@@ -719,36 +723,42 @@ const sidebars: SidebarsConfig = {
           ],
         },
         {
-          type: 'link',
-          label: 'Go to Documentation Center',
-          href: 'https://example.com',
+          type: 'category',
+          label: 'Volume Backup Service',
+          items: [
+            {
+              type: 'link',
+              label: 'Go to Documentation Center',
+              href: 'https://example.com',
+            },
+          ],
         },
       ],
     },
-    {
-      type: 'category',
-      label: 'Getting Started',
-      items: [
-        {
-          type: 'doc',
-          id: 'doc1',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Docusaurus',
-      items: [
-        {
-          type: 'doc',
-          id: 'doc2',
-        },
-        {
-          type: 'doc',
-          id: 'doc3',
-        },
-      ],
-    },
+    // {
+    //   type: 'category',
+    //   label: 'Getting Started',
+    //   items: [
+    //     {
+    //       type: 'doc',
+    //       id: 'doc1',
+    //     },
+    //   ],
+    // },
+    // {
+    //   type: 'category',
+    //   label: 'Docusaurus',
+    //   items: [
+    //     {
+    //       type: 'doc',
+    //       id: 'doc2',
+    //     },
+    //     {
+    //       type: 'doc',
+    //       id: 'doc3',
+    //     },
+    //   ],
+    // },
     {
       type: 'link',
       label: 'Learn more',

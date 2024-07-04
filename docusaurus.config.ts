@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next:dev',
+  title: 'Architecture Center docs-next:theme.0',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
