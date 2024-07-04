@@ -100,8 +100,24 @@ const config: Config = {
         //   label: 'Cloud Adoption Framework 🚧',
         // },
         // { to: '/blog', label: 'Blog', position: 'right' },
-        { href: 'https://auth.otc.t-systems.com/', label: 'Console', position: 'right' },
-        { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',},
+        { 
+          href: 'https://auth.otc.t-systems.com/', 
+          position: 'right',
+          className: 'navbar--terminal-link',
+          "aria-label": 'Open Telekom Cloud Console',
+        },
+        { 
+          href: 'https://github.com/akyriako/docs-next', 
+          position: 'right',
+          className: 'navbar--github-link',
+          "aria-label": 'GitHub',
+        },
+        { 
+          href: 'https://discord.gg/<invite-link>', 
+          position: 'right',
+          className: 'navbar--discord-link',
+          "aria-label": 'Discord Invite',
+        },
       ],
     },
     footer: {
