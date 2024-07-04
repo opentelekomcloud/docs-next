@@ -132,7 +132,7 @@ const config: Config = {
             },
             {
               label: 'Medium',
-              href: 'https://designer.otc-service.com/#/',
+              href: 'https://medium.com',
             },
           ],
         },
@@ -141,15 +141,19 @@ const config: Config = {
           items: [
             {
               label: 'SDKs',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/developer/sdk.html',
             },
             {
               label: 'Drivers & Tools',
-              to: 'https://github.com/akyriako/docs-next',
+              to: 'https://docs.otc.t-systems.com/developer/drivers.html',
             },
             {
-              label: 'IaC & Automation',
-              to: '/blog',
+              label: 'Terraform Provider',
+              to: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
+            },
+            {
+              label: 'Ansible Collections',
+              to: 'https://docs.otc.t-systems.com/ansible-collection-cloud/',
             },
             {
               label: 'Cloud Create',
@@ -162,15 +166,15 @@ const config: Config = {
           items: [
             {
               label: 'REST API',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/developer/api.html',
             },
             {
-              label: 'REST API Guidelines',
-              to: 'https://github.com/akyriako/docs-next',
+              label: 'REST API Usage Guidelines',
+              to: 'https://docs.otc.t-systems.com/developer/api_guidelines/index.html',
             },
             {
               label: 'Endpoints',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/additional/endpoints.html',
             },
           ],
         },
@@ -178,17 +182,21 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Community Portal',
-              to: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Community Forums',
+              to: 'https://community.open-telekom-cloud.com/',
+            },
+            {
+              label: 'Webinars',
+              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              href: 'https://discordapp.com/invite/opentelekomcloud',
             },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
+            // {
+            //   label: 'Twitter',
+            //   href: 'https://x.com/tsystemscom',
+            // },
           ],
         },
       ],
