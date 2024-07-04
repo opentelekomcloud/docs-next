@@ -42,7 +42,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -53,7 +53,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -64,7 +64,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -75,7 +75,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -92,7 +92,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -103,7 +103,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -114,7 +114,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -125,7 +125,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -136,7 +136,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -147,7 +147,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -158,7 +158,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -169,7 +169,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -186,7 +186,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -197,7 +197,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -208,7 +208,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -219,7 +219,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -230,7 +230,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -241,7 +241,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -258,7 +258,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -269,7 +269,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -286,7 +286,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -297,7 +297,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -308,7 +308,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -319,7 +319,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -330,7 +330,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -341,7 +341,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -352,7 +352,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -369,7 +369,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -380,7 +380,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -391,7 +391,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -402,7 +402,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -413,7 +413,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -424,7 +424,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -435,7 +435,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -452,7 +452,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -463,7 +463,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -474,7 +474,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -485,7 +485,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -496,7 +496,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -507,7 +507,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -518,7 +518,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -529,7 +529,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -540,7 +540,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -551,7 +551,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -562,7 +562,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -579,7 +579,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -590,7 +590,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -601,7 +601,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -612,7 +612,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -623,7 +623,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -634,7 +634,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -645,7 +645,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -662,7 +662,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -673,7 +673,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -684,7 +684,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -695,7 +695,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -706,7 +706,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -717,7 +717,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
@@ -728,7 +728,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'link',
-              label: 'Go to Documentation Center',
+              label: '📚 Go to Help Center',
               href: 'https://example.com',
             },
           ],
