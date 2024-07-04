@@ -7,7 +7,7 @@ export default function NavbarLogo(): JSX.Element {
       className="navbar__brand"
       imageClassName="navbar__logo"
       titleClassName="navbar__title text--truncate">
-            <scale-logo size="32" variant="magenta" transparent="true"></scale-logo>
+            {/* <scale-logo size="32" variant="magenta" transparent="true"></scale-logo> */}
     </Logo>
 
 

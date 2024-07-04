@@ -1,9 +1,9 @@
 ---
-id: computing
-title: Computing
+id: devops
+title: DevOps
 ---
 
-# Computing
+# DevOps
 
 The Computing section offers essential insights for optimizing computing resources. Discover guidelines for selecting
 appropriate instance types, managing virtual machines efficiently, and leveraging auto-scaling capabilities for dynamic

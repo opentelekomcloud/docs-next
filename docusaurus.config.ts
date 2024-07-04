@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next:rc.2',
+  title: 'Architecture Center docs-next:theme.3',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
@@ -69,12 +69,18 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Open Telekom Cloud \n Architecture Center',
+      // title: 't',
       logo: {
-        alt: 'Deutsche Telekom Logo',
-        src: 'img/telekom-logo.svg',
+        alt: 'Open Telekom Cloud Non-Logo',
+        src: 'img/logo_headline_kombination_m_s_m.png',
       },
       items: [
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'bestPracticesSidebar',
+        //   position: 'left',
+        //   label: 'Best Practices',
+        // },
         {
           type: 'docSidebar',
           sidebarId: 'bestPracticesSidebar',
@@ -94,8 +100,24 @@ const config: Config = {
         //   label: 'Cloud Adoption Framework 🚧',
         // },
         // { to: '/blog', label: 'Blog', position: 'right' },
-        { href: 'https://auth.otc.t-systems.com/', label: 'Console', position: 'right' },
-        { href: 'https://github.com/akyriako/docs-next', label: 'GitHub', position: 'right',},
+        { 
+          href: 'https://auth.otc.t-systems.com/', 
+          position: 'right',
+          className: 'navbar--terminal-link',
+          "aria-label": 'Open Telekom Cloud Console',
+        },
+        { 
+          href: 'https://github.com/akyriako/docs-next', 
+          position: 'right',
+          className: 'navbar--github-link',
+          "aria-label": 'GitHub',
+        },
+        { 
+          href: 'https://discord.gg/m4x9Ctw5', 
+          position: 'right',
+          className: 'navbar--discord-link',
+          "aria-label": 'Discord Invite',
+        },
       ],
     },
     footer: {
@@ -110,7 +132,11 @@ const config: Config = {
             },
             {
               label: 'Medium',
-              href: 'https://designer.otc-service.com/#/',
+              href: 'https://medium.com',
+            },
+            {
+              label: 'Portfolio Roadmap',
+              to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
             },
           ],
         },
@@ -119,15 +145,19 @@ const config: Config = {
           items: [
             {
               label: 'SDKs',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/developer/sdk.html',
             },
             {
               label: 'Drivers & Tools',
-              to: 'https://github.com/akyriako/docs-next',
+              to: 'https://docs.otc.t-systems.com/developer/drivers.html',
             },
             {
-              label: 'IaC & Automation',
-              to: '/blog',
+              label: 'Terraform Provider',
+              to: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
+            },
+            {
+              label: 'Ansible Collections',
+              to: 'https://docs.otc.t-systems.com/ansible-collection-cloud/',
             },
             {
               label: 'Cloud Create',
@@ -140,15 +170,19 @@ const config: Config = {
           items: [
             {
               label: 'REST API',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/developer/api.html',
             },
             {
-              label: 'REST API Guidelines',
-              to: 'https://github.com/akyriako/docs-next',
+              label: 'REST API Usage Guidelines',
+              to: 'https://docs.otc.t-systems.com/developer/api_guidelines/index.html',
             },
             {
               label: 'Endpoints',
-              to: '/blog',
+              to: 'https://docs.otc.t-systems.com/additional/endpoints.html',
+            },
+            {
+              label: 'Status Dashboard',
+              to: 'https://status.otc-service.com/',
             },
           ],
         },
@@ -156,17 +190,21 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Community Portal',
-              to: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Community Forums',
+              to: 'https://community.open-telekom-cloud.com/',
+            },
+            {
+              label: 'Webinars',
+              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              href: 'https://discord.gg/m4x9Ctw5',
             },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
+            // {
+            //   label: 'Twitter',
+            //   href: 'https://x.com/tsystemscom',
+            // },
           ],
         },
       ],
@@ -178,7 +216,7 @@ const config: Config = {
     },
     docs: {
       sidebar: {
-        hideable: true,
+        hideable: false,
         autoCollapseCategories: true,
       },
     },

@@ -36,8 +36,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/caf.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
+        Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
       </>
     ),
   },
