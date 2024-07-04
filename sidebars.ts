@@ -27,7 +27,7 @@ const sidebars: SidebarsConfig = {
   //   },
   // ],
 
-  mySidebar: [
+  bestPracticesSidebar: [
     {
       type: 'doc',
       id: 'best-practices/best-practices',

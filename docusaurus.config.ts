@@ -83,7 +83,7 @@ const config: Config = {
         // },
         {
           type: 'docSidebar',
-          sidebarId: 'mySidebar',
+          sidebarId: 'bestPracticesSidebar',
           position: 'left',
           label: 'Best Practices',
         },
@@ -184,7 +184,7 @@ const config: Config = {
     },
     docs: {
       sidebar: {
-        hideable: true,
+        hideable: false,
         autoCollapseCategories: true,
       },
     },
