@@ -16,7 +16,7 @@ Subnet where we are going to provision both RDS instances and CCE nodes.
 For enhanced security granularity, we could split those resources in two
 different Subnets.
 
-![image](/img/docs/SCR-20231208-ezg.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ezg.png)
 
 :::warning
 RDS and CCE nodes have to be on the same VPC.
@@ -40,27 +40,27 @@ nodes, so it can accept client calls on port `5432` (Inbound Rules),
 which they only reside in the same Subnet (in case we went for a single
 Subnet solution):
 
-![image](/img/docs/SCR-20231208-fh3.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-fh3.png)
 
 And one Security Group for the client nodes that need to access the
 database (Outbound Rules), in our case those would be the CCE nodes
 where Keycloak is going to be installed on.
 
-![image](/img/docs/SCR-20231208-k2x.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k2x.png)
 
 ### Provision a Database
 
 Now as next, we need to provision a PostgreSQL 14 database. Pick the
 instance and storage class size that fit your needs:
 
-![image](/img/docs/SCR-20231208-k8t.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k8t.png)
 
 and make sure that you:
 
 - you place the RDS nodes in the same VPC with the CCE nodes
 - assign `rds-instances` as the Security Group for the RDS nodes
 
-![image](/img/docs/SCR-20231208-ka7.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ka7.png)
 
 ### Create a Private DNS Zone
 
@@ -73,11 +73,11 @@ endpoints. In the Domain Name Service management panel click Private
 Zone and create a new one that points to the VPC that CCE and RDS nodes
 are placed:
 
-![image](/img/docs/SCR-20231211-f5u.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-f5u.png)
 
 and then click Manage Record Set to add a new **A Record** to this zone:
 
-![image](/img/docs/SCR-20231211-ffb.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-ffb.png)
 
 :::note
 The domain name, will be a fictitious domain representing your solution
@@ -88,7 +88,7 @@ conforms to the a FQDN rules.
 The floating IP of the RDS instance can be found in the Basic
 Information panel of the database:
 
-![image](/img/docs/SCR-20231211-fj8.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fj8.png)
 
 ## Provision a CCE Cluster
 
@@ -103,14 +103,14 @@ following details:
 - If you follow the single Subnet lab instructions make sure you place
     the CCE Nodes in the same Subnet that RDS nodes reside.
 
-![image](/img/docs/SCR-20231211-fp6.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fp6.png)
 
 Add worker nodes to the CCE cluster using the wizard, and wait all nodes
 to become operational. Then add to **each** node an additional Security
 Group, in particular the `rds-client` that we created earlier in this
 lab.
 
-![image](/img/docs/SCR-20231211-g7y.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-g7y.png)
 
 :::note
 Make your own decision how you're going to access this CCE Cluster
@@ -311,7 +311,7 @@ step, via an Ingress.
 
 ## Expose Keycloak
 
-![image](/img/docs/SCR-20231211-di1.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-di1.png)
 
 ### Create an Elastic Load Balancer
 
@@ -324,7 +324,7 @@ that will be employed with the following:
 - Associate backend servers by using their IP addresses (*IP as
     Backend*)
 
-![image](/img/docs/SCR-20231211-i88.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-i88.png)
 
 :::note
 Note down the **ELB ID**, we are going to need it to configure the Nginx
@@ -391,7 +391,7 @@ to register this Keycloak installation as an Identity Provider (IdP) in
 our Open Telekom Cloud tenant, it is really pertinent that the EIP of
 our ELB resolves to a real, secure URL address:
 
-![image](/img/docs/SCR-20231211-ni4.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-ni4.png)
 
 In order to accomplish that, we have to transfer the management of the
 NS-Records of your domain to the Domain Name Service of Open Telekom
@@ -484,12 +484,12 @@ This is required **only** when ExternalDNS is used.
 Go to IAM management console, and create a new User that permits
 programmatic access to Open Telekom Cloud resources:
 
-![image](/img/docs/SCR-20231212-dfp.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dfp.png)
 
 Grant this User the following permissions or add him directly to User
 Group `dns-admins` (if it exists)
 
-![image](/img/docs/SCR-20231212-df8.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-df8.png)
 
 ##### Deploy a Keycloak Endpoint
 
@@ -524,7 +524,7 @@ Wait for a couple of seconds, till the reconciliation loop of the
 ExternalDNS controller is done, and if all went well you should now see
 the Record Sets of your Public Zone populated with various entries:
 
-![image](/img/docs/SCR-20231212-dsj.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)
 
 ### Deploy Keycloak Ingress
 
@@ -556,7 +556,7 @@ spec:
 We can now open the url address we defined in our Public DNS Zone for
 this application and land on the welcome page of Keycloak:
 
-![image](/img/docs/SCR-20231212-fhq.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-fhq.png)
 
 ## Next Steps
 

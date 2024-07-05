@@ -101,7 +101,7 @@ const config: Config = {
           "aria-label": 'Open Telekom Cloud Console',
         },
         { 
-          href: 'https://github.com/akyriako/docs-next', 
+          href: 'https://github.com/opentelekomcloud-blueprints', 
           position: 'right',
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
