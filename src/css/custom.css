@@ -44,7 +44,8 @@
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #7d94f9;
+  /* --ifm-color-primary: #7d94f9; */
+  --ifm-color-primary: #ff2796;
   --ifm-color-primary-dark: #5977f7;
   --ifm-color-primary-darker: #4768f7;
   --ifm-color-primary-darkest: #123cf4;
@@ -124,7 +125,7 @@ html[data-theme='dark'] .footer__link-item {
 
 html[data-theme='dark'] .footer__link-item:hover {
   color: unset;
-  color: #7d94f9;
+  color: #ff2796;
   text-decoration: none;
 }
 
