@@ -1,9 +1,10 @@
 ---
 id: application-dynamic-subnets
-title: Design your application with dynamic subnets
+title: Design with dynamic subnets
+tags: [multi-cloud, google, gcp, cloud-create]
 ---
 
-# Design your application with dynamic subnets
+# Design with dynamic subnets
 The Section [Design your application with static subnets in multiple regions](https://docs.otc.t-systems.com/cloud-create/umn/google/multi_regions.html#google-static-subnets) shows how to define multiple subnets for a network **explicitly**. However, users may not want to define the subnets explicitly. In such a case, the Cloud Create will auto-generate one subnet for each region dynamically as follows:
 
 Design

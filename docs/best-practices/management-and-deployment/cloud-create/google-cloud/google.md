@@ -1,6 +1,7 @@
 ---
 id: google
 title: Multicloud Google Cloud
+tags: [multi-cloud, google, gcp, cloud-create]
 ---
 
 # Multicloud: Google Cloud 

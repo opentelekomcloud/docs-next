@@ -1,6 +1,7 @@
 ---
 id: google-deploy
 title: How to deploy your application on Google Cloud
+tags: [multi-cloud, google, gcp, cloud-create]
 ---
 
 # How to deploy your application on Google Cloud

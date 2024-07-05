@@ -369,15 +369,19 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Create 🔥',
+          link: {
+            type: 'doc', 
+            id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
+          },
           items: [
             {
               type: 'category',
               label: 'Google Cloud',
+              link: {
+                type: 'doc', 
+                id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
+              },
               items: [
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
-                },
                 {
                   type: 'doc',
                   id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google-deploy',
@@ -394,7 +398,17 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'category',
-              label: 'Service Catalogs',
+              label: 'Service catalogs',
+              // link: {
+              //   type: 'generated-index',
+              //   description: 'Learn about the most important Docusaurus concepts!',
+              //   slug: '/best-practices/management-and-deployment/cloud-create/service-catalogs',
+              //   keywords: ['cloud-create'],
+              // },
+              link: {
+                type: 'doc', 
+                id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
+              },
               items: [
                 {
                   type: 'doc',

@@ -37,8 +37,9 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:'https://github.com/akyriako/docs-next/tree/main/',
-          showLastUpdateAuthor: true,  
-          showLastUpdateTime: true,
+          // showLastUpdateAuthor: true,  
+          // showLastUpdateTime: true,
+          breadcrumbs: true
         },
         
         theme: {
@@ -60,7 +61,7 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/open-telekom-cloud-social-card.png',
     navbar: {
       // title: 't',
       logo: {

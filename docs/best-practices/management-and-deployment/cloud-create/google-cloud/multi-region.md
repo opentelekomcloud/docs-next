@@ -1,9 +1,10 @@
 ---
 id: multi-region
-title: Design your application with static subnets in multiple regions 
+title: Design with static subnets in multiple regions 
+tags: [multi-cloud, google, gcp, cloud-create]
 ---
 
-# Design your application with static subnets in multiple regions 
+# Design with static subnets in multiple regions 
 The following tutorial describes how to design an application with one (global) private network spanning in two regions of Google Cloud. Each region has one subnet and one compute connecting to the subnet (e.g., `Compute` connects to `Subnet`, `Compute_2` connects to `Subnet_2`). The compute in the first region (e.g., `Compute`) has access to the internet.
 
 [![../_images/multi-regions.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/multi-regions.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/multi-regions.png)

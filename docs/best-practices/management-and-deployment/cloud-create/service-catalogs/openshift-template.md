@@ -8,8 +8,6 @@ last_update:
 ---
 
 # OpenShift Template
-About
-------------------------------------------------
 
 The following tutorial shows you how to register a (trial) subscription key from Red Hat and uses it to create an OpenShift cluster using the OpenShift template.
 
@@ -27,7 +25,7 @@ How to use
 1.  Create a new application using the template **OpenShift** or **OpenShift HA** with a selected version (e.g., 4.13.19)
 2.  Go to **Quick Deploy**.
 
-### Deloy Setup
+### Deploy Setup
 
 #### Specify base\_domain
 
