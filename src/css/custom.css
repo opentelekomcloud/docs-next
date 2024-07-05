@@ -80,13 +80,15 @@
   }
 }
 
-/* .scale-telekom-footer-content {
-  background-footer:  white;
+.scale-telekom-footer {
+  --background-footer-minimal: white;
+  --font-color: black;
 }
 
-html[data-theme='dark'] .scale-telekom-footer-content {
-  background-footer:#1b1b1d;
-} */
+html[data-theme='dark'] .scale-telekom-footer {
+  --background-footer-minimal: #1b1b1d;
+  --font-color: white;
+}
 
 .footer {
   background-color:  white;
