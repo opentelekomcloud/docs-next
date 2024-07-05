@@ -1,6 +1,10 @@
 ---
 id: openshift-template
 title: OpenShift Template 
+tags: [openshift, cloud-create]
+last_update:
+  date: 7/5/2024
+  author: Dr. Tri Vo 
 ---
 
 # OpenShift Template

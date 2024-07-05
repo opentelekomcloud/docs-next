@@ -38,7 +38,7 @@ Figure 3. Connect a compute to the subnet
 
 Figure 3. Define CIDR
 
-::note
+:::note
 The cidr field is mandatory for defining a subnet.
 :::
 
@@ -51,7 +51,7 @@ The cidr field is mandatory for defining a subnet.
 
 Figure 4. Define fixed ip address
 
-::note
+:::note
 If no ip\_address specified, an ip address will be auto-generated within the ip range of the subnet during the deployment.
 :::
 
