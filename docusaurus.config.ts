@@ -36,18 +36,12 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl:'https://github.com/akyriako/docs-next/tree/main/',
+          // showLastUpdateAuthor: true,  
+          // showLastUpdateTime: true,
+          breadcrumbs: true
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/akyriako/docs-next/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
+        
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -67,7 +61,7 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/open-telekom-cloud-social-card.png',
     navbar: {
       // title: 't',
       logo: {
