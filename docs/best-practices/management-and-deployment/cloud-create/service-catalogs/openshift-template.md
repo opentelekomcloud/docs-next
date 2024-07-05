@@ -203,7 +203,7 @@ In OpenShift you can provision an EVS on Open Telekom Cloud dynamically:
 
 1.  Create a new **storage class** (e.g., `ssd-csi`) with a volume type (e.g., `SSD`):
     
-```
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -219,7 +219,7 @@ volumeBindingMode: WaitForFirstConsumer # PVC is PENDING until the Pod is create
 
 (Alternative) Create a storage class with specific AZ (e.g., `eu-de-01`) so that volumes will be created only in this AZ:
 
-```
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -239,7 +239,7 @@ allowedTopologies:
 
 2.  Create a **PersistentVolumeClaim** (e.g., `ssd-pvc`) with the storage class `ssd-csi`:
     
-```
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -258,7 +258,7 @@ spec:
 
 3.  Create a Pod `example` with the PersistentVolumeClaim `ssd-pvc`:
     
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -324,7 +324,7 @@ Figure 12. Copy the SFS endpoint `10.0.207.136`
 
 3.  Create a PersistentVolume (e.g., `sfs-pv`) with the SFS endpoint:
     
-```
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -343,7 +343,7 @@ spec:
 
 4.  Create a PersistentVolumeClaim (e.g., `sfs-pvc`) with the `sfs-pv`:
     
-```
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
