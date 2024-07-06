@@ -89,6 +89,24 @@
 html[data-theme='dark'] .scale-telekom-footer {
   --background-footer-minimal: #1b1b1d;
   --font-color: white;
+   /* ul {
+    li {
+      a {
+        color: white;
+      }
+    }
+  }
+  span {
+    color: white;
+  } */
+}
+
+html[data-theme='dark'] .scale-telekom-footer ul li a {
+  color: white;
+}
+
+html[data-theme='dark'] .scale-telekom-footer span {
+  color: white;
 }
 
 .footer {
