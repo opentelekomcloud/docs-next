@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Architecture Center docs-next:theme.4',
+  title: 'Architecture Center docs-next:theme.5',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
@@ -67,6 +67,7 @@ const config: Config = {
       logo: {
         alt: 'Open Telekom Cloud Non-Logo',
         src: 'img/logo_headline_kombination_m_s_m.png',
+        srcDark: 'img/logo_headline_kombination_m_w_m.png'
       },
       items: [
         // {
