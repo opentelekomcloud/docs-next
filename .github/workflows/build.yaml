@@ -23,8 +23,8 @@ jobs:
           run: npm run build
 
         - name: Say Hi!
-        #   env: 
-        #     TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
+          env: 
+            TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
           run: | 
-            echo "Typesense host name is: vars.$TYPESENSE_HOST"
+            echo "Typesense host name is: $TYPESENSE_HOST"
   
