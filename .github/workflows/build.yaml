@@ -3,7 +3,7 @@ on:
       branches:
         - create-build-workflow # Change this to your default branch if it's different
 jobs:
-    deploy:
+    build:
       runs-on: ubuntu-latest
   
       steps:
@@ -20,4 +20,8 @@ jobs:
   
         - name: Build site
           run: npm run build
+
+        - name: Say Hi!
+          run: | 
+            echo "Typesense host name is: $TYPESENSE_HOST"
   
