@@ -47,7 +47,9 @@ jobs:
             context: ./
             file: ./Dockerfile
             push: true
-            tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs-next-preview:latest
+            tags: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:0.0.0
         
         - name: Image digest
           run: echo ${{ steps.docker_build.outputs.digest }}
