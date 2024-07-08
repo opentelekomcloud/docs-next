@@ -1,7 +1,10 @@
 on:
     push:
       branches:
-        - create-build-workflow # Change this to your default branch if it's different
+        - create-build-workflow 
+    pull_request:
+      branches: 
+        - main
 jobs:
     build:
       environment: preview
