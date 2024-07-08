@@ -6,9 +6,10 @@ tags: [cce, observability, logging, grafana, loki, promtail, kubernetes]
 
 # CCE Logging with Grafana Loki & Promtail
 
-After completing this lab, we will have consolidated all the logs generated in our Kubernetes cluster in a tidy, neat, real-time dashboard in Grafana.
+In this lab, we'll consolidate all the logs generated in our Kubernetes cluster into a neat, real-time dashboard in Grafana.
 
-We are going to need a:
+Requirements
+------------
 
 1.  **CCE** cluster.
 2.  **Grafana** installation.
@@ -19,21 +20,22 @@ We are going to need a:
 What is Grafana?
 ----------------
 
-[Grafana](https://grafana.com/) is an **analytics and interactive visualization platform**. It provides a rich variety of charts, graphs, and alerts and connects to plead of supported data sources as Prometheus, time-series databases or the known RDBMs. It allows you to query, visualize, create alerts on your metrics regardless where they are stored.
+[Grafana](https://grafana.com/) is an analytics and interactive visualization platform. It offers a rich variety of charts, graphs, and alerts and connects to a plethora of supported data sources such as Prometheus, time-series databases, or well-known RDBMS. Grafana allows you to query, visualize, and create alerts on your metrics regardless of where they are stored.
 
 :::tip
-You have to think of it as the equivalent of **Kibana** in the ELK stack.
+Think of it as the equivalent of Kibana in the ELK stack.
 :::
 
 ### Install Grafana
 
-The installation is fairly simple and we are going to perform it via _Helm_. If you haven’t Helm already installed on your workstation you can do it either with _brew_ if you are working on MacOS:
+The installation is straightforward using Helm. If you haven’t installed Helm on your workstation, you can do it either with brew on macOS:
+
 
 ```shell
 brew install helm
 ```
 
-or with the following bash commands if you are working on Debian/Ubuntu Linux:
+or with the following bash commands on Debian/Ubuntu Linux:
 
 ```shell
 curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
@@ -43,7 +45,7 @@ sudo apt-get update
 sudo apt-get install helm --yes
 ```
 
-Putting this behind, we can now install the Helm chart for Grafana:
+Now, we can install the Helm chart for Grafana:
 
 ```shell
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -54,58 +56,55 @@ helm install grafana grafana/grafana --namespace grafana --create-namespace
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m8J4oWftIIhbRunvacQ9JA.webp)
 
 :::note
-`service/grafana` _service would be of type `ClusterIP` _in a_ vanilla _installation, in case you are not working on CCE 
-you can use [MetalLB](https://metallb.io/) as a network loadbalancer and have the service patched the service as of type `LoadBalancer`. Otherwise
-port-forwarding this service will suffice for the time being.
+By default, the `service/grafana` will be of type `ClusterIP`. If you are not working on CCE, you can use [MetalLB](https://metallb.io/) as a network load balancer and patch the service to be of type `LoadBalancer`. Alternatively, port-forwarding this service will suffice for now.
 :::
 
 What is Grafana Loki & Promtail?
 --------------------------------
 
-[Grafana Loki](https://grafana.com/oss/loki/) is a **logs aggregation system**, more specifically as stated in their website: ”_is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus. It is designed to be very cost effective and easy to operate. It does not index the contents of the logs, but rather a set of labels for each log stream_.” It’s a fairly new open source project that aws started in 2018 at Grafana Labs.
+[Grafana Loki](https://grafana.com/oss/loki/) is a logs aggregation system designed to be horizontally scalable, highly available, and cost-effective. Inspired by Prometheus, Loki does not index the contents of the logs but rather a set of labels for each log stream. It was launched in 2018 by Grafana Labs.
+
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
 
-Loki uses _Promtail_ to aggregate logs. [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/) is a **logs collector agent** that collects, (re)labels and ships logs to Loki. It is built specifically for Loki — _an instance of Promtail will run on each Kubernetes node_. It uses the exact same service discovery as Prometheus and support similar methods for labeling, transforming, and filtering logs before their ingestion to Loki.
+Loki uses [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) to aggregate logs. Promtail is a logs collector agent that collects, labels, and ships logs to Loki. It runs on each Kubernetes node, using the same service discovery as Prometheus and supporting similar methods for labeling, transforming, and filtering logs before their ingestion to Loki.
 
-Loki **doesn’t index** the actual text of the logs. The log entries are grouped into streams and then indexed with labels. In that way, Loki not only reduces the overall costs but additionally reduces the time between ingestion of log entries and their availability in queries.
-
-It comes with its own query language, _LogQL_, which can be used from its own command-line interface or directly from Grafana. Last but not least, it can tightly integrate with the _Alert Manager_ of Prometheus — though, the last two are out of the scope of this article.
+Loki groups log entries into streams and indexes them with labels, which reduces overall costs and the time between log entry ingestion and query availability.
 
 :::tip
-You have to think of it as the equivalent (not 1–1 but in bigger context) of **Elasticsearch** in the ELK stack.
+Think of Loki as the equivalent (not 1-to-1 but in a broader context) of Elasticsearch in the ELK stack.
 :::
 
 ### Configure and Install Loki
 
-Loki, consists of multiple [components/microservices](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/):
+Loki consists of multiple components/microservices that can be deployed in three different modes:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dxVzmGkmFHgkuyJmW1VK3g.webp)
 
 that can be deployed in **3 different modes**:
 
-1.  [Monolithic](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode) mode, all of Loki’s microservice components run inside a single process as a single binary.
-2.  [Simple Scalable](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode) mode, if you want to separate read and write paths.
-3.  [Microservices](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#microservices-mode) mode, every Loki component runs as a distinct processes.
+1.  [Monolithic](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode) mode: All of Loki’s microservice components run inside a single process as a single binary.
+2.  [Simple Scalable](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode) mode:  Separate read and write paths.
+3.  [Microservices](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#microservices-mode) mode: Every Loki component runs as a distinct process.
 
 :::important
-The scalable installation requires a **S3 compatible object store** such as AWS S3, Google Cloud Storage, Open Telekom Cloud OBS or a self-hosted store such as [MinIO](https://min.io/). In the _monolithic_ deployment mode **only** the filesystem can be used for storage.
+The scalable installation requires an S3 compatible object store such as AWS S3, Google Cloud Storage, Open Telekom Cloud OBS, or a self-hosted store like MinIO. In monolithic deployment mode, **only** the filesystem can be used for storage.
 :::
 
-In this lab, we are going to use the _microservices_ deployment mode with [Open Telekom Cloud OBS](https://open-telekom-cloud.com/en/products-services/core-services/object-storage-service) as Loki’s storage. The installation (and essentially the configuration) of Loki and Promtail is performed by two distinct and independent charts.
+In this lab, we will use the **microservices** deployment mode with Open Telekom Cloud OBS as Loki’s storage. We will configure and install Loki and Promtail using Helm charts.
 
-First let’s download the default chart values for every chart and make the necessary changes. For Loki (given that you chose as well to go with the `loki-distributed` chart)
+First, let's download the default chart values for each chart and make the necessary changes. For Loki, assuming you chose the `loki-distributed` chart:
+
 
 ```shell
 helm show values grafana/loki-distributed > loki-distributed-overrides.yaml
 ```
 
-1. If you are planning to go with an S3 compatible storage and not with the filesystem, change the object and shared store target of s3
-in your helm chart values:
+1. If you are using S3 compatible storage, update the object and shared store target to S3 in your Helm chart values:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m6H5W8D5FxdxunL0PYZjmQ.webp)
 
-2. and configure your storage to point to the designated S3 bucket.
+2. Configure your storage to point to the designated S3 bucket:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_be63glOSUO7fwc21h1KVDA.webp)
 
@@ -117,18 +116,18 @@ The format of S3 endpoint is `s3://{AK}:{SK}@{endpoint}/{region}/{bucket}`
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_QQU5x7QDEmOBj95hOiAaAw.webp)
 
-4. and lastly you need to configure the compactor:
+4. Then configure the compactor:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_SL6Snpm9qU_ubI3DrfPskA.webp)
 
 
-5. Loki values are now set, let’s install it and move to Promtail:
+5. Now that the Loki values are set, install Loki and then move on to Promtail:
 
 ```shell
 helm upgrade --install --values loki-distributed-overrides.yaml loki grafana/loki-distributed -n grafana-loki --create-namespace
 ```
 
-Get all the components that we installed from Loki chart:
+Get all the components that we installed from the Loki chart:
 
 ```
 kubectl get all -n grafana-loki
@@ -139,7 +138,7 @@ kubectl get all -n grafana-loki
 
 ### Configure and Install Promtail
 
-We are going to need the endpoint of Loki’s gateway as the designated endpoint that Promtail will use in order to push logs to Loki. In our case that would be `loki-loki-distributed-gateway.grafana-loki.svc.cluster.local`, so let’s add it in the Promtail chart values:
+We need the endpoint of Loki’s gateway as the designated endpoint that Promtail will use to push logs to Loki. In our case, that would be `loki-loki-distributed-gateway.grafana-loki.svc.cluster.local`. Add this endpoint to the Promtail chart values:
 
 ```shell
 helm show values grafana/promtail > promtail-overrides.yaml
@@ -147,7 +146,7 @@ helm show values grafana/promtail > promtail-overrides.yaml
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_-MaxuCNpIezRgFm-VQZ_ow.webp)
 
-We are ready to now to deploy Promtail. Run the command and wait for a bit till all pods come to a Ready state.
+We are now ready to deploy Promtail. Run the command and wait for all pods to reach a Ready state:
 
 ```shell
 helm upgrade --install --values promtail-overrides.yaml promtail grafana/promtail -n grafana-loki
@@ -156,20 +155,20 @@ helm upgrade --install --values promtail-overrides.yaml promtail grafana/promtai
 Configure Grafana Data Sources & Dashboard
 ------------------------------------------
 
-1. All the deployments now are completed. It is time we set up our Grafana. As we saw before Grafana has a simple service, let’s then port-forward it and access the Grafana directly from `[http://localhost:8080/](http://localhost:8080/)`:
+1. With all deployments completed, set up Grafana. As mentioned, Grafana has a simple service. Port-forward it and access Grafana directly from  `[http://localhost:8080/](http://localhost:8080/)`:
 
 ```
 kubectl port-forward service/grafana 8080:80 -n grafana
 ```
 
 :::note
-Of course you are free to expose this service in a different way either with assigning to it an external IP by a Load Balancer or as an ingress route via the Ingress solution of choice.
+You can also expose this service in other ways, either by assigning an external IP via a Load Balancer or as an ingress route through your chosen Ingress solution.
 :::
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dSCLtTxGHOeAawTkJGI0lg.webp)
 
 
-2. You are going to need those credentials in order to login. Default *user* is `admin`, but the *password* will need a bit of work to be retrieved. Get all the `Secrets` in the _grafana_ namespace:
+2. You will need these credentials to log in. The default *user* is **admin**, but you will need to retrieve the password. Get all the `Secrets` in the **grafana** namespace:
 
 ```bash
 kubectl get secrets -n grafana
@@ -177,27 +176,27 @@ kubectl get secrets -n grafana
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_t_0OqRNB4kaMlbUpQZkshQ.webp)
 
-This is where our password lives. Let’s extract it and decode it:
+Extract and decode the password:
 
 ```bash
 kubectl get secret grafana -n grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-3. We are now logged in Grafana Dashboard. Next we need to add Grafana Loki as a data source:
+3. Now logged into the Grafana Dashboard, add Grafana Loki as a data source:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_R2CxfRgIMj9uXGzYMcA0GA.webp)
 
-As URL, use the endpoint of the Grafana Loki gateway service: `[http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local](http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local/)`; test, save and exit.
+Use the endpoint of the Grafana Loki gateway service as the URL `[http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local](http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local/)`. Test, save, and exit!
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0ILMUg1ZbO5W--NfKjkeWQ.webp)
 
-4. Last step, now we need to add a dashboard in order to see eventually our logs. At the very beginning you can step on the shoulders of existing ones and then tailor them according to your needs. A good stepping stone is this dashboard: https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
+4. Finally, add a dashboard to view your logs. Start with an existing dashboard and tailor it to your needs. A good starting point is this dashboard: : https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
    
-Copy the dashboard template ID paste it in text field of your Grafana Dashboard import page:
+Copy the dashboard template ID and paste it into the text field of your Grafana Dashboard import page:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_bPVWpLNj1oS71KIZQI6A9Q.webp)
 
 
-Now all the puzzle pieces should come together and you should be able to see logs from your Kubernetes workloads directly into your Grafana interface as an almost real-time experience:
+Now all the pieces should come together, and you should be able to see logs from your Kubernetes workloads directly in your Grafana interface, providing an almost real-time experience:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_JhD38QI651EA3UW_LYF_qg.webp)
