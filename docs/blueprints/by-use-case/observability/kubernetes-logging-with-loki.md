@@ -109,7 +109,7 @@ in your helm chart values:
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_be63glOSUO7fwc21h1KVDA.webp)
 
-:::tip
+:::note
 The format of S3 endpoint is `s3://{AK}:{SK}@{endpoint}/{region}/{bucket}`
 :::
 
