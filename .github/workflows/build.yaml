@@ -49,7 +49,7 @@ jobs:
             push: true
             tags: |
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:0.0.0
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${GITHUB_SHA::6}
         
         - name: Image digest
           run: echo ${{ steps.docker_build.outputs.digest }}
