@@ -39,7 +39,11 @@ jobs:
         - name: Set up Docker Buildx
           id: buildx
           uses: docker/setup-buildx-action@v1 
-          
+        
+        - name: Get SHA
+          id: commit_hash
+          uses: prompt/actions-commit-hash@v3
+        - uses: docker/setup-buildx-action@v3
         - name: Build and push 
           id: docker_build 
           uses: docker/build-push-action@v2
@@ -49,7 +53,7 @@ jobs:
             push: true
             tags: |
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${GITHUB_SHA::6}
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ steps.commit_hash.outputs.short }}
         
         - name: Image digest
           run: echo ${{ steps.docker_build.outputs.digest }}
