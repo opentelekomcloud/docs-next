@@ -21,15 +21,18 @@ jobs:
   
         - name: Build site
           env: 
-            TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
-          run: npm run build
-
-        - name: Say Hi!
-          env: 
             TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
             TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
             TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
             TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
-          run: | 
-            echo "Typesense target is $TYPESENSE_PROTOCOL://$TYPESENSE_HOST:$TYPESENSE_PORT"
+          run: npm run build
+
+        # - name: Say Hi!
+        #   env: 
+        #     TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
+        #     TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
+        #     TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
+        #     TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
+        #   run: | 
+        #     echo "Typesense target is $TYPESENSE_PROTOCOL://$TYPESENSE_HOST:$TYPESENSE_PORT"
   
