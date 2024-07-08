@@ -36,19 +36,26 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-
-        - name: Build and push
-          uses: docker/build-push-action@v5
-          with:
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1 
+          
+        - name: Build and push 
+          id: docker_build 
+          uses: docker/build-push-action@v2
+          with: 
+            context: ./
+            file: ./Dockerfile
             push: true
-            tags: akyriako78/docs-next-preview:gh
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs-next-preview:latest
         
-        # - name: Say Hi!
-        #   env: 
-        #     TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
-        #     TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
-        #     TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
-        #     TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
-        #   run: | 
-        #     echo "Typesense target is $TYPESENSE_PROTOCOL://$TYPESENSE_HOST:$TYPESENSE_PORT"
-  
+        - name: Image digest
+          run: echo ${{ steps.docker_build.outputs.digest }}
+
+        # - name: Build and push
+        #   uses: docker/build-push-action@v5
+        #   with:
+        #     push: true
+        #     tags: akyriako78/docs-next-preview:0.0.1
+        
+      
