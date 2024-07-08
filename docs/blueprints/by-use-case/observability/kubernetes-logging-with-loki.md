@@ -1,10 +1,10 @@
 ---
 id: kubernetes-logging-with-loki
-title: Kubernetes Logging with Grafana Loki & Promtail
-tags: [cce, observability, logging, grafana, loki, promtail]
+title: CCE Logging with Grafana Loki & Promtail
+tags: [cce, observability, logging, grafana, loki, promtail, kubernetes]
 ---
 
-# Kubernetes Logging with Grafana Loki & Promtail
+# CCE Logging with Grafana Loki & Promtail
 
 After completing this lab, we will have consolidated all the logs generated in our Kubernetes cluster in a tidy, neat, real-time dashboard in Grafana.
 
