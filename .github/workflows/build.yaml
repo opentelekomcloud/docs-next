@@ -1,7 +1,7 @@
 on:
     push:
       branches:
-        - create-build-workflow 
+        - main
     pull_request:
       branches: 
         - main
