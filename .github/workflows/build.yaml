@@ -59,6 +59,7 @@ jobs:
         #   run: echo ${{ steps.docker_build.outputs.digest }}
 
     update-tag:
+      needs: build
       runs-on: ubuntu-latest
       steps:
         - name: Get Commit Hash
