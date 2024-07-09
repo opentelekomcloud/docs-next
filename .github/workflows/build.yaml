@@ -74,7 +74,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
             REPO_NAME: 'docs-next-charts'
             REPO_OWNER: 'akyriako'
-            FILE_PATH: 'chart/values.yaml'
+            FILE_PATH: 'docusaurus/values.yaml'
             IMAGE_TAG:  ${{ steps.commit_hash.outputs.short }}
 
 
