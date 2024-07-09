@@ -60,6 +60,7 @@ jobs:
 
     update-tag:
       needs: build
+      environment: preview
       runs-on: ubuntu-latest
       steps:
         - name: Get Commit Hash
@@ -67,6 +68,14 @@ jobs:
           uses: prompt/actions-commit-hash@v3
         - name: Show Commit Hash Digest
           run: echo ${{ steps.commit_hash.outputs.short }}
+        - name: Update Image Tag
+          uses: cheelim1/image-updater@v1.11
+          with:
+            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+            REPO_NAME: 'docs-next-charts'
+            REPO_OWNER: 'akyriako'
+            FILE_PATH: 'docusaurus/deployment-docusaurus.yaml'
+            IMAGE_TAG:  ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ steps.commit_hash.outputs.short }}
 
 
           
