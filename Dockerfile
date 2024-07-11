@@ -7,6 +7,4 @@ COPY . .
 
 EXPOSE 80
 
-# CMD ["npm", "run", "serve"]
-CMD ["npm", "run", "start"]
-
+CMD ["npm", "run", "serve"]
