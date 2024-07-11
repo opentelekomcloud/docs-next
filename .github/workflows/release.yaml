@@ -1,7 +1,7 @@
 on:
     push:
       branches:
-        - refine_workflow
+        - main
     # pull_request:
     #   branches: 
     #     - main
