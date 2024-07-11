@@ -91,6 +91,7 @@ jobs:
             # docusaurus
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^image: .*/image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}/' ./charts/docusaurus/values.yaml
             sed -i 's/^tag: .*/tag: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
             cat ./charts/docusaurus/Chart.yaml
             echo ""
