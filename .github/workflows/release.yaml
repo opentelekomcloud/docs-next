@@ -89,6 +89,7 @@ jobs:
           with:
             valueFile: './charts/docusaurus/Chart.yaml'
             createPR: 'false'
+            commitChange: 'false'
             changes: |
               {
                 "version": "${{ vars.APP_VERSION }}.${{github.run_number}}",
@@ -98,6 +99,7 @@ jobs:
           with:
             valueFile: './charts/typesense/Chart.yaml'
             createPR: 'false'
+            commitChange: 'false'
             changes: |
               {
                 "version": "${{ vars.APP_VERSION }}.${{github.run_number}}",
