@@ -94,12 +94,14 @@ jobs:
         - name: Update Charts
           id: update_charts
           run: |
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}/' ./charts/docusaurus/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
             sed -i 's/^imageTag: .*/imageTag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}/' ./charts/typesense/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_id}}"
+            git push origin main 
+
 
       
 
