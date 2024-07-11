@@ -71,15 +71,10 @@ jobs:
       needs: [build-app, build-push-docker]
       environment: preview
       runs-on: ubuntu-latest
+      env:
+        CHARTS_REPO: 'docs-next-charts'
+        CHARTS_ORG: 'akyriako'
       steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-          with: 
-            repository: 'akyriako/docs-next-charts'
-
-        - name: Show Contents
-          run: ls -latr
-
         - name: Get Commit Hash
           id: commit_hash
           uses: prompt/actions-commit-hash@v3
@@ -87,9 +82,24 @@ jobs:
         - name: Show Commit Hash Digest
           run: echo ${{ steps.commit_hash.outputs.short }}
 
-        - name: Set GitHub Actions Bot Credentials
-          id: set_bot_creds
-          uses: rindeal/action-git-config-user@v1
+        # - name: Set GitHub Actions Bot Credentials
+        #   id: set_bot_creds
+        #   uses: rindeal/action-git-config-user@v1
+
+        - name: Configure Git
+          run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+        - name: Checkout
+          uses: actions/checkout@v4
+          with: 
+            repository: "${{ env.CHARTS_ORG }}/${{ env.CHARTS_REPO }}"
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+        - name: Show Contents
+          run: ls -latr
 
         - name: Update Charts
           id: update_charts
@@ -100,6 +110,7 @@ jobs:
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
+            git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.CHARTS_ORG }}/${{ env.CHARTS_REPO }}.git
             git push origin main 
 
 
