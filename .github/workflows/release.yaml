@@ -6,7 +6,7 @@ on:
     #   branches: 
     #     - main
 jobs:
-    build:
+    build-app:
       environment: preview
       runs-on: ubuntu-latest
   
@@ -30,6 +30,15 @@ jobs:
             TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
           run: npm run build
 
+    build-push-docker:
+      environment: preview
+      runs-on: ubuntu-latest
+      needs: build-app
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v3
           with:
@@ -58,25 +67,47 @@ jobs:
         # - name: Image Digest
         #   run: echo ${{ steps.docker_build.outputs.digest }}
 
-    update-tag:
-      needs: build
+    update-helm-charts:
+      needs: [build-app, build-push-docker]
       environment: preview
       runs-on: ubuntu-latest
+
       steps:
         - name: Get Commit Hash
           id: commit_hash
           uses: prompt/actions-commit-hash@v3
+
         - name: Show Commit Hash Digest
           run: echo ${{ steps.commit_hash.outputs.short }}
-        - name: Update Image Tag
-          uses: cheelim1/image-updater@v1.11
-          with:
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-            REPO_NAME: 'docs-next-charts'
-            REPO_OWNER: 'akyriako'
-            FILE_PATH: 'docusaurus/values.yaml'
-            IMAGE_TAG:  ${{ steps.commit_hash.outputs.short }}
 
+        - name: Configure Git User as GitHub Actions Bot
+          run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+        - name: Checkout
+          uses: actions/checkout@v4
+          with: 
+            repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
+            token: ${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}
+    
+        - name: Show Contents
+          run: ls -latr
+
+        - name: Update Charts
+          id: update_charts
+          run: |
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^imageTag: .*/imageTag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
+            git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
+            git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
+            git push origin main 
+
+
+      
 
           
       
