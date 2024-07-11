@@ -113,11 +113,16 @@ jobs:
           id: update_charts
           run: |
             # docusaurus
-            cat ./charts/docusaurus/values.yaml
+            cat ./charts/docusaurus/Chart.yaml
             echo ""
             echo "---"
             echo ""
+            cat ./charts/docusaurus/values.yaml
             # typesense
+            cat ./charts/typesense/Chart.yaml
+            echo ""
+            echo "---"
+            echo ""
             cat ./charts/typesense/values.yaml
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
