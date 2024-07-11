@@ -1,7 +1,7 @@
 on:
     push:
       branches:
-        - refine_workflow
+        - main
     # pull_request:
     #   branches: 
     #     - main
@@ -118,7 +118,7 @@ jobs:
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
             git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
-            # git push origin main 
+            git push origin main 
 
 
       
