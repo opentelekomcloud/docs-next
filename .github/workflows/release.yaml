@@ -95,36 +95,29 @@ jobs:
           uses: rmeneely/update-yaml@v1
           with:
             infile: './charts/docusaurus/values.yaml'
-            varlist: 'image.tag=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }},typesenseHost=${{ vars.TYPESENSE_HOST }},typesensePort=${{ vars.TYPESENSE_PORT }},typesenseProtocol=${{ vars.TYPESENSE_PROTOCOL }},typesenseSearchApiKey=${{ secrets.TYPESENSE_SEARCH_KEY }},elbId=${{ vars.DOCS_NEXT_ELB_ID }},host=${{ vars.DOCS_NEXT_HOST }}'
-  
+            varlist: 'image.tag=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }},env.typesenseHost=${{ vars.TYPESENSE_HOST }},env.typesensePort=${{ vars.TYPESENSE_PORT }},env.typesenseProtocol=${{ vars.TYPESENSE_PROTOCOL }},env.typesenseSearchApiKey=${{ secrets.TYPESENSE_SEARCH_KEY }},ingress.elbId=${{ vars.DOCS_NEXT_ELB_ID }},ingress.host=${{ vars.DOCS_NEXT_HOST }}'
+        
+        - name: Update Typesense Chart.yaml
+          uses: rmeneely/update-yaml@v1
+          with:
+            infile: './charts/typesense/Chart.yaml'
+            varlist: 'version=${{ vars.APP_VERSION }}.${{github.run_number}},appVersion=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}'
+        
+        - name: Update Typesense values.yaml
+          uses: rmeneely/update-yaml@v1
+          with:
+            infile: './charts/typesense/values.yaml'
+            varlist: 'typesense.apiKey=${{ secrets.TYPESENSE_API_KEY }},docusaurus.externalUrl=${{ vars.DOCS_NEXT_HOST }},reverseProxy.ingress.elbId=${{ vars.TYPESENSE_ELB_ID }},reverseProxy.ingress.host=${{ vars.TYPESENSE_HOST }},reverseProxy.ingress.port=${{ vars.TYPESENSE_PORT }}'
+          
         - name: Commit Changes
           id: update_charts
           run: |
-            # pip install yq
             # docusaurus
-            # sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
-            # sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
-            # # sed -i 's/^\ttag: .*/\ttag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
-            # # yq -i -y '.image.tag = ${{ steps.commit_hash.outputs.short }}' ./charts/docusaurus/values.yaml
-            # yq -i -y '.image.tag = ${{ steps.commit_hash.outputs.short }}' ./charts/docusaurus/values.yaml
-            # sed -i 's/^typesenseHost: .*/typesenseHost: ${{ vars.TYPESENSE_HOST }}/' ./charts/docusaurus/values.yaml
-            # sed -i 's/^typesensePort: .*/typesensePort: ${{ vars.TYPESENSE_PORT }}/' ./charts/docusaurus/values.yaml
-            # sed -i 's/^typesenseProtocol: .*/typesenseProtocol: ${{ vars.TYPESENSE_PROTOCOL }}/' ./charts/docusaurus/values.yaml
-            # sed -i 's/^typesenseSearchApiKey: .*/typesenseSearchApiKey: ${{ secrets.TYPESENSE_SEARCH_KEY }}/' ./charts/docusaurus/values.yaml
-            # sed -i 's/^elbId: .*/elbId: ${{ vars.DOCS_NEXT_ELB_ID }}/' ./charts/docusaurus/values.yaml
-            # sed -i 's/^host: .*/host: ${{ vars.DOCS_NEXT_HOST }}/' ./charts/docusaurus/values.yaml
             cat ./charts/docusaurus/values.yaml
             echo ""
             echo "---"
             echo ""
-            # # typesense
-            # sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
-            # sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
-            # sed -i 's/^apiKey: .*/apiKey: ${{ secrets.TYPESENSE_API_KEY }}/' ./charts/typesense/values.yaml
-            # sed -i 's/^host: .*/host: ${{ vars.TYPESENSE_HOST }}/' ./charts/typesense/values.yaml
-            # sed -i 's/^port: .*/port: ${{ vars.TYPESENSE_PORT }}/' ./charts/typesense/values.yaml
-            # sed -i 's/^elbId: .*/elbId: ${{ vars.TYPESENSE_ELB_ID }}/' ./charts/typesense/values.yaml
-            # sed -i 's/^externalUrl: .*/externalUrl: ${{ vars.DOCS_NEXT_HOST }}/' ./charts/typesense/values.yaml
+            # typesense
             cat ./charts/typesense/values.yaml
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
