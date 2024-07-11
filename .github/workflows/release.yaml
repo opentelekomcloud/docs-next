@@ -97,16 +97,6 @@ jobs:
             echo "---"
             echo ""
             cat ./charts/docusaurus/values.yaml
-            echo ""
-            echo "---"
-            echo ""
-            # typesense
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
-            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
-            cat ./charts/typesense/Chart.yaml
-            echo ""
-            echo "---"
-            echo ""
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
             git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
