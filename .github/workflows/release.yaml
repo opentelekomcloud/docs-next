@@ -91,11 +91,11 @@ jobs:
             infile: './charts/docusaurus/Chart.yaml'
             varlist: 'version=${{ vars.APP_VERSION }}.${{github.run_number}},appVersion=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}'
         
-        - name: Update Docusaurus values.yaml
-          uses: rmeneely/update-yaml@v1
-          with:
-            infile: './charts/docusaurus/values.yaml'
-            varlist: 'image.tag=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }},env.typesenseHost=${{ vars.TYPESENSE_HOST }},env.typesensePort=\"${{ vars.TYPESENSE_PORT }}\",env.typesenseProtocol=${{ vars.TYPESENSE_PROTOCOL }},env.typesenseSearchApiKey=${{ secrets.TYPESENSE_SEARCH_KEY }},ingress.elbId=${{ vars.DOCS_NEXT_ELB_ID }},ingress.host=${{ vars.DOCS_NEXT_HOST }},ingress.port=80'
+        # - name: Update Docusaurus values.yaml
+        #   uses: rmeneely/update-yaml@v1
+        #   with:
+        #     infile: './charts/docusaurus/values.yaml'
+        #     varlist: 'image.tag=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }},env.typesenseHost=${{ vars.TYPESENSE_HOST }},env.typesensePort=\"${{ vars.TYPESENSE_PORT }}\",env.typesenseProtocol=${{ vars.TYPESENSE_PROTOCOL }},env.typesenseSearchApiKey=${{ secrets.TYPESENSE_SEARCH_KEY }},ingress.elbId=${{ vars.DOCS_NEXT_ELB_ID }},ingress.host=${{ vars.DOCS_NEXT_HOST }},ingress.port=80'
         
         - name: Update Typesense Chart.yaml
           uses: rmeneely/update-yaml@v1
@@ -103,11 +103,11 @@ jobs:
             infile: './charts/typesense/Chart.yaml'
             varlist: 'version=${{ vars.APP_VERSION }}.${{github.run_number}},appVersion=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}'
         
-        - name: Update Typesense values.yaml
-          uses: rmeneely/update-yaml@v1
-          with:
-            infile: './charts/typesense/values.yaml'
-            varlist: 'typesense.apiKey=${{ secrets.TYPESENSE_API_KEY }},docusaurus.externalUrl=${{ vars.DOCS_NEXT_HOST }},reverseProxy.ingress.elbId=${{ vars.TYPESENSE_ELB_ID }},reverseProxy.ingress.host=${{ vars.TYPESENSE_HOST }},reverseProxy.ingress.port=${{ vars.TYPESENSE_PORT }}'
+        # - name: Update Typesense values.yaml
+        #   uses: rmeneely/update-yaml@v1
+        #   with:
+        #     infile: './charts/typesense/values.yaml'
+        #     varlist: 'typesense.apiKey=${{ secrets.TYPESENSE_API_KEY }},docusaurus.externalUrl=${{ vars.DOCS_NEXT_HOST }},reverseProxy.ingress.elbId=${{ vars.TYPESENSE_ELB_ID }},reverseProxy.ingress.host=${{ vars.TYPESENSE_HOST }},reverseProxy.ingress.port=${{ vars.TYPESENSE_PORT }}'
           
         - name: Commit Changes
           id: update_charts
@@ -118,6 +118,9 @@ jobs:
             echo "---"
             echo ""
             cat ./charts/docusaurus/values.yaml
+            echo ""
+            echo "---"
+            echo ""
             # typesense
             cat ./charts/typesense/Chart.yaml
             echo ""
