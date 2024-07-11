@@ -88,7 +88,7 @@ jobs:
         - name: Update Charts and Commit Changes
           id: update_charts
           env:
-            image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}
+            image: '${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}'
           run: |
             # docusaurus
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
