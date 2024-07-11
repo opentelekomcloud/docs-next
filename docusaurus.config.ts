@@ -224,12 +224,12 @@ const config: Config = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: process.env.TYPESENSE_HOST,
-            port: process.env.TYPESENSE_PORT,
-            protocol: process.env.TYPESENSE_PROTOCOL,
+            host: process.env.REACT_APP_TYPESENSE_HOST,
+            port: process.env.REACT_APP_TYPESENSE_PORT,
+            protocol: process.env.REACT_APP_TYPESENSE_PROTOCOL,
           },
         ],
-        apiKey: process.env.TYPESENSE_API_KEY,
+        apiKey: process.env.REACT_APP_TYPESENSE_API_KEY,
       },
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
