@@ -6,7 +6,7 @@ on:
     #   branches: 
     #     - main
 jobs:
-    build-app:
+    build:
       environment: preview
       runs-on: ubuntu-latest
   
@@ -24,21 +24,12 @@ jobs:
   
         - name: Build App
           env: 
-            TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
-            TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
-            TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
-            TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
+            REACT_APP_TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
+            REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
+            REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
+            REACT_APP_TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
           run: npm run build
-
-    build-push-docker:
-      environment: preview
-      runs-on: ubuntu-latest
-      needs: build-app
-
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          
+    
         - name: Login to Docker Hub
           uses: docker/login-action@v3
           with:
@@ -62,13 +53,13 @@ jobs:
             push: true
             tags: |
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ steps.commit_hash.outputs.short }}
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}
         
         # - name: Image Digest
         #   run: echo ${{ steps.docker_build.outputs.digest }}
 
     update-helm-charts:
-      needs: [build-app, build-push-docker]
+      needs: [build]
       environment: preview
       runs-on: ubuntu-latest
 
@@ -93,28 +84,22 @@ jobs:
     
         - name: Show Contents
           run: ls -latr
-
-        - name: Update Charts
+          
+        - name: Update Charts and Commit Changes
           id: update_charts
+          env:
+            image: ${{ secrets.DOCKERHUB_USERNAME }}\/${{ vars.IMG_NAME }}
           run: |
             # docusaurus
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
-            sed -i 's/^tag: .*/tag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^typesenseHost: .*/typesenseHost: ${{ vars.TYPESENSE_HOST }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^typesensePort: .*/typesensePort: ${{ vars.TYPESENSE_PORT }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^typesenseProtocol: .*/typesenseProtocol: ${{ vars.TYPESENSE_PROTOCOL }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^typesenseSearchApiKey: .*/typesenseSearchApiKey: ${{ secrets.TYPESENSE_SEARCH_KEY }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^elbId: .*/elbId: ${{ vars.DOCS_NEXT_ELB_ID }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^host: .*/host: ${{ vars.DOCS_NEXT_HOST }}/' ./charts/docusaurus/values.yaml
-            # typesense
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
-            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
-            sed -i 's/^apiKey: .*/apiKey: ${{ secrets.TYPESENSE_API_KEY }}/' ./charts/typesense/values.yaml
-            sed -i 's/^host: .*/host: ${{ vars.TYPESENSE_HOST }}/' ./charts/typesense/values.yaml
-            sed -i 's/^port: .*/port: ${{ vars.TYPESENSE_PORT }}/' ./charts/typesense/values.yaml
-            sed -i 's/^elbId: .*/elbId: ${{ vars.TYPESENSE_ELB_ID }}/' ./charts/typesense/values.yaml
-            sed -i 's/^externalUrl: .*/externalUrl: ${{ vars.DOCS_NEXT_HOST }}/' ./charts/typesense/values.yaml
+            sed -i 's/^tag: .*/tag: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
+            sed -i 's/^image: .*/image: ${{ env.image }}/' ./charts/docusaurus/values.yaml
+            cat ./charts/docusaurus/Chart.yaml
+            echo ""
+            echo "---"
+            echo ""
+            cat ./charts/docusaurus/values.yaml
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
             git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
