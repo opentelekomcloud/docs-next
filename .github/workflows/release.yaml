@@ -1,7 +1,7 @@
 on:
     push:
       branches:
-        - refine_workflow
+        - main
     # pull_request:
     #   branches: 
     #     - main
@@ -79,10 +79,6 @@ jobs:
 
         - name: Show Commit Hash Digest
           run: echo ${{ steps.commit_hash.outputs.short }}
-
-        # - name: Set GitHub Actions Bot Credentials
-        #   id: set_bot_creds
-        #   uses: rindeal/action-git-config-user@v1
 
         - name: Configure Git User as GitHub Actions Bot
           run: |
