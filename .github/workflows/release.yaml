@@ -72,20 +72,31 @@ jobs:
       environment: preview
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
         - name: Get Commit Hash
           id: commit_hash
           uses: prompt/actions-commit-hash@v3
+
         - name: Show Commit Hash Digest
           run: echo ${{ steps.commit_hash.outputs.short }}
-        - name: Update Image Tag
-          uses: cheelim1/image-updater@v1.11
-          with:
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-            REPO_NAME: 'docs-next-charts'
-            REPO_OWNER: 'akyriako'
-            FILE_PATH: 'charts/docusaurus/values.yaml'
-            IMAGE_TAG:  ${{ steps.commit_hash.outputs.short }}
 
+        - name: Set GitHub Actions Bot Credentials
+          id: set_bot_creds
+          uses: rindeal/action-git-config-user@v1
+
+        - name: Update Charts
+          id: update_charts
+          run: |
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's/^imageTag: .*/imageTag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
+            git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_id}}"
+
+      
 
           
       
