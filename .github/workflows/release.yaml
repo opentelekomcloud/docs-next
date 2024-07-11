@@ -24,10 +24,10 @@ jobs:
   
         - name: Build App
           env: 
-            TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
-            TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
-            TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
-            TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
+            REACT_APP_TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
+            REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
+            REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
+            REACT_APP_TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
           run: npm run build
     
         - name: Login to Docker Hub
