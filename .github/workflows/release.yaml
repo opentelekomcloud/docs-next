@@ -71,9 +71,7 @@ jobs:
       needs: [build-app, build-push-docker]
       environment: preview
       runs-on: ubuntu-latest
-      env:
-        CHARTS_REPO: 'docs-next-charts'
-        CHARTS_ORG: 'akyriako'
+
       steps:
         - name: Get Commit Hash
           id: commit_hash
@@ -86,7 +84,7 @@ jobs:
         #   id: set_bot_creds
         #   uses: rindeal/action-git-config-user@v1
 
-        - name: Configure Git
+        - name: Configure Git User as GitHub Actions Bot
           run: |
             git config --global user.name 'github-actions[bot]'
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -94,9 +92,8 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v4
           with: 
-            repository: "${{ env.CHARTS_ORG }}/${{ env.CHARTS_REPO }}"
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
+            token: ${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}
     
         - name: Show Contents
           run: ls -latr
@@ -110,7 +107,7 @@ jobs:
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
-            git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.CHARTS_ORG }}/${{ env.CHARTS_REPO }}.git
+            git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
             git push origin main 
 
 
