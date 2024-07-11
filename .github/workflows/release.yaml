@@ -27,7 +27,7 @@ jobs:
             TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
             TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
             TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
-            TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_API_KEY }}
+            TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
           run: npm run build
     
         - name: Login to Docker Hub
