@@ -74,6 +74,11 @@ jobs:
       steps:
         - name: Checkout
           uses: actions/checkout@v4
+          with: 
+            repository: 'akyriako/docs-next-charts'
+
+        - name: Show Contents
+          run: ls -latr
 
         - name: Get Commit Hash
           id: commit_hash
@@ -89,11 +94,11 @@ jobs:
         - name: Update Charts
           id: update_charts
           run: |
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
-            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
-            sed -i 's/^imageTag: .*/imageTag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
-            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
-            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./docs-next-charts/charts/docusaurus/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./docs-next-charts/charts/docusaurus/Chart.yaml
+            sed -i 's/^imageTag: .*/imageTag: ${{ steps.commit_hash.outputs.short }}/' ./docs-next-charts/charts/docusaurus/values.yaml
+            sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./docs-next-charts/charts/typesense/Chart.yaml
+            sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_id}}-${{ steps.commit_hash.outputs.short }}/' ./docs-next-charts/charts/typesense/Chart.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_id}}"
 
       
