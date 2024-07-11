@@ -110,10 +110,11 @@ jobs:
             # typesense
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/typesense/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/typesense/Chart.yaml
-            sed -i 's/^typesenseApiKey: .*/typesenseApiKey: ${{ secrets.TYPESENSE_API_KEY }}/' ./charts/typesense/values.yaml
+            sed -i 's/^apiKey: .*/apiKey: ${{ secrets.TYPESENSE_API_KEY }}/' ./charts/typesense/values.yaml
             sed -i 's/^host: .*/host: ${{ vars.TYPESENSE_HOST }}/' ./charts/typesense/values.yaml
             sed -i 's/^port: .*/port: ${{ vars.TYPESENSE_PORT }}/' ./charts/typesense/values.yaml
             sed -i 's/^elbId: .*/elbId: ${{ vars.TYPESENSE_ELB_ID }}/' ./charts/typesense/values.yaml
+            sed -i 's/^externalUrl: .*/externalUrl: ${{ vars.DOCS_NEXT_HOST }}/' ./charts/typesense/values.yaml
             # commit and push
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
             git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
