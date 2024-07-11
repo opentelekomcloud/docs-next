@@ -88,15 +88,15 @@ jobs:
         - name: Update Docusaurus Chart.yaml
           uses: rmeneely/update-yaml@v1
           with:
-            # Infile. The YAML file to be read and updated
-            # Default: 'values.yaml'
-            # Optional
             infile: './charts/docusaurus/Chart.yaml'
-            # varlist - a comma separated list of variable values. e.g version=v1.2.3,image.tag=latest
-            # Default: ''
-            # Optional
             varlist: 'version=${{ vars.APP_VERSION }}.${{github.run_number}},appVersion=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}'
-
+        
+        - name: Update Docusaurus values.yaml
+          uses: rmeneely/update-yaml@v1
+          with:
+            infile: './charts/docusaurus/values.yaml'
+            varlist: 'image.tag=${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }},typesenseHost=${{ vars.TYPESENSE_HOST }},typesensePort=${{ vars.TYPESENSE_PORT }},typesenseProtocol=${{ vars.TYPESENSE_PROTOCOL }},typesenseSearchApiKey=${{ secrets.TYPESENSE_SEARCH_KEY }},elbId=${{ vars.DOCS_NEXT_ELB_ID }},host=${{ vars.DOCS_NEXT_HOST }}'
+  
         - name: Commit Changes
           id: update_charts
           run: |
