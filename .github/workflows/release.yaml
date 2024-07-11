@@ -93,7 +93,7 @@ jobs:
             sed -i 's/^version: .*/version: ${{ vars.APP_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
             sed -i 's/^appVersion: .*/appVersion: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/Chart.yaml
             # sed -i 's/^\ttag: .*/\ttag: ${{ steps.commit_hash.outputs.short }}/' ./charts/docusaurus/values.yaml
-            yq eval '.tag = "${{ steps.commit_hash.outputs.short }}"' -i ./charts/docusaurus/values.yaml
+            yq write -i ./charts/docusaurus/values.yaml 'tag' '${{ steps.commit_hash.outputs.short }}'
             sed -i 's/^typesenseHost: .*/typesenseHost: ${{ vars.TYPESENSE_HOST }}/' ./charts/docusaurus/values.yaml
             sed -i 's/^typesensePort: .*/typesensePort: ${{ vars.TYPESENSE_PORT }}/' ./charts/docusaurus/values.yaml
             sed -i 's/^typesenseProtocol: .*/typesenseProtocol: ${{ vars.TYPESENSE_PROTOCOL }}/' ./charts/docusaurus/values.yaml
