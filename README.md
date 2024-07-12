@@ -65,11 +65,11 @@ docker run -d docs-next -p 3000:80 <docker_hub_org>/docsnext:<tag>
 
 The repository is already employed with a GitHub Release Workflow that will do the following actions:
 
-1. Builds the application for production (`npm run build`))
+1. Builds the application for production (`npm run build`)
 2. Builds and tags a container image and push the image to a predefined docker hub organization
 3. Updates the Helm Charts with new versions and image tags in [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts)
    
-ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `timeout.reconciliation` value (default is 180s), and provision
+ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `timeout.reconciliation` value (default is *180s*), and provision
 the changes without any human intervention.
 
 The whole process is fully autonomous, and after the approval of every PR requires zero human intervention. 
