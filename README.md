@@ -21,7 +21,7 @@ The command `npm run start` is used to start a Node.js application as defined in
 npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This command starts a local development server and opens up a browser window. Changes are reflected live without having to restart the server.
 
 ### Build and Run in Production
 
@@ -42,7 +42,7 @@ npm run serve
 ## Deployment
 
 You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
-an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts)) repository.
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts) repository.
 
 ### Manual
 
@@ -55,10 +55,21 @@ docker build . -t <docker_hub_org>/docsnext:<tag>
 docker push <docker_hub_org>/docsnext:<tag>
 ```
 
-and then run it locally on port:
+and then run it locally on any port you want to forward at you local machine (port `3000` was chosen here):
 
 ```shell
 docker run -d docs-next -p 3000:80 <docker_hub_org>/docsnext:<tag>
 ```
 
 ### Using the CI/CD Pipeline
+
+The repository is already employed with a GitHub Release Workflow that will do the following actions:
+
+1. Builds the application for production (`npm run build`))
+2. Builds and tags a container image and push the image to a predefined docker hub organization
+3. Updates the Helm Charts with new versions and image tags in [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts)
+   
+ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `timeout.reconciliation` value (default is 180s), and provision
+the changes without any human intervention.
+
+The whole process is fully autonomous, and after the approval of every PR requires zero human intervention. 
