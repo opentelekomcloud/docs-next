@@ -36,10 +36,13 @@ npm run serve
 ```
 
 > [!NOTE]
-> docs-next is tuned to run at port `80` and *not* at the default 3000 (either with `npm run start` or with `npm run build`). If this port
+> docs-next is tuned to run at port `80` and *not* at the default `3000` (either with `npm run start` or with `npm run build`). If this port
 > is already in use in your computer, the app will be rendered at a random high port in the development environment.
 
 ## Deployment
+
+You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts))repository.
 
 ### Manual
 
