@@ -24,10 +24,9 @@ npm run start
 This command starts a local development server and opens up a browser window. Changes are reflected live without having to restart the server.
 
 > [!IMPORTANT]
-> docs-next functionality is tightly integrated with typesense (as long as you want to work with search in your development enviroment). No typesense
-> installation is provided out-of-the-box, you need to come with you own instance. A Helm Chart is already provided for that matter and you can easily 
+> **docs-next** functionality is tightly integrated with [typesense](https://typesense.org/) (as long as you want to work with search in your development enviroment). 
+> No typesense installation is provided out-of-the-box, you need to come with you own instance. A Helm Chart is already provided for that matter and you can easily 
 > install a typesense-bundle in your local enviroment using KinD or K3d.
-
 
 ### Build and Run in Production
 
