@@ -23,6 +23,24 @@ npm run start
 
 This command starts a local development server and opens up a browser window. Changes are reflected live without having to restart the server.
 
+> [!IMPORTANT]
+> docs-next functionality is tightly integrated with typesense (as long as you want to work with search in your development enviroment). No typesense
+> installation is provided out-of-the-box, you need to come with you own instance. A Helm Chart is already provided for that matter and you can easily 
+> install a typesense-bundle in your local enviroment using KinD:
+>
+> ```shell
+>   helm repo add docs-next https://akyriako.github.io/docs-next-charts
+>   helm repo update
+>
+>   helm upgrade --install docs-next docs-next/typesense \
+>    --set typesenseReverseProxy.elbid = <typesense-reverse-proxy elastic load balancer id> \
+>    --set typesenseReverseProxy.host = <typesense-reverse-proxy fqdn> \
+>    --set docusaurus.host = <docs-next fqdn> \
+>    --set apiKeys.typesenseApiKey = <admin-api-key> \
+>    -n docs-next-preview \
+>    --create-namespace 
+> ```
+
 ### Build and Run in Production
 
 ```
