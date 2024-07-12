@@ -1,6 +1,6 @@
 # Open Telekom Cloud Architecture Center 
 
-This project is serving as the documentation site of Open Telekom Cloud Architecture Center and is built using [Docusaurus](https://docusaurus.io/), a modern static website generator created by [Meta](https://opensource.fb.com/).
+This project (*docs-next*) is serving as the documentation site of Open Telekom Cloud Architecture Center and is built using [Docusaurus](https://docusaurus.io/), a modern static website generator created by [Meta](https://opensource.fb.com/).
 
 
 ## Development
@@ -47,7 +47,7 @@ npm run serve
 ## Deployment
 
 You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
-an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts) repository.
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter at [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts) repository.
 
 ### Manual
 
