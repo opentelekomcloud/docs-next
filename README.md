@@ -42,10 +42,23 @@ npm run serve
 ## Deployment
 
 You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
-an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts))repository.
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts)) repository.
 
 ### Manual
 
 #### Build Docker Image
+
+You can build manually your own container image as follows:
+
+```shell
+docker build . -t <docker_hub_org>/docsnext:<tag>
+docker push <docker_hub_org>/docsnext:<tag>
+```
+
+and then run it locally on port:
+
+```shell
+docker run -d docs-next -p 3000:80 <docker_hub_org>/docsnext:<tag>
+```
 
 ### Using the CI/CD Pipeline
