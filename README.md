@@ -23,7 +23,7 @@ npm run start
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
-### Build and run in Production
+### Build and Run in Production
 
 ```
 npm run build
@@ -35,21 +35,14 @@ This command generates static content into the `build` directory and can be serv
 npm run serve
 ```
 
-> [!CAUTION]
-> docs-next is tuned to run at port `80` and *not* at the default 3000.
+> [!NOTE]
+> docs-next is tuned to run at port `80` and *not* at the default 3000 (either with `npm run start` or with `npm run build`). If this port
+> is already in use in your computer, the app will be rendered at a random high port in the development environment.
 
 ## Deployment
 
-Using SSH:
+### Manual
 
-```
-$ USE_SSH=true yarn deploy
-```
+#### Build Docker Image
 
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### Using the CI/CD Pipeline
