@@ -35,7 +35,7 @@ This command generates static content into the `build` directory and can be serv
 npm run serve
 ```
 
-[!NOTE]
+> [!CAUTION]
 > docs-next is tuned to run at port `80` and *not* at the default 3000.
 
 ## Deployment
