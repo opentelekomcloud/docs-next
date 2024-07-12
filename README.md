@@ -61,7 +61,7 @@ and then run it locally on any port you want to forward at you local machine (po
 docker run -d docs-next -p 3000:80 <docker_hub_org>/docsnext:<tag>
 ```
 
-### Using the CI/CD Pipeline
+### Using the provided CI/CD Pipeline
 
 The repository is already employed with a GitHub Release Workflow that will do the following actions:
 
