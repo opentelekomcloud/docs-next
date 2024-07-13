@@ -19,7 +19,7 @@ NFS storage.
 
 ## Solution Design
 
-<!-- .. image:: architecture.png -->
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/architecture.png)
 
 :::note
 As you can see one can optionally use an ELB in front of the NFS Server,
@@ -54,7 +54,7 @@ another EVS-Disk, as each disk can only be 16TB in size.
 7. This will start the synchronization, which takes about 3-5mins,
    depending on the size of disks etc. 
 
-<!-- .. image:: files/setup/Bild2.png -->
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild2.png)
 
 :::tip
 **What is the sync doing**: It is setting up an ECS instance as a cold
@@ -70,12 +70,12 @@ You now need to access the newly created NFS Server (do this using
 SSH-Key or using the VNC-Console). Depending on the chosen operating
 system you need to install some prerequisites first:
 
-### Install prerequisites
+1. **Prerequisites**
 
 nfs-kernel-server, lvm2 (using apt, zypper, ... )
 **TODO: describe the commands
 
-### Create a Volumegroup and a Logical Volume
+2. **Create a Volumegroup and a Logical Volume**
 
 ```bash
    # check the disk-names (vdb, vdc, ...)
@@ -90,7 +90,7 @@ nfs-kernel-server, lvm2 (using apt, zypper, ... )
    lvcreate -n export3 -L 30g vg_nfs
 ```
 
-### Make lvols mount persistent
+3. **Make lvols mount persistent**
 
 Place them into **/etc/fstab** so that it looks like so:
 
@@ -103,7 +103,7 @@ Place them into **/etc/fstab** so that it looks like so:
    #
 ```
 
-### Create directories and mount everything
+4. **Create directories and mount everything**
 
 ```bash
    mkdir -p /export1 /export2 /export3
@@ -113,7 +113,7 @@ Place them into **/etc/fstab** so that it looks like so:
    df 
 ```
 
-### Export the mounts
+5. **Export the mounts**
 
 Modify **/etc/exports**: 
 
@@ -124,7 +124,7 @@ Modify **/etc/exports**:
    /export3 *(rw,sync,no_root_squash,no_subtree_check)
 ```
 
-### Ensure that the nfs-server is enabled and running
+6. **Ensure that the nfs-server is enabled and running**
 
 ```bash
    systemctl enable nfs-server.service
@@ -144,7 +144,7 @@ Modify **/etc/exports**:
    Mar 11 11:31:59 nfs-server systemd[1]: Starting NFS server and services...
 ```
 
-### Ensure that the exports are exported and visible to others
+7. **Ensure that the exports are exported and visible to others**
 
 ```bash
 
@@ -238,25 +238,25 @@ locally (feel free to adjust):
          - exports
 ```
 
-## Adding new NFS-Share
+## Adding a new NFS-Share
 
 :::note
 This section covers the steps to add a new NFS export, specifically
 focusing on ``export4`` as an example.
 :::
 
-### Prerequisites
+1. **Prerequisites**
 
 Before proceeding, ensure that there is enough available space in the volume
 group (``vg_nfs``) to allocate to the NFS export. If there is **NOT** enough
 space, update the disk and resize the *pvol* as follows.
 
-1. Extend the Disk size by the needed amount
-2. Resize the physical Volume ``pvresize /dev/vd<DEVICELETTER>``
-3. check results with ``vgs`` The VFree column should now contain enough
+- Extend the Disk size by the needed amount
+- Resize the physical Volume ``pvresize /dev/vd<DEVICELETTER>``
+- check results with ``vgs`` The VFree column should now contain enough
    space
 
-### Add the Logical Volume:
+2. **Add the Logical Volume**
 
 Use **lvcreate** to create the logical volume associated with `export4`. Use
 the following iptions:
@@ -270,20 +270,20 @@ the following iptions:
    lvcreate -L 5g -n export4 vg_nfs
 ```
 
-### Create the filesystem
+3. **Create the filesystem**
 
 In our case we will use **ext4**:
 ```bash
    mkfs.ext4 /dev/nfs_vg/export4
 ```
 
-### Create a mountpoint (directory)
+4. **Create a mountpoint (directory)**
 
 ```bash
    mkdir -p /export4 # feel free to change this to your needs
 ```
 
-### Make the newly created lvol mount persistent
+5. **Make the newly created lvol mount persistent**
 
 Simply add it as a new line into **/etc/fstab**:
 
@@ -298,7 +298,7 @@ Simply add it as a new line into **/etc/fstab**:
    #
 ```
 
-### Mount and verify
+6. **Mount and verify**
 
 ```bash
 
@@ -306,7 +306,7 @@ Simply add it as a new line into **/etc/fstab**:
    df
 ```
 
-### Modify **/etc/exports**
+7. **Modify /etc/exports**
 
 Add a new line for the new export:
 
@@ -320,14 +320,14 @@ Add a new line for the new export:
    /export4 *(rw,sync,no_root_squash,no_subtree_check)
 ```
 
-### Ensure that the exports are exported
+8. **Ensure that the exports are exported**
 
 ```bash
 
    exportfs -a
 ```
 
-### Verify Export
+9. **Verify Export**
 
 On any client, you can now verify the exports by running:
 
@@ -341,25 +341,25 @@ On any client, you can now verify the exports by running:
    /export3 *
 ```
 
-## Online Resize of the NFS-Export
+## Online resize of the NFS-Export
 
 This section covers the steps to perform an online resize of your NFS
 export, specifically focusing on ``export2`` as an example. This
 operation allows you to increase the available storage capacity of the
 NFS export without interrupting its availability to clients.
 
-### Prerequisites
+1. **Prerequisites**
 
 Before proceeding, ensure that there is available space in the volume
 group (``vg_nfs``) to allocate to the NFS export. If there is **NOT** enough
 space, update the disk and resize the pvol as follows.
 
-1. Extend the Disk size by the needed amount
-2. Resize the physical Volume ``pvresize /dev/vd<DEVICELETTER>``
-3. check results with ``vgs`` The VFree column should now contain enough
+- Extend the Disk size by the needed amount
+- Resize the physical Volume ``pvresize /dev/vd<DEVICELETTER>``
+- check results with ``vgs`` The VFree column should now contain enough
    space
 
-### Extend the Logical Volume
+2. **Extend the Logical Volume**
 
 Use **lvextend** to increase the size of the logical volume associated with
 `export2`. Use `-L+` to add the additional space you want to have, e.g. `+5g` 
@@ -369,7 +369,7 @@ will add 5g to the logical volume:
    lvextend -L+5g /dev/vg_nfs/export2
 ```
 
-### Resize the Filesystem
+3. **Resize the Filesystem**
 
 After extending the logical volume, resize the filesystem sitting on top
 of it to utilize the new space. For ext-filesystems, use:
@@ -385,7 +385,7 @@ other tools for extending the filesystem (like ``growpart`` or
 
 ## Decommission of the NFS-Share
 
-### Prerequisites
+1. **Prerequisites**
 
 :::danger
 Decommisioning a share is a non-reversive action, proceed with **caution**!
@@ -393,7 +393,7 @@ Ensure all clients have the NFS share unmounted! This prevents data loss and ens
 the share during the decommissioning process!
 :::
 
-### Unexport the NFS-Share
+2. **Unexport the NFS-Share**
 
 After you have ensured, that the NFS Share is not used by any client,
 remove the export configuration for the share you are decommissioning.
@@ -415,7 +415,7 @@ This will cut off any active connections to the share
    exportfs -ra
 ```
 
-### Unmount the NFS-Share
+3. **Unmount the NFS-Share**
 
 Ensure no process is using the share and then unmount it:
 
@@ -424,7 +424,7 @@ Ensure no process is using the share and then unmount it:
    umount /export4
 ```
 
-### Remove entry from **/etc/fstab**
+4. **Remove entry from /etc/fstab**
 
 Open **/etc/fstab** and remove the line that corresponds to ``/export4``, to
 prevent it from mounting on reboot.
@@ -434,7 +434,7 @@ prevent it from mounting on reboot.
    /dev/vg_nfs/export4 /export4 ext4 defaults 0 0
 ```
 
-### Delete the Logical Volume
+5. **Delete the Logical Volume**
 
 Remove the logical volume associated with ``export4``.
 
@@ -442,7 +442,7 @@ Remove the logical volume associated with ``export4``.
    lvremove /dev/vg_nfs/export4 # confirm with 'y'
 ```
 
-### Remove the Directory (optional)
+6. **Remove the Directory (optional)**
 
 If the directory ``/export4`` is no longer needed, it can be removed:
 
@@ -465,9 +465,9 @@ Optionally ensure NFS exports have been updated, by checking on a client machine
 
 This concludes the decommissioning process of an NFS-share.
 
-## Perform DR-drill/Failover to a secondary site
+## DR-drill/Failover to a secondary site
 
-### Preparation
+1. **Preparation**
 
 In a real-outage scenario, when one AZ is declared as **down**, you must
 do a failover using the Open Telekom Cloud Console. Before we perform a test failover,
@@ -497,20 +497,20 @@ file-descriptor open the whole time (the process is started in the Share
 itself)
 :::
 
-### Perform failover
+2. **Perform failover**
 
 In the Open Telekom Cloud Console → *SDRS* → Select protection group and click *More* →
 *Fail Over*:
 
-<!-- .. image:: files/failover/Bild3.png
-   :alt: Failover -->
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild3.png)
+
 
 This will have the following effect:
 
-1. It *unplugs* the NIC from the running server and attaches it to the
+- It *unplugs* the NIC from the running server and attaches it to the
    target host (note we were previously running in **eu-de-01**): 
 
-<!-- .. image:: files/failover/Bild4.png -->
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild4.png)
 
    This results to the client operating-system setting the nfs-share to
    readonly (as it is not able to reach it):
@@ -525,19 +525,20 @@ This will have the following effect:
    -bash: check_time.txt: Read-only file system
 ```
 
-2. It stops the previous production server (in eu-de-01) 
-<!-- .. image:: files/failover/Bild5.png -->
+- It stops the previous production server (in eu-de-01) 
+  
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild5.png)
 
-3. Failover complete – now you must actively start the nfs-server
+- Failover complete – now you must actively start the nfs-server
    resource in **eu-de-02**. There is a shortcut to do that in
    the overview of SRDS:
 
-<!-- .. image:: files/failover/Bild6.png -->
+![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild6.png)
 
-4. If set up correctly, the nfs-server should start everything on its
+- If set up correctly, the nfs-server should start everything on its
    own.
 
-5. If you try to access the nfs-Server, it should throw an error
+- If you try to access the nfs-Server, it should throw an error
    message like this:
 
 ```bash
@@ -578,7 +579,7 @@ command, and re-accept the fingerprint:
    Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-100-generic x86_64)
 ```
 
-6. Checking on the client side we can see that the process continued its work, as long as it regained connection
+- Checking on the client side we can see that the process continued its work, as long as it regained connection
 
 ```bash
 
@@ -599,7 +600,7 @@ command, and re-accept the fingerprint:
    Mon Mar 18 07:10:56 UTC 2024
 ```
 
-7. The according timeout settings in the nfs-client can be set via **fstab**
+- The according timeout settings in the nfs-client can be set via **fstab**
 
 -  ``timeo=n`` The time in deciseconds (tenths of a second) the NFS
    client waits for a response before it retries an NFS request.
