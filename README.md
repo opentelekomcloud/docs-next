@@ -93,8 +93,9 @@ All text content should adhere to the guidelines provided by official [Markdown 
 ### Styling 
 
 * **Always** highlight paths and file names as **bold**, e.g. **/etc/hosts** or **package.json**
-* **Always** highlight UI choices/navigation etc as *italic*, e.g. "[...] then click *Create ECS Server* on [...]."
+* **Always** highlight UI choices/navigation etc as *italics*, e.g. "[...] then click *Create ECS Server* on [...]."
 * Variables and values should be **always** marked as `inline code`, e.g. "[...] change the `replica` count to `1`"
+* Key presses should be **always** written in CAPS and highlighted as *italics*, e.g. "[...] press *CTRL-S* to save and continue."
 * If you provide a code-block that requires a specific file name for the blueprint to work, insert **always** the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
 * **Do not** use punctuation marks at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:". 
   
