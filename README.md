@@ -129,5 +129,5 @@ You can use [this](https://urltomarkdown.com/) web tool to transform public page
 #### Structure
 
 1. Include a mini overview of the blueprint under the blueprint title (additional sub-header **is not** required).
-2. If you need to present (with a picture) a high-level architecture of the blueprint, insert a paragraph under the overview with the name *Solution Design* (additional sub-header **is not** required).
+2. If you need to present (with a picture) a high-level architecture of the blueprint, insert a paragraph under the overview with the name *Solution Design* (additional sub-header **is** required).
 3. Include a *Conclusion* paragraph in the end of **every** blueprint as a summary of what we achieved during the process (additional sub-header **is** required).
