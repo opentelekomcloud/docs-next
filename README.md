@@ -92,11 +92,11 @@ All text content should adhere to the guidelines provided by official [Markdown 
 
 ### Styling 
 
-* Always highlight paths and file names as **bold**, e.g. **/etc/hosts** or **package.json**
-* Always highlight UI choices/navigation etc as *italic*, e.g. "[...] then click *Create ECS Server* on [...]."
-* Variables and values should be always marked as `inline code`, e.g. "[...] change the `replica` count to `1`"
-* If you provide a code-block that requires a specific file name for the blueprint to work, insert always the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
-* Do not use punctuation marks (.:; etc.) at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:". 
+* **Always** highlight paths and file names as **bold**, e.g. **/etc/hosts** or **package.json**
+* **Always** highlight UI choices/navigation etc as *italic*, e.g. "[...] then click *Create ECS Server* on [...]."
+* Variables and values should be **always** marked as `inline code`, e.g. "[...] change the `replica` count to `1`"
+* If you provide a code-block that requires a specific file name for the blueprint to work, insert **always** the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
+* **Do not** use punctuation marks at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:". 
   
 ### Diagramms
 
@@ -111,6 +111,6 @@ Use one of the following tools for creating diagramms:
 ### Text & Grammar
 
 * Write simple, avoid slang.
-* **Do not** use colloquial expressions. They might be confusing for many readers or even offensive in specific regions, if or not taken out of context.
+* **Do not** use colloquial expressions. They might be confusing for many readers or even offensive in specific regions, in or out of context.
 * Check the correct usage of punctuation marks [here](https://www.grammarly.com/punctuation).
 * You can use [this](https://urltomarkdown.com/) web tool to transform public pages to Markdown. 
