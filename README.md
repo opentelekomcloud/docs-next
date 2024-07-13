@@ -112,14 +112,15 @@ Use one of the following tools for creating diagramms:
 
 Every blueprint should have the following attributes. It should be:
 
-1. comprehensive with clear steps to recreate it end to end..
-2. technically accurate.
+1. comprehensive with clear steps to recreate it end to end.
+2. technically accurate and conforming to industry standards.
 3. self-contained, if you feel you are cross-overring into multiple topics then split it in two or more blueprints.
 4. written in a friendly tone but still remain formal:
    * Write simple, **do not** use slang.
    * **Do not** use colloquial expressions. They might be confusing for many readers or even offensive in specific regions, in or out of context.
    * Check the correct usage of punctuation marks [here](https://www.grammarly.com/punctuation).
    * **Avoid** using emojis.
+5. impartial, waive strong personal technical opinions and/or preferences. 
 
 
 You can use [this](https://urltomarkdown.com/) web tool to transform public pages to Markdown.
