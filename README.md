@@ -81,4 +81,36 @@ The whole process is fully autonomous, and after the approval of every PR requir
 
 ## Contributing 
 
-If you are contributing as content creator follow the [Syntactic and Stylistic Guidelines](/CONTRIBUTING.md) of the project. 
+If you are contributing as content creator follow the Syntactic and Stylistic Guidelines of the project:
+
+### Syntax
+
+All text content should adhere to the guidelines provided by official [Markdown Guide](https://www.markdownguide.org/):
+
+* [Basic Syntax](https://www.markdownguide.org/basic-syntax/)
+* [Extended Syntax](https://www.markdownguide.org/extended-syntax/)
+
+> [!NOTE]
+> No licence required for any of the aformentioned tools
+
+### Styling
+
+* Always highlight paths and file names as **bold**, e.g. **/etc/hosts** or **package.json**
+* Always highlight UI choices/navigation etc as *italic*, e.g. "[...] then click *Create ECS Server* on Open Telekom Cloud Console."
+* Variables and their values should be always highlight as `inline code`, e.g. "[...] change the `replica` count to `1`"
+* If you provide a code-block that requires a specific file name for the blueprint to work, insert always the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
+
+### Diagramms
+
+Use one of the following tools for creating diagramms:
+
+* [draw.io](https://www.drawio.com/). You can find the Open Telekom Cloud stencils [here](https://www.t-systems.com).
+* [Diagrams for Open Telekom Cloud](https://github.com/akyriako/diagrams)
+
+
+
+### Text
+
+* Write simple, avoid slang
+* **Do not** use colloquial expressions. They might be confusing for many speakers or even offensive in specific region or if taken out of context.
+* You can use [this](https://urltomarkdown.com/) web tool to transform public pages to Markdown. 
