@@ -90,14 +90,14 @@ All text content should adhere to the guidelines provided by official [Markdown 
 * [Basic Syntax](https://www.markdownguide.org/basic-syntax/)
 * [Extended Syntax](https://www.markdownguide.org/extended-syntax/)
 
-### Styling
+### Styling 
 
 * Always highlight paths and file names as **bold**, e.g. **/etc/hosts** or **package.json**
 * Always highlight UI choices/navigation etc as *italic*, e.g. "[...] then click *Create ECS Server* on Open Telekom Cloud Console."
 * Variables and their values should be always highlight as `inline code`, e.g. "[...] change the `replica` count to `1`"
 * If you provide a code-block that requires a specific file name for the blueprint to work, insert always the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
-* Do not use punctuation marks (.:; etc.) at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:"
-
+* Do not use punctuation marks (.:; etc.) at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:". 
+  
 ### Diagramms
 
 Use one of the following tools for creating diagramms:
@@ -106,10 +106,11 @@ Use one of the following tools for creating diagramms:
 * [Diagrams for Open Telekom Cloud](https://github.com/akyriako/diagrams)
 
 > [!NOTE]
-> No licence required for any of the aformentioned tools
+> No licence required for any of the aformentioned tools.
 
-### Text
+### Text & Grammar
 
 * Write simple, avoid slang
-* **Do not** use colloquial expressions. They might be confusing for many speakers or even offensive in specific region or if taken out of context.
+* **Do not** use colloquial expressions. They might be confusing for many readers or even offensive in specific regions, if or not taken out of context.
+* Check the correct usage of punctuation marks [here](https://www.grammarly.com/punctuation).
 * You can use [this](https://urltomarkdown.com/) web tool to transform public pages to Markdown. 
