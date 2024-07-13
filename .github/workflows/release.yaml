@@ -4,6 +4,7 @@ on:
         - main
       paths-ignore:
         - '**/README.md'
+        - '**/CONTRIBUTING.md'
     
 jobs:
     build:

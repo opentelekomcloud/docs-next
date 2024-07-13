@@ -34,7 +34,7 @@ This command starts a local development server and opens up a browser window. Ch
 npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service by the following command:
+This command generates static content into the **build** directory and can be served using any static contents hosting service by the following command:
 
 ```
 npm run serve
@@ -78,3 +78,7 @@ ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `
 the changes without any human intervention.
 
 The whole process is fully autonomous, and after the approval of every PR requires zero human intervention. 
+
+## Contributing 
+
+If you are contributing as content creator follow the [Syntactic and Stylistic Guidelines](/CONTRIBUTING.md) of the project. 
