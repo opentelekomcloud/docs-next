@@ -1,7 +1,7 @@
 ---
 id: auto-scaling-based-on-elb-monitoring-metrics
 title: Auto Scaling Based on ELB Monitoring Metrics
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, qps, metrics, cloudeye]
+tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, metrics, cloudeye, swr]
 ---
 
 # Auto Scaling Based on ELB Monitoring Metrics
@@ -383,4 +383,4 @@ To obtain the preceding data, perform the following steps:
     -   `m8_out_Bps`: outgoing rate
 
 4.  Aggregate data in the format that Prometheus supports and expose the
-    data through the /metrics` API.
+    data through the `/metrics` API.
