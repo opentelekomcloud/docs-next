@@ -6,8 +6,6 @@ tags: [cce, vault, hashicorp, security]
 
 # Secrets management with CCE and Hashicorp Vault
 
-## Overview
-
 Most **modern** IT setups are composed of several subsystems like databases,
 object stores, master controller, node access, and more. To access one
 component from another, some form of credentials are required.
@@ -24,7 +22,7 @@ usually introduces a problem of the so-called [Secret
 Zero](https://www.hashicorp.com/resources/secret-zero-mitigating-the-risk-of-secret-introduction-with-vault)
 as a key to the key storage.
 
-## Solution Description
+## Solution Design
 
 Vault is an open-source software, provided and maintained by Hashicorp,
 that addresses this very problem. It is considered one of the reference
@@ -140,7 +138,7 @@ import fmt
 Certificate paths and property names used here are referenced by the
 Zookeeper installation.
 
-## Deploy Zookeeper
+## Deploying Zookeeper
 
 Now that the secrets are stored safely in Vault and only allowed
 applications can fetch them it is time to look how exactly the
