@@ -455,3 +455,126 @@ file in PKCS#12 format.
     ![image9](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001400577445.png)
 
 ## Using Jenkins to Build a Pipeline
+
+
+### Obtaining a long-term SWR Login Command 
+
+During Jenkins installation and deployment, the Docker commands have
+been configured in the container. Therefore, no additional configuration
+is required for interconnecting Jenkins with SWR. You can directly run
+the Docker commands. You only need to obtain a long-term valid SWR login
+command. For details, see [Obtaining a Long-Term Valid Login Command](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/obtaining_a_long-term_valid_login_command.html).
+
+For example, the command of this account is as follows:
+
+```shell
+docker login -u eu-de_otcxxxxx@xxxxx -p xxxxx swr.eu-de.otc.t-systems.com
+```
+
+### Creating a Pipeline to Build and Push Images
+
+In this example, Jenkins is used to build a pipeline to pull code from
+the code repository, package the code into an image, and push the image
+to SWR.
+
+The pipeline creation procedure is as follows:
+
+1.  Click *New Item* on the Jenkins page.
+
+2.  Enter a task name and select *Create Pipeline*.
+
+    ![image1](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001466646017.png)
+
+3.  Configure only the pipeline script.
+
+    ![image2](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416249976.png)
+
+    The following pipeline scripts are for reference only. You can
+    customize the script. For details about the syntax, see
+    [Pipeline](https://www.jenkins.io/doc/book/pipeline/).
+
+    Some parameters in the example need to be modified:
+
+    -   `git_url`: Address of your code repository. Replace it with the actual address.
+    -   `swr_login`: The login command obtained in [Obtaining a long-term SWR Login Command](#obtaining-a-long-term-swr-login-command)
+    -   `swr_region`: SWR region.
+    -   `organization`: The actual organization name in SWR.
+    -   `build_name`: Name of the created image.
+    -   `credential` The cluster credential added to Jenkins. Enter
+        the credential ID. If you want to deploy the service in another
+        cluster, add the access credential of the cluster to Jenkins
+        again. For details, see [Setting Cluster Access Credentials](#setting-cluster-access-credentials)
+    -   `apiserver`: IP address of the API server where the application cluster is deployed. Ensure that the IP address can
+        be accessed from the Jenkins cluster.
+
+
+    ```ruby
+    //Define the code repository address.
+    def git_url = 'https://github.com/cnych/jenkins-demo.git'
+    //Define the SWR login command.
+    def swr_login = 'docker login -u eu-dexxxx@xxxxxxx -p xxxxxxxxxxxx swr.eu-de.otc.t-systems.com'
+    //Define the SWR region.
+    def swr_region = 'eu-de'
+    //Define the name of the SWR organization to be uploaded.
+    def organization = 'batch'
+    //Define the image name.
+    def build_name = 'jenkins-demo'
+    //Certificate ID of the cluster to be deployed
+    def credential = 'k8s-token'
+    //API server address of the cluster. Ensure that the address can be accessed from the Jenkins cluster.
+    def apiserver = 'https://kubernetes.default.svc.cluster.local:443'
+
+    pipeline {
+        agent any
+        stages {
+            stage('Clone') {
+                steps{
+                    echo "1.Clone Stage"
+                    git url: git_url
+                    script {
+                        build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                    }
+                }
+            }
+            stage('Test') {
+                steps{
+                    echo "2.Test Stage"
+                }
+            }
+            stage('Build') {
+                steps{
+                    echo "3.Build Docker Image Stage"
+                    sh "docker build -t swr.${swr_region}.otc.t-systems.com/${organization}/${build_name}:${build_tag} ."
+                    //${build_tag} indicates that the build_tag variable is obtained as the image tag. It is the return value of the git rev-parse --short HEAD command, that is, commit ID.
+                }
+            }
+            stage('Push') {
+                steps{
+                    echo "4.Push Docker Image Stage"
+                    sh swr_login
+                    sh "docker push swr.${swr_region}.otc.t-systems.com/${organization}/${build_name}:${build_tag}"
+                }
+            }
+            stage('Deploy') {
+                steps{
+                    echo "5. Deploy Stage"
+                    script {
+                    try {
+                        withKubeConfig([credentialsId: credential, serverUrl: apiserver]) {
+                            sh "sed -i 's/<BUILD_TAG>/${build_tag}/' k8s.yaml"
+                            sh "kubectl apply -f k8s.yaml --record"
+                            //The YAML file is stored in the code repository. The following is only an example. Replace it as required.
+                        }
+                    } catch (e) {
+                        println "oh no! Deployment failed! "
+                        println e
+                    }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+4.  Save the settings and execute the Jenkins job.
+
