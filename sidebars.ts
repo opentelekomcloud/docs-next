@@ -249,6 +249,10 @@ const sidebars: SidebarsConfig = {
           label: 'Cloud Container Engine',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-container-engine/index.html',
