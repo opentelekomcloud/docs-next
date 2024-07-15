@@ -96,7 +96,7 @@ All text content should adhere to the guidelines provided by official [Markdown 
 * **Always** highlight UI choices/navigation etc as *italics*, e.g. "[...] then click *Create ECS Server* on [...]."
 * Variables and values should be **always** marked as `inline code`, e.g. "[...] change the `replica` count to `1`"
 * Key presses should be **always** written in CAPS and highlighted as *italics*, e.g. "[...] press *CTRL-S* to save and continue."
-* If you provide a code-block that requires a specific file name for the blueprint to work, insert **always** the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```"
+* If you provide a code-block that requires a specific file name for the blueprint to work, insert **always** the file name in the header of the code-block, e.g. "```yaml title="credentials.yaml  [...] ```". 
 * **Do not** use punctuation marks at the end of headings, e.g. "# Installation Steps" and **not** "# Installation Steps:". 
   
 ### Diagramms
@@ -131,3 +131,4 @@ You can use [this](https://urltomarkdown.com/) web tool to transform public page
 1. Include a mini overview of the blueprint under the blueprint title (additional sub-header **is not** required).
 2. If you need to present (with a picture) a high-level architecture of the blueprint, insert a paragraph under the overview with the name *Solution Design* (additional sub-header **is** required).
 3. Include a *Conclusion* paragraph in the end of **every** blueprint as a summary of what we achieved during the process (additional sub-header **is** required).
+4. If you want to convey information that the user should not miss or overlook use **always** [adminitions](https://docusaurus.io/docs/markdown-features/admonitions).
