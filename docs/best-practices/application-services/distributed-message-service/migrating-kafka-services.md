@@ -265,100 +265,24 @@ clusters](https://kafka.apache.org/documentation/?spm=a2c4g.11186623.0.0.c82870a
     `refresh.topics.interval.seconds` is mandatory. Other parameters are optional.
     :::
 
-    <!-- <table>
-    <caption><strong>Table 1</strong> MirrorMaker configurations</caption>
-    <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 33%" />
-    <col style="width: 46%" />
-    </colgroup>
-    <thead>
-    <tr class="header">
-    <th>Parameter</th>
-    <th>Default Value</th>
-    <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="odd">
-    <td>sync.topic.configs.enabled</td>
-    <td>true</td>
-    <td>Whether to monitor the source cluster for configuration
-    changes.</td>
-    </tr>
-    <tr class="even">
-    <td>sync.topic.acls.enabled</td>
-    <td>true</td>
-    <td>Whether to monitor the source cluster for ACL changes.</td>
-    </tr>
-    <tr class="odd">
-    <td>emit.heartbeats.enabled</td>
-    <td>true</td>
-    <td>Whether to let the connector send heartbeats periodically.</td>
-    </tr>
-    <tr class="even">
-    <td>emit.heartbeats.interval.seconds</td>
-    <td>5 seconds</td>
-    <td>Heartbeat frequency.</td>
-    </tr>
-    <tr class="odd">
-    <td>emit.checkpoints.enabled</td>
-    <td>true</td>
-    <td>Whether to let the connector periodically send the consumer offset
-    information.</td>
-    </tr>
-    <tr class="even">
-    <td>emit.checkpoints.interval.seconds</td>
-    <td>5 seconds</td>
-    <td>Checkpoint frequency.</td>
-    </tr>
-    <tr class="odd">
-    <td>refresh.topics.enabled</td>
-    <td>true</td>
-    <td>Whether to let the connector periodically check for new topics.</td>
-    </tr>
-    <tr class="even">
-    <td>refresh.topics.interval.seconds</td>
-    <td>5 seconds</td>
-    <td>Frequency of checking for new topics in the source cluster.</td>
-    </tr>
-    <tr class="odd">
-    <td>refresh.groups.enabled</td>
-    <td>true</td>
-    <td>Whether to let the connector periodically check for new consumer
-    groups.</td>
-    </tr>
-    <tr class="even">
-    <td>refresh.groups.interval.seconds</td>
-    <td>5 seconds</td>
-    <td>Frequency of checking for new consumer groups in the source
-    cluster.</td>
-    </tr>
-    <tr class="odd">
-    <td>replication.policy.class</td>
-    <td>org.apache.kafka.connect.mirror.DefaultReplicationPolicy</td>
-    <td>Use LegacyReplicationPolicy to imitate MirrorMaker of an earlier
-    version.</td>
-    </tr>
-    <tr class="even">
-    <td>heartbeats.topic.retention.ms</td>
-    <td>One day</td>
-    <td>Used when heartbeat topics are created for the first time.</td>
-    </tr>
-    <tr class="odd">
-    <td>checkpoints.topic.retention.ms</td>
-    <td>One day</td>
-    <td>Used when checkpoint topics are created for the first time.</td>
-    </tr>
-    <tr class="even">
-    <td>offset.syncs.topic.retention.ms</td>
-    <td>max long</td>
-    <td>Used when offset sync topics are created for the first time.</td>
-    </tr>
-    </tbody>
-    </table>
-
-    **Table 1** MirrorMaker configurations -->
+### MirrorMaker Configuration Properties
+    
+| Parameter                         | Default Value                                            | Description                                                                     |
+|-----------------------------------|----------------------------------------------------------|---------------------------------------------------------------------------------|
+| sync.topic.configs.enabled        | true                                                     | Whether to monitor the source cluster for configuration changes.                |
+| sync.topic.acls.enabled           | true                                                     | Whether to monitor the source cluster for ACL changes.                          |
+| emit.heartbeats.enabled           | true                                                     | Whether to let the connector send heartbeats periodically.                      |
+| emit.heartbeats.interval.seconds  | 5 seconds                                                | Heartbeat frequency.                                                            |
+| emit.checkpoints.enabled          | true                                                     | Whether to let the connector periodically send the consumer offset information. |
+| emit.checkpoints.interval.seconds | 5 seconds                                                | Checkpoint frequency.                                                           |
+| refresh.topics.enabled            | true                                                     | Whether to let the connector periodically check for new topics.                 |
+| refresh.topics.interval.seconds   | 5 seconds                                                | Frequency of checking for new topics in the source cluster.                     |
+| refresh.groups.enabled            | true                                                     | Whether to let the connector periodically check for new consumer groups.        |
+| refresh.groups.interval.seconds   | 5 seconds                                                | Frequency of checking for new consumer groups in the source cluster.            |
+| replication.policy.class          | org.apache.kafka.connect.mirror.DefaultReplicationPolicy | Use LegacyReplicationPolicy to imitate MirrorMaker of an earlier version.       |
+| heartbeats.topic.retention.ms     | One day                                                  | Used when heartbeat topics are created for the first time.                      |
+| checkpoints.topic.retention.ms    | One day                                                  | Used when checkpoint topics are created for the first time.                     |
+| offset.syncs.topic.retention.ms   | max long                                                 | Used when offset sync topics are created for the first time.                    |
 
 ### Verifying Data Synchronization
 
