@@ -311,6 +311,10 @@ const sidebars: SidebarsConfig = {
           label: 'Distributed Cache Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/databases/distributed-cache-service/using-nginx-for-public-access-to-single-node-master-standby-or-proxy-cluster-dcs-redis-instances',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-cache-service/index.html',
