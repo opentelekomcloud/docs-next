@@ -55,6 +55,10 @@ const sidebars: SidebarsConfig = {
           label: 'Distributed Message Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/application-services/distributed-message-service/migrating-kafka-services',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-message-service/index.html',
