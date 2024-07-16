@@ -253,8 +253,30 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
             },
             {
-              type: 'doc',
-              id: 'best-practices/containers/cloud-container-engine/migrating-container-images',
+              type: 'category',
+              label: 'Migrating Clusters from Other Clouds to CCE',
+              link: {
+                type: 'doc', 
+                id: 'best-practices/containers/cloud-container-engine/migrating-from-other_clouds-to-cce'
+              },
+              items: [
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/backup-kubernetes-objects',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/restore-kubernetes-objects',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/updating-resources',
+                },   
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/debugging-and-starting-the-application',
+                },   
+              ],
             },
             {
               type: 'link',
@@ -267,6 +289,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Software Repository for Container',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/containers/software-repository/migrating-container-images',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
