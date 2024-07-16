@@ -1,7 +1,7 @@
 ---
 id: migrating-kafka-services
 title: Migrating Kafka Services
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, metrics, cloudeye, swr]
+tags: [kafka, mirror-maker, migration, dms]
 ---
 
 # Migrating Kafka Services
