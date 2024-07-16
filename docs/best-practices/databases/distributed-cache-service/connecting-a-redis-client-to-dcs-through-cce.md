@@ -190,15 +190,13 @@ Prepare the following resources:
 
     -   In the *Container Settings* -> *Lifecycle* area, configure
         the parameters as follows:
-
-        <!-- **Command**: **/bin/bash**
-
-        **Args**: **-c**
-
-        while true ;do sleep 10;/home/redis/redis-5.0.13/src/redis-cli
-        -h** **{10.0.0.0}** **-p** **6379** **-a** **{DCS instance
-        password}** **get** **hello;done** -->
-
+        
+        - `Command`: `/bin/bash`
+        - `Args`: `-c`
+        - `while true ;do sleep 10;/home/redis/redis-5.0.13/src/redis-cli
+          h** **{10.0.0.0}** **-p** **6379** **-a** **{DCS instance
+          password}** **get** **hello;done**` 
+        
         In the preceding command, `10.0.0.0` indicates the IP address
         of the DCS instance, `6379` indicates the port number of the
         DCS instance, `{DCS instance password}` indicates the password
