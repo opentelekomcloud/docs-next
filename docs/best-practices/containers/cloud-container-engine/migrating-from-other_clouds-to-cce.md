@@ -27,7 +27,7 @@ Assume that you have deployed the WordPress on 3rd party cloud provider and crea
 1.  Export the container images used in the other clusters: Pull the images to the client by referring to the operation guide of
     other Cloud Container Registry.
 
-2.  Upload the image files to Open Telekom Cloud SWR: Run the **docker pull** command to push the image to Open Telekom
+2.  Upload the image files to Open Telekom Cloud SWR: Run the `docker pull` command to push the image to Open Telekom
     Cloud. For details, see [Uploading an Image Through the Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
 
 ## Installing the Migration Tool
