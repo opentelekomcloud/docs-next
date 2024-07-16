@@ -28,8 +28,8 @@
   --ifm-color-primary-lightest: #7d94f9;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 } */
-
-:root {
+:root,
+html[data-theme='light'] {
   --ifm-color-primary: #e20074;
   --ifm-color-primary-dark: #cb0068;
   --ifm-color-primary-darker: #c00063;
@@ -39,12 +39,13 @@
   --ifm-color-primary-lightest: #ff2796;
   --ifm-footer-background-color: var(--background-footer);
   --ifm-footer-link-color: black;
-  --ifm-code-font-size: 90%; /*95%;*/
+  --ifm-code-font-size: 90%;
   --ifm-font-family-base: 'TeleNeoWeb';
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #ffffff;
 }
 
 [data-theme='dark'] {
-  /* --ifm-color-primary: #7d94f9; */
   --ifm-color-primary: #ff2796;
   --ifm-color-primary-dark: #5977f7;
   --ifm-color-primary-darker: #4768f7;
@@ -52,9 +53,18 @@
   --ifm-color-primary-light: #a1b1fb;
   --ifm-color-primary-lighter: #b3c0fb;
   --ifm-color-primary-lightest: #e8ecfe;
-  --ifm-background-color: #5977f7;
-  --ifm-background-surface-color: #5977f7;
+  --ifm-background-color: #1b1b1d;
+  --ifm-background-surface-color: #1b1b1d;
 }
+
+/* Override system color scheme preference */
+@media (prefers-color-scheme: dark) {
+  html[data-theme='light'] {
+    --ifm-background-color: #ffffff;
+    --ifm-background-surface-color: #ffffff;
+  }
+}
+
 
 @media screen and (max-width: 996px) {
   :root {
