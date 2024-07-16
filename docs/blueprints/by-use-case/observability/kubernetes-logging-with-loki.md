@@ -6,19 +6,7 @@ tags: [cce, observability, logging, grafana, loki, promtail, kubernetes]
 
 # CCE Logging with Grafana Loki & Promtail
 
-In this lab, we'll consolidate all the logs generated in our Kubernetes cluster into a neat, real-time dashboard in Grafana.
-
-Requirements
-------------
-
-1.  **CCE** cluster.
-2.  **Grafana** installation.
-3.  **Grafana Loki** installation.
-4.  **Promtail** agent on every node of the CCE cluster.
-
-
-What is Grafana?
-----------------
+In this blueprint, we'll consolidate all the logs generated in our Kubernetes cluster into a neat, real-time dashboard in Grafana.
 
 [Grafana](https://grafana.com/) is an analytics and interactive visualization platform. It offers a rich variety of charts, graphs, and alerts and connects to a plethora of supported data sources such as Prometheus, time-series databases, or well-known RDBMS. Grafana allows you to query, visualize, and create alerts on your metrics regardless of where they are stored.
 
@@ -26,10 +14,29 @@ What is Grafana?
 Think of it as the equivalent of Kibana in the ELK stack.
 :::
 
-### Install Grafana
+[Grafana Loki](https://grafana.com/oss/loki/) is a logs aggregation system designed to be horizontally scalable, highly available, and cost-effective. Inspired by Prometheus, Loki does not index the contents of the logs but rather a set of labels for each log stream. It was launched in 2018 by Grafana Labs.
+
+
+![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
+
+Loki uses [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) to aggregate logs. Promtail is a logs collector agent that collects, labels, and ships logs to Loki. It runs on each Kubernetes node, using the same service discovery as Prometheus and supporting similar methods for labeling, transforming, and filtering logs before their ingestion to Loki.
+
+Loki groups log entries into streams and indexes them with labels, which reduces overall costs and the time between log entry ingestion and query availability.
+
+:::tip
+Think of Loki as the equivalent (not 1-to-1 but in a broader context) of Elasticsearch in the ELK stack.
+:::
+
+## Prerequisites
+
+1.  **CCE** cluster.
+2.  **Grafana** installation.
+3.  **Grafana Loki** installation.
+4.  **Promtail** agent on every node of the CCE cluster.
+
+## Installing Grafana
 
 The installation is straightforward using Helm. If you haven’t installed Helm on your workstation, you can do it either with brew on macOS:
-
 
 ```shell
 brew install helm
@@ -59,23 +66,7 @@ helm install grafana grafana/grafana --namespace grafana --create-namespace
 By default, the `service/grafana` will be of type `ClusterIP`. If you are not working on CCE, you can use [MetalLB](https://metallb.io/) as a network load balancer and patch the service to be of type `LoadBalancer`. Alternatively, port-forwarding this service will suffice for now.
 :::
 
-What is Grafana Loki & Promtail?
---------------------------------
-
-[Grafana Loki](https://grafana.com/oss/loki/) is a logs aggregation system designed to be horizontally scalable, highly available, and cost-effective. Inspired by Prometheus, Loki does not index the contents of the logs but rather a set of labels for each log stream. It was launched in 2018 by Grafana Labs.
-
-
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
-
-Loki uses [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) to aggregate logs. Promtail is a logs collector agent that collects, labels, and ships logs to Loki. It runs on each Kubernetes node, using the same service discovery as Prometheus and supporting similar methods for labeling, transforming, and filtering logs before their ingestion to Loki.
-
-Loki groups log entries into streams and indexes them with labels, which reduces overall costs and the time between log entry ingestion and query availability.
-
-:::tip
-Think of Loki as the equivalent (not 1-to-1 but in a broader context) of Elasticsearch in the ELK stack.
-:::
-
-### Configure and Install Loki
+## Installing Loki
 
 Loki consists of multiple components/microservices that can be deployed in three different modes:
 
@@ -94,7 +85,6 @@ The scalable installation requires an S3 compatible object store such as AWS S3,
 In this lab, we will use the **microservices** deployment mode with Open Telekom Cloud OBS as Loki’s storage. We will configure and install Loki and Promtail using Helm charts.
 
 First, let's download the default chart values for each chart and make the necessary changes. For Loki, assuming you chose the `loki-distributed` chart:
-
 
 ```shell
 helm show values grafana/loki-distributed > loki-distributed-overrides.yaml
@@ -136,7 +126,7 @@ kubectl get all -n grafana-loki
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0WVdeJICkfrez73x43r1bQ.webp)
 
 
-### Configure and Install Promtail
+## Installing Promtail
 
 We need the endpoint of Loki’s gateway as the designated endpoint that Promtail will use to push logs to Loki. In our case, that would be `loki-loki-distributed-gateway.grafana-loki.svc.cluster.local`. Add this endpoint to the Promtail chart values:
 
@@ -152,8 +142,7 @@ We are now ready to deploy Promtail. Run the command and wait for all pods to re
 helm upgrade --install --values promtail-overrides.yaml promtail grafana/promtail -n grafana-loki
 ```
 
-Configure Grafana Data Sources & Dashboard
-------------------------------------------
+## Configuring Grafana Data Sources & Dashboard
 
 1. With all deployments completed, set up Grafana. As mentioned, Grafana has a simple service. Port-forward it and access Grafana directly from  `[http://localhost:8080/](http://localhost:8080/)`:
 
