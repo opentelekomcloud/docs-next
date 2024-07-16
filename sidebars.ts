@@ -323,6 +323,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/databases/distributed-cache-service/using-elb-for-public-access-to-dcs',
             },
             {
+              type: 'doc',
+              id: 'best-practices/databases/distributed-cache-service/connecting-a-redis-client-to-dcs-through-cce',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-cache-service/index.html',

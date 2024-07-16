@@ -1,7 +1,7 @@
 ---
 id: using-elb-for-public-access-to-dcs
 title: Using ELB for Public Access to DCS
-tags: [dcs, ssh, redis, elb]
+tags: [dcs, redis, elb]
 ---
 
 # Using ELB for Public Access to DCS
