@@ -13,7 +13,6 @@ Assume that you have deployed the WordPress on 3rd party cloud provider and crea
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
     
     
-    
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png)
 
 

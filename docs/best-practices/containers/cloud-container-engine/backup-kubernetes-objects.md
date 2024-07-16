@@ -1,7 +1,7 @@
 ---
 id: backup-kubernetes-objects
 title: Backing Up Kubernetes Objects of other Clusters
-tags: [cce, migration, minio, velero, obs]
+tags: [cce, migration, velero, obs]
 ---
 
 # Backing Up Kubernetes Objects of other Clusters
