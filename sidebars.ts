@@ -319,6 +319,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/databases/distributed-cache-service/using-ssh-tunneling-for-public-access-to-a-dcs-instance',
             },
             {
+              type: 'doc',
+              id: 'best-practices/databases/distributed-cache-service/using-elb-for-public-access-to-dcs',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-cache-service/index.html',
