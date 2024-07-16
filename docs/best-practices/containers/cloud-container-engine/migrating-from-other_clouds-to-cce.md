@@ -16,7 +16,7 @@ Assume that you have deployed the WordPress on 3rd party cloud provider and crea
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png)
 
 
-## Migrating Data {#cce_bestpractice_0059}
+## Migrating Data
 
 ### Migrating Databases and Storage
 
@@ -52,14 +52,9 @@ compatible with Velero and uses OBS as the storage backend. You can use
 Velero in on-premises clusters and use e-backup in CCE.
 
 -   **Without e-backup**: Install Velero in the source and target and
-    migrate resources by referring to
-    <!-- `Migrating Resources in a Cluster (Velero) <cce_bestpractice_0024>`{.interpreted-text
-    role="ref"}. -->
+    migrate resources by referring to [Migrating Resources in a Cluster (Velero)](#migrating-resources-in-a-cluster)
 -   **With e-backup**: Install Velero in the source cluster and use OBS as
-    the storage backend by following the instructions described in [Installing Velero](#installing-velero), and install e-backup in the target CCE cluster and
-    migrate resources by referring to
-    <!-- `Migrating Resources in a Cluster (Velero) <cce_bestpractice_0024>`{.interpreted-text
-    role="ref"}. -->
+    the storage backend by following the instructions described in [Installing Velero](#installing-velero), and install e-backup in the target CCE cluster and migrate resources by referring to [Migrating Resources in a Cluster (Velero)](#migrating-resources-in-a-cluster)
 
 ### Prerequisites
 
@@ -89,7 +84,6 @@ MinIO can be installed in any of the following locations:
 -   Temporary ECS outside a cluster. If the MinIO server is installed outside the cluster, backup files
     will not be affected when a catastrophic fault occurs in the
     cluster.
-
 -   Idle nodes in a cluster. You can remotely log in to a node to install the MinIO server or
     containerize MinIO. For details, see the [official Velero
     documentation](https://velero.io/docs/v1.7/contributions/minio/#set-up-server).
@@ -458,7 +452,7 @@ will not cause a backup failure.
 
     ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001480191270.png)
 
-### Restoring Applications in the Target Cluster {#cce_bestpractice_0024__en-us_topic_0000001171703796_section482103142819}
+### Restoring Applications in the Target Cluster
 
 The storage infrastructure of an on-premises cluster is different from
 that of a cloud cluster. After the cluster is migrated, PVs cannot be
@@ -466,7 +460,7 @@ mounted to pods. Therefore, during the migration, update the storage
 class of the target cluster to shield the differences of underlying
 storage interfaces between the two clusters when creating a workload and
 request storage resources of the corresponding type. For details, see
-`Updating the Storage Class <cce_bestpractice_0061__en-us_topic_0000001217102135_section746195321414>`
+[Updating the Storage Class](./updating-resources#updating-the-storage-class)
 
 1.  Create a `ConfigMap` in the CCE cluster and map the storage class used
     by the source cluster to the default storage class of the CCE
@@ -483,7 +477,7 @@ request storage resources of the corresponding type. For details, see
     -   The storage resources of the cluster can be changed as required,
         not limited to EVS volumes. To mount other types of storage,
         such as file storage and object storage, see
-        `Updating the Storage Class <cce_bestpractice_0061__en-us_topic_0000001217102135_section746195321414>`
+        [Updating the Storage Class](./updating-resources#updating-the-storage-class)
     :::
 
     YAML file for the migrated cluster:
@@ -516,7 +510,7 @@ request storage resources of the corresponding type. For details, see
 3.  After the restoration is complete, check whether the application is
     running properly. If other adaptation problems may occur, rectify
     the fault by following the procedure described in
-    `Updating Resources Accordingly <cce_bestpractice_0061>`.
+    [Updating Resources Accordingly](./updating-resources).
 
 ## Preparing Object Storage and Velero
 

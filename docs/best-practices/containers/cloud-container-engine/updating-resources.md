@@ -62,7 +62,7 @@ new cluster to ELB again after the migration. For details, see [Using kubectl to
 
 3.  Use a browser to check whether the Service is available.
 
-## Updating the Storage Class {#cce_bestpractice_0061__en-us_topic_0000001217102135_section746195321414}
+## Updating the Storage Class
 
 As the storage infrastructures of clusters may be different, storage
 volumes cannot be mounted to the target cluster. You can use either of
@@ -177,7 +177,7 @@ storage class update is complete.
     :::
 
 4.  Restore the cluster application by referring to
-    [Restoring Applications in the Target Cluster](./restore-kubernetes-objects) and check whether the PVC is successfully created.
+    [Restoring Applications in the Target Cluster](./migrating-from-other_clouds-to-cce#restoring-applications-in-the-target-cluster) and check whether the PVC is successfully created.
 
     ```bash
     kubectl get pvc
