@@ -572,22 +572,31 @@ Perform the following operations on other cluster and CCE nodes that can run `ku
 
 3.  Install the Velero server.
 
-    ```bash
-    cd /opt/ack2cce
-    # Prepare the MinIO authentication file. The AK/SK must be correct.
-    vi credentials-velero
+    - Prepare the MinIO authentication file:
 
-    [default]
-    aws_access_key_id = minio
-    aws_secret_access_key = minio123
+      ```bash
+      cd /opt/ack2cce
+      vi credentials-velero
 
-    # Install the Velero server. Note that s3Url must be set to the correct MinIO address.
-    velero install \
-     --provider aws \
-     --plugins velero/velero-plugin-for-aws:v1.0.0 \
-     --bucket velero \
-     --secret-file ./credentials-velero \
-     --use-restic \
-     --use-volume-snapshots=false \
-     --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://{EIP of the node where minio runs}:9000
-    ```
+      [default]
+      aws_access_key_id = minio
+      aws_secret_access_key = minio123
+      ```
+
+    - Install the Velero server:
+   
+      ```bash
+      velero install \
+       --provider aws \
+       --plugins velero/velero-plugin-for-aws:v1.0.0 \
+       --bucket velero \
+       --secret-file ./credentials-velero \
+       --use-restic \
+       --use-volume-snapshots=false \
+       --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://{EIP of the node where minio runs}:9000
+      ```
+
+      :::note
+      `s3Url` must be set to the actual MinIO address.
+      :::
+

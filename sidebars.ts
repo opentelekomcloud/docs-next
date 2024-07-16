@@ -253,8 +253,26 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
             },
             {
-              type: 'doc',
-              id: 'best-practices/containers/cloud-container-engine/migrating-from-other_clouds-to-cce',
+              type: 'category',
+              label: 'Migrating Clusters from Other Clouds to CCE',
+              link: {
+                type: 'doc', 
+                id: 'best-practices/containers/cloud-container-engine/migrating-from-other_clouds-to-cce'
+              },
+              items: [
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/backup-kubernetes-objects',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/restore-kubernetes-objects',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/updating-resources',
+                },   
+              ],
             },
             {
               type: 'link',
