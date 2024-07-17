@@ -39,7 +39,7 @@ html[data-theme='light'] {
   --ifm-color-primary-lightest: #ff2796;
   --ifm-footer-background-color: var(--background-footer);
   --ifm-footer-link-color: black;
-  --ifm-code-font-size: 90%;
+  --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'TeleNeoWeb';
   --ifm-background-color: #ffffff;
   --ifm-background-surface-color: #ffffff;
