@@ -353,6 +353,10 @@ const sidebars: SidebarsConfig = {
           label: 'Document Database Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/from-ecs-hosted-mongodb-to-dds',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/document-database-service/index.html',
