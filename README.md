@@ -34,26 +34,26 @@ Any IDE that supports [Dev Containers](https://code.visualstudio.com/docs/devcon
 and features defined in **devcontainer.json**. A `typescript-node:1-20-bullseye` container will be spawned with the following
 extras pre-installed:
 
-#### Visual Studio Code Extensions
+* **Visual Studio Code Extensions**
 
-- JavaScript and TypeScript Nightly
-- React Native Tools
-- ES7+ React/Redux/React-Native snippets, Simple React Snippets
-- npm Intellisense, Path Intellisense
-- Markdown, Markdown All in One, markdownlint
-- MDX, MDX Preview, MDX Inline
-- Git Graph
-- Resource Monitor
-- YAML
+  - JavaScript and TypeScript Nightly
+  - React Native Tools
+  - ES7+ React/Redux/React-Native snippets, Simple React Snippets
+  - npm Intellisense, Path Intellisense
+  - Markdown, Markdown All in One, markdownlint
+  - MDX, MDX Preview, MDX Inline
+  - Git Graph
+  - Resource Monitor
+  - YAML
 
-#### Features
+* **Features**
 
-- Git
-- Docker-in-Docker
+  - Git
+  - Docker-in-Docker
 
-#### Post-Create Command
+* **Post-Create Command**
 
-- `npm run install`
+  - `npm run install`
 
 #### Add your own Extensions
 
