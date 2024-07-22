@@ -566,6 +566,10 @@ const sidebars: SidebarsConfig = {
           label: 'Domain Name Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/domain-name-service/configuring-private-domain-names-for-ecss',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/domain-name-service/index.html',
