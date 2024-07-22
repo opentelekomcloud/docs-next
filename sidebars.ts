@@ -361,6 +361,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/databases/document-database-service/from-on-premises-mongodb-to-dds',
             },
             {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/from-other-cloud-mongodb-to-dds',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/document-database-service/index.html',

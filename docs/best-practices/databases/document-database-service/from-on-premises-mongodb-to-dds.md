@@ -11,18 +11,21 @@ the current cloud. With DRS, you can migrate databases online with zero
 downtime and your services and databases can remain operational during
 migration.
 
+## Solution Design
+
 This section describes how to use DRS to migrate an on-premises MongoDB
 database to DDS on the current cloud. The following network types are
 supported:
 
-- **VPN**
-  
-    ![**Figure 1** VPN](/img/docs/best-practices/databases/document-database-service/en-us_image_0295762692.png)
+### VPN
 
-- **Public network**
-    ![**Figure 2** Public network+SSL connection](/img/docs/best-practices/databases/document-database-service/en-us_image_0234000688.png)
+![**Figure 1** VPN](/img/docs/best-practices/databases/document-database-service/en-us_image_0295762692.png)
 
-## Solution Design
+### Public network
+    
+![**Figure 2** Public network+SSL connection](/img/docs/best-practices/databases/document-database-service/en-us_image_0234000688.png)
+
+### Procedure
 
 ![**Figure 3** Flowchart](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
 
