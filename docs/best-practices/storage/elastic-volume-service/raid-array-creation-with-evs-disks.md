@@ -72,7 +72,7 @@ the disks to the ECS.
 
 3. Click *Create Disk*.
 
-    ![**Figure 1** EVS disk specifications](/_static/images/en-us_image_0139689760.png)
+    ![**Figure 1** EVS disk specifications](/img/docs/best-practices/storage/elastic-volume-service/en-us_image_0139689760.png)
 
 4. Attach the disks to the ECS.
 

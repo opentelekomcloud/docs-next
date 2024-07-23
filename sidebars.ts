@@ -240,6 +240,10 @@ const sidebars: SidebarsConfig = {
           label: 'Image Management Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/computing/image-management-service/migrating-service-data-across-accounts-data-disks',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/image-management-service/index.html',
