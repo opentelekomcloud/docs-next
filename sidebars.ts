@@ -807,6 +807,10 @@ const sidebars: SidebarsConfig = {
           label: 'Elastic Volume Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/storage/elastic-volume-service/raid-array-creation-with-evs-disks',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/elastic-volume-service/index.html',
