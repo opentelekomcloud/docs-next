@@ -600,6 +600,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/networking/elastic-load-balancing/using-advanced-forwarding-for-application-iteration',
             },
             {
+              type: 'doc',
+              id: 'best-practices/networking/elastic-load-balancing/routing-traffic-to-backend-servers-in-the-same-vpc-as-the-load-balancer',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/elastic-load-balancing/index.html',
