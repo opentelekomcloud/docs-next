@@ -27,7 +27,7 @@ requests to different versions.
 ### Procedure
 
 ![*Figure 1*
-Flowchart](/_static/images/en-us_image_0000001221220190.png)
+Flowchart](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221220190.png)
 
   <!-- ----------------------------------------------------------------------------------
   Resource Name         Resource Type Description
@@ -66,7 +66,7 @@ Flowchart](/_static/images/en-us_image_0000001221220190.png)
 In this practice, the dedicated load balancer is in the same VPC as the
 ECSs. You can also add servers in a different VPC or in an on-premises
 data center as needed. For details, see
-`Routing Traffic to Backend Servers in Different VPCs <elb_bp_0300>`
+[Routing Traffic to Backend Servers in Different VPCs](/docs/best-practices/networking/elastic-load-balancing/routing-traffic-to-backend-servers-in-different-vpcs-from-the-load-balancer.md)
 :::
 
 ## Configuring a Dedicated Load Balancer
@@ -90,14 +90,14 @@ data center as needed. For details, see
     Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/listener/adding_an_http_listener.html).
 
     ![*Figure 2* HTTP
-    listener](/_static/images/en-us_image_0000001265145841.png)
+    listener](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265145841.png)
 
 6. Enable advanced forwarding. For details, see [Elastic Load Balance
     User
     Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/advanced_features_of_http_https_listeners/advanced_forwarding_dedicated_load_balancers/configuring_advanced_forwarding.html)
 
     ![*Figure 3* Enabling advanced
-    forwarding](/_static/images/en-us_image_0000001220740254.png)
+    forwarding](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001220740254.png)
 
 ## Creating Backend Server Groups and Adding Backend Servers
 
@@ -113,7 +113,7 @@ data center as needed. For details, see
 3. Repeat *Step 2* to create backend server group `Server_Group-Test02`.
 
     ![*Figure 4* Backend server
-    groups](/_static/images/en-us_image_0000001265579817.png)
+    groups](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265579817.png)
 
 4. Add `ECS01`, `ECS02`, and `ECS03` to backend server group
     `Server_Group-Test01`.
@@ -130,7 +130,7 @@ version. When the application of the new version runs stably, direct all
 the requests to the application.
 
 ![*Figure 5* Forwarding requests based on HTTP request
-methods](/_static/images/en-us_image_0000001265745537.png)
+methods](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265745537.png)
 
 1. Locate the dedicated load balancer and click its name *ELB-Test*.
 
@@ -148,7 +148,7 @@ methods](/_static/images/en-us_image_0000001265745537.png)
 
     ![*Figure 6* Forwarding GET and DELETE requests to the application
     of the old
-    version](/_static/images/en-us_image_0000001265924809.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265924809.png)
 
 4. Click *Save*
 
@@ -162,7 +162,7 @@ methods](/_static/images/en-us_image_0000001265745537.png)
 
     ![*Figure 7* Forwarding PUT and POST requests to the application
     of the new
-    version](/_static/images/en-us_image_0000001265646757.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265646757.png)
 
 ## Forwarding Requests to Different Versions of the Application based on HTTP Headers
 
@@ -176,7 +176,7 @@ Chinese language, direct all the requests to the application.
 
 ![*Figure 8* Smooth application transition between the old and new
 versions based on the HTTP request
-header](/_static/images/en-us_image_0000001265465929.png)
+header](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265465929.png)
 
 1. Locate the dedicated load balancer and click its name *ELB-Test*.
 
@@ -192,7 +192,7 @@ header](/_static/images/en-us_image_0000001265465929.png)
     *Server_Group-Test01* as the backend server group.
 
     ![*Figure 9* Forwarding requests to the application of the old
-    version](/_static/images/en-us_image_0000001265928345.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265928345.png)
 
 4. Click *Save*.
 
@@ -204,7 +204,7 @@ header](/_static/images/en-us_image_0000001265465929.png)
     *Server_Group-Test02* as the backend server group.
 
     ![*Figure 10* Forwarding requests to the application of the new
-    version](/_static/images/en-us_image_0000001265488349.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265488349.png)
 
 ## Forwarding Requests to Different Versions of the Application based on Query Strings
 
@@ -216,7 +216,7 @@ application of the new version runs stably, direct all the requests to
 the new version.
 
 ![*Figure 11* Forwarding requests based on query
-strings](/_static/images/en-us_image_0000001221308334.png)
+strings](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221308334.png)
 
 :::note
 
@@ -243,7 +243,7 @@ strings](/_static/images/en-us_image_0000001221308334.png)
     backend server group.
 
     ![*Figure 12* Forwarding requests to the old
-    version](/_static/images/en-us_image_0000001221328134.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221328134.png)
 
 4. Click *Save*.
 
@@ -256,4 +256,4 @@ strings](/_static/images/en-us_image_0000001221308334.png)
     backend server group.
 
     ![*Figure 13* Forwarding requests to the new
-    version](/_static/images/en-us_image_0000001265648321.png)
+    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265648321.png)

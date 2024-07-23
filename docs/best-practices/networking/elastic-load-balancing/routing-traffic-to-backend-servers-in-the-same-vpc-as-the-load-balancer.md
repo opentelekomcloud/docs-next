@@ -19,7 +19,7 @@ balancer is running.
     associated with `ELB-Test`.
 
 ![*Figure 1* Adding a backend server in the same VPC as the load
-balancer](/_static/images/en-us_image_0000001625619218.png)
+balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625619218.png)
 
 :::note Advantages
 You can add servers in the same VPC as the load balancer to the backend
@@ -61,7 +61,7 @@ calculator](https://open-telekom-cloud.com/en/prices/price-calculator).
 ### Procedure
 
 ![*Figure 2* Process for adding backend servers in the same VPC as the
-load balancer](/_static/images/en-us_image_0000001674059073.png)
+load balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059073.png)
 
 ## Creating a VPC
 
@@ -79,7 +79,7 @@ load balancer](/_static/images/en-us_image_0000001674059073.png)
     - Configure other parameters as required.
 
     ![*Figure 3* Creating
-    *vpc-Test*](/_static/images/en-us_image_0000001625459326.png)
+    *vpc-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459326.png)
 
 ## Creating an ECS
 
@@ -94,12 +94,12 @@ load balancer](/_static/images/en-us_image_0000001674059073.png)
     Select *vpc-Test* for VPC and set *Name* to `ECS-Test`.
 
     ![*Figure 6* Creating
-    ECS-Test](/_static/images/en-us_image_0000001625299518.png)
+    ECS-Test](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625299518.png)
 
 4. Deploy Nginx on the ECS.
 
     ![*Figure 7* Deploying Nginx on
-    *ECS-Test*](/_static/images/en-us_image_0000001625619246.png)
+    *ECS-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625619246.png)
 
 ## Creating a Dedicated Load Balancer and Adding an HTTP Listener and a Backend Server Group to the Load Balancer
 
@@ -118,7 +118,7 @@ load balancer](/_static/images/en-us_image_0000001674059073.png)
     - Configure other parameters as required.
 
     ![*Figure 8* Creating a dedicated load balancer named
-    *ELB-Test*](/_static/images/en-us_image_0000001673939093.png)
+    *ELB-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001673939093.png)
 
 4. Add an HTTP listener and a backend server group to the created
     dedicated load balancer. For details, see [Elastic Load Balance User
@@ -140,7 +140,7 @@ load balancer](/_static/images/en-us_image_0000001674059073.png)
     - **Weight**: Configure this parameter as required.
 
     ![*Figure 9* Adding IP as backend
-    servers](/_static/images/en-us_image_0000001674059081.png)
+    servers](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059081.png)
 
 ## Verifying Traffic Routing
 
@@ -155,7 +155,7 @@ externally, you can always access the ELB from its private IP.
 2. Select *Bind IPv4 EIP* to bind an EIP to `ELB-Test`.
 
     ![*Figure 10* EIP bound to the load
-    balancer](/_static/images/en-us_image_0000001674259073.png)
+    balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674259073.png)
 
 3. Enter `http://<EIP>` in the address box of your browser to
     access the dedicated load balancer. If the following page is
@@ -169,4 +169,4 @@ externally, you can always access the ELB from its private IP.
     :::
 
     ![*Figure 11* Verifying traffic
-    routing](/_static/images/en-us_image_0000001625459334.png)
+    routing](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459334.png)
