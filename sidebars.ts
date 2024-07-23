@@ -214,6 +214,10 @@ const sidebars: SidebarsConfig = {
           label: 'Elastic Cloud Server',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/computing/elastic-cloud-server/building-highly-available-web-server-clusters-with-keepalived',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/elastic-cloud-server/index.html',
