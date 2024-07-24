@@ -381,10 +381,10 @@ be iterated due to security risks.
 
     Set the following cluster parameters and retain the values for other parameters:
 
-    -   `Kubernetes URL`: cluster API server address. You can enter `https://kubernetes.default.svc.cluster.local:443`.
-    -   `Kubernetes server certificate key`: your cluster CA certificate.
-    -   `Credentials`: Select the cluster credential added in. You can click *Test Connection* to check whether the cluster is connected.
-    -   `Jenkins URL`: Jenkins access path. Enter the IP address of port 8080 set in installing process **(ports 8080 and 50000 must
+    -   **Kubernetes URL**: cluster API server address. You can enter `https://kubernetes.default.svc.cluster.local:443`.
+    -   **Kubernetes server certificate key**: your cluster CA certificate.
+    -   **Credentials**: Select the cluster credential added in. You can click *Test Connection* to check whether the cluster is connected.
+    -   **Jenkins URL**: Jenkins access path. Enter the IP address of port 8080 set in installing process **(ports 8080 and 50000 must
         be enabled for the IP address, that is, the intra-cluster access
         address)**, for example, `http://10.247.222.254:8080`.
 
@@ -393,26 +393,26 @@ be iterated due to security risks.
 5.  **Pod Template**: Click *Add Pod Template -> Pod Template details*
     and set the pod template parameters:
 
-        -   `Name`: `jenkins-agent`
-        -   `Namespace`: `cicd`
-        -   `Labels`: `jenkins-agent`
-        -   `Usage`: Select `Use this node as much as possible`.
+        -   **Name**: `jenkins-agent`
+        -   **Namespace**: `cicd`
+        -   **Labels**: `jenkins-agent`
+        -   **Usage**: Select `Use this node as much as possible`.
 
         ![**Figure 2** Basic parameters of the podtemplate](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001399744097.png)
 
     -   Add a container. Click *Add Container -> Container Template*.
 
-        -   `Name`: The value must be `jnlp`.
-        -   `Docker image`: `jenkins/inbound-agent:4.13.3-1`. The
+        -   **Name**: The value must be `jnlp`.
+        -   **Docker image**: `jenkins/inbound-agent:4.13.3-1`. The
             image version may change with time. Select an image version
             as required or use the latest version.
-        -   `Working directory`: `/home/jenkins/agent` is selected
+        -   **Working directory**: `/home/jenkins/agent` is selected
             by default.
-        -   `Command to run`/`Arguments to pass to the command`:
+        -   **Command to run**/**Arguments to pass to the command**:
             Delete the existing default value and leave these two
             parameters empty.
-        -   `Allocate pseudo-TTY`: Select this parameter.
-        -   Select `Run in privileged mode` and set `Run As User ID`
+        -   **Allocate pseudo-TTY**: Select this parameter.
+        -   Select *Run in privileged mode* and set `Run As User ID`
             to `0` (**root** user).
 
         ![**Figure 3** Container template parameters](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001350206690.png)
@@ -446,11 +446,11 @@ file in PKCS#12 format.
 
 4.  Click *Add Credential*:
 
-    -   `Kind`: Select `Certificate`.
-    -   `Scope`: Select `Global`.
-    -   `Certificate`: Select *Upload PKCS#12 certificate* and upload the **cert.pfx** file generated in.
-    -   `Password`: The password customized during **cert.pfx** conversion.
-    -   `ID`: Set this parameter to `k8s-test-cert`, which can be customized.
+    -   **Kind**: Select `Certificate`.
+    -   **Scope**: Select `Global`.
+    -   **Certificate**: Select *Upload PKCS#12 certificate* and upload the **cert.pfx** file generated in.
+    -   **Password**: The password customized during **cert.pfx** conversion.
+    -   **ID**: Set this parameter to `k8s-test-cert`, which can be customized.
 
     ![image9](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001400577445.png)
 
@@ -495,16 +495,16 @@ The pipeline creation procedure is as follows:
 
     Some parameters in the example need to be modified:
 
-    -   `git_url`: Address of your code repository. Replace it with the actual address.
-    -   `swr_login`: The login command obtained in [Obtaining a long-term SWR Login Command](#obtaining-a-long-term-swr-login-command)
-    -   `swr_region`: SWR region.
-    -   `organization`: The actual organization name in SWR.
-    -   `build_name`: Name of the created image.
-    -   `credential` The cluster credential added to Jenkins. Enter
+    -   **git_url**: Address of your code repository. Replace it with the actual address.
+    -   **swr_login**: The login command obtained in [Obtaining a long-term SWR Login Command](#obtaining-a-long-term-swr-login-command)
+    -   **swr_region**: SWR region.
+    -   **organization**: The actual organization name in SWR.
+    -   **build_name**: Name of the created image.
+    -   **credential** The cluster credential added to Jenkins. Enter
         the credential ID. If you want to deploy the service in another
         cluster, add the access credential of the cluster to Jenkins
         again. For details, see [Setting Cluster Access Credentials](#setting-cluster-access-credentials)
-    -   `apiserver`: IP address of the API server where the application cluster is deployed. Ensure that the IP address can
+    -   **apiserver**: IP address of the API server where the application cluster is deployed. Ensure that the IP address can
         be accessed from the Jenkins cluster.
 
 
