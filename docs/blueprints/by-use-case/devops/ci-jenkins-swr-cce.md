@@ -409,10 +409,10 @@ be iterated due to security risks.
         -   **Working directory**: `/home/jenkins/agent` is selected
             by default.
         -   **Command to run**/**Arguments to pass to the command**:
-            Delete the existing default value and leave these two
+            Delete the existing default values and leave these two
             parameters empty.
-        -   **Allocate pseudo-TTY**: Select this parameter.
-        -   Select *Run in privileged mode* and set `Run As User ID`
+        -   Enable **Allocate pseudo-TTY**.
+        -   Enable **Run in privileged** mode and set **Run As User ID**
             to `0` (**root** user).
 
         ![**Figure 3** Container template parameters](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001350206690.png)
