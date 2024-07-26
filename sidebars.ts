@@ -826,6 +826,10 @@ const sidebars: SidebarsConfig = {
           label: 'Object Storage Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/storage/object-storage-service/accessing-obs-through-an-nginx-reverse-proxy',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/object-storage-service/index.html',
