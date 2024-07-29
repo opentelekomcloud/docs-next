@@ -20,7 +20,8 @@
 				"vadistic.mdx-inline",
 				"yzhang.markdown-all-in-one",
 				"DavidAnson.vscode-markdownlint",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"TakumiI.markdowntable"
 			]
 		}
 	},

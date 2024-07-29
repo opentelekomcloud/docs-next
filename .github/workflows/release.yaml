@@ -5,6 +5,7 @@ on:
       paths-ignore:
         - '**/README.md'
         - '**/CONTRIBUTING.md'
+        - '**/.devcontainer/devcontainer.json'
     
 jobs:
     build:

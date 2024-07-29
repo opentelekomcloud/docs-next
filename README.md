@@ -40,7 +40,7 @@ extras pre-installed:
   - React Native Tools
   - ES7+ React/Redux/React-Native snippets, Simple React Snippets
   - npm Intellisense, Path Intellisense
-  - Markdown, Markdown All in One, markdownlint
+  - Markdown, Markdown All in One, Markdown Table, markdownlint
   - MDX, MDX Preview, MDX Inline
   - Git Graph
   - Resource Monitor
