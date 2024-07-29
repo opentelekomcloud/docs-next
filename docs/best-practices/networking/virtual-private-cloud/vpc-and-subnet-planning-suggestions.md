@@ -4,7 +4,7 @@ title: VPC and Subnet Planning Suggestions
 tags: [vpc]
 ---
 
-# VPC and Subnet Planning Suggestions 
+# VPC and Subnet Planning Suggestions
 
 Before creating your VPCs, determine how many VPCs, the number of
 subnets, and what IP address ranges or connectivity options you will
@@ -64,23 +64,14 @@ block:
 - IP address range: Avoid IP address conflicts if you need to connect
     a VPC to an on-premises data center or connect two VPCs.
 
-<!-- `Table 1 <bestpractice_0002__en-us_topic_0167202536_en-us_topic_0119408804_en-us_topic_0118499040_table3240172772213>`{.interpreted-text
-role="ref"} lists the supported VPC CIDR blocks.
 
-::: {#bestpractice_0002__en-us_topic_0167202536_en-us_topic_0119408804_en-us_topic_0118499040_table3240172772213}
-  ------------------------------------------------------------------------------
-  VPC CIDR Block      IP Address Range              Maximum Number of IP
-                                                    Addresses
-  ------------------- ----------------------------- ----------------------------
-  10.0.0.0/8-24       10.0.0.0-10.255.255.255       2\^24-2=16777214
-
-  172.16.0.0/12-24    172.16.0.0-172.31.255.255     2\^20-2=1048574
-
-  192.168.0.0/16-24   192.168.0.0-192.168.255.255   2\^16-2=65534
-  ------------------------------------------------------------------------------
+| VPC CIDR Block  Addresses |    IP Address Range        |      Maximum Number IP         |                                                                  
+| ------------------- |-----------------------------| ---------------------------- |
+| 10.0.0.0/8-24     |  10.0.0.0-10.255.255.255    |   2\^24-2=16777214             |
+| 172.16.0.0/12-24 |   172.16.0.0-172.31.255.255  |   2\^20-2=1048574              |
+| 192.168.0.0/16-24 |  192.168.0.0-192.168.255.255  | 2\^16-2=65534                |
 
   : **Table 1** VPC CIDR blocks
-::: -->
 
 ## How Do I Plan Subnets?
 
@@ -232,10 +223,9 @@ Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/).
 ## Additional Resources
 
 :::info See Also
-- [Application
-    Scenarios](https://docs.otc.t-systems.com/virtual-private-cloud/umn/service_overview/application_scenarios.html)
-- [Private Network
-    Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0007.html)
-- [Public Network
-    Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0004.html)
+
+- [Application Scenarios](https://docs.otc.t-systems.com/virtual-private-cloud/umn/service_overview/application_scenarios.html)
+- [Private Network Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0007.html)
+- [Public Network Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0004.html)
+
 :::
