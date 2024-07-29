@@ -40,7 +40,7 @@ scenarios are supported:
     detect and resolve any potential issues in advance. Recommendations
     on how to minimize any potential impacts on your data base are
     provided in this section.
-- It is strongly recommended that you start your migration task during
+- It is **strongly recommended** that you start your migration task during
     off-peak hours. A less active database is easier to migrate
     successfully. If the data is fairly static, there is less likely to
     be any severe performance impacts during the migration.
