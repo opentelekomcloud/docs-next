@@ -30,55 +30,23 @@ balancer.
 
 ### Prerequisites
 
+| Resource Type          | Resource Name     | Description                                                                                                                                           | Quantity |
+| ---------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| VPC                    | VPC-Test-01       | The VPC where ELB-Test is running: `172.18.0.0/24`                                                                                                      | 1        |
+|                        | VPC-Test-02       | The VPC where ECS-Test is running: `172.17.0.0/24`                                                                                                      | 1        |
+| VPC peering connection | Peering-Test      | The connection that connects the VPC where ELB-Test is running and the VPC where ECS-Test is running Local VPC: `172.18.0.0/24` Peer VPC: `172.17.0.0/24` | 1        |
+| Route table            | Route-VPC-Test-01 | The route table of VPC-Test-01 Destination: `172.17.0.0/24`                                                                                             | 1        |
+|                        | Route-VPC-Test-02 | The route table of VPC-Test-02 Destination: `172.18.0.0/24`                                                                                             | 1        |
+| ELB                    | ELB-Test          | The dedicated load balancer                                                                                                                           | 1        |
+| EIP                    | EIP-Test          | The EIP bound to ELB-Test                                                                                                                             | 1        |
+| ECS                    | ECS-Test          | The ECS works in VPC-Test-02                                                                                                                          | 1        |
+
+**Table 1** Resource planning
+
 :::note
 To calculate the fees you can visit Open Telekom Cloud [Price
 calculator](https://open-telekom-cloud.com/en/prices/price-calculator).
 :::
-
-<!-- The required resources are as follows:
-
-+---------+-------+--------------------------------------------+------+
-| R       | Res   | Description                                | Quan |
-| esource | ource |                                            | tity |
-| Type    | Name  |                                            |      |
-+=========+=======+============================================+======+
-| VPC     | V     | The VPC where *ELB-Test* is running:     | 1    |
-|         | PC-Te |                                            |      |
-|         | st-01 | 172.18.0.0/24                              |      |
-+---------+-------+--------------------------------------------+------+
-|         | V     | The VPC where *ECS-Test* is running:     | 1    |
-|         | PC-Te |                                            |      |
-|         | st-02 | 172.17.0.0/24                              |      |
-+---------+-------+--------------------------------------------+------+
-| VPC     | Pe    | The connection that connects the VPC where | 1    |
-| peering | ering | *ELB-Test* is running and the VPC where  |      |
-| con     | -Test | *ECS-Test* is running                    |      |
-| nection |       |                                            |      |
-|         |       | *Local VPC*: *172.18.0.0/24*           |      |
-|         |       |                                            |      |
-|         |       | *Peer VPC*: *172.17.0.0/24*            |      |
-+---------+-------+--------------------------------------------+------+
-| Route   | Ro    | The route table of *VPC-Test-01*         | 1    |
-| table   | ute-V |                                            |      |
-|         | PC-Te | *Destination*: *172.17.0.0/24*         |      |
-|         | st-01 |                                            |      |
-+---------+-------+--------------------------------------------+------+
-|         | Ro    | The route table of *VPC-Test-02*         | 1    |
-|         | ute-V |                                            |      |
-|         | PC-Te | *Destination*: *172.18.0.0/24*         |      |
-|         | st-02 |                                            |      |
-+---------+-------+--------------------------------------------+------+
-| ELB     | ELB   | The dedicated load balancer                | 1    |
-|         | -Test |                                            |      |
-+---------+-------+--------------------------------------------+------+
-| EIP     | EIP   | The EIP bound to *ELB-Test*              | 1    |
-|         | -Test |                                            |      |
-+---------+-------+--------------------------------------------+------+
-| ECS     | ECS   | The ECS works in *VPC-Test-02*           | 1    |
-|         | -Test |                                            |      |
-+---------+-------+--------------------------------------------+------+
-
-: *Table 1* Resource planning -->
 
 ### Procedure
 
