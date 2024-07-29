@@ -29,38 +29,19 @@ requests to different versions.
 ![*Figure 1*
 Flowchart](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221220190.png)
 
-  <!-- ----------------------------------------------------------------------------------
-  Resource Name         Resource Type Description
-  --------------------- ------------- ----------------------------------------------
-  ELB-Test              Dedicated     Only dedicated load balancers support advanced
-                        load balancer forwarding.
+ | Resource Name       |  Resource Type | Description                                    |
+| --------------------- |------------- |---------------------------------------------- |
+| ELB-Test          |    Dedicated   |  Only dedicated load balancers support advanced load balancer forwarding.                                                          |
+| Server_Group-Test01 |  Backend     |  Used to manage the ECSs where the application  server group  of the old version is deployed.                                      |
+| Server_Group-Test02   | Backend     |  Used to manage the ECSs where the application  server group  of the new version is deployed.                                      |
+| ECS01              |   ECS       |    Used to deploy the application of the old      version and added to *Server_Group-Test01*.                                        |
+| ECS02               |  ECS        |   Used to deploy the application of the old      version and added to *Server_Group-Test01*.                                        |
+| ECS03               |  ECS    |       Used to deploy the application of the old      version and added to *Server_Group-Test01*.                                        |
+| ECS04               |  ECS        |   Used to deploy the application of the new       version and added to *Server_Group-Test02*.                                        |
+| ECS05               |  ECS       |    Used to deploy the application of the new       version and added to *Server_Group-Test02*.                                        |
+| ECS06               |  ECS        |   Used to deploy the application of the new      version and added to *Server_Group-Test02*.                                        |
 
-  Server_Group-Test01   Backend       Used to manage the ECSs where the application
-                        server group  of the old version is deployed.
-
-  Server_Group-Test02   Backend       Used to manage the ECSs where the application
-                        server group  of the new version is deployed.
-
-  ECS01                 ECS           Used to deploy the application of the old
-                                      version and added to *Server_Group-Test01*.
-
-  ECS02                 ECS           Used to deploy the application of the old
-                                      version and added to *Server_Group-Test01*.
-
-  ECS03                 ECS           Used to deploy the application of the old
-                                      version and added to *Server_Group-Test01*.
-
-  ECS04                 ECS           Used to deploy the application of the new
-                                      version and added to *Server_Group-Test02*.
-
-  ECS05                 ECS           Used to deploy the application of the new
-                                      version and added to *Server_Group-Test02*.
-
-  ECS06                 ECS           Used to deploy the application of the new
-                                      version and added to *Server_Group-Test02*.
-  ----------------------------------------------------------------------------------
-
-  : *Table 1* Resource planning -->
+**Table 1** Resource planning
 
 :::note
 In this practice, the dedicated load balancer is in the same VPC as the
