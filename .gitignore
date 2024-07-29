@@ -21,3 +21,6 @@ yarn-error.log*
 
 #TypeSense
 /typesense_data
+
+#Migration Folders
+/static/_static/images

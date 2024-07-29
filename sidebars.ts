@@ -213,6 +213,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Elastic Cloud Server',
           items: [
+            // {
+            //   type: 'doc',
+            //   id: 'best-practices/computing/elastic-cloud-server/building-highly-available-web-server-clusters-with-keepalived',
+            // },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -235,6 +239,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Image Management Service',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/computing/image-management-service/migrating-service-data-across-accounts-data-disks',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -352,6 +360,18 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Document Database Service',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/from-ecs-hosted-mongodb-to-dds',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/from-on-premises-mongodb-to-dds',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/from-other-cloud-mongodb-to-dds',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -554,6 +574,10 @@ const sidebars: SidebarsConfig = {
           label: 'Domain Name Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/domain-name-service/configuring-private-domain-names-for-ecss',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/domain-name-service/index.html',
@@ -575,6 +599,18 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Elastic Load Balancing',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/networking/elastic-load-balancing/using-advanced-forwarding-for-application-iteration',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/networking/elastic-load-balancing/routing-traffic-to-backend-servers-in-the-same-vpc-as-the-load-balancer',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/networking/elastic-load-balancing/routing-traffic-to-backend-servers-in-different-vpcs-from-the-load-balancer',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -630,6 +666,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Virtual Private Cloud',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-cloud/vpc-and-subnet-planning-suggestions',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -775,6 +815,10 @@ const sidebars: SidebarsConfig = {
           label: 'Elastic Volume Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/storage/elastic-volume-service/raid-array-creation-with-evs-disks',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/elastic-volume-service/index.html',
@@ -785,6 +829,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Object Storage Service',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/storage/object-storage-service/accessing-obs-through-an-nginx-reverse-proxy',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
