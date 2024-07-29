@@ -34,29 +34,14 @@ To calculate the fees you can visit Open Telekom Cloud [Price
 calculator](https://open-telekom-cloud.com/en/prices/price-calculator).
 :::
 
-<!-- The required resources are as follows:
+| Resource Type | Resource Name | Description | Quantity |
+| --- | --- | --- | --- |
+| VPC | vpc-Test | The VPC where ELB-Test and ECS-Test are running: `10.1.0.0/16` | 1 |
+| ELB | ELB-Test | The dedicated load balancer named ELB-Test | 1 |
+| EIP | EIP-Test | The EIP bound to ELB-Test | 1 |
+| ECS | ECS-Test | The ECS works in vpc-Test | 1 |
 
-+-----------+--------+----------------------------------------+-------+
-| Resource  | Re     | Description                            | Qua   |
-| Type      | source |                                        | ntity |
-|           | Name   |                                        |       |
-+===========+========+========================================+=======+
-| VPC       | vp     | The VPC where *ELB-Test* and         | 1     |
-|           | c-Test | *ECS-Test* are running:              |       |
-|           |        |                                        |       |
-|           |        | 10.1.0.0/16                            |       |
-+-----------+--------+----------------------------------------+-------+
-| ELB       | EL     | The dedicated load balancer named      | 1     |
-|           | B-Test | *ELB-Test*                           |       |
-+-----------+--------+----------------------------------------+-------+
-| EIP       | EI     | The EIP bound to *ELB-Test*          | 1     |
-|           | P-Test |                                        |       |
-+-----------+--------+----------------------------------------+-------+
-| ECS       | EC     | The ECS works in *vpc-Test*          | 1     |
-|           | S-Test |                                        |       |
-+-----------+--------+----------------------------------------+-------+
-
-: *Table 1* Resource planning -->
+**Table 1** Resource planning
 
 ### Procedure
 
