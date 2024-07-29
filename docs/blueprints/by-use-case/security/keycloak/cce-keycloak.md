@@ -9,7 +9,7 @@ tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ngress, external
 In this blueprint, we are going to discuss the steps to install
 Keycloak, in Open Telekom Cloud, on a CCE Cluster.
 
-## Create a VPC and a Subnet
+## Creating a VPC and a Subnet
 
 We are going to need a Virtual Private Cloud (VPC) and at least one
 Subnet where we are going to provision both RDS instances and CCE nodes.
@@ -22,7 +22,7 @@ different Subnets.
 RDS and CCE nodes have to be on the same VPC.
 :::
 
-## Deploy a PostgreSQL with RDS
+## Deploying a PostgreSQL with RDS
 
 Keycloak, as a stateful workload, requires the presence of a persistent
 storage in order to maintain its data and configuration during pod
@@ -33,7 +33,7 @@ perfect fit for this scenario. A scalable turn-key solution, that fully
 integrated with the rest of managed services of the platform without
 demanding from the consumer additional administrative effort.
 
-### Create Security Groups
+### Creating Security Groups
 
 We are going to need two different Security Groups. One for the RDS
 nodes, so it can accept client calls on port `5432` (Inbound Rules),
@@ -48,7 +48,7 @@ where Keycloak is going to be installed on.
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k2x.png)
 
-### Provision a Database
+### Provisioning a Database
 
 Now as next, we need to provision a PostgreSQL 14 database. Pick the
 instance and storage class size that fit your needs:
@@ -62,20 +62,20 @@ and make sure that you:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ka7.png)
 
-### Create a Private DNS Zone
+### Creating a Private DNS Zone
 
 We are provisioning PostgreSQL in order to support the functionality of
 Keycloak. For that matter, although Open Telekom Cloud employs this RDS
 instance with a floating IP address, it would be better that we connect
 the RDS instance with Keycloak via a fully qualified domain name and let
-the Open Telekom Cloud\'s DNS service to manage the resolution of that
-endpoints. In the Domain Name Service management panel click Private
-Zone and create a new one that points to the VPC that CCE and RDS nodes
+the Open Telekom Cloud's DNS service to manage the resolution of that
+endpoints. In the Domain Name Service management panel click *Private
+Zone* and create a new one that points to the VPC that CCE and RDS nodes
 are placed:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-f5u.png)
 
-and then click Manage Record Set to add a new **A Record** to this zone:
+and then click *Manage Record Set* to add a new *A Record* to this zone:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-ffb.png)
 
@@ -90,7 +90,7 @@ Information panel of the database:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fj8.png)
 
-## Provision a CCE Cluster
+## Provisioning a CCE Cluster
 
 We are going to need a CCE Cluster. In order to provision one, you can
 follow the configuration steps of the wizard paying attention to the
@@ -120,7 +120,7 @@ access it through this machine. **We categorically recommend the
 latter**.
 :::
 
-## Deploy Keycloak
+## Deploying Keycloak
 
 We are going to deploy Keycloak using simple Kubernetes manifests.
 Deploy those YAML manifests in the order described below using the
@@ -131,7 +131,7 @@ for an EIP):
 kubectl apply -f <<filename.yaml>>
 ```
 
-### Deploy Keycloak Secrets
+### Deploying Keycloak Secrets
 
 First we are going to need a Namespace in our CCE Cluster, in order to
 deploy all the resources required by Keycloak:
@@ -181,7 +181,7 @@ random strong passwords, in Linux terminal, with the following command:
 openssl rand -base64 14
 ```
 
-### Deploy Keycloak Application
+### Deploying Keycloak Application
 
 Next step, is deploying Keycloak itself:
 
@@ -278,12 +278,12 @@ Important to mention the significance of line 51, where we connect
 Keycloak with the RDS instance using the FQDN we created in our Private
 DNS Zone for this instance.
 
-### Deploy Keycloak Service
+### Deploying Keycloak Service
 
 We deployed the application, but at the time being is not accessible by
 an internal or external actor (direct access from Pods does not count in
 this case). For that matter, we need to deploy a Service that will
-expose Keycloak\'s workload:
+expose Keycloak's workload:
 
 ```yaml title="service.yaml" linenos="" emphasize-lines="15"
 apiVersion: v1
@@ -309,11 +309,11 @@ That\'s because we want to expose this service externally, in a later
 step, via an Ingress.
 :::
 
-## Expose Keycloak
+## Exposing Keycloak
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-di1.png)
 
-### Create an Elastic Load Balancer
+### Creating an Elastic Load Balancer
 
 First in our list for this part, is to create an Elastic Load Balancer
 that will be employed with the following:
@@ -331,11 +331,11 @@ Note down the **ELB ID**, we are going to need it to configure the Nginx
 Ingress that we will deploy next.
 :::
 
-### Deploy Nginx Ingress on CCE
+### Deploying Nginx Ingress on CCE
 
 We are going to deploy in this step the Ingress that will sit between
 our ELB and the Keycloak Service and expose it in the address of our
-preference (keycloak.example.com for this lab)
+preference (`keycloak.example.com` for this lab)
 
 :::warning
 Do not forget that the FQDN we are going to use to expose the Keycloak
@@ -355,7 +355,7 @@ chmod 700 get_helm.sh
 ```
 
 We have to provide to the helm chart a couple configuration values
-(`overrides.yaml`), among them the internal ID of the Elastic Load
+(**overrides.yaml**), among them the internal ID of the Elastic Load
 Balancer is the most important - as it will bind the future ingresses
 that will be created using this ingress class with the specific load
 balancer.
@@ -384,7 +384,7 @@ helm upgrade --install -f overrides.yaml --install ingress-nginx ingress-nginx \
 --namespace nginx-system --create-namespace
 ```
 
-### Create a Public DNS Endpoint
+### Creating a Public DNS Endpoint
 
 As we will see later, when we will reach to the point that we are ready
 to register this Keycloak installation as an Identity Provider (IdP) in
@@ -413,30 +413,30 @@ Cloud. We do have two mutually exclusive options to do that:
 - Automate everything using
     [ExternalDNS](https://github.com/kubernetes-sigs/external-dns).
 
-#### Create the Endpoint manually
+#### Creating the Endpoint manually
 
 Follow the same steps we did earlier for the Private Zone, but this time
 create a Public Zone targeting to your domain and add an A-Record that
-binds your Keycloak\'s (sub)domain with the Elastic IP Address of the
+binds your Keycloak's (sub)domain with the Elastic IP Address of the
 Elastic Load Balancer.
 
-#### Create the Endpoint with ExternalDNS
+#### Creating the Endpoint with ExternalDNS
 
 What is ExternalDNS? Quoting directly from the official repo of the
 project:
 
-*Inspired by Kubernetes DNS, Kubernetes\' cluster-internal DNS server,
+*Inspired by Kubernetes DNS, Kubernetes' cluster-internal DNS server,
 ExternalDNS makes Kubernetes resources discoverable via public DNS
 servers. Like KubeDNS, it retrieves a list of resources (Services,
 Ingresses, etc.) from the Kubernetes API to determine a desired list of
-DNS records. Unlike KubeDNS, however, it\'s not a DNS server itself, but
+DNS records. Unlike KubeDNS, however, it's not a DNS server itself, but
 merely configures other DNS providers accordingly---e.g. AWS Route 53 or
 Google Cloud DNS.*
 
 *In a broader sense, ExternalDNS allows you to control DNS records
 dynamically via Kubernetes resources in a DNS provider-agnostic way.*
 
-##### Deploy ExternalDNS on CCE
+##### Deploying ExternalDNS on CCE
 
 We are going to deploy ExternalDNS with Helm as well. First let's lay
 down the configuration of the chart:
@@ -475,7 +475,7 @@ helm repo update
 helm upgrade --install -f overrides.yaml external-dns bitnami/external-dns -n external-dns --create-namespace
 ```
 
-##### Create a dedicated DNS Service Account
+##### Creating a dedicated DNS Service Account
 
 :::note
 This is required **only** when ExternalDNS is used.
@@ -491,11 +491,11 @@ Group `dns-admins` (if it exists)
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-df8.png)
 
-##### Deploy a Keycloak Endpoint
+##### Deploying a Keycloak Endpoint
 
 We have now laid all the groundwork in order to automatically provision
 a Public DNS Zone and a dedicated A-Record that will bind the EIP of our
-ELB with Keycloak\'s subdomain FQDN. For that matter we need to install
+ELB with Keycloak's subdomain FQDN. For that matter we need to install
 a Custom Resource based on a CRD installed by ExternalDNS that is called
 `DNSEndpoint`:
 
@@ -526,7 +526,7 @@ the Record Sets of your Public Zone populated with various entries:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)
 
-### Deploy Keycloak Ingress
+### Deploying Keycloak Ingress
 
 And finally, the last step of this lab is to deploy an ingress for the
 Keycloak Service:
@@ -560,4 +560,4 @@ this application and land on the welcome page of Keycloak:
 
 ## Next Steps
 
-<!-- - [Identity Federation through Keycloak/GitHub](../../use-cases/security/keycloak_github.html) -->
+- [Identity Federation with GitHub](/docs/blueprints/by-use-case/security/keycloak/identity-federation-github.md)
