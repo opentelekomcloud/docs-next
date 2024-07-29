@@ -43,93 +43,24 @@ a website where ECSs and RDS instances are deployed in a VPC.
 
 This table lists private zones and record sets planned for the cloud
 servers.
-<!-- 
-  -------------------------------------------------------------------------------------
-  Resource   Private Zone  Associated   Private IP    Record Set Description
-                           VPC          Address       Type
-  ---------- ------------- ------------ ------------- ---------- ----------------------
-  ECS1       api.ecs.com   VPC_001      192.168.2.8   A          Public service node
 
-  ECS2       api.ecs.com   VPC_001      192.168.3.8   A          Backup for the public
-                                                                 service node
+  | Resource | Private Zone | Associated | Private IP  | Record Set Type | Description                        |
+  | -------- | ------------ | ---------- | ----------- | --------------- | ---------------------------------- |
+  | ECS1     | api.ecs.com  | VPC_001    | 192.168.2.8 | A               | Public service node                |
+  | ECS2     | api.ecs.com  | VPC_001    | 192.168.3.8 | A               | Backup for the public service node |
+  | RDS1     | db.com       | VPC_001    | 192.168.2.5 | A               | Service database                   |
+  | RDS2     | db.com       | VPC_001    | 192.168.3.5 | A               | Backup database                    |
 
-  RDS1       db.com        VPC_001      192.168.2.5   A          Service database
+  **Table 1** Private zones and record sets for each server
 
-  RDS2       db.com        VPC_001      192.168.3.5   A          Backup database
-  -------------------------------------------------------------------------------------
+| Region | Service | Resource           | Description                                                                                                                                                                                                                      | Quantity | Monthly Price                                                                                              |
+| ------ | ------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------- |
+| eu-de  | VPC     | VPC_001            | The DNS server addresses must be the same as the private DNS server addresses of Open Telekom Cloud. For details, see [Availability of secondary DNS](https://www.open-telekom-cloud.com/en/support/release-notes/secondary-dns) | 1        | Free                                                                                                       |
+|        | ECS     | ECS0 ECS1 ECS2     | Private domain name: `api.ecs.com` <br/> Associated VPC: `VPC_001` <br/> ECS1: public service node <br/> Private IP address: `192.168.2.8` <br/> ECS2: backup service node Private IP address: `192.168.3.8`                     | 3        | For details, see [ECS Product Pricing Details](https://open-telekom-cloud.com/en/prices/price-calculator). |
+|        | RDS     | RDS1 RDS2          | Private domain name: `db.com` <br/> Associated VPC: `VPC_001` <br/> RDS1: service database <br/> Private IP address: `192.168.2.5` <br/> RDS2: backup database <br/> Private IP address: `192.168.3.5`                           | 2        | For details, see [RDS Product Pricing Details](https://open-telekom-cloud.com/en/prices/price-calculator). |
+|        | DNS     | api.ecs.com db.com | **api.ecs.com**: Associated VPC: `VPC_001` <br/> Record set type: `A` Value: `192.168.2.8` <br/> **db.com**: Associated VPC: `VPC_001` Record set type: `A` Value: `192.168.2.5`                                                 | 2        | Free                                                                                                       |
 
-  : **Table 1** Private zones and record sets for each server -->
-
-<!-- +---+---+---+-------------------------------+---+--------------------------+
-| R | S | R | Description                   | Q | Monthly Price            |
-| e | e | e |                               | u |                          |
-| g | r | s |                               | a |                          |
-| i | v | o |                               | n |                          |
-| o | i | u |                               | t |                          |
-| n | c | r |                               | i |                          |
-|   | e | c |                               | t |                          |
-|   |   | e |                               | y |                          |
-+===+===+===+===============================+===+==========================+
-| e | V | V | The DNS server addresses must | 1 | Free                     |
-| u | P | P | be the same as the private    |   |                          |
-| - | C | C | DNS server addresses of Open  |   |                          |
-| d |   | _ | Telekom Cloud.                |   |                          |
-| e |   | 0 |                               |   |                          |
-|   |   | 0 | For details, see              |   |                          |
-|   |   | 1 | [Availability of secondary    |   |                          |
-|   |   |   | DNS](https://www.open         |   |                          |
-|   |   |   | -telekom-cloud.com/en/support |   |                          |
-|   |   |   | /release-notes/secondary-dns) |   |                          |
-+---+---+---+-------------------------------+---+--------------------------+
-|   | E | E | -   Private domain name:      | 3 | For details, see [ECS    |
-|   | C | C |     api.ecs.com               |   | Product Pricing          |
-|   | S | S |                               |   | Details](https://ope     |
-|   |   | 0 | -   Associated VPC: VPC_001   |   | n-telekom-cloud.com/en/p |
-|   |   |   |                               |   | rices/price-calculator). |
-|   |   | E | -   ECS1: public service node |   |                          |
-|   |   | C |                               |   |                          |
-|   |   | S |     Private IP address:       |   |                          |
-|   |   | 1 |     192.168.2.8               |   |                          |
-|   |   |   |                               |   |                          |
-|   |   | E | -   ECS2: backup service node |   |                          |
-|   |   | C |                               |   |                          |
-|   |   | S | -   Private IP address:       |   |                          |
-|   |   | 2 |     192.168.3.8               |   |                          |
-+---+---+---+-------------------------------+---+--------------------------+
-|   | R | R | -   Private domain name:      | 2 | For details, see [RDS    |
-|   | D | D |     db.com                    |   | Product Pricing          |
-|   | S | S |                               |   | Details](https://ope     |
-|   |   | 1 | -   Associated VPC: VPC_001   |   | n-telekom-cloud.com/en/p |
-|   |   |   |                               |   | rices/price-calculator). |
-|   |   | R | -   RDS1: service database    |   |                          |
-|   |   | D |                               |   |                          |
-|   |   | S |     Private IP address:       |   |                          |
-|   |   | 2 |     192.168.2.5               |   |                          |
-|   |   |   |                               |   |                          |
-|   |   |   | -   RDS2: backup database     |   |                          |
-|   |   |   |                               |   |                          |
-|   |   |   |     Private IP address:       |   |                          |
-|   |   |   |     192.168.3.5               |   |                          |
-+---+---+---+-------------------------------+---+--------------------------+
-|   | D | a | -   api.ecs.com:              | 2 | Free                     |
-|   | N | p |                               |   |                          |
-|   | S | i |     Associated VPC: VPC_001   |   |                          |
-|   |   | . |                               |   |                          |
-|   |   | e |     Record set type: A        |   |                          |
-|   |   | c |                               |   |                          |
-|   |   | s |     Value: 192.168.2.8        |   |                          |
-|   |   | . |                               |   |                          |
-|   |   | c | -   db.com                    |   |                          |
-|   |   | o |                               |   |                          |
-|   |   | m |     Associated VPC: VPC_001   |   |                          |
-|   |   |   |                               |   |                          |
-|   |   | d |     Record set type: A        |   |                          |
-|   |   | b |                               |   |                          |
-|   |   | . |     Value: 192.168.2.5        |   |                          |
-|   |   | c |                               |   |                          |
-|   |   | o |                               |   |                          |
-|   |   | m |                               |   |                          |
-+---+---+---+-------------------------------+---+--------------------------+ -->
+**Table 2** Resource planning
 
 ## Configuring Private Zones
 
