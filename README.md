@@ -188,8 +188,14 @@ Every blueprint should have the following attributes. It should be:
    * **Avoid** using emojis.
 5. **impartial**, waive strong personal technical opinions and/or preferences.
 
-
 You can use [this](https://urltomarkdown.com/) web tool to transform public pages to Markdown.
+
+### Tables
+
+In order to facilitate and help in the content creation process, the development container is pre-configured with the *Markdown Table* extension,
+which adds a plethora of functionality in regards of structuring and styling a Markdown table.
+
+You can see more information about the features of the extension [here](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable).
 
 #### Structure
 
