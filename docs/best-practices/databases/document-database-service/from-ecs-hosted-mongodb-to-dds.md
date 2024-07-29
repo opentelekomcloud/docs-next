@@ -30,19 +30,21 @@ scenarios are supported:
 
 ![**Figure 3** Flowchart](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
 
-#### Migration Suggestions 
+#### Migration Suggestions
 
 :::important
--   Database migration is closely impacted by a wide range of
+
+- Database migration is closely impacted by a wide range of
     environmental and operational factors. To ensure the migration goes
     smoothly, perform a test run before the actual migration to help you
     detect and resolve any potential issues in advance. Recommendations
     on how to minimize any potential impacts on your data base are
     provided in this section.
--   It is strongly recommended that you start your migration task during
+- It is strongly recommended that you start your migration task during
     off-peak hours. A less active database is easier to migrate
     successfully. If the data is fairly static, there is less likely to
     be any severe performance impacts during the migration.
+
 :::
 
 #### Notes on Migration
@@ -56,96 +58,38 @@ Migration*.
 
 ## Prerequisites
 
-1.  Permissions:
+1. Permissions:
 
-    `Table 1 <dds_0013__en-us_topic_0120558718_en-us_topic_0120558714_table3630544204314>`
-    lists the permissions required for the source and destination
+    **Table 1** below, lists the permissions required for the source and destination
     databases when migrating data from a MongoDB database on an ECS to
     DDS on the current cloud.
 
-    <!-- <div
-    id="dds_0013__en-us_topic_0120558718_en-us_topic_0120558714_table3630544204314">
-
-    <table>
-    <caption><strong>Table 1</strong> Migration permissions</caption>
-    <colgroup>
-    <col style="width: 4%" />
-    <col style="width: 48%" />
-    <col style="width: 47%" />
-    </colgroup>
-    <thead>
-    <tr class="header">
-    <th>Database</th>
-    <th>Full Migration Permission</th>
-    <th>Full+Incremental Migration Permission</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="odd">
-    <td>Source</td>
-    <td><ul>
-    <li>Replica set: The source database user must have the read permission
-    for the database to be migrated.</li>
-    <li>Single node: The source database user must have the read permission
-    for the database to be migrated.</li>
-    <li>Cluster: The source database user must have the read permission for
-    the databases to be migrated and the config database.</li>
-    <li>To migrate accounts and roles of the source database, the source
-    database user must have the read permission for the
-    <strong>system.users</strong> and <strong>system.roles</strong> system
-    tables of the admin database.</li>
-    </ul></td>
-    <td><ul>
-    <li>Replica set: The source database user must have the read permission
-    for the databases to be migrated and the local database.</li>
-    <li>Single node: The source database user must have the read permission
-    for the databases to be migrated and the local database.</li>
-    <li>Cluster: The source mongos node user must have the readAnyDatabase
-    permission for the databases to be migrated and the config database. The
-    source shard node user must have the readAnyDatabase permission for the
-    admin database and the read permission for the local database.</li>
-    <li>To migrate accounts and roles of the source database, the source
-    database user must have the read permission for the
-    <strong>system.users</strong> and <strong>system.roles</strong> system
-    tables of the admin database.</li>
-    </ul></td>
-    </tr>
-    <tr class="even">
-    <td>Destination</td>
-    <td>The destination database user must have the dbAdminAnyDatabase
-    permission for the admin database and the readWrite permission for the
-    destination database. If the destination database is a cluster instance,
-    the migration account must have the read permission for the config
-    database.</td>
-    <td></td>
-    </tr>
-    </tbody>
-    </table>
+    | Database    | Full Migration Permission                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Full+Incremental Migration Permission                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+    | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+    | Source      | Replica set: The source database user must have the read permission for the database to be migrated. Single node: The source database user must have the read permission for the database to be migrated. Cluster: The source database user must have the read permission for the databases to be migrated and the config database. To migrate accounts and roles of the source database, the source database user must have the read permission for the system.users and system.roles system tables of the admin database. | Replica set: The source database user must have the read permission for the databases to be migrated and the local database. Single node: The source database user must have the read permission for the databases to be migrated and the local database. Cluster: The source mongos node user must have the readAnyDatabase permission for the databases to be migrated and the config database. The source shard node user must have the readAnyDatabase permission for the admin database and the read permission for the local database. To migrate accounts and roles of the source database, the source database user must have the read permission for the system.users and system.roles system tables of the admin database. |
+    | Destination | The destination database user must have the dbAdminAnyDatabase permission for the admin database and the readWrite permission for the destination database. If the destination database is a cluster instance, the migration account must have the read permission for the config database.                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
     **Table 1** Migration permissions
 
-    </div> -->
-
-    -   Source database permissions:
+    - Source database permissions:
 
         The source MongoDB database user must have all the required
-        permissions listed in
-        `Table 1 <dds_0013__en-us_topic_0120558718_en-us_topic_0120558714_table3630544204314>`.
+        permissions listed in the table above.
         If the permissions are insufficient, create a user that has all
         of the permissions on the source database.
 
-    -   Destination database permissions:
+    - Destination database permissions:
 
         The initial account of the DDS instance has the required
         permissions.
 
-2.  Network settings
+2. Network settings
 
-    -   The source database and destination DDS DB instance must be in
+    - The source database and destination DDS DB instance must be in
         the same region.
-    -   The source database and destination DDS DB instance can be
+    - The source database and destination DDS DB instance can be
         either in the same VPC or different VPCs.
-        -   If the source and destination databases are in different
+        - If the source and destination databases are in different
             VPCs, the subnets of the source and destination databases
             are required to be in different CIDR blocks. You need to
             create a VPC peering connection between the two VPCs.
@@ -154,17 +98,17 @@ Migration*.
             Overview](https://docs.otc.t-systems.com/virtual-private-cloud/umn/vpc_peering_connection/vpc_peering_connection_overview.html)
             in the *Virtual Private Cloud User Guide*.
 
-        -   If the source and destination databases are in the same VPC,
+        - If the source and destination databases are in the same VPC,
             the networks are interconnected by default.
 
-3.  Security rules
+3. Security rules
 
-    -   In the same VPC, the network is connected by default. You do not
+    - In the same VPC, the network is connected by default. You do not
         need to set a security group.
-    -   In different VPCs, establish a VPC peering connection between
+    - In different VPCs, establish a VPC peering connection between
         the two VPCs. You do not need to set a security group.
 
-4.  Other
+4. Other
 
     You need to export the user information of the MongoDB database
     first and manually add it to the destination DDS DB instance because
@@ -172,150 +116,42 @@ Migration*.
 
 ## Migrating the Database
 
-1.  Create a migration task.
+1. Create a migration task.
 
-    1.  Log in to the management console and choose *Databases* ->
+    1. Log in to the management console and choose *Databases* ->
         *Data Replication Service* to go to the *DRS console*.
 
-    2.  On the *Online Migration Management* page, click *Create
+    2. On the *Online Migration Management* page, click *Create
         Migration Task*.
 
-    3.  On the *Create Replication Instance* page, configure the task
+    3. On the *Create Replication Instance* page, configure the task
         details, recipient, and replication instance and click *Next*.
 
         ![**Figure 4** Replication instance information](/img/docs/best-practices/databases/document-database-service/en-us_image_0232589882.png)
 
-        <!-- | Parameter   | Description                                                                                                                                                                |
-        |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-        | Region      | The region where the replication instance is deployed. You can change the region. To reduce latency and improve access speed, select the region closest to your workloads. |
-        | Project     | The project corresponds to the current region and can be changed.                                                                                                          |
-        | Task Name   | The task name consists of 4 to 50 characters, starts with a letter, and can contain only letters (case-insensitive), digits, hyphens (-), and underscores (\_).            |
-        | Description | The description consists of a maximum of 256 characters and cannot contain the following special characters: =\<\>&'\\"                                                    | -->
+        | Parameter   | Description                                                                                                                                                     |
+        | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | Project     | The project corresponds to the current region and can be changed.                                                                                               |
+        | Task Name   | The task name consists of 4 to 50 characters, starts with a letter, and can contain only letters (case-insensitive), digits, hyphens (-), and underscores (\_). |
+        | Description | The description consists of a maximum of 256 characters and cannot contain the following special characters: =\<\>&'\\"                                         |
 
-        <!-- **Table 2** Task settings
+        **Table 2** Task settings
 
-        <table>
-        <caption><strong>Table 3</strong> Replication instance
-        information</caption>
-        <colgroup>
-        <col style="width: 10%" />
-        <col style="width: 89%" />
-        </colgroup>
-        <thead>
-        <tr class="header">
-        <th>Parameter</th>
-        <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="odd">
-        <td>Data Flow</td>
-        <td><strong>To the cloud</strong></td>
-        </tr>
-        <tr class="even">
-        <td>Source DB Engine</td>
-        <td>Select <strong>MongoDB</strong>.</td>
-        </tr>
-        <tr class="odd">
-        <td>Destination DB Engine</td>
-        <td>Select <strong>DDS</strong>.</td>
-        </tr>
-        <tr class="even">
-        <td>Network Type</td>
-        <td>Select <strong>VPC</strong>.</td>
-        </tr>
-        <tr class="odd">
-        <td>Destination DB Instance</td>
-        <td>The DDS DB instance you purchased.</td>
-        </tr>
-        <tr class="even">
-        <td>Migration Type</td>
-        <td><p>Select <strong>Full+Incremental</strong> as an example:</p>
-        <ul>
-        <li><p><strong>Full</strong>: This migration type is suitable for
-        scenarios where a service interruption is acceptable. All objects and
-        data in non-system databases are migrated to the destination database at
-        one time. The objects include tables, views, and stored procedures.</p>
-        <div class="note">
-        <div class="title">
-        <p>Note</p>
-        </div>
-        <p>If you perform a full migration, you are advised to stop operations
-        on the source database. Otherwise, data generated in the source database
-        during the migration will not be synchronized to the destination
-        database.</p>
-        </div></li>
-        <li><p><strong>Full+Incremental</strong>: This migration type allows you
-        to migrate data without interrupting services. After a full migration
-        initializes the destination database, an incremental migration initiates
-        and parses logs to ensure data consistency between the source and
-        destination databases.</p></li>
-        </ul>
-        <div class="note">
-        <div class="title">
-        <p>Note</p>
-        </div>
-        <p>If you select the <strong>Full+Incremental</strong> migration type,
-        data generated during the full migration will be synchronized to the
-        destination database with zero downtime, ensuring that both the source
-        and destination databases remain accessible.</p>
-        </div></td>
-        </tr>
-        <tr class="odd">
-        <td>Source DB Instance Type</td>
-        <td><p>If you select <strong>Full+Incremental</strong> for
-        <strong>Migration Type</strong>, set this parameter based on the source
-        database. <strong>Non-cluster</strong> is selected as an example.</p>
-        <ul>
-        <li>If the source database is a cluster instance, set this parameter to
-        <strong>Cluster</strong>.</li>
-        <li>If the source database is a replica set or a single node instance,
-        set this parameter to <strong>Non-cluster</strong>.</li>
-        </ul></td>
-        </tr>
-        <tr class="even">
-        <td>Obtain Incremental Data</td>
-        <td><p>This parameter is available for configuration if <strong>Source
-        DB Instance Type</strong> is set to <strong>Cluster</strong>. You can
-        determine how to capture data changes during the incremental
-        synchronization.</p>
-        <ul>
-        <li><p>oplog: For MongoDB 3.2 or later, DRS directly connects to each
-        shard of the source DB instance to extract data. If you select this
-        mode, you must disable the balancer of the source instance. When testing
-        the connection, you need to enter the connection information of each
-        shard node of the source instance.</p></li>
-        <li><p>changeStream: This method is recommended. For MongoDB 4.0 and
-        later, DRS connects to mongos nodes of the source instance to extract
-        data. If you select this method, you must enable the WiredTiger storage
-        engine of the source instance.</p>
-        <div class="note">
-        <div class="title">
-        <p>Note</p>
-        </div>
-        <p>Only whitelisted users can use <strong>changeStream</strong>. To use
-        this function, submit a service ticket. In the upper right corner of the
-        management console, choose <strong>Service Tickets</strong> &gt;
-        <strong>Create Service Ticket</strong> to submit a service ticket.</p>
-        </div></li>
-        </ul></td>
-        </tr>
-        <tr class="odd">
-        <td>Source Shard Quantity</td>
-        <td><p>If <strong>Source DB Instance Type</strong> is set to
-        <strong>Cluster</strong> and <strong>Obtain Incremental Data</strong> is
-        set to <strong>oplog</strong>, enter the number of source shard
-        nodes.</p>
-        <p>The default minimum number of source DB instances is 2 and the
-        maximum number is 32. You can set this parameter based on the number of
-        source database shards.</p></td>
-        </tr>
-        </tbody>
-        </table> -->
+       | Parameter               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+       | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+       | Data Flow               | To the cloud                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+       | Source DB Engine        | Select MongoDB.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+       | Destination DB Engine   | Select DDS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+       | Network Type            | Select VPC.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+       | Destination DB Instance | The DDS DB instance you purchased.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+       | Migration Type          | Select Full+Incremental as an example: **Full**: This migration type is suitable for scenarios where a service interruption is acceptable. All objects and data in non-system databases are migrated to the destination database at one time. The objects include tables, views, and stored procedures.   Note  If you perform a full migration, you are advised to stop operations on the source database. Otherwise, data generated in the source database during the migration will not be synchronized to the destination database.  Full+Incremental: This migration type allows you to migrate data without interrupting services. After a full migration initializes the destination database, an incremental migration initiates and parses logs to ensure data consistency between the source and destination databases.    Note  If you select the Full+Incremental migration type, data generated during the full migration will be synchronized to the destination database with zero downtime, ensuring that both the source and destination databases remain accessible. |
+       | Source DB Instance Type | If you select Full+Incremental for Migration Type, set this parameter based on the source database. Non-cluster is selected as an example.  If the source database is a cluster instance, set this parameter to Cluster. If the source database is a replica set or a single node instance, set this parameter to Non-cluster.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+       | Obtain Incremental Data | This parameter is available for configuration if Source DB Instance Type is set to Cluster. You can determine how to capture data changes during the incremental synchronization.  oplog: For MongoDB 3.2 or later, DRS directly connects to each shard of the source DB instance to extract data. If you select this mode, you must disable the balancer of the source instance. When testing the connection, you need to enter the connection information of each shard node of the source instance. changeStream: This method is recommended. For MongoDB 4.0 and later, DRS connects to mongos nodes of the source instance to extract data. If you select this method, you must enable the WiredTiger storage engine of the source instance.   Note  Only whitelisted users can use changeStream. To use this function, submit a service ticket. In the upper right corner of the management console, choose Service Tickets > Create Service Ticket to submit a service ticket.                                                                                                  |
+       | Source Shard Quantity   | If Source DB Instance Type is set to Cluster and Obtain Incremental Data is set to oplog, enter the number of source shard nodes. The default minimum number of source DB instances is 2 and the maximum number is 32. You can set this parameter based on the number of source database shards.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-        <!-- **Table 3** Replication instance information -->
+        **Table 3** Replication instance information
 
-    4.  On the *Configure Source and Destination Databases* page, wait
+    4. On the *Configure Source and Destination Databases* page, wait
         until the replication instance is created. Then, specify source
         and destination database information and click *Test
         Connection* for both the source and destination databases to
@@ -325,157 +161,42 @@ Migration*.
 
         ![**Figure 5** Source and destination database details](/img/docs/best-practices/databases/document-database-service/en-us_image_0232605869.png)
 
-        <!-- <table>
-        <caption><strong>Table 4</strong> Source database information</caption>
-        <colgroup>
-        <col style="width: 10%" />
-        <col style="width: 89%" />
-        </colgroup>
-        <thead>
-        <tr class="header">
-        <th>Parameter</th>
-        <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="odd">
-        <td>Source Database Type</td>
-        <td>Select <strong>Self-built on ECS</strong>.</td>
-        </tr>
-        <tr class="even">
-        <td>VPC</td>
-        <td>A dedicated virtual network in which the source database is located.
-        It isolates networks for different services. You can select an existing
-        VPC or create a VPC. For details on how to create a VPC, see <a
-        href="https://docs.otc.t-systems.com/virtual-private-cloud/umn/vpc_and_subnet/vpc/creating_a_vpc.html">Creating
-        a VPC</a>.</td>
-        </tr>
-        <tr class="odd">
-        <td>Subnet</td>
-        <td><p>A subnet provides dedicated network resources that are logically
-        isolated from other networks, improving network security. The subnet
-        must be in the AZ where the source database resides. You need to enable
-        DHCP for creating the source database subnet.</p>
-        <p>For details on how to create a VPC, see the <a
-        href="https://docs.otc.t-systems.com/virtual-private-cloud/umn/vpc_and_subnet/vpc/creating_a_vpc.html">Creating
-        a VPC</a> section in the <em>Virtual Private Cloud User
-        Guide</em>.</p></td>
-        </tr>
-        <tr class="even">
-        <td>IP Address or Domain Name</td>
-        <td>The IP address or domain name of the source database.</td>
-        </tr>
-        <tr class="odd">
-        <td>Port</td>
-        <td><p>The port of the source database.</p>
-        <p>Range: 1 - 65535</p></td>
-        </tr>
-        <tr class="even">
-        <td>Database Username</td>
-        <td>A username for the source database.</td>
-        </tr>
-        <tr class="odd">
-        <td>Database Password</td>
-        <td>The password for the database username.</td>
-        </tr>
-        <tr class="even">
-        <td>SSL Connection</td>
-        <td>To improve data security during the migration, you are advised to
-        enable SSL to encrypt migration links and upload a CA certificate.</td>
-        </tr>
-        </tbody>
-        </table>
+        | Parameter                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+        | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | Source Database Type      | Select Self-built on ECS.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+        | VPC                       | A dedicated virtual network in which the source database is located. It isolates networks for different services. You can select an existing VPC or create a VPC. For details on how to create a VPC, see [Creating a VPC](https://docs.otc.t-systems.com/virtual-private-cloud/umn/vpc_and_subnet/vpc/creating_a_vpc.html).                                                                                                                                               |
+        | Subnet                    | A subnet provides dedicated network resources that are logically isolated from other networks, improving network security. The subnet must be in the AZ where the source database resides. You need to enable DHCP for creating the source database subnet. For details on how to create a VPC, see the [Creating a VPC](https://docs.otc.t-systems.com/virtual-private-cloud/umn/vpc_and_subnet/vpc/creating_a_vpc.html) section in the Virtual Private Cloud User Guide. |
+        | IP Address or Domain Name | The IP address or domain name of the source database.                                                                                                                                                                                                                                                                                                                                                                                                                      |
+        | Port                      | The port of the source database. Range: 1 - 65535                                                                                                                                                                                                                                                                                                                                                                                                                          |
+        | Database Username         | A username for the source database.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+        | Database Password         | The password for the database username.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+        | SSL Connection            | To improve data security during the migration, you are advised to enable SSL to encrypt migration links and upload a CA certificate.                                                                                                                                                                                                                                                                                                                                       |
 
         **Table 4** Source database information
 
         | Parameter         | Description                                                                                                             |
-        |-------------------|-------------------------------------------------------------------------------------------------------------------------|
+        | ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
         | DB Instance Name  | The DDS DB instance you have selected during the migration task creation is displayed by default and cannot be changed. |
         | Database Username | The username for accessing the destination DDS DB instance.                                                             |
         | Database Password | The password for the database username.                                                                                 |
 
-        **Table 5** Destination database information -->
+        **Table 5** Destination database information
 
-    5.  On the *Set Task* page, select migration objects and click
+    5. On the *Set Task* page, select migration objects and click
         *Next*.
 
         ![**Figure 6** Migration object](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097583.png)
 
-        <!-- <table>
-        <caption><strong>Table 6</strong> Migration object</caption>
-        <colgroup>
-        <col style="width: 10%" />
-        <col style="width: 89%" />
-        </colgroup>
-        <thead>
-        <tr class="header">
-        <th>Parameter</th>
-        <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="odd">
-        <td>Migrate Account</td>
-        <td><p>There are accounts that can be migrated completely and accounts
-        that cannot be migrated. You can choose whether to migrate the accounts.
-        Accounts that cannot be migrated or accounts that are not selected will
-        not exist in the destination database. Ensure that your services will
-        not be affected by these accounts.</p>
-        <ul>
-        <li><p><strong>Yes</strong></p>
-        <p>If you choose to migrate accounts, see <a
-        href="https://docs.otc.t-systems.com/data-replication-service/umn/real-time_migration/task_management/managing_objects/migrating_accounts.html">Migrating
-        Accounts</a> in <em>Data Replication Service User Guide</em> to migrate
-        database users and roles.</p></li>
-        <li><p><strong>No</strong></p>
-        <p>During the migration, accounts and roles are not migrated.</p></li>
-        </ul></td>
-        </tr>
-        <tr class="even">
-        <td>Migrate Object</td>
-        <td><p>You can choose to migrate all objects, tables, or databases based
-        on your service requirements.</p>
-        <ul>
-        <li><strong>All</strong>: All objects in the source database are
-        migrated to the destination database. After the migration, the object
-        names will remain the same as those in the source database and cannot be
-        modified.</li>
-        <li><strong>Tables</strong>: The selected table-level objects will be
-        migrated.</li>
-        <li><strong>Databases</strong>: The selected database-level objects will
-        be migrated.</li>
-        </ul>
-        <p>If the source database is changed, click <img
-        src="/img/docs/best-practices/databases/document-database-service/en-us_image_0000001151977946.png" alt="image1" />
-        in the upper right corner before selecting migration objects to ensure
-        that the objects to be selected are from the changed source
-        database.</p>
-        <div class="note">
-        <div class="title">
-        <p>Note</p>
-        </div>
-        <ul>
-        <li>If you choose not to migrate all of the databases, the migration may
-        fail because the objects, such as stored procedures and views, in the
-        database to be migrated may have dependencies on other objects that are
-        not migrated. To ensure a successful migration, you are advised to
-        migrate all of the databases.</li>
-        <li>When you select an object, the spaces before and after the object
-        name are not displayed. If there are two or more consecutive spaces in
-        the middle of the object name, only one space is displayed.</li>
-        <li>The search function can help you quickly select the required
-        database objects.</li>
-        </ul>
-        </div></td>
-        </tr>
-        </tbody>
-        </table>
+        | Parameter       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+        | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+        | Migrate Account | There are accounts that can be migrated completely and accounts that cannot be migrated. You can choose whether to migrate the accounts. Accounts that cannot be migrated or accounts that are not selected will not exist in the destination database. Ensure that your services will not be affected by these accounts.  Yes If you choose to migrate accounts, see [Migrating Accounts](https://docs.otc.t-systems.com/data-replication-service/umn/real-time_migration/task_management/managing_objects/migrating_accounts.html) in Data Replication Service User Guide to migrate database users and roles. No During the migration, accounts and roles are not migrated.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+        | Migrate Object  | You can choose to migrate all objects, tables, or databases based on your service requirements.  All: All objects in the source database are migrated to the destination database. After the migration, the object names will remain the same as those in the source database and cannot be modified. Tables: The selected table-level objects will be migrated. Databases: The selected database-level objects will be migrated.  If the source database is changed, click  in the upper right corner before selecting migration objects to ensure that the objects to be selected are from the changed source database.   Note   If you choose not to migrate all of the databases, the migration may fail because the objects, such as stored procedures and views, in the database to be migrated may have dependencies on other objects that are not migrated. To ensure a successful migration, you are advised to migrate all of the databases. When you select an object, the spaces before and after the object name are not displayed. If there are two or more consecutive spaces in the middle of the object name, only one space is displayed. The search function can help you quickly select the required database objects. |
 
-        **Table 6** Migration object -->
+        **Table 6** Migration object
 
-    6.  On the *Check Task* page, check the migration task.
+    6. On the *Check Task* page, check the migration task.
 
-        -   If any check fails, review the cause and rectify the fault.
+        - If any check fails, review the cause and rectify the fault.
             After the fault is rectified, click *Check Again*.
 
             :::note
@@ -485,7 +206,7 @@ Migration*.
             in *Data Replication Service User Guide*.
             :::
 
-        -   If all check items are successful, click *Next*.
+        - If all check items are successful, click *Next*.
 
             ![**Figure 7** Task Check](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001152137438.png)
 
@@ -493,68 +214,41 @@ Migration*.
         successful. If any alarms are generated, view and confirm the
         alarm details first before proceeding to the next step.
 
-    7.  On the displayed page, specify *Start Time* and confirm that
+    7. On the displayed page, specify *Start Time* and confirm that
         the configured information is correct and click *Submit* to
         submit the task.
 
         ![**Figure 8** Task startup settings](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001199158158.png)
 
-        <!-- <table>
-        <caption><strong>Table 7</strong> Task startup settings</caption>
-        <colgroup>
-        <col style="width: 10%" />
-        <col style="width: 89%" />
-        </colgroup>
-        <thead>
-        <tr class="header">
-        <th>Parameter</th>
-        <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="odd">
-        <td>Start Time</td>
-        <td><p>Set <strong>Start Time</strong> to <strong>Start upon task
-        creation</strong> or <strong>Start at a specified time</strong> based on
-        site requirements. The <strong>Start at a specified time</strong> option
-        is recommended.</p>
-        <div class="note">
-        <div class="title">
-        <p>Note</p>
-        </div>
-        <p>The migration task may affect the performance of the source and
-        destination databases. You are advised to start the task in off-peak
-        hours and reserve two to three days for data verification.</p>
-        </div></td>
-        </tr>
-        </tbody>
-        </table>
+        | Parameter  | Description                                                                                                                                                                                                                                                                                                                                                      |
+        | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | Start Time | Set Start Time to Start upon task creation or Start at a specified time based on site requirements. The Start at a specified time option is recommended.   Note  The migration task may affect the performance of the source and destination databases. You are advised to start the task in off-peak hours and reserve two to three days for data verification. |
 
-        **Table 7** Task startup settings -->
+        **Table 7** Task startup settings
 
-    8.  After the task is submitted, go back to the *Online Migration
+    8. After the task is submitted, go back to the *Online Migration
         Management* page to view the task status.
 
-2.  Manage the migration task.
+2. Manage the migration task.
 
     The migration task contains two phases: full migration and
     incremental migration. You can manage them in different phases.
 
-    -   **Full migration**
-        -   Viewing the migration progress: Click the target full
+    - **Full migration**
+        - Viewing the migration progress: Click the target full
             migration task, and on the *Migration Progress* tab, you
             can see the migration progress of the structure, data,
             indexes, and migration objects. When the progress reaches
             100%, the migration is complete.
-        -   Viewing migration details: In the migration details, you can
+        - Viewing migration details: In the migration details, you can
             view the migration progress of a specific object. If the
             number of objects is the same as that of migrated objects,
             the migration is complete. You can view the migration
             progress of each object in detail. Currently, this function
             is available only to whitelisted users. You can submit a
             service ticket to apply for this function.
-    -   **Incremental Migration** Permission
-        -   Viewing the synchronization delay: After the full migration
+    - **Incremental Migration** Permission
+        - Viewing the synchronization delay: After the full migration
             is complete, an incremental migration starts. On the
             *Online Migration Management* page, click the target
             migration task. On the displayed page, click *Migration
@@ -566,7 +260,7 @@ Migration*.
 
             ![**Figure 9** Viewing the synchronization delay](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001243756137.png)
 
-        -   Viewing the migration results: On the *Online Migration
+        - Viewing the migration results: On the *Online Migration
             Management* page, click the target migration task. On the
             displayed page, click *Migration Comparison* and perform a
             migration comparison in accordance with the comparison
@@ -580,7 +274,7 @@ Migration*.
             Items](https://docs.otc.t-systems.com/data-replication-service/umn/real-time_migration/task_management/step_4_compare_migration_items.html)
             in *Data Replication Service User Guide*.
 
-3.  Cut over services.
+3. Cut over services.
 
     You are advised to start the cutover process during off-peak hours.
     At least one complete data comparison is performed during off-peak
@@ -591,10 +285,10 @@ Migration*.
     inconsistent comparison results may be generated, reducing the
     reliability and validity of the results.
 
-    1.  Interrupt services first. If the workload is not heavy, you may
+    1. Interrupt services first. If the workload is not heavy, you may
         not need to interrupt the services.
 
-    2.  Run the following statement on the source database and check
+    2. Run the following statement on the source database and check
         whether any new sessions execute SQL statements within the next
         1 to 5 minutes. If there are no new statements executed, the
         service has been stopped.
@@ -602,31 +296,31 @@ Migration*.
         ```
         db.currentOp()
         ```
-        
+
         :::note
         The process list queried by the preceding statement includes the
         connection of the DRS replication instance. If no additional
         session executes SQL statements, the service has been stopped.
         :::
 
-    3.  On the *Migration Progress* page, view the synchronization
+    3. On the *Migration Progress* page, view the synchronization
         delay. When the delay is displayed as 0s and remains stable for
         a period, then you can perform a data-level comparison between
         the source and destination databases. For details about the time
         required, refer to the results of the previous comparison.
 
-        -   If there is enough time, compare all objects.
-        -   If there is not enough time, use the data-level comparison
+        - If there is enough time, compare all objects.
+        - If there is not enough time, use the data-level comparison
             to compare the tables that are frequently used and that
             contain key business data or inconsistent data.
 
-    4.  Determine an appropriate time to cut the services over to the
+    4. Determine an appropriate time to cut the services over to the
         destination database. After services are restored and available,
         the migration is complete.
 
-4.  Stop or delete the migration task.
+4. Stop or delete the migration task.
 
-    1.  Stopping the migration task. After databases and services are
+    1. Stopping the migration task. After databases and services are
         migrated to the destination database, to prevent operations on
         the source database from being synchronized to the destination
         database to overwrite data, you can stop the migration task.
@@ -634,6 +328,6 @@ Migration*.
         migration task is still displayed in the task list. You can view
         or delete the task. DRS will not charge for this task after you
         stop it.
-    2.  Delete the migration task. After the migration task is complete,
+    2. Delete the migration task. After the migration task is complete,
         you can delete it. After the migration task is deleted, it will
         no longer be displayed in the task list.
