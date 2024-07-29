@@ -667,6 +667,10 @@ const sidebars: SidebarsConfig = {
           label: 'Virtual Private Cloud',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-cloud/vpc-and-subnet-planning-suggestions',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/virtual-private-cloud/index.html',
