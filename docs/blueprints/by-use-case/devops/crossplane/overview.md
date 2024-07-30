@@ -77,7 +77,7 @@ Deploy with `kubectl apply -f` the following manifests:
 
 1. Installing the Provider
 
-   ```yaml title="provider.yaml"
+   ```yaml title="provider-openetelekomcloud.yaml"
     apiVersion: pkg.crossplane.io/v1
     kind: Provider
     metadata:
@@ -90,7 +90,7 @@ Deploy with `kubectl apply -f` the following manifests:
 
     Pass the Open Telekom Cloud credentials as a Kubernetes `Secret`:
 
-    ```yaml title="provider-creds.yaml"
+    ```yaml title="provider-openetelekomcloud-creds.yaml"
     apiVersion: v1
     kind: Secret
     metadata:
@@ -120,11 +120,11 @@ Deploy with `kubectl apply -f` the following manifests:
 
 3. Installing the Provider Configuration
 
-    ```yaml title="provider-config.yaml"
+    ```yaml title="provider-openetelekomcloud-config.yaml"
     apiVersion: opentelekomcloud.crossplane.io/v1beta1
     kind: ProviderConfig
     metadata:
-    name: default
+    name: provider-openetelekomcloud-config
     spec:
     credentials:
         source: Secret
