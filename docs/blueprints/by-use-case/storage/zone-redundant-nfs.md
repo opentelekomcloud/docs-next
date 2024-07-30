@@ -339,7 +339,7 @@ On any client, you can now verify the exports by running:
    /export3 *
 ```
 
-## Online resizing of the NFS-Export
+## Online resizing of the NFS Export
 
 This section covers the steps to perform an online resize of your NFS
 export, specifically focusing on ``export2`` as an example. This
