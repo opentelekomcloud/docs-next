@@ -6,8 +6,6 @@ tags: [keycloak, security]
 
 # Keycloak
 
-## Overview
-
 Keycloak is an open-source identity and access management (IAM) solution
 developed by Red Hat. It provides features for single sign-on (SSO),
 user authentication, authorization, and identity brokering. Keycloak
