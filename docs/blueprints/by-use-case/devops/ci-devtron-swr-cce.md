@@ -1,10 +1,10 @@
 ---
 id: ci-devtron-swr-cce
-title: Build a CI Pipeline with Devtron, SWR and CCE
-tags: [devops, ci, devtron, swr, cce]
+title: Build a CI/CD Pipeline with Devtron, SWR and CCE
+tags: [devops, ci, cd, ci-cd, devtron, swr, cce]
 ---
 
-# Build a CI Pipeline with Devtron, SWR and CCE
+# Build a CI/CD Pipeline with Devtron, SWR and CCE
 
 This blueprint covers integrating Devtron with Open Telekom Cloud Container Engine (CCE) for efficient CI/CD pipelines. It details installing Devtron in CCE clusters, emphasizing using containerized Masters and dynamic Agents managed by Kubernetes for optimal resource utilization and self-healing. The Master schedules jobs, which Agents execute within Kubernetes pods. This setup enhances security and maintenance efficiency.
 
@@ -446,6 +446,252 @@ proceeding.
       {"cities":["Amsterdam","Berlin","New York","San Francisco","Tokyo"]}
       ```
 
-  For more detailed documentation about the configurations, refer to the
-  [Devtron User
-  Guide](https://docs.devtron.ai/devtron/user-guide/creating-application).
+#### Conclusion
+
+By following these steps, you have successfully deployed a Node.js
+application using Devtron and set up a CI/CD pipeline to automate the
+process.
+
+:::tip
+For more detailed documentation about the configurations, refer to the
+[Devtron User
+Guide](https://docs.devtron.ai/devtron/user-guide/creating-application).
+:::
+
+## Appendix (Review of Advanced Options)
+
+### Build and Deploy from Source Code
+
+*Build and Deploy from Source Code* workflow allows you to build the
+container image from a source code repository.
+
+1. From the *Applications* menu, select your application.
+2. On the *App Configuration* page, select *Workflow Editor*.
+3. Select *+ New Workflow*.
+4. Select *Build and Deploy from Source Code*.
+5. Enter the following fields on the *Create build pipeline* window:
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-pipeline-v1.jpg)
+
+### Advanced Options
+
+The Advanced CI Pipeline includes the following stages:
+
+- *Pre-build stage*: The tasks in this stage are executed before the
+    image is built.
+- *Build stage*: In this stage, the build is triggered from the
+    source code that you provide.
+- *Post-build stage*: The tasks in this stage will be triggered once
+    the build is complete.
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/advanced-options.jpg)
+
+The Pre-build and Post-build stages allow you to create Pre/Post-Build
+CI tasks.
+
+### Build Stage
+
+Go to the *Build stage* tab.
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/build-stage-v2.jpg)
+
+<!-- <table>
+<thead>
+<tr class="header">
+<th>Field Name</th>
+<th>Required/Optional</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TRIGGER BUILD PIPELINE</td>
+<td>Required</td>
+<td>The build execution may be set to:
+<ul>
+<li><strong>Automatically (default)</strong>: Build is triggered
+automatically as the Git source code changes.</li>
+<li><strong>Manually</strong>: Build is triggered manually.</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Pipeline Name</td>
+<td>Required</td>
+<td>A name for the pipeline</td>
+</tr>
+<tr class="odd">
+<td>Source type</td>
+<td>Required</td>
+<td>Select the source type to build the CI pipeline: <a
+href="#branch-fixed">Branch Fixed</a>, <a href="#branch-regex">Branch
+Regex</a>, <a href="#pull-request">Pull Request</a>, <a
+href="#tag-creation">Tag Creation</a></td>
+</tr>
+<tr class="even">
+<td>Branch Name</td>
+<td>Required</td>
+<td>Branch that triggers the CI build</td>
+</tr>
+<tr class="odd">
+<td>Docker build arguments</td>
+<td>Optional</td>
+<td><dl>
+<dt>Override docker build configurations for this pipeline.</dt>
+<dd>
+<ul>
+<li>Key: Field name</li>
+<li>Value: Field value</li>
+</ul>
+</dd>
+</dl></td>
+</tr>
+</tbody>
+</table> -->
+
+### Source type
+
+#### Branch Fixed
+
+This allows you to trigger a CI build whenever there is a code change on
+the specified branch. Enter the **Branch Name** of your code repository.
+
+#### Branch Regex
+
+*Branch Regex* allows users to easily switch between branches matching the configured Regex before triggering
+the build pipeline.
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/branch-regex.jpg)
+
+For example, if the user sets the Branch Regex as `feature-\*`, then users can trigger from branches such as `feature-1450`, `feature-hot-fix` etc.
+
+#### Pull Request
+
+This allows you to trigger the CI build when a pull request is created
+in your repository.
+
+:::note Prerequisites
+Configure the webhook for either GitHub or Bitbucket.
+:::
+
+:::warning
+The `Pull Request` source type feature only works for the host GitHub
+or Bitbucket Cloud.
+:::
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-pipeline-3.jpg)
+
+To trigger the build from specific PRs, you can filter the PRs based on
+the following keys:
+
+| Filter key         | Description                                              |
+|--------------------|----------------------------------------------------------|
+| Author             | Author of the PR                                         |
+| Source branch name | Branch from which the Pull Request is generated          |
+| Target branch name | Branch to which the Pull request will be merged          |
+| Title              | Title of the Pull Request                                |
+| State              | State of the PR. Default is "open" and cannot be changed |
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-pipeline-8.jpg)
+
+Select the appropriate filter and pass the matching condition as a regular expression (regex).
+
+Devtron uses **regexp** library, view [regexp cheatsheet](https://yourbasic.org/golang/regexp-cheat-sheet/). You can
+test your custom regex from here [regex101](https://regex101.com/r/lHHuaE/1).
+
+Select *Create Pipeline*.
+
+#### Tag Creation
+
+This allows you to trigger the CI build whenever a new tag is created.
+
+:::note Prerequisites
+Configure the webhook for either GitHub or Bitbucket.
+:::
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-pipeline-9.jpg)
+
+To trigger the build from specific tags, you can filter the tags based
+on the `author` and/or the `tag name`.
+
+| Filter key | Description                                             |
+|------------|---------------------------------------------------------|
+| Author     | The one who created the tag                             |
+| Tag name   | Name of the tag for which the webhook will be triggered |
+
+Select the appropriate filter and pass the matching condition as a regular expression (regex).
+
+Select *Create Pipeline*.
+
+:::note
+The total timeout for the execution of the CI pipeline is by default set
+as 3600 seconds. This default timeout is configurable according to the
+use case.
+:::
+
+### Scan for Vulnerabilities
+
+:::imporant Prerequisites
+Install any one of the following integrations from Devtron Stack Manager:  
+
+- **Clair**
+- **Trivy**
+:::
+
+To perform the security scan after the container image is built, enable
+the *Scan for vulnerabilities* toggle in the build stage.
+
+![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/scan-for-vulnerabilities-v2.jpg)
+
+### Custom Image Tag Pattern
+
+This feature helps you apply custom tags (e.g., `v1.0.0`) to readily distinguish container images within your repository.
+
+1. Enable the toggle button as shown below.
+
+    ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-image-tag-pattern.jpg)
+
+2. You can write an alphanumeric pattern for your image tag, e.g.,
+    `test-v1.0.{x}`. Here, `x` is a mandatory variable whose value
+    will incrementally increase with every build. You can also define
+    the value of `x` for the next build trigger in case you want to
+    change it.
+
+    ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-image-tag-version.jpg)
+
+    :::warning
+    Ensure your custom tag does not start or end with a period (.) or comma (,)
+    :::
+
+3. Click *Update Pipeline*.
+
+4. Now, go to the *Build & Deploy* tab of your application, and click
+    *Select Material* in the CI pipeline.
+
+    ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-material.jpg)
+
+5. Choose the git commit you wish to use for building the container
+    image. Click *Start Build*.
+
+    ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/choose-commit.jpg)
+
+6. The build will initiate and once it is successful, the image tag
+    would reflect at all relevant screens:
+
+    - *Build History*
+
+        ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/build-history.jpg)
+
+    - *CD Pipeline (Image Selection)*
+
+        ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/select-ci-image.jpg)
+
+:::note
+Build will fail if the resulting image tag has already been built in the
+past. This means if there is an existing image with tag `test-v1.0.0`, you cannot build another image
+having the same tag `test-v1.0.0` in the
+same CI pipeline. This error might occur when you reset the value of the
+variable `x` or when you disable/enable the
+toggle button for *Custom image tag
+pattern*.
+:::
+
