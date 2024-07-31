@@ -6,7 +6,7 @@ tags: [devops, ci, jenkins, swr, cce]
 
 # Build a CI Pipeline with Jenkins, SWR and CCE
 
-This blueprint covers integrating Jenkins with Open Telekom Cloud Container Engine (CCE) for efficient CI/CD pipelines. It details installing Jenkins in CCE clusters, emphasizing using containerized Masters and dynamic Agents managed by Kubernetes for optimal resource utilization and self-healing. The Master schedules jobs, which Agents execute within Kubernetes pods. This setup enhances security and maintenance efficiency. 
+This blueprint covers integrating Jenkins with Open Telekom Cloud Container Engine (CCE) for efficient CI/CD pipelines. It details installing Jenkins in CCE clusters, emphasizing using containerized Masters and dynamic Agents managed by Kubernetes for optimal resource utilization and self-healing. The Master schedules jobs, which Agents execute within Kubernetes pods. This setup enhances security and maintenance efficiency.
 
 ## Solution Design
 
