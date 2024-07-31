@@ -222,7 +222,7 @@ provides a step-by-step process to add a SWR to Devtron.
 
 2. Click *Add Registry*.
 
-    ![Figure 2: Add a Registry](/_static/images/en-us_image_A0000001348013634.png)
+    ![Figure 2: Add a Registry](/img/docs/blueprints/by-use-case/devops/ci-devtron-swr-cce/en-us_image_A0000001348013634.png)
 
 3. From the *Registry provider* dropdown, select your desired provider. Select *other* for SWR.
 
@@ -248,15 +248,15 @@ provides a step-by-step process to add a SWR to Devtron.
 
     and here is a recap of available options:
 
-    | Field                       | Description                                                                                                                                           |
-    | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Field                     | Description                                                                                                                                       |
+    | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
     | *Name*                    | Provide a name for your registry. This will appear in the *Container Registry* dropdown in the *Build Configuration* section of your application. |
-    | *Registry URL*            | Enter the registry URL                                                                                                                                |
-    | *Authentication Type*     | Select based on your registry provider.                                                                                                               |
-    | *Push container images*   | Enable if you plan to push container images to this repository.                                                                                       |
-    | *Push helm packages*      | Enable if you plan to push Helm charts to this repository.                                                                                            |
-    | *Use as chart repository* | Enable if you want Devtron to pull Helm charts from this registry.                                                                                    |
-    | *Set as default registry* | Enable to set this registry as the default for your images or artifacts.                                                                              |
+    | *Registry URL*            | Enter the registry URL                                                                                                                            |
+    | *Authentication Type*     | Select based on your registry provider.                                                                                                           |
+    | *Push container images*   | Enable if you plan to push container images to this repository.                                                                                   |
+    | *Push helm packages*      | Enable if you plan to push Helm charts to this repository.                                                                                        |
+    | *Use as chart repository* | Enable if you want Devtron to pull Helm charts from this registry.                                                                                |
+    | *Set as default registry* | Enable to set this registry as the default for your images or artifacts.                                                                          |
 
 6. Click *Save* and continue.
 
@@ -268,10 +268,10 @@ secret.
 
 1. Click *Manage* to configure registry credential access.
 
-    | Option                                    | Description                                     |
-    | ----------------------------------------- | ----------------------------------------------- |
+    | Option                                   | Description                                     |
+    | ---------------------------------------- | ----------------------------------------------- |
     | **Do not inject credentials to clusters* | Select clusters to exclude from auto-injection. |
-    | *Auto-inject credentials to clusters*   | Select clusters for auto-injection.             |
+    | *Auto-inject credentials to clusters*    | Select clusters for auto-injection.             |
 
 2. Define credentials, choose between:
 
@@ -460,7 +460,7 @@ Guide](https://docs.devtron.ai/devtron/user-guide/creating-application).
 
 ## Appendix (Review of Advanced Options)
 
-### Build and Deploy from Source Code
+#### Build and Deploy from Source Code
 
 *Build and Deploy from Source Code* workflow allows you to build the
 container image from a source code repository.
@@ -473,7 +473,7 @@ container image from a source code repository.
 
 ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/ci-pipeline-v1.jpg)
 
-### Advanced Options
+#### Advanced Options
 
 The Advanced CI Pipeline includes the following stages:
 
@@ -489,73 +489,27 @@ The Advanced CI Pipeline includes the following stages:
 The Pre-build and Post-build stages allow you to create Pre/Post-Build
 CI tasks.
 
-### Build Stage
+#### Build Stage
 
 Go to the *Build stage* tab.
 
 ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/build-stage-v2.jpg)
 
-<!-- <table>
-<thead>
-<tr class="header">
-<th>Field Name</th>
-<th>Required/Optional</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>TRIGGER BUILD PIPELINE</td>
-<td>Required</td>
-<td>The build execution may be set to:
-<ul>
-<li><strong>Automatically (default)</strong>: Build is triggered
-automatically as the Git source code changes.</li>
-<li><strong>Manually</strong>: Build is triggered manually.</li>
-</ul></td>
-</tr>
-<tr class="even">
-<td>Pipeline Name</td>
-<td>Required</td>
-<td>A name for the pipeline</td>
-</tr>
-<tr class="odd">
-<td>Source type</td>
-<td>Required</td>
-<td>Select the source type to build the CI pipeline: <a
-href="#branch-fixed">Branch Fixed</a>, <a href="#branch-regex">Branch
-Regex</a>, <a href="#pull-request">Pull Request</a>, <a
-href="#tag-creation">Tag Creation</a></td>
-</tr>
-<tr class="even">
-<td>Branch Name</td>
-<td>Required</td>
-<td>Branch that triggers the CI build</td>
-</tr>
-<tr class="odd">
-<td>Docker build arguments</td>
-<td>Optional</td>
-<td><dl>
-<dt>Override docker build configurations for this pipeline.</dt>
-<dd>
-<ul>
-<li>Key: Field name</li>
-<li>Value: Field value</li>
-</ul>
-</dd>
-</dl></td>
-</tr>
-</tbody>
-</table> -->
+ Field Name | Required/Optional | Description |
+| ---                    | ---      | ---                                                                                                                                                                         |
+| Pipeline Name          | Required | A name for the pipeline                                                                                                                                                     |
+| Source type            | Required | Select the source type to build the CI pipeline: [Branch Fixed](#branch-fixed), [Branch Regex](#branch-regex), [Pull Request](#pull-request), [Tag Creation](#tag-creation) |
+| Branch Name            | Required | Branch that triggers the CI build                                                                                                                                           |
+| Docker build arguments | Optional | Override docker build configurations for this pipeline.   Key: Field name Value: Field value                                                                                |
 
-### Source type
+#### Source type
 
-#### Branch Fixed
+##### Branch Fixed
 
 This allows you to trigger a CI build whenever there is a code change on
 the specified branch. Enter the **Branch Name** of your code repository.
 
-#### Branch Regex
+##### Branch Regex
 
 *Branch Regex* allows users to easily switch between branches matching the configured Regex before triggering
 the build pipeline.
@@ -564,7 +518,7 @@ the build pipeline.
 
 For example, if the user sets the Branch Regex as `feature-\*`, then users can trigger from branches such as `feature-1450`, `feature-hot-fix` etc.
 
-#### Pull Request
+##### Pull Request
 
 This allows you to trigger the CI build when a pull request is created
 in your repository.
@@ -584,7 +538,7 @@ To trigger the build from specific PRs, you can filter the PRs based on
 the following keys:
 
 | Filter key         | Description                                              |
-|--------------------|----------------------------------------------------------|
+| ------------------ | -------------------------------------------------------- |
 | Author             | Author of the PR                                         |
 | Source branch name | Branch from which the Pull Request is generated          |
 | Target branch name | Branch to which the Pull request will be merged          |
@@ -600,7 +554,7 @@ test your custom regex from here [regex101](https://regex101.com/r/lHHuaE/1).
 
 Select *Create Pipeline*.
 
-#### Tag Creation
+##### Tag Creation
 
 This allows you to trigger the CI build whenever a new tag is created.
 
@@ -614,7 +568,7 @@ To trigger the build from specific tags, you can filter the tags based
 on the `author` and/or the `tag name`.
 
 | Filter key | Description                                             |
-|------------|---------------------------------------------------------|
+| ---------- | ------------------------------------------------------- |
 | Author     | The one who created the tag                             |
 | Tag name   | Name of the tag for which the webhook will be triggered |
 
@@ -628,13 +582,13 @@ as 3600 seconds. This default timeout is configurable according to the
 use case.
 :::
 
-### Scan for Vulnerabilities
+#### Scan for Vulnerabilities
 
-:::imporant Prerequisites
-Install any one of the following integrations from Devtron Stack Manager:  
+:::important Prerequisites
+Install any one of the following integrations from *Devtron Stack Manager*:  
 
-- **Clair**
-- **Trivy**
+- [Clair](https://github.com/quay/clair)
+- [Trivy](https://trivy.dev/)
 :::
 
 To perform the security scan after the container image is built, enable
@@ -642,7 +596,7 @@ the *Scan for vulnerabilities* toggle in the build stage.
 
 ![](https://devtron-public-asset.s3.us-east-2.amazonaws.com/images/creating-application/workflow-ci-pipeline/scan-for-vulnerabilities-v2.jpg)
 
-### Custom Image Tag Pattern
+#### Custom Image Tag Pattern
 
 This feature helps you apply custom tags (e.g., `v1.0.0`) to readily distinguish container images within your repository.
 
@@ -694,4 +648,3 @@ variable `x` or when you disable/enable the
 toggle button for *Custom image tag
 pattern*.
 :::
-
