@@ -769,6 +769,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/security-services/web-application-firewall/combining-waf-and-layer-7-load-balancers-to-protect-services-over-any-ports',
             },
             {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/using-lts-to-quickly-query-and-analyze-waf-access-logs',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/web-application-firewall/index.html',

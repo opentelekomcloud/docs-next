@@ -4,7 +4,6 @@ title: Combining WAF and Layer-7 Load Balancers to Protect Services over Any Por
 tags: [waf, layer-7, load-balancer, security]
 ---
 
-
 # Combining WAF and Layer-7 Load Balancers to Protect Services over Any Ports
 
 This topic walks you through how to combine dedicated WAF instances and
