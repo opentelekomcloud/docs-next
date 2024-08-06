@@ -64,7 +64,7 @@ cannot protect.
     Configured** to `Layer-7 proxy`.
 
     ![**Figure 1** Adding a domain name to
-    WAF](/_static/images/en-us_image_0000001764480001.png)
+    WAF](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764480001.png)
 
 3. Add listeners and backend server groups to the load balancer.
 
@@ -72,12 +72,12 @@ cannot protect.
         console](https://console-intl.huaweicloud.com/?locale=en-us).
 
     2. Click
-        ![image1](/_static/images/en-us_image_0000001420363093.jpg) in
+        ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420363093.jpg) in
         the upper left corner of the management console and select a
         region or project.
 
     3. Click
-        ![image2](/_static/images/en-us_image_0000001369643058.png) in
+        ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369643058.png) in
         the upper left corner of the page and choose *Elastic Load
         Balance* under *Networking* to go to the *Load Balancers*
         page.
@@ -91,12 +91,12 @@ cannot protect.
         case, enter `9876`.
 
         ![**Figure 2** Configuring a
-        listener](/_static/images/en-us_image_0000001369483086.png)
+        listener](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369483086.png)
 
     6. Click *Next: Configure Request Routing Policy*.
 
         ![**Figure 3** Configuring a backend server
-        group](/_static/images/en-us_image_0000001423609253.png)
+        group](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001423609253.png)
 
         :::important
 
@@ -120,12 +120,12 @@ cannot protect.
         console](https://console-intl.huaweicloud.com/?locale=en-us).
 
     2. Click
-        ![image3](/_static/images/en-us_image_0000001420502081.jpg) in
+        ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420502081.jpg) in
         the upper left corner of the management console and select a
         region or project.
 
     3. Click
-        ![image4](/_static/images/en-us_image_0000001369661940.png) in
+        ![image4](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369661940.png) in
         the upper left corner, select a region, and choose *Security &
         Compliance* -> *Web Application Firewall* to go to the
         *Dashboard* page.
@@ -135,7 +135,7 @@ cannot protect.
         instance page.
 
         ![**Figure 4** Dedicated engine
-        list](/_static/images/en-us_image_0000001369501992.png)
+        list](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369501992.png)
 
     5. Locate the row containing the WAF instance. In the *Operation*
         column, click *More* -> *Add to ELB*.
@@ -145,14 +145,14 @@ cannot protect.
         based on previous step.
 
         ![**Figure 5** Add to
-        ELB](/_static/images/en-us_image_0000001369683888.png)
+        ELB](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369683888.png)
 
     7. Click *Confirm*. Then, configure service port for the WAF
         instance. In this example, configure *Backend Port* to `86`,
         which is the one we configured in step 2.
 
         ![**Figure 6** Configuring Backend
-        Port](/_static/images/en-us_image_0000001369344100.png)
+        Port](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369344100.png)
 
     8. Click *Confirm*.
 
@@ -164,4 +164,4 @@ cannot protect.
 
 ## How the Combination Protects Traffic
 
-![image5](/_static/images/en-us_image_0000001764240765.png)
+![image5](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764240765.png)

@@ -35,11 +35,11 @@ malicious crawlers, scanners, and web shells.
 1. [Log in to the management
     console](https://console-intl.huaweicloud.com/?locale=en-us).
 
-2. Click ![image1](/_static/images/en-us_image_0000001533036717.jpg) in
+2. Click ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533036717.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image2](/_static/images/en-us_image_0000001533157169.png) in
+3. Click ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533157169.png) in
     the upper left corner and choose *Web Application Firewall* under
     *Security & Compliance*.
 
@@ -49,32 +49,32 @@ malicious crawlers, scanners, and web shells.
     click the number to go to the *Policies* page.
 
 6. Ensure that *Basic Web Protection* is enabled (status:
-    ![image3](/_static/images/en-us_image_0000001176153064.png)).
+    ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)).
 
     ![**Figure 1** Basic Web Protection configuration
-    area](/_static/images/en-us_image_0000001716153600.png)
+    area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716153600.png)
 
 7. On the *Protection Status* page, enable *General Check* and
     *Webshell Detection*.
 
 8. Click the *Anti-Crawler* configuration area and toggle it on.
 
-    - ![image4](/_static/images/en-us_image_0000001763970041.png):
+    - ![image4](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763970041.png):
         enabled.
-    - ![image5](/_static/images/en-us_image_0000001716169956.png):
+    - ![image5](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716169956.png):
         disabled.
 
 9. On the *Feature Library* page, enable protection functions based
     on your business needs.
 
     ![**Figure 2** Feature
-    Library](/_static/images/en-us_image_0000001072768952.png)
+    Library](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001072768952.png)
 
 If WAF detects that a malicious crawler or scanner is crawling your
 website, WAF immediately blocks it and logs the event. You can view the
 crawler protection logs on the *Events* page.
 
-![image6](/_static/images/en-us_image_0000001182529643.png)
+![image6](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001182529643.png)
 
 ## Enabling Anti-Crawler Protection to Verify Browser Validity
 
@@ -85,11 +85,11 @@ risk control and bot identification approaches.
 1. [Log in to the management
     console](https://console-intl.huaweicloud.com/?locale=en-us).
 
-2. Click ![image7](/_static/images/en-us_image_0000001533461761.jpg) in
+2. Click ![image7](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533461761.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image8](/_static/images/en-us_image_0000001483021752.png) in
+3. Click ![image8](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001483021752.png) in
     the upper left corner and choose *Web Application Firewall* under
     *Security & Compliance*.
 
@@ -100,17 +100,17 @@ risk control and bot identification approaches.
 
 6. Click the *Anti-Crawler* configuration area and toggle it on.
 
-    - ![image9](/_static/images/en-us_image_0000001763970041.png):
+    - ![image9](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763970041.png):
         enabled.
-    - ![image10](/_static/images/en-us_image_0000001716169956.png):
+    - ![image10](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716169956.png):
         disabled.
 
 7. Select the *JavaScript* tab and change *Status* if needed.
 
     *JavaScript* anti-crawler is disabled by default. To enable it,
-    click ![image11](/_static/images/en-us_image_0234013368.png) and
+    click ![image11](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013368.png) and
     then click *Confirm* in the displayed dialog box to toggle on
-    ![image12](/_static/images/en-us_image_0234013391.png).
+    ![image12](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013391.png).
 
     **Protective Action**: *Block*, *Verification code*, and *Log
     only*.
@@ -146,7 +146,7 @@ risk control and bot identification approaches.
         click *Confirm*.
 
         ![**Figure 3** Exclude
-        Rule](/_static/images/en-us_image_0000001481001694.png)
+        Rule](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001481001694.png)
 
     - To protect a specified request only
 
@@ -167,7 +167,7 @@ risk control and bot identification approaches.
 If you enable anti-crawler, web visitors can only access web pages
 through a browser.
 
-![image13](/_static/images/en-us_image_0000001132757446.png)
+![image13](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001132757446.png)
 
 ## Configuring CC Attack Protection to Limit Access Frequency
 
@@ -178,11 +178,11 @@ impact of CC attacks on web services.
 1. [Log in to the management
     console](https://console-intl.huaweicloud.com/?locale=en-us).
 
-2. Click ![image14](/_static/images/en-us_image_0000001533701661.jpg)
+2. Click ![image14](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533701661.jpg)
     in the upper left corner of the management console and select a
     region or project.
 
-3. Click ![image15](/_static/images/en-us_image_0000001533182113.png)
+3. Click ![image15](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533182113.png)
     in the upper left corner and choose *Web Application Firewall*
     under *Security & Compliance*.
 
@@ -191,11 +191,11 @@ impact of CC attacks on web services.
 5. In the *Policy* column of the row containing the target domain
     name, click the number of enabled protection rules. On the displayed
     *Policies* page, keep the *Status* toggle on
-    (![image16](/_static/images/en-us_image_0000001221411281.png)) for
+    (![image16](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001221411281.png)) for
     *CC Attack Protection*.
 
     ![**Figure 4** CC Attack Protection configuration
-    area](/_static/images/en-us_image_0000001763942269.png)
+    area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763942269.png)
 
 6. In the upper left corner above the *CC Attack Protection* rule
     list, click *Add Rule*. The following uses IP address-based rate
@@ -203,10 +203,10 @@ impact of CC attacks on web services.
     to add an IP address-based rate limiting rule, as shown in the figue below:
 
     ![**Figure 5** Per IP
-    address](/_static/images/en-us_image_0000001490687826.png)
+    address](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001490687826.png)
 
     If the number of access requests exceeds the configured rate limit,
     the visitors are required to enter a verification code to continue
     the access.
 
-    ![image17](/_static/images/en-us_image_0293910230.png)
+    ![image17](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0293910230.png)
