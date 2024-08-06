@@ -671,6 +671,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/networking/virtual-private-cloud/vpc-and-subnet-planning-suggestions',
             },
             {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-cloud/unsupported-vpc-peering-configurations',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/virtual-private-cloud/index.html',
