@@ -773,6 +773,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/security-services/web-application-firewall/using-lts-to-quickly-query-and-analyze-waf-access-logs',
             },
             {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/configuring-anti-crawler-rules-to-prevent-crawler-attacks',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/web-application-firewall/index.html',
