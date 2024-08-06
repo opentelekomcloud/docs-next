@@ -765,6 +765,10 @@ const sidebars: SidebarsConfig = {
           label: 'Web Application Firewall',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/combining-waf-and-layer-7-load-balancers-to-protect-services-over-any-ports',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/web-application-firewall/index.html',
