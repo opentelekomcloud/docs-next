@@ -70,10 +70,15 @@ system you need to install some prerequisites first:
 
 1. **Prerequisites**
 
-nfs-kernel-server, lvm2 (using apt, zypper, ... )
-**TODO: describe the commands
+Install the following packages:
 
-2. **Creating a Volumegroup and a Logical Volume**
+```bash
+sudo apt update
+sudo apt install nfs-kernel-server -y
+sudo apt install lvm2 -y
+```
+
+1. **Creating a Volumegroup and a Logical Volume**
 
 ```bash
    # check the disk-names (vdb, vdc, ...)
