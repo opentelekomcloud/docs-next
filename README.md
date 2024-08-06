@@ -172,7 +172,7 @@ Use one of the following tools for creating diagramms:
 * [Diagrams for Open Telekom Cloud](https://github.com/akyriako/diagrams)
 
 > [!NOTE]
-> No licence required for any of the aformentioned tools.
+> No licence required for any of the aformentioned tools!
 
 ### Text & Grammar
 
