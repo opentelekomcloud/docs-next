@@ -502,6 +502,10 @@ const sidebars: SidebarsConfig = {
           label: 'Cloud Eye',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/management-and-deployment/cloud-eye/resource-group-monitoring',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-eye/index.html',
