@@ -54,7 +54,7 @@ cannot protect.
 
 ## Procedure
 
-1. [Buy a dedicated WAF instance](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/applying_for_a_dedicated_waf_instance.html).
+1. [Apply for a dedicated WAF instance](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/applying_for_a_dedicated_waf_instance.html).
 
 2. Connect www.example.com to WAF by referring to [Adding a Website to
     WAF (Dedicated
@@ -124,8 +124,7 @@ cannot protect.
 
     3. Click
         ![image4](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369661940.png) in
-        the upper left corner, select a region, and choose *Security &
-        Compliance* -> *Web Application Firewall* to go to the
+        the upper left corner, select a region, and choose *Security* -> *Web Application Firewall (Dedicated)* to go to the
         *Dashboard* page.
 
     4. In the navigation pane on the left, choose *Instance
