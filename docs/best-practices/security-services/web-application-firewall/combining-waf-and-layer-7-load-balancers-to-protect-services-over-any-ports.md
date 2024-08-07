@@ -10,7 +10,7 @@ This topic walks you through how to combine dedicated WAF instances and
 layer-7 load balancers to protect your services over non-standard ports
 that cannot be protected with WAF alone. For ports supported by WAF, see
 [Ports Supported by
-WAF](https://support.huaweicloud.com/intl/en-us/usermanual-waf/waf_01_1249.html).
+WAF](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/ports_supported_by_waf.html).
 
 ## Protection Scenarios
 
@@ -23,7 +23,7 @@ cannot protect.
 - You have purchased a dedicated layer-7 load balancer. For details
     about load balancer types, see [Differences Between Dedicated and
     Shared Load
-    Balancers](https://support.huaweicloud.com/intl/en-us/productdesc-elb/elb_pro_0004.html).
+    Balancers](https://docs.otc.t-systems.com/elastic-load-balancing/umn/service_overview/differences_between_dedicated_and_shared_load_balancers.html).
 
     :::caution
     Dedicated WAF instances issued before April 2023 cannot be used with
@@ -50,15 +50,15 @@ cannot protect.
         allowed by default.
 
     For more details, see [Adding a Security Group
-    Rule](https://support.huaweicloud.com/intl/en-us/usermanual-vpc/en-us_topic_0030969470.html).
+    Rule](https://docs.otc.t-systems.com/virtual-private-network/umn/getting_started/optional_configure_security_group_rules/adding_a_security_group_rule.html).
 
 ## Procedure
 
-1. [Buy a dedicated WAF instance](https://support.huaweicloud.com/intl/en-us/usermanual-waf/waf_01_0248.html).
+1. [Buy a dedicated WAF instance](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/applying_for_a_dedicated_waf_instance.html).
 
 2. Connect www.example.com to WAF by referring to [Adding a Website to
     WAF (Dedicated
-    Mode)](https://support.huaweicloud.com/intl/en-us/usermanual-waf/waf_01_0250.html).
+    Mode)](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/connecting_a_website_to_waf/connection_process_dedicated_mode.html#waf-01-0326).
     Select any non-standard port as the protected port, for example,
     port 86, set **Server Port** to `9876`, and set **Proxy
     Configured** to `Layer-7 proxy`.
@@ -68,8 +68,7 @@ cannot protect.
 
 3. Add listeners and backend server groups to the load balancer.
 
-    1. [Log in to the management
-        console](https://console-intl.huaweicloud.com/?locale=en-us).
+    1. Log in to the management console.
 
     2. Click
         ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420363093.jpg) in
@@ -108,7 +107,7 @@ cannot protect.
             next time.
         - For details about ELB traffic distribution policies, see
             [Load Balancing
-            Algorithms](https://support.huaweicloud.com/intl/en-us/usermanual-elb/elb_ug_jt_0003.html).
+            Algorithms](https://docs.otc.t-systems.com/elastic-load-balancing/umn/backend_server_group/key_functions/load_balancing_algorithms.html).
 
         :::
 
@@ -116,8 +115,7 @@ cannot protect.
 
 4. Add the WAF instance to the load balancer.
 
-    1. [Log in to the management
-        console](https://console-intl.huaweicloud.com/?locale=en-us).
+    1. Log in to the management console.
 
     2. Click
         ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420502081.jpg) in
@@ -157,10 +155,10 @@ cannot protect.
     8. Click *Confirm*.
 
 5. [Bind an EIP to a Load
-    Balancer](https://support.huaweicloud.com/intl/en-us/usermanual-waf/waf_01_0252.html).
+    Balancer](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/connecting_a_website_to_waf/step_3_bind_an_eip_to_a_load_balancer.html).
 
 6. [Whitelist IP addresses of your dedicated WAF
-    instances](https://support.huaweicloud.com/intl/en-us/usermanual-waf/waf_01_0343.html).
+    instances](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/connecting_a_website_to_waf/step_4_whitelist_the_back-to-source_ip_addresses_of_your_dedicated_waf_instances.html).
 
 ## How the Combination Protects Traffic
 
