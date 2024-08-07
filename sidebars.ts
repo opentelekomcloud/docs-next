@@ -634,10 +634,15 @@ const sidebars: SidebarsConfig = {
           label: 'NAT Gateway',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/nat-gateway/using-a-public-nat-gateway-and-vpc-peering-to-enable-communications-between-vpcs-and-the-internet',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/nat-gateway/index.html',
             },
+
           ],
         },
         {
