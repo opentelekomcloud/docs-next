@@ -9,13 +9,13 @@ tags: [waf, anti-crawler, security]
 Web crawlers make network information collection and query easy, but
 they also introduce the following negative impacts:
 
-- Web crawlers always consume too much server bandwidth and increase
+-   Web crawlers always consume too much server bandwidth and increase
     server load as they use specific policies to browser as much
     information of high value on a website as possible.
-- Bad actors may use web crawlers to launch DoS attacks against
+-   Bad actors may use web crawlers to launch DoS attacks against
     websites. As a result, websites may fail to provide normal services
     due to resource exhaustion.
-- Bad actors may use web crawlers to steal mission-critical data on
+-   Bad actors may use web crawlers to steal mission-critical data on
     your websites, which will damage your economic interests.
 
 WAF provides three anti-crawler policies, bot detection by identifying
@@ -32,47 +32,39 @@ The domain name has been connected to WAF.
 If you enable robot detection, WAF can detect and block threats such as
 malicious crawlers, scanners, and web shells.
 
-1. [Log in to the management
-    console](https://console-intl.huaweicloud.com/?locale=en-us).
+1.  Log in to the management console.
 
-2. Click ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533036717.jpg) in
+2.  Click ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533036717.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533157169.png) in
-    the upper left corner and choose *Web Application Firewall* under
-    *Security & Compliance*.
+3.  Click ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533157169.png) in
+    the upper left corner and choose **Web Application Firewall** under
+    **Security**.
 
-4. In the navigation pane on the left, choose *Website Settings*.
+4.  In the navigation pane on the left, choose **Policies**.
 
-5. In the *Policy* column of the row containing the domain name,
-    click the number to go to the *Policies* page.
+5.  Click on **Create Policy**, type in a Policy Name and then click on
+    the created Policy after its been created.
 
-6. Ensure that *Basic Web Protection* is enabled (status:
-    ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)).
+6.  Ensure that **Basic Web Protection** is enabled (status:
+    ![image3]/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)).
 
     ![**Figure 1** Basic Web Protection configuration
     area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716153600.png)
 
-7. On the *Protection Status* page, enable *General Check* and
-    *Webshell Detection*.
+7.  In **Basic Web Protection** click **Advanced Settings** and enable
+    **General Check** and **Webshell Detection**.
 
-8. Click the *Anti-Crawler* configuration area and toggle it on.
+8.  Enable Anti-Crawler protection functions based on your business
+    needs.
 
-    - ![image4](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763970041.png):
-        enabled.
-    - ![image5](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716169956.png):
-        disabled.
-
-9. On the *Feature Library* page, enable protection functions based
-    on your business needs.
-
-    ![**Figure 2** Feature
-    Library](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001072768952.png)
+    ![**Figure 2** Protection
+    functions](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001072768952.png)
 
 If WAF detects that a malicious crawler or scanner is crawling your
 website, WAF immediately blocks it and logs the event. You can view the
-crawler protection logs on the *Events* page.
+crawler protection logs on the **Events** page.
 
 ![image6](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001182529643.png)
 
@@ -82,87 +74,160 @@ If you enable anti-crawler protection, WAF dynamically analyzes website
 service models and accurately identifies crawler behavior based on data
 risk control and bot identification approaches.
 
-1. [Log in to the management
-    console](https://console-intl.huaweicloud.com/?locale=en-us).
+1.  Log in to the management console.
 
-2. Click ![image7](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533461761.jpg) in
+2.  Click ![image7](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533461761.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image8](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001483021752.png) in
-    the upper left corner and choose *Web Application Firewall* under
-    *Security & Compliance*.
+3.  Click ![image8](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001483021752.png) in
+    the upper left corner and choose **Web Application Firewall** under
+    **Security**.
 
-4. In the navigation pane on the left, choose *Website Settings*.
+4.  In the navigation pane on the left, choose **Policies**.
 
-5. In the *Policy* column of the row containing the domain name,
-    click the number to go to the *Policies* page.
+5.  Click on **Create Policy**, type in a Policy Name and then click on
+    the created Policy after its been created.
 
-6. Click the *Anti-Crawler* configuration area and toggle it on.
+6.  Select the **JavaScript** tab and change **Status** if needed.
 
-    - ![image9](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763970041.png):
-        enabled.
-    - ![image10](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716169956.png):
-        disabled.
-
-7. Select the *JavaScript* tab and change *Status* if needed.
-
-    *JavaScript* anti-crawler is disabled by default. To enable it,
+    **JavaScript** anti-crawler is disabled by default. To enable it,
     click ![image11](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013368.png) and
-    then click *Confirm* in the displayed dialog box to toggle on
+    then click **Confirm** in the displayed dialog box to toggle on
     ![image12](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013391.png).
 
-    **Protective Action**: *Block*, *Verification code*, and *Log
-    only*.
+    **Protective Action**: **Block**, **Verification code**, and **Log
+    only**.
 
-    :::note
+    <div class="note">
+
+    <div class="title">
+
+    Note
+
+    </div>
+
     **Verification code**: If the JavaScript challenge fails, a
     verification code is required. Requests will be blocked unless the
     visitor enters a correct verification code.
-    :::
 
-    :::important
+    </div>
 
-    - Cookies must be enabled and JavaScript supported by any browser
+    <div class="important">
+
+    <div class="title">
+
+    Important
+
+    </div>
+
+    -   Cookies must be enabled and JavaScript supported by any browser
         used to access a website protected by anti-crawler protection
         rules.
 
-    - If your service is connected to CDN, exercise caution when using
-        the JS anti-crawler function. CDN caching may impact JS anti-crawler performance and page
+    -   If your service is connected to CDN, exercise caution when using
+        the JS anti-crawler function.
+
+        CDN caching may impact JS anti-crawler performance and page
         accessibility.
 
-    :::
+    </div>
 
-8. Configure a JavaScript-based anti-crawler rule by referring to the table below.
+7.  Configure a JavaScript-based anti-crawler rule by referring to
+    `Table 1 <waf_06_0006__en-us_topic_0110861318_table158689225415>`.
 
-    Two protective actions are provided: *Protect all requests* and
-    *Protect specified requests*.
+    Two protective actions are provided: **Protect all requests** and
+    **Protect specified requests**.
 
-    - To protect all requests except requests that hit a specified
+    -   To protect all requests except requests that hit a specified
         rule
 
-        Set *Protection Mode* to *Protect all requests*. Then, click
-        *Exclude Rule*, configure the request exclusion rule, and
-        click *Confirm*.
+        Set **Protection Mode** to **Protect all requests**. Then, click
+        **Exclude Rule**, configure the request exclusion rule, and
+        click **Confirm**.
 
         ![**Figure 3** Exclude
         Rule](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001481001694.png)
 
-    - To protect a specified request only
+    -   To protect a specified request only
 
-        Set *Protection Mode* to *Protect specified requests*, click
-        *Add Rule*, configure the request rule, and click *Confirm*.
+        Set **Protection Mode** to **Protect specified requests**, click
+        **Add Rule**, configure the request rule, and click **Confirm**.
 
-    | Parameter        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Example Value       |
-    | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-    | Rule Name        | Name of the rule                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | waf                 |
-    | Rule Description | A brief description of the rule. This parameter is optional.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | ``-``               |
-    | Effective Date   | Time the rule takes effect.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Immediate           |
-    | Condition List   | Parameters for configuring a condition are as follows:  Field: Select the field you want to protect from the drop-down list. Currently, only Path and User Agent are included. Subfield Logic: Select a logical relationship from the drop-down list.   Note  If you set Logic to Include any value, Exclude any value, Equal to any value, Not equal to any value, Prefix is any value, Prefix is not any of them, Suffix is any value, or Suffix is not any of them, you need to select a reference table.  Content: Enter or select the content that matches the condition. | Path Include /admin |
-    | Priority         | Rule priority. If you have added multiple rules, rules are matched by priority. The smaller the value you set, the higher the priority.                                                                                                                                                                                                                                                                                                                                                                                                                                        | 5                   |
+    <div id="waf_06_0006__en-us_topic_0110861318_table158689225415">
+
+    <table>
+    <caption><strong>Table 1</strong> Parameters of a JavaScript-based
+    anti-crawler protection rule</caption>
+    <colgroup>
+    <col style="width: 7%" />
+    <col style="width: 82%" />
+    <col style="width: 9%" />
+    </colgroup>
+    <thead>
+    <tr class="header">
+    <th>Parameter</th>
+    <th>Description</th>
+    <th>Example Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="odd">
+    <td>Rule Name</td>
+    <td>Name of the rule</td>
+    <td>waf</td>
+    </tr>
+    <tr class="even">
+    <td>Rule Description</td>
+    <td>A brief description of the rule. This parameter is optional.</td>
+    <td><code>-</code></td>
+    </tr>
+    <tr class="odd">
+    <td>Effective Date</td>
+    <td>Time the rule takes effect.</td>
+    <td>Immediate</td>
+    </tr>
+    <tr class="even">
+    <td>Condition List</td>
+    <td><p>Parameters for configuring a condition are as follows:</p>
+    <ul>
+    <li><p><strong>Field</strong>: Select the field you want to protect from
+    the drop-down list. Currently, only <strong>Path</strong> and
+    <strong>User Agent</strong> are included.</p></li>
+    <li><p><strong>Subfield</strong></p></li>
+    <li><p><strong>Logic</strong>: Select a logical relationship from the
+    drop-down list.</p>
+    <div class="note">
+    <div class="title">
+    <p>Note</p>
+    </div>
+    <p>If you set <strong>Logic</strong> to <strong>Include any
+    value</strong>, <strong>Exclude any value</strong>, <strong>Equal to any
+    value</strong>, <strong>Not equal to any value</strong>, <strong>Prefix
+    is any value</strong>, <strong>Prefix is not any of them</strong>,
+    <strong>Suffix is any value</strong>, or <strong>Suffix is not any of
+    them</strong>, you need to select a reference table.</p>
+    </div></li>
+    <li><p><strong>Content</strong>: Enter or select the content that
+    matches the condition.</p></li>
+    </ul></td>
+    <td><strong>Path</strong> <strong>Include</strong>
+    <strong>/admin</strong></td>
+    </tr>
+    <tr class="odd">
+    <td>Priority</td>
+    <td>Rule priority. If you have added multiple rules, rules are matched
+    by priority. The smaller the value you set, the higher the
+    priority.</td>
+    <td>5</td>
+    </tr>
+    </tbody>
+    </table>
 
     **Table 1** Parameters of a JavaScript-based anti-crawler protection
     rule
+
+    </div>
 
 If you enable anti-crawler, web visitors can only access web pages
 through a browser.
@@ -175,38 +240,42 @@ A CC attack protection rule uses a specific IP address, cookie, or
 referer to limit the access to a specific path (URL), mitigating the
 impact of CC attacks on web services.
 
-1. [Log in to the management
+1.  [Log in to the management
     console](https://console-intl.huaweicloud.com/?locale=en-us).
 
-2. Click ![image14](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533701661.jpg)
+2.  Click ![image14](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533701661.jpg)
     in the upper left corner of the management console and select a
     region or project.
 
-3. Click ![image15](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533182113.png)
-    in the upper left corner and choose *Web Application Firewall*
-    under *Security & Compliance*.
+3.  Click ![image15](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533182113.png)
+    in the upper left corner and choose **Web Application Firewall**
+    under **Security & Compliance**.
 
-4. In the navigation pane on the left, choose *Website Settings*.
+4.  In the navigation pane on the left, choose **Policies**.
 
-5. In the *Policy* column of the row containing the target domain
-    name, click the number of enabled protection rules. On the displayed
-    *Policies* page, keep the *Status* toggle on
-    (![image16](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001221411281.png)) for
-    *CC Attack Protection*.
+5.  Click on the **Policy** and ofn the displayed page, keep the
+    **Status** toggle on
+    (![image16](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)) for
+    **CC Attack Protection**.
 
     ![**Figure 4** CC Attack Protection configuration
     area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763942269.png)
 
-6. In the upper left corner above the *CC Attack Protection* rule
-    list, click *Add Rule*. The following uses IP address-based rate
-    limiting and human-machine verification as examples to describe how
-    to add an IP address-based rate limiting rule, as shown in the figue below:
+6.  In **CC Attack Protection** below **Status** , click **Customize
+    Rule** and then **Add rule**. The following uses IP address-based
+    rate limiting and human-machine verification as examples to describe
+    how to add an IP address-based rate limiting rule, as shown in
+    `Figure 5 <waf_06_0006__fig2194154173819>`.
 
-    ![**Figure 5** Per IP
-    address](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001490687826.png)
+    <div id="waf_06_0006__fig2194154173819">
+
+    ![**Figure 5** Per IP address](/img/docs/best-practices/security-services/web-application-firewall/)
+
+    </div>
 
     If the number of access requests exceeds the configured rate limit,
     the visitors are required to enter a verification code to continue
     the access.
 
     ![image17](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0293910230.png)
+
