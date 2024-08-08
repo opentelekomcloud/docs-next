@@ -244,6 +244,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/computing/image-management-service/migrating-service-data-across-accounts-data-disks',
             },
             {
+              type: 'doc',
+              id: 'best-practices/computing/image-management-service/creating-a-linux-Image-using-virtualBox-and-an-iso-file',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/image-management-service/index.html',
@@ -501,6 +505,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Cloud Eye',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/management-and-deployment/cloud-eye/resource-group-monitoring',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
