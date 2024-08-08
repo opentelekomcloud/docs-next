@@ -642,10 +642,15 @@ const sidebars: SidebarsConfig = {
           label: 'NAT Gateway',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/nat-gateway/using-a-public-nat-gateway-and-vpc-peering-to-enable-communications-between-vpcs-and-the-internet',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/nat-gateway/index.html',
             },
+
           ],
         },
         {
@@ -677,6 +682,10 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               id: 'best-practices/networking/virtual-private-cloud/vpc-and-subnet-planning-suggestions',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-cloud/unsupported-vpc-peering-configurations',
             },
             {
               type: 'link',
@@ -772,6 +781,18 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Web Application Firewall',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/combining-waf-and-layer-7-load-balancers-to-protect-services-over-any-ports',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/using-lts-to-quickly-query-and-analyze-waf-access-logs',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/security-services/web-application-firewall/configuring-anti-crawler-rules-to-prevent-crawler-attacks',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
