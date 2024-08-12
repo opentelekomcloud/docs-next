@@ -108,7 +108,7 @@ const config: Config = {
           "aria-label": 'GitHub',
         },
         { 
-          href: 'https://discord.gg/RjCf27Mf', 
+          href: 'https://discord.gg/zpSRgC9as5', 
           position: 'right',
           className: 'navbar--discord-link',
           "aria-label": 'Discord Invite',
@@ -194,7 +194,7 @@ const config: Config = {
             },
             {
               label: 'Discord',
-              href: 'https://discord.gg/RjCf27Mf',
+              href: 'https://discord.gg/zpSRgC9as5',
             },
             // {
             //   label: 'Twitter',
