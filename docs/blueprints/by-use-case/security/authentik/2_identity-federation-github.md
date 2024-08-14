@@ -31,12 +31,9 @@ Identity Federation with GitHub refers to the process of allowing users to authe
 - **Corporate Applications**: Employees can use their GitHub credentials to access internal corporate applications, streamlining the onboarding process and enhancing security.
 - **Open Source Projects**: Open source contributors can authenticate using their GitHub accounts, ensuring a seamless experience across various project management and collaboration tools.
 
-
 ## Connecting Authentik with GitHub for Federation and Social Login
 
-
 This guide will walk you through the process of setting up GitHub as an authentication source in authentik, allowing users to log in using their GitHub credentials.
-
 
 ### Prerequisites
 
@@ -48,6 +45,7 @@ Before you begin, make sure you have:
 
 :::note Note
 Throughout this guide, we'll use the following placeholders:
+
 - `authentik.test-domain.com` as the FQDN of your authentik installation
 - `test-domain.com` as your site's homepage URL
 :::
@@ -66,8 +64,7 @@ Throughout this guide, we'll use the following placeholders:
 5. On the next page, note down the *Client ID*
 6. Click *Generate a new client secret* and immediately copy it
 
-
-:::note NOTE
+:::caution
 You won't be able to see the client secret again, so make sure to save it securely.
 :::
 
@@ -81,7 +78,7 @@ You won't be able to see the client secret again, so make sure to save it secure
    - *Consumer Key*: Paste the Client ID from GitHub
    - *Consumer Secret*: Paste the Client Secret from GitHub
   ![image](/img/docs/blueprints/by-use-case/security/authentik/github-idp-configuration.png)
-    
+
 4. Save the configuration
 
 Your GitHub OAuth Source in authentik is now set up and ready to use.
@@ -110,8 +107,7 @@ To automatically add users who log in via GitHub to a default group in authentik
 4. Click *Edit Stage* of *default-user-settings-write*
 5. Set a default group under *Group* for the newly created users which login using github
    ![image](/img/docs/blueprints/by-use-case/security/authentik/configure-groups-enrollment-stage.png)
-6. Click *Update* 
-
+6. Click *Update*
 
 #### Step 4: Configure Post-Authentication Flow
 

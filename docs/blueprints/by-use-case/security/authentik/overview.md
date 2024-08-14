@@ -50,7 +50,6 @@ Authentik integrates with a wide range of systems and protocols, including:
 - SCIM for user provisioning
 - Various MFA providers (TOTP, WebAuthn, etc.)
 
-
 :::warning Notice
 While Authentik provides a comprehensive identity management solution, proper configuration and security best practices are essential for maintaining a secure environment.
 :::
