@@ -15,22 +15,6 @@ Before starting the integration, ensure you have:
 - Administrative privileges on both authentik and your IAM system
 - Basic understanding of OAuth 2.0 concepts and flows
 
-## Adding Groups in Scope Mapping for Authentik
-
-Scope Mapping in authentik allows you to control what information is shared with applications when users authenticate. Adding groups to scope mapping can be particularly useful for role-based access control in IAM. Here's how to set it up:
-
-1. Log in to your authentik admin interface
-2. Navigate to *Customization -> Property Mappings*
-3. Create a *New property mapping* of type *Scope Mapping* with the following details:
-   - Name: `authentik default OAuth Mapping: OpenID 'groups'` (or any name to specify that in authentik)
-   - Scope name: `groups` (or create a custom scope if desired)
-   - Expression: Use the following Python expression:
-
-   ```python
-   return [group.name for group in request.user.ak_groups.all()]
-   ```
-
-   ![image](/img/docs/blueprints/by-use-case/security/authentik/group-scope-mapping.png)
 
 ## Configuring Authentik as an OAuth Provider
 
@@ -77,9 +61,34 @@ Set the following values:
 - **Signing Key**: Value of the key `jwks_uri` of the *OpenID Endpoint Configuration* JSON output
    ![image](/img/docs/blueprints/by-use-case/security/authentik/configure-idp-iam.png)
 
-:::note Note
-All of the links for your setup can be found in *Overview* page of the *OAuth2/OpenID Provider* in Authentik admin dashboard.
+:::note
+All of the links for your setup can be found under *Overview* page of the *OAuth2/OpenID Provider* in Authentik admin dashboard.
+![image](/img/docs/blueprints/by-use-case/security/authentik/authentik-idp-urls.png)
 :::
+
+:::info
+For the *Signing Key* you should open link provided under *JWKS URL* and copy the whole json file content to the respective field. 
+:::
+
+
+## Creating an Application and Connecting the Provider
+
+To enable users to authenticate, you need to create an application in Authentik and connect it to the provider. Follow these steps:
+
+
+1. In the Authentik web interface, navigate to *Applications* -> *Applications*.
+2. Click on *Create*.
+3. Fill in the following details:
+   - **Name**: `Your Application Name`
+   - **Slug**: `your-application-slug`
+   - **Provider**: Select the provider you created earlier.
+   - **Launch URL**: Specify the URI where Authentik should redirect users after authentication. You can find this link under *Programmatic access and management console accesses* of the previously created Identity provider in your tenant. 
+
+![image](/img/docs/blueprints/by-use-case/security/authentik/create-application.png)
+
+1. Save the application settings.
+
+
 
 ## Configure the IAM Identity Provider Conversion Rules
 
@@ -107,9 +116,6 @@ Paste the following conversion rule in the *Edit Rule* panel:
         "type": "email"
       },
       {
-        "any_one_of": [
-          "github-users"
-        ],
         "type": "groups"
       }
     ],
@@ -120,24 +126,26 @@ Paste the following conversion rule in the *Edit Rule* panel:
         }
       },
       {
-        "group": {
-          "name": "ecs-admin"
-        }
+        "groups":  "{1}"
       }
     ]
   }
 ]
 ```
 
-The *remote* part describes the  requested *Scopes* (``profile``, ``email`` or ``groups``) of the user.
+The *remote* part describes the  requested *Scopes* (``profile`` or ``email``) of the user.
 The *local* part defines the mapping between the remote properties and the local IAM. The user will get a ``name``
-as the value of ``fidp-<user-email>`` and will automatically belong to the ``ecs-admin`` if it is a member of ``github-users``.
+as the value of ``fidp-<user-email>`` and will automatically belong to the groups on your tenant which have the same name as the groups that the user is a member of on authentik.
 
-:::warning
-Notice that the *ecs-admin* group is created in advanced so the IAM can find the group localy and it would automatically add all the users which belong to the *github-users* in remote identity provider to this local group. If it cannot match the user to any group the access of the user would be simply denied.
+:::danger 
+Administrators must exercise extreme caution when naming groups in Authentik. Group names are critical because conversion rules within the Identity provider automatically assign users to groups based on these names in this configuration.
+
+If a group is improperly named or if the naming conventions are not strictly followed, users might be incorrectly assigned to sensitive groups. This misconfiguration could grant unauthorized users elevated permissions or access to restricted resources, thereby posing a significant security risk to the tenant.
+
+Always use clear, descriptive, and unique names for groups that align with your access control policies. Regularly review and audit group names and associated conversion rules to ensure they are correctly configured and do not inadvertently expose the tenant to security vulnerabilities.
 :::
 
-:::tip Tip
+:::info
 You can find more detailed info about *Conversion Rules* under:
 
 - [Configure Identity Conversion Rules](https://docs.otc.t-systems.com/identity-access-management/umn/user_guide/identity_providers/virtual_user_sso_via_openid_connect/step_2_configure_identity_conversion_rules.html)

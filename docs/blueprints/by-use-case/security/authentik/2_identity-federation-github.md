@@ -191,3 +191,56 @@ Ensuring these configurations are in place is essential for the secure and corre
 :::info
 This part is taken form official [authentik documentation](https://docs.goauthentik.io/docs/sources/github/#checking-for-membership-of-a-github-organisation).
 :::
+
+## IAM Identity Provider Conversion Rules
+
+
+After creating and connecting the Identity provider on your tenant to the authentik if you wish to give users which login with github access to your tenant you can use the following conversion rules.
+
+:::info
+If you haven't created a Identity Provider on your tenant first follow steps described in [Connecting Authentik with IAM for Login](./3_authentik-as-identity-provider-iam.md) and then use the conversion rules given below. 
+:::
+
+
+Edit the conversion rule of previously created Identity Provider in IAM:
+
+
+Paste the following conversion rule in the *Edit Rule* panel:
+
+```json
+[
+  {
+    "remote": [
+      {
+        "type": "email"
+      },
+      {
+        "any_one_of": [
+          "github-users"
+        ],
+        "type": "groups"
+      }
+    ],
+    "local": [
+      {
+        "user": {
+          "name": "fidp-{0}"
+        }
+      },
+      {
+        "group": {
+          "name": "ecs-admin"
+        }
+      }
+    ]
+  }
+]
+```
+
+The *remote* part describes the  requested *Scopes* (``profile`` or ``email``) of the user.
+The *local* part defines the mapping between the remote properties and the local IAM. The user will get a ``name``
+as the value of ``fidp-<user-email>`` and will automatically belong to the ``ecs-admin`` if it is a member of ``github-users``.
+
+:::warning
+Notice that the *ecs-admin* group is created in advanced so the IAM can find the group locally and it would automatically add all the users which belong to the *github-users* in remote identity provider to this local group. If it cannot match the user to any group the access of the user would be simply denied.
+:::
