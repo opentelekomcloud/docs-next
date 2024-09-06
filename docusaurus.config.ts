@@ -248,6 +248,7 @@ const config: Config = {
       {
         websiteID: process.env.UMAMI_WEBSITE_ID, // Required
         analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN, // Required
+        dataHostURL: process.env.UMAMI_DATAHOST_URL, // Optional
         dataAutoTrack: true, // Optional
         dataDoNotTrack: true, // Optional
         dataCache: true, // Optional
