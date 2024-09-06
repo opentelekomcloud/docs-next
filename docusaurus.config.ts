@@ -1,7 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import type {Options as umamiPluginOptions} from '@dipakparmar/docusaurus-plugin-umami';
+import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
   title: 'Architecture Center - GitOps',
@@ -248,13 +248,11 @@ const config: Config = {
       {
         websiteID: process.env.UMAMI_WEBSITE_ID, // Required
         analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN, // Required
-        // scriptName: "", // Optional
-        dataHostURL: process.env.UMAMI_ANALYTICS_DOMAIN, // Optional
         dataAutoTrack: true, // Optional
         dataDoNotTrack: true, // Optional
         dataCache: true, // Optional
         dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
-      },
+      } as UmamiOptions,
     ],
   ],
 };
