@@ -33,7 +33,7 @@ jobs:
             UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
             UMAMI_ANALYTICS_DOMAIN: ${{ vars.UMAMI_ANALYTICS_DOMAIN }}
             UMAMI_DATAHOST_URL: ${{ vars.UMAMI_DATAHOST_URL }}
-            UMAMI_DATA_DOMAIN: ${{ vars.DOCS_NEXT_HOST }}
+            UMAMI_DATA_DOMAIN: ${{ vars.UMAMI_DATA_DOMAINS }}
           run: npm run build
     
         - name: Login to Docker Hub
