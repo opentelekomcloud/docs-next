@@ -58,7 +58,7 @@ jobs:
             file: ./Dockerfile
             push: true
             tags: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}+preview
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-preview
         
         # - name: Image Digest
         #   run: echo ${{ steps.docker_build.outputs.digest }}
