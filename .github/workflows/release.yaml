@@ -8,7 +8,7 @@ on:
         - '**/.devcontainer/devcontainer.json'
     
 jobs:
-    build:
+    build-preview:
       environment: preview
       runs-on: ubuntu-latest
   
@@ -64,7 +64,7 @@ jobs:
         #   run: echo ${{ steps.docker_build.outputs.digest }}
 
     update-helm-charts:
-      needs: [build]
+      needs: [build-preview]
       environment: preview
       runs-on: ubuntu-latest
 
