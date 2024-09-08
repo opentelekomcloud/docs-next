@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Architecture Center - GO/S/A',
+  title: 'Architecture Center - GO/S/A/TLS',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
