@@ -87,8 +87,8 @@ jobs:
             repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
             token: ${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}
     
-        - name: Show Contents
-          run: ls -latr
+        # - name: Show Contents
+        #   run: ls -latr
           
         - name: Update Charts and Commit Changes
           id: update_charts
