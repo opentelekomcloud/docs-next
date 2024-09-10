@@ -192,7 +192,7 @@ spec:
           service:
             name: umami-web
             port:
-              number: 80
+              number: 5000
         path: /
         pathType: ImplementationSpecific
 ```
