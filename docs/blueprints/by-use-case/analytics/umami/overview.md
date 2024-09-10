@@ -14,6 +14,8 @@ Umami is **fully GDPR compliant**. It is designed with privacy in mind, meaning 
 
 :::tip[See Also]
 
-- [Complete Guide to GDPR Compliance](https://gdpr.eu/)
+- [GDPR.eu: Complete Guide to GDPR Compliance](https://gdpr.eu/)
+- [What is considered personal data under the EU GDPR?](https://gdpr.eu/eu-gdpr-personal-data/)
+- [Are you ready for the GDPR? GDPR checklist for data controllers](https://gdpr.eu/checklist/)
 
 :::
