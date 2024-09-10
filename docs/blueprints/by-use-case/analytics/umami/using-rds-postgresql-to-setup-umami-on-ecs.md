@@ -37,6 +37,12 @@ Make sure you place the database server in the same VPC/Subnet that the ECS inst
 Picking a single non-HA instance is just for demonstration purposes and **not** suitable for production. While implementing this blueprint adjust instances and replicas according to your needs and volume projections.
 :::
 
+### Installing Cryptographic Functions Plugins
+
+In *Relational Database Service* click your instance and then navigate to *Plugins*. Search the list for the plugin **pgcrypto**, and install it by click the *Install* link.
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 13-14-30.png>)
+
 ## Establishing Connectivity
 
 In *Relational Database Service* click your instance and then navigate to *Connectivity & Security* and under *Connection Topology* choose *Private Connection*:
@@ -77,8 +83,160 @@ You are going to need an additionnal inbound rule to allow actors accessing this
 How you are going to establish this SSH connection, is entirely up to you. You can use a bastion or an Elastic IP bound to your ECS or a DNAT Rule in a NAT Gateway. Depends on your needs and your assessment.
 :::
 
+#### Creating Inbound Rule for Umami
+
 ## Deploying Umami
 
 ### Creating the Database
 
-### Installing Umami
+#### Installing the PostgreSQL client tools
+
+```shell
+sudo apt-get update
+sudo apt-get -y install postgresql-client-14
+```
+
+#### Creating the Umami Database
+
+```shell
+createdb umami --host=172.16.0.30 --username=root
+```
+
+:::note
+You will be asked to provide the root password you've set during the installation.
+:::
+
+#### Creating Roles and Assign Privileges
+
+Connect to database:
+
+```shell
+psql -h 172.16.0.30 --username=root umami
+```
+
+Create Role & Privileges and make sure the Cryptographics Functions Plugin is on:
+
+```SQL
+CREATE ROLE umami WITH LOGIN PASSWORD '{value}’;
+GRANT ALL PRIVILEGES ON DATABASE umami TO umami;
+\c umami 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+GRANT ALL PRIVILEGES ON SCHEMA public TO umami;
+```
+
+:::important
+Replace `{value}` with your own password!
+:::
+
+### Installing Docker
+
+#### Setup Docker's apt repository
+
+```shell
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+#### Instal the Docker packages
+
+```shell
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+#### Post-Installation Steps
+
+```shell
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+### Installing Umami as Docker Container
+
+#### Create an APP_SECRET and export Credentials
+
+```shell
+export APP_SECRET=$(openssl rand 30 | openssl base64 -A)
+export PSQL_HOST=172.16.0.30
+export PSQL_ROOT_PASSWORD={value}
+```
+
+:::note
+Replace `PSQL_HOST` and `PSQL_ROOT_PASSWORD` values with your own ones.
+:::
+
+#### Create a Docker Compose file
+
+```yaml title="docker-compose.yml"
+version: '3'
+services:
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://root:${PSQL_ROOT_PASSWORD}@${PSQL_HOST}:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${APP_SECRET}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+```
+
+```shell
+docker compose up -d
+```
+
+## Exposing Umami
+
+### Creating an Elastic Load Balancer
+
+Navigate to *Network Console*->*Elastic Load Balancing* and click *Create Elastic Load Balancer*. Choose to create *Shared Load Balancer* and choose *New EIP* so the new ELB is automatically bound to a new elastic IP:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-32-38.png>)
+
+### Creating a Listener
+
+Choose your Elastic Load Balancer from the console and click *Add Listener*:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-38-26.png>)
+
+Configure *Frontend Protocol* as `TCP`, and *Frontend Port* as `80`:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-38-50.png>)
+
+Configure a new Routing Policy, supported by a new Backend Server Group and set *Backend Protocol* as `TCP`:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-39-09.png>)
+
+Next, you need to add members to the newly created Backend Group. Click *Add Backend Server* and choose the Umami ECS Instance from the list:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-39-38.png>)
+
+and set the Backend Port to `3000`:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-39-50.png>)
+
+## Verification
+
+Open in a browser the address: `http://ELB_EIP` and you should now land at the logon page of Umami:
+
+![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 15-05-13.png>)
+
+:::warning
+Umami uses `admin`/`umami` as default credentials. **Change them immediatelly after you log in!**
+:::
