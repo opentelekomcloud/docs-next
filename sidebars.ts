@@ -266,6 +266,10 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce',
+            },
+            {
+              type: 'doc',
               id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
             },
             {
