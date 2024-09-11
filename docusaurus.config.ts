@@ -40,7 +40,8 @@ const config: Config = {
           editUrl:'https://github.com/akyriako/docs-next/tree/main/',
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
-          breadcrumbs: true
+          breadcrumbs: true,
+          exclude: ['**/by-industry/**', '**/caf/**']
         },
         
         theme: {
