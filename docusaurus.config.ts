@@ -41,7 +41,7 @@ const config: Config = {
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
-          exclude: ['**/by-industry/**', '**/caf/**']
+          exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
         },
         
         theme: {
