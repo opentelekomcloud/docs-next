@@ -109,11 +109,17 @@ const config: Config = {
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
         },
+        // { 
+        //   href: 'https://discord.gg/zpSRgC9as5', 
+        //   position: 'right',
+        //   className: 'navbar--discord-link',
+        //   "aria-label": 'Discord Invite',
+        // },
         { 
-          href: 'https://discord.gg/zpSRgC9as5', 
+          href: 'https://open-telekom-cloud.com', 
           position: 'right',
-          className: 'navbar--discord-link',
-          "aria-label": 'Discord Invite',
+          className: 'navbar--discourse-link',
+          "aria-label": 'Discourse OTC',
         },
       ],
     },
@@ -175,7 +181,7 @@ const config: Config = {
             },
             {
               label: 'Endpoints',
-              to: 'https://docs.otc.t-systems.com/additional/endpoints.html',
+              to: 'https://docs.otc.t-systems.com/regions-and-endpoints/index.html',
             },
             {
               label: 'Status Dashboard',
