@@ -109,18 +109,18 @@ const config: Config = {
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
         },
-        { 
-          href: 'https://open-telekom-cloud.com', 
-          position: 'right',
-          className: 'navbar--discourse-link',
-          "aria-label": 'Discourse OTC',
-        },
         // { 
-        //   href: 'https://discord.gg/zpSRgC9as5', 
+        //   href: 'https://open-telekom-cloud.com', 
         //   position: 'right',
-        //   className: 'navbar--discord-link',
-        //   "aria-label": 'Discord Invite',
+        //   className: 'navbar--discourse-link',
+        //   "aria-label": 'Discourse OTC',
         // },
+        { 
+          href: 'https://discord.gg/zpSRgC9as5', 
+          position: 'right',
+          className: 'navbar--discord-link',
+          "aria-label": 'Discord Invite',
+        },
       ],
     },
     footer: {
