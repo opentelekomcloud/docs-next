@@ -272,7 +272,7 @@ const sidebars: SidebarsConfig = {
               type: 'category',
               label: 'Migrating Clusters from Other Clouds to CCE',
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/containers/cloud-container-engine/migrating-from-other_clouds-to-cce'
               },
               items: [
@@ -287,11 +287,11 @@ const sidebars: SidebarsConfig = {
                 {
                   type: 'doc',
                   id: 'best-practices/containers/cloud-container-engine/updating-resources',
-                },   
+                },
                 {
                   type: 'doc',
                   id: 'best-practices/containers/cloud-container-engine/debugging-and-starting-the-application',
-                },   
+                },
               ],
             },
             {
@@ -448,7 +448,7 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Cloud Create 🔥',
           link: {
-            type: 'doc', 
+            type: 'doc',
             id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
           },
           items: [
@@ -456,7 +456,7 @@ const sidebars: SidebarsConfig = {
               type: 'category',
               label: 'Google Cloud',
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
               },
               items: [
@@ -484,7 +484,7 @@ const sidebars: SidebarsConfig = {
               //   keywords: ['cloud-create'],
               // },
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
               },
               items: [
@@ -524,6 +524,32 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-trace-service/index.html',
+            },
+            {
+              type: 'category',
+              label: 'Auditing and Analyzing Logins and Logouts with FunctionGraph',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/introduction',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/preparation',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/building-a-program',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/adding-an-event-source',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/processing-operation-records',
+                }
+              ],
             },
           ],
         },
