@@ -144,10 +144,12 @@ Without verifying GitHub organization membership, anyone with a GitHub account c
 :::
 
 
-1. Navigate to *Directory -> Federation and Social login* and edit previously created Github OAuth Source.
-2. Add the `read:org` scope to your GitHub OAuth Source
-3. Navigate to *Policy Bindings* tab
-4. Create a new policy of type *Expression Policy* with the following Python code as *Expression*:
+1. Navigate to *Directory -> Federation and Social login* and edit previously created Github OAuth Source
+2. Add the `read:org` scope to your GitHub OAuth Source and save it
+3. Then navigate to *Flows and Stages -> Flows -> Enrollment* and click `default-source-enrollment`
+4. Go to the *Policy / Group / User Bindings* tab, then *Create and bind Policy*
+5. Create a new policy of type *Expression Policy* with the following Python code as *Expression*:
+
 
     ```python
     # Ensure flow is only run during oauth logins via Github
@@ -175,13 +177,11 @@ Without verifying GitHub organization membership, anyone with a GitHub account c
         ak_message(f"User is not member of {accepted_org}.")
     return user_matched
     ```
-
-5. Make sure that at the *Create Binding* step the *Failure result* value is set to *Don't pass* and save the policy.
+6. Under *Edit Binding* ensure that the policy is Enabled and *Failure result* is *Don't pass* and save the policy.
+7. Go back and edit the `default-source-enrollment` flow, under *Behavior settings* ensure that *Denied action* is set to `MESSAGE` and *Policy engine mode* is set to `all`
 
 :::tip
-For Authentik to successfully check a user's membership in a GitHub organization, the following conditions must be met:
-
-- **Public Organization Membership**: The user's membership in the organization must be set to public. If the membership is private, Authentik will not be able to verify the user's association with the organization, and the policy enforcing organization membership will not always deny the access.
+For Authentik to successfully check a user's membership in a GitHub organization, the following condition must be met:
 
 - **OAuth App Configuration**: The *Github OAuth App* used for authentication should either be created by the GitHub organization or explicitly trusted by the organization. If the OAuth App is created by a different user or organization, the GitHub organization must trust the app for Authentik to retrieve and verify the organizations to which the user belongs.
 
