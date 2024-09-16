@@ -114,12 +114,12 @@ const config: Config = {
         //   className: 'navbar--discourse-link',
         //   "aria-label": 'Discourse OTC',
         // },
-        { 
-          href: 'https://discord.gg/zpSRgC9as5', 
-          position: 'right',
-          className: 'navbar--discord-link',
-          "aria-label": 'Discord Invite',
-        },
+        // { 
+        //   href: 'https://discord.gg/zpSRgC9as5', 
+        //   position: 'right',
+        //   className: 'navbar--discord-link',
+        //   "aria-label": 'Discord Invite',
+        // },
       ],
     },
     footer: {
