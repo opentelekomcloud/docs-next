@@ -19,10 +19,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get Commit Hash
+        id: commit_hash
+        uses: prompt/actions-commit-hash@v3
+
       - name: Install and Build
         if: github.event.action != 'closed' 
         env: 
-          REACT_APP_VERSION: env:preview/pr:${{ github.event.pull_request.number }}-${{ github.run_number }}
+          REACT_APP_VERSION: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-preview+PR${{ github.event.pull_request.number }}#${{ github.run_number }}
           REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
           REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
           REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}pr-${{ github.event.pull_request.number }}
