@@ -12,7 +12,7 @@ const config: Config = {
   url: 'https://' + process.env.REACT_APP_DOCS_NEXT_HOST,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL,
+  baseUrl: '/', //process.env.REACT_APP_DOCUSAURUS_BASE_URL,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
