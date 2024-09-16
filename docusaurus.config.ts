@@ -4,21 +4,21 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Architecture Center - GO/S/A/TLS',
+  title: 'Architecture Center',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'http://docs-next.hypelens.de',
+  url: 'https://' + process.env.REACT_APP_DOCS_NEXT_HOST,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'akyriako', // Usually your GitHub org/user name.
+  organizationName: process.env.REACT_APP_DOCS_NEXT_ORG, // Usually your GitHub org/user name.
   projectName: 'docs-next', // Usually your repo name.
-  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -211,7 +211,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
       theme: prismThemes.oneDark,

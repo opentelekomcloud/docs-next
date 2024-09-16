@@ -1,3 +1,5 @@
+name: build-and-release
+
 on:
     push:
       branches:
@@ -26,6 +28,10 @@ jobs:
   
         - name: Build App
           env: 
+            REACT_APP_VERSION: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-preview
+            REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
+            REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
+            REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
             REACT_APP_TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
             REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
             REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
@@ -81,6 +87,10 @@ jobs:
   
         - name: Build App
           env: 
+            REACT_APP_VERSION: ${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-stable
+            REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
+            REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
+            REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
             REACT_APP_TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
             REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
             REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}

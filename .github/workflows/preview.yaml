@@ -1,0 +1,40 @@
+name: pull-requests-preview-deployment
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    environment: pull-requests-preview
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install and Build
+        if: github.event.action != 'closed' 
+        env: 
+          REACT_APP_VERSION: env:preview/pr:${{ github.event.pull_request.number }}-${{ github.run_number }}
+          REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
+          REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
+          REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}pr-${{ github.event.pull_request.number }}
+          UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
+          UMAMI_ANALYTICS_DOMAIN: ${{ vars.UMAMI_ANALYTICS_DOMAIN }}
+          UMAMI_DATAHOST_URL: ${{ vars.UMAMI_DATAHOST_URL }}
+          UMAMI_DATA_DOMAIN: ${{ vars.UMAMI_DATA_DOMAINS }}
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./build/
