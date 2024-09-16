@@ -9,7 +9,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'http://' + process.env.REACT_APP_DOCS_NEXT_HOST,
+  url: 'https://' + process.env.REACT_APP_DOCS_NEXT_HOST,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL,
