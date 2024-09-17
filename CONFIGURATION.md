@@ -13,7 +13,7 @@ Create a new branch, `gh-pages`, and go to *Settings* -> *Pages* of the reposito
 
 ![alt text](static/img/configure_gh_pages.png)
 
-Choose **Deploy from a branch** as *Source*, and as Branch **gh-pages/root**.
+Choose **Deploy from a branch** as *Source*, and as *Branch* **gh-pages/root**.
 
 > [!IMPORTANT]
 > Do this for **both** repositories, **docs-next** and **docs-next-chart**!
@@ -24,6 +24,8 @@ Go to *Account* -> *Settings* -> *Developer Settings* -> *Personal Access Tokens
 
 - **Read access to metadata**
 - **Read and Write access to actions, code, commit statuses, and workflows**
+
+![alt text](static/img/cross_repo_commit_token.png)
 
 > [!IMPORTANT]
 >Save the value of the token, you are going to set it afterwards as the value of the secret `DOCS_NEXT_CHARTS_TOKEN`.
@@ -60,7 +62,8 @@ Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read a
 > ✅ : Yes,
 > 1️⃣ : Yes but horizontally identical value, 
 > ❌ : No,
-> otherwise use either the default value or the one dictated per environment.
+> 
+> Otherwise use the default value or the one dictated per environment.
 
 ### Secrets
 
@@ -74,6 +77,6 @@ Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read a
 
 > [!NOTE]
 > ✅ : Yes,
-> 1️⃣ : Yes but horizontally identical value, 
+> 1️⃣ : Yes but horizontally identical value,
 > ❌ : No
 
