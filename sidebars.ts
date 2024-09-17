@@ -381,6 +381,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/databases/document-database-service/from-other-cloud-mongodb-to-dds',
             },
             {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/how-do-replica-sets-achieve-high-availability-and-readwrite-splitting',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/document-database-service/index.html',
