@@ -714,27 +714,13 @@ const sidebars: SidebarsConfig = {
           label: 'Virtual Private Network',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/virtual-private-network/index.html',
-            },
-            {
-              type: 'category',
-              label: 'Connecting Multiple On-premises Branch Networks Through a VPN Hub',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/overview',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/planning-networks-and-resources',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/procedure',
-                }
-              ],
             },
           ],
         },
