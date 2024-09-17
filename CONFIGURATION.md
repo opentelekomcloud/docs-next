@@ -18,7 +18,7 @@ You need to configure 4 GitHub environments:
 | DOCS_NEXT_ORG          |               ✅               |     ✅      |     ✅      | GitHub Org Name                              |
 | DOCS_NEXT_HOST         |   `$DOCS_NEXT_ORG`.github.io   |     ✅      |     ✅      | Domain name                                  |
 | DOCS_NEXT_CHARTS_ORG   |               ❌               |     ✅      |     ✅      | GitHub Org Name                              |
-| DOCS_NEXT_CHARTS_REPO  |               ❌               |     ✅      |     ✅      | GitHub Org Name                              |
+| DOCS_NEXT_CHARTS_REPO  |               ❌               |     ✅      |     ✅      | GitHub Repo Name                             |
 | DOCUSAURUS_BASE_URL    |    `/docs-next/pr-preview/`    |     ❌      |     ❌      | Docusaurus `baseUrl`                         |
 | DOCS_NEXT_ELB_ID       |               ❌               |     ✅      |     ✅      | Elastic Load Balancer ID                     |
 | TYPESENSE_HOST         |               ❌               |     ✅      |     ✅      | Domain name                                  |
@@ -37,16 +37,16 @@ You need to configure 4 GitHub environments:
 
 ### Secrets
 
-| Secret                 | pull-requests-preview | preview | stable | Default/Description               |
-| :--------------------- | :-------------------: | :-----: | :----: | :-------------------------------- |
-| DOCKERHUB_USERNAME     |          ❌           |   ✅    |   ✅   | Container Registry User           |
-| DOCKERHUB_TOKEN        |          ❌           |   ✅    |   ✅   | Container Registry Access Token   |
-| DOCS_NEXT_CHARTS_TOKEN |          ❌           |   ✅    |   ✅   | **DOCS_NEXT_CHARTS_ORG** Access Token |
-| TYPESENSE_API_KEY      |          ❌           |   ✅    |   ✅   | TypeSense Admin API Key           |
-| TYPESENSE_SEARCH_KEY   |          ❌           |   ✅    |   ✅   | TypeSense Search API Key          |
+| Secret                 | pull-requests-preview | preview | stable | Default/Description                    |
+| :--------------------- | :-------------------: | :-----: | :----: | :------------------------------------- |
+| DOCKERHUB_USERNAME     |          ❌           |   ✅    |   ✅   | Container Registry User                |
+| DOCKERHUB_TOKEN        |          ❌           |   ✅    |   ✅   | Container Registry Access Token        |
+| DOCS_NEXT_CHARTS_TOKEN |          ❌           |   ✅    |   ✅   | **DOCS_NEXT_CHARTS_REPO** Access Token |
+| TYPESENSE_API_KEY      |          ❌           |   ✅    |   ✅   | TypeSense Admin API Key                |
+| TYPESENSE_SEARCH_KEY   |          ❌           |   ✅    |   ✅   | TypeSense Search API Key               |
 
 > [!NOTE]
 > ✅ : Yes,
 > ❌ : No
 
-### GitHub Pages
+## GitHub Pages
