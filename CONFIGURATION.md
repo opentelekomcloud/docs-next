@@ -18,7 +18,15 @@ Choose **Deploy from a branch** as *Source*, and as Branch **gh-pages/root**.
 > [!IMPORTANT]
 > Do this for **both** repositories, **docs-next** and **docs-next-chart**!
 
-## Helm Charts Repository Configuration (docs-next-charts)
+## Helm Charts Repository Token Configuration (docs-next-charts)
+
+Go to *Account* -> *Settings* -> *Developer Settings* -> *Personal Access Tokens* -> *Fine-grained tokens* and click *Generate new token*. Create a new token with the name **docs-next-charts-token** and give to it access to the repository: **docs-next-charts**. Assign the following permissions to the token:
+
+- **Read access to metadata**
+- **Read and Write access to actions, code, commit statuses, and workflows**
+
+> [!IMPORTANT]
+>Save the value of the token, you are going to set it afterwards as the value of the secret `DOCS_NEXT_CHARTS_TOKEN`.
 
 ## Code Repository Configuration (docs-next)
 
