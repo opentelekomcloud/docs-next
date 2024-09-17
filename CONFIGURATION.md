@@ -1,12 +1,15 @@
 # GitHub Environments Configuration
 
-You need to configure 3 GitHub environments:
+You need to configure 4 GitHub environments:
 
 - **preview**: for staging
 - **stable**: for production
 - **pull-requests-preview**: for ephemeral deployments for PR reviews
+- **gh-pages**: for GitHub pages publishing and deployment
 
-## Variables
+## Configuration
+
+### Variables
 
 | Variable               |     pull-requests-preview      |   preview   |   stable    | Default/Description                          |
 | :--------------------- | :----------------------------: | :---------: | :---------: | :------------------------------------------- |
@@ -31,3 +34,7 @@ You need to configure 3 GitHub environments:
 > ✅ : Yes,
 > ❌ : No,
 > Otherwise use either the default value or the one dictated per environment.
+
+### Secrets
+
+### GitHub Pages
