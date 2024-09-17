@@ -9,6 +9,7 @@ on:
         - '**/CONTRIBUTING.md'
         - '**/CONFIGURATION.md'
         - '**/.devcontainer/devcontainer.json'
+        - '**/.devcontainer/.env'
         - '**/.github/workflows/preview.yaml'
     
 jobs:
