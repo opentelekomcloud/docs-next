@@ -40,12 +40,12 @@ Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read a
 
 | Variable               |     pull-requests-preview      |      preview       |       stable       | Default/Description        |
 | :--------------------- | :----------------------------: | :----------------: | :----------------: | :------------------------- |
-| APP_VERSION            |               ✅               |         ✅         |         ✅         | `0.1`                      |
+| APP_VERSION            |               1️⃣               |         1️⃣         |         1️⃣         | `0.1`                      |
 | IMG_NAME               |               ❌               |    `docs-next`     |    `docs-next`     | Docker Image Name          |
-| DOCS_NEXT_ORG          |               ✅               |         ✅         |         ✅         | GitHub Org Name            |
+| DOCS_NEXT_ORG          |               1️⃣               |         1️⃣         |         1️⃣         | GitHub Org Name            |
 | DOCS_NEXT_REPO         |               ❌               |    `docs-next`     |    `docs-next`     | GitHub Repo Name           |
 | DOCS_NEXT_HOST         |   `$DOCS_NEXT_ORG`.github.io   |         ✅         |         ✅         | Domain name                |
-| DOCS_NEXT_CHARTS_ORG   |               ❌               |         ✅         |         ✅         | GitHub Org Name            |
+| DOCS_NEXT_CHARTS_ORG   |               ❌               |         1️⃣         |         1️⃣         | GitHub Org Name            |
 | DOCS_NEXT_CHARTS_REPO  |               ❌               | `docs-next-charts` | `docs-next-charts` | GitHub Repo Name           |
 | DOCUSAURUS_BASE_URL    |    `/docs-next/pr-preview/`    |         ❌         |         ❌         | Docusaurus `baseUrl`       |
 | TYPESENSE_HOST         |               ❌               |         ✅         |         ✅         | Domain name                |
@@ -58,6 +58,7 @@ Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read a
 
 > [!NOTE]
 > ✅ : Yes,
+> 1️⃣ : Yes but horizontally identical value, 
 > ❌ : No,
 > otherwise use either the default value or the one dictated per environment.
 
@@ -67,11 +68,12 @@ Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read a
 | :--------------------- | :-------------------: | :-----: | :----: | :--------------------------------- |
 | DOCKERHUB_USERNAME     |          ❌           |   ✅    |   ✅   | Container Registry User            |
 | DOCKERHUB_TOKEN        |          ❌           |   ✅    |   ✅   | Container Registry Access Token    |
-| DOCS_NEXT_CHARTS_TOKEN |          ❌           |   ✅    |   ✅   | DOCS_NEXT_CHARTS_REPO Access Token |
+| DOCS_NEXT_CHARTS_TOKEN |          ❌           |   1️⃣    |   1️⃣   | DOCS_NEXT_CHARTS_REPO Access Token |
 | TYPESENSE_API_KEY      |          ❌           |   ✅    |   ✅   | TypeSense Admin API Key            |
 | TYPESENSE_SEARCH_KEY   |          ❌           |   ✅    |   ✅   | TypeSense Search API Key           |
 
 > [!NOTE]
 > ✅ : Yes,
+> 1️⃣ : Yes but horizontally identical value, 
 > ❌ : No
 
