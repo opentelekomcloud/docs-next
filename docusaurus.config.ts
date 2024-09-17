@@ -132,10 +132,10 @@ const config: Config = {
               label: 'Help Center',
               to: 'https://docs.otc.t-systems.com/',
             },
-            {
-              label: 'Medium',
-              href: 'https://medium.com',
-            },
+            // {
+            //   label: 'Medium',
+            //   href: 'https://medium.com',
+            // },
             {
               label: 'Portfolio Roadmap',
               to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
@@ -199,10 +199,10 @@ const config: Config = {
               label: 'Webinars',
               href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-            {
-              label: 'Discord',
-              href: 'https://discord.gg/zpSRgC9as5',
-            },
+            // {
+            //   label: 'Discord',
+            //   href: 'https://discord.gg/zpSRgC9as5',
+            // },
             // {
             //   label: 'Twitter',
             //   href: 'https://x.com/tsystemscom',
@@ -210,7 +210,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
       theme: prismThemes.oneDark,
