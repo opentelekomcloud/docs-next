@@ -37,4 +37,13 @@ You need to configure 4 GitHub environments:
 
 ### Secrets
 
+| Secret                 | pull-requests-preview | preview | stable | Default/Description               |
+| :--------------------- | :-------------------: | :-----: | :----: | :-------------------------------- |
+| DOCKERHUB_USERNAME     |          ❌           |   ✅    |   ✅   | Container Registry User           |
+| DOCKERHUB_TOKEN        |          ❌           |   ✅    |   ✅   | Container Registry Access Token   |
+| DOCS_NEXT_CHARTS_TOKEN |          ❌           |   ✅    |   ✅   | **DOCS_NEXT_CHARTS_ORG** Access Token |
+| TYPESENSE_API_KEY      |          ❌           |   ✅    |   ✅   | TypeSense Admin API Key           |
+| TYPESENSE_SEARCH_KEY   |          ❌           |   ✅    |   ✅   | TypeSense Search API Key          |
+
+
 ### GitHub Pages
