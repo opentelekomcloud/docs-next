@@ -21,7 +21,8 @@
 				"yzhang.markdown-all-in-one",
 				"DavidAnson.vscode-markdownlint",
 				"redhat.vscode-yaml",
-				"TakumiI.markdowntable"
+				"TakumiI.markdowntable",
+				"Perkovec.emoji"
 			]
 		}
 	},
