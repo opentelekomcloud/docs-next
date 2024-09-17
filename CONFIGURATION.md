@@ -33,7 +33,7 @@ You need to configure 4 GitHub environments:
 > [!NOTE]
 > ✅ : Yes,
 > ❌ : No,
-> Otherwise use either the default value or the one dictated per environment.
+> otherwise use either the default value or the one dictated per environment.
 
 ### Secrets
 
@@ -45,5 +45,8 @@ You need to configure 4 GitHub environments:
 | TYPESENSE_API_KEY      |          ❌           |   ✅    |   ✅   | TypeSense Admin API Key           |
 | TYPESENSE_SEARCH_KEY   |          ❌           |   ✅    |   ✅   | TypeSense Search API Key          |
 
+> [!NOTE]
+> ✅ : Yes,
+> ❌ : No
 
 ### GitHub Pages
