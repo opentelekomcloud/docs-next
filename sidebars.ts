@@ -276,7 +276,7 @@ const sidebars: SidebarsConfig = {
               type: 'category',
               label: 'Migrating Clusters from Other Clouds to CCE',
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/containers/cloud-container-engine/migrating-from-other_clouds-to-cce'
               },
               items: [
@@ -291,11 +291,11 @@ const sidebars: SidebarsConfig = {
                 {
                   type: 'doc',
                   id: 'best-practices/containers/cloud-container-engine/updating-resources',
-                },   
+                },
                 {
                   type: 'doc',
                   id: 'best-practices/containers/cloud-container-engine/debugging-and-starting-the-application',
-                },   
+                },
               ],
             },
             {
@@ -452,7 +452,7 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Cloud Create 🔥',
           link: {
-            type: 'doc', 
+            type: 'doc',
             id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
           },
           items: [
@@ -460,7 +460,7 @@ const sidebars: SidebarsConfig = {
               type: 'category',
               label: 'Google Cloud',
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
               },
               items: [
@@ -488,7 +488,7 @@ const sidebars: SidebarsConfig = {
               //   keywords: ['cloud-create'],
               // },
               link: {
-                type: 'doc', 
+                type: 'doc',
                 id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
               },
               items: [
@@ -713,6 +713,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Virtual Private Network',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
