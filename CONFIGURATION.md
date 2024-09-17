@@ -7,7 +7,26 @@ You need to configure 4 GitHub environments:
 - **pull-requests-preview**: for ephemeral deployments for PR reviews
 - **gh-pages**: for GitHub pages publishing and deployment
 
-## Configuration
+## GitHub Pages
+
+Create a new branch, `gh-pages`, and go to *Settings* -> *Pages* of the repository:  
+
+![alt text](static/img/configure_gh_pages.png)
+
+Choose **Deploy from a branch** as *Source*, and as Branch **gh-pages/root**.
+
+> [!IMPORTANT]
+> Do this for **both** repositories, **docs-next** and **docs-next-chart**!
+
+## Helm Charts Repository Configuration (docs-next-charts)
+
+## Code Repository Configuration (docs-next)
+
+### Workflow Permissions
+
+Go to *Settings* -> *Actions* -> *General* of the repository and choose **Read and write permissions** as *Workflow Permissions*. Click *Save* to persist changes:
+
+![alt text](static/img/workflow_permissions.png)
 
 ### Variables
 
@@ -50,4 +69,3 @@ You need to configure 4 GitHub environments:
 > ✅ : Yes,
 > ❌ : No
 
-## GitHub Pages
