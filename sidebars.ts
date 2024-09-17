@@ -521,35 +521,13 @@ const sidebars: SidebarsConfig = {
           label: 'Cloud Trace Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-trace-service/index.html',
-            },
-            {
-              type: 'category',
-              label: 'Auditing and Analyzing Logins and Logouts with FunctionGraph',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/introduction',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/preparation',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/building-a-program',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/adding-an-event-source',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/processing-operation-records',
-                }
-              ],
             },
           ],
         },
