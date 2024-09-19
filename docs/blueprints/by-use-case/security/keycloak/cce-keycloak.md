@@ -422,74 +422,8 @@ Elastic Load Balancer.
 
 #### Creating the Endpoint with ExternalDNS
 
-What is ExternalDNS? Quoting directly from the official repo of the
-project:
-
-*Inspired by Kubernetes DNS, Kubernetes' cluster-internal DNS server,
-ExternalDNS makes Kubernetes resources discoverable via public DNS
-servers. Like KubeDNS, it retrieves a list of resources (Services,
-Ingresses, etc.) from the Kubernetes API to determine a desired list of
-DNS records. Unlike KubeDNS, however, it's not a DNS server itself, but
-merely configures other DNS providers accordingly---e.g. AWS Route 53 or
-Google Cloud DNS.*
-
-*In a broader sense, ExternalDNS allows you to control DNS records
-dynamically via Kubernetes resources in a DNS provider-agnostic way.*
-
-##### Deploying ExternalDNS on CCE
-
-We are going to deploy ExternalDNS with Helm as well. First let's lay
-down the configuration of the chart:
-
-```yaml title="overrides.yaml" linenos="" emphasize-lines="11,13-14"
-sources:
-  - crd
-  - service
-  - ingress
-provider: designate
-combineFQDNAnnotation: true
-crd:
-  create: true
-logFormat: json
-designate:
-  username: "OTCAC_DNS_ServiceAccount"
-  password: <<OTCAC_DNS_ServiceAccount_PASSWORD>>
-  authUrl: "https://iam.eu-de.otc.t-systems.com:443/v3"
-  regionName: "eu-de"
-  userDomainName: "OTCXXXXXXXXXXXXXXXXXXXX"
-  projectName: "eu-de_XXXXXXXXXXX"
-```
-
-:::warning
-Special attention required at **lines 13,14**. Although DNS is a global
-service, **all** changes have to be applied in Region **eu-de**.
-:::
-
-Install the chart (it will deploy all the necessary resources in an
-automatically created namespace called `external-dns`:
-
-```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-
-helm upgrade --install -f overrides.yaml external-dns bitnami/external-dns -n external-dns --create-namespace
-```
-
-##### Creating a dedicated DNS Service Account
-
-:::note
-This is required **only** when ExternalDNS is used.
-:::
-
-Go to IAM management console, and create a new User that permits
-programmatic access to Open Telekom Cloud resources:
-
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dfp.png)
-
-Grant this User the following permissions or add him directly to User
-Group `dns-admins` (if it exists)
-
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-df8.png)
+Alternatively, we can automate the whole process by using ExternalDNS. You can find the necessary steps in blueprint:
+[Create a Public DNS Endpoint with ExternalDNS](../../networking/create-a-public-dns-endpoint-with-externaldns.md).
 
 ##### Deploying a Keycloak Endpoint
 
