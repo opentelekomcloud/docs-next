@@ -43,6 +43,10 @@ html[data-theme='light'] {
   --ifm-font-family-base: 'TeleNeoWeb';
   --ifm-background-color: #ffffff;
   --ifm-background-surface-color: #ffffff;
+
+  --telekom-shadow-raised-standard: none;
+  --telekom-radius-large: 2rem;
+  --telekom-color-background-surface: var(--ifm-background-surface-color);
 }
 
 [data-theme='dark'] {
@@ -55,6 +59,10 @@ html[data-theme='light'] {
   --ifm-color-primary-lightest: #e8ecfe;
   --ifm-background-color: #1b1b1d;
   --ifm-background-surface-color: #1b1b1d;
+
+  --telekom-shadow-raised-standard: none;
+  --telekom-radius-large: 2rem;
+  --telekom-color-background-surface: var(--ifm-background-surface-color);
 }
 
 /* Override system color scheme preference */
@@ -99,16 +107,6 @@ html[data-theme='light'] {
 html[data-theme='dark'] .scale-telekom-footer {
   --background-footer-minimal: #1b1b1d;
   --font-color: white;
-   /* ul {
-    li {
-      a {
-        color: white;
-      }
-    }
-  }
-  span {
-    color: white;
-  } */
 }
 
 html[data-theme='dark'] .scale-telekom-footer ul li a {

@@ -35,6 +35,9 @@ export default function FooterLayout({
             <li>
               <a href="https://open-telekom-cloud.com/en/imprint"> Imprint </a>
             </li>
+            <li>
+              <span> v{ "0.1-development" } </span>
+            </li>
           </ul>
         </scale-telekom-footer-content>
       </scale-telekom-footer>

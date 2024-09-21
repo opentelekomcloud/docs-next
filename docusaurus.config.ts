@@ -124,6 +124,13 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
+      // logo: {
+      //   alt: 'Open Telekom Cloud Logo',
+      //   src: 'img/logo_headline_kombination_m_s_m.png',
+      //   href: 'https://www.t-systems.com',
+      //   width: 272,
+      //   height: 40,
+      // },
       links: [
         {
           title: 'Docs',
@@ -132,13 +139,30 @@ const config: Config = {
               label: 'Help Center',
               to: 'https://docs.otc.t-systems.com/',
             },
-            // {
-            //   label: 'Medium',
-            //   href: 'https://medium.com',
-            // },
             {
               label: 'Portfolio Roadmap',
               to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
+            },
+            {
+              label: 'Core Services Certifications',
+              to: 'https://www.open-telekom-cloud.com/en/products-services/core-services/certifications',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Community Forums',
+              to: 'https://community.open-telekom-cloud.com/',
+            },
+            {
+              label: 'Webinars',
+              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
+            },
+             {
+              label: 'Medium',
+              href: 'https://medium.com',
             },
           ],
         },
@@ -188,29 +212,8 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Community Forums',
-              to: 'https://community.open-telekom-cloud.com/',
-            },
-            {
-              label: 'Webinars',
-              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
-            },
-            // {
-            //   label: 'Discord',
-            //   href: 'https://discord.gg/zpSRgC9as5',
-            // },
-            // {
-            //   label: 'Twitter',
-            //   href: 'https://x.com/tsystemscom',
-            // },
-          ],
-        },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
     },
     prism: {
       theme: prismThemes.oneDark,

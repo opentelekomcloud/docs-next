@@ -20,7 +20,9 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <scale-button href="/docs/intro" variant={buttonVariant}>Get Started! 🚀</scale-button>
+          <scale-button href="/docs/blueprints" variant={buttonVariant}>
+            Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
+          </scale-button>
         </div>
       </div>
     </header>
