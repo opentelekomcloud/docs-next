@@ -62,7 +62,7 @@ function Feature({title, Svg, description, link}: FeatureItem) {
     //   </div>
     // </div>
     <div className={clsx('col col--4')}>
-        <scale-card to={link} target="_blank" class="scale-telekom-feature-card">
+        <scale-card to={link} class="scale-telekom-feature-card">
           <div style={{margin: '-24px'}}>
             <div className="text--center">
               <Svg className={styles.featureSvg} role="img" />
