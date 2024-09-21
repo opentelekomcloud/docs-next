@@ -213,7 +213,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
       theme: prismThemes.oneDark,
