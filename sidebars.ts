@@ -392,6 +392,10 @@ const sidebars: SidebarsConfig = {
           label: 'Data Replication Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/databases/data-replication-service/from-on-premises-oracle-to-gaussdb-distributed',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/data-replication-service/index.html',
