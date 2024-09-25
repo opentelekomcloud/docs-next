@@ -124,13 +124,13 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      // logo: {
-      //   alt: 'Open Telekom Cloud Logo',
-      //   src: 'img/logo_headline_kombination_m_s_m.png',
-      //   href: 'https://www.t-systems.com',
-      //   width: 272,
-      //   height: 40,
-      // },
+      logo: {
+        alt: 'Open Telekom Cloud Logo',
+        src: 'img/telekom-logo.svg',
+        href: 'https://www.open-telekom-cloud.com',
+        width: 72,
+        height: 72,
+      },
       links: [
         {
           title: 'Docs',
@@ -250,6 +250,10 @@ const config: Config = {
       contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
+
+  customFields: {
+    version: `(v` + process.env.REACT_APP_VERSION + `)`,
+  },
 
   plugins: [
     [
