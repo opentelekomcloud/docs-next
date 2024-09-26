@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import ServiceCallouts, { Callout } from './callout';
+import ServiceCallouts, { Callout } from './../callout';
 import {
     ClockIcon,
     CogIcon,
@@ -15,20 +15,32 @@ import {
 
  var calloutsList: Callout[] = [
     {
-      title: "ttt",
+      title: "AOM",
       text: "Application Operations Management",
-      link: "/docs/best-practices/building-highly-available-web-server-clusters-with-keepalived",
+      link: "/docs/tags/aom",
       icon: RectangleStackIcon,
     },
     {
-        title: "yyy",
-        text: "Application Operations Management",
-        link: "/docs/best-practices/building-highly-available-web-server-clusters-with-keepalived",
+        title: "APIG",
+        text: "API Gateway",
+        link: "/docs/tags/apig",
         icon: RectangleStackIcon,
-      },
+    },
+    {
+      title: "DMS",
+      text: "Distributed Message Service",
+      link: "/docs/tags/dms",
+      icon: RectangleStackIcon,
+    },
+    {
+      title: "SMN",
+      text: "Simple Message Notification",
+      link: "/docs/tags/smn",
+      icon: RectangleStackIcon,
+    },
   ];
 
-export default function BestPractices(): JSX.Element {
+export default function ApplicationServices(): JSX.Element {
     return (
         <div>
             <ServiceCallouts callouts={calloutsList} />
