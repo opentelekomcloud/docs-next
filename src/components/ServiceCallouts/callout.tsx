@@ -21,7 +21,7 @@ import {
   
   function Callout(props: Callout): JSX.Element {
     return (
-      <div className={clsx("card shadow--lw", styles.callout)}>
+      <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
         <div className="card__header">
           <h3 className={styles.callout__title}>
             <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" />
@@ -47,7 +47,7 @@ import {
   
   export default function ServiceCallouts({ callouts }: ServiceCalloutsProps): JSX.Element {
     return (
-      <section className=" container">
+      <section className="container">
         <div className="row">
           {callouts.map((c) => (
             <div key={c.title} className="col col--4">

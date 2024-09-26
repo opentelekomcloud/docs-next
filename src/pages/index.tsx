@@ -124,7 +124,7 @@ export default function Home(): JSX.Element {
         </section> */}
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-          <div className={clsx("row row--no-gutters shadow--md", styles.item)}>
+          <div className={clsx("row row--no-gutters", styles.item)}>
             <div className={clsx("col col--4", styles.item__inner)}>
               <div>
                 <h1 className={clsx("margin-bottom--md", styles.item__title)}>
@@ -145,7 +145,7 @@ export default function Home(): JSX.Element {
         </section>
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-          <div className={clsx("row row--no-gutters shadow--md", styles.item)}>
+          <div className={clsx("row row--no-gutters ", styles.item)}>
             <div
               className="col col--6"
               aria-hidden="true"
@@ -173,7 +173,7 @@ export default function Home(): JSX.Element {
         </section>
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-          <div className={clsx("row row--no-gutters shadow--md", styles.item)}>
+          <div className={clsx("row row--no-gutters", styles.item)}>
             <div className={clsx("col col--6", styles.item__inner)}>
               <div>
                 <h1 className="margin-bottom--md">Contribute</h1>
@@ -183,10 +183,10 @@ export default function Home(): JSX.Element {
                   in our brand new Medium Publication.
                 </p>
                 <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px' }} >
-                  Join us in GitHub
+                  Join us on GitHub
                 </a>
                 <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px' }}>
-                  Join us in Medium
+                  Join us on Medium
                 </a>
               </div>
             </div>
