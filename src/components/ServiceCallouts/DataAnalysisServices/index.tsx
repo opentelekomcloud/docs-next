@@ -50,6 +50,18 @@ import {
       link: "/docs/tags/model-arts",
       icon: RectangleStackIcon,
     },
+    {
+      title: "MRS",
+      text: "MapReduce Service",
+      link: "/docs/tags/mrs",
+      icon: RectangleStackIcon,
+    },
+    {
+      title: "OCR",
+      text: "Optical Character Recognition",
+      link: "/docs/tags/ocr",
+      icon: RectangleStackIcon,
+    },
   ];
 
 export default function DataAnalysisServices(): JSX.Element {
