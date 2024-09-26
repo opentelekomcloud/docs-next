@@ -183,3 +183,203 @@ Resource Planning
   *       Subcategory:       Public
   *       Planned Value:       Select the public network for the test.
   *       Remarks: 
+
+Operation Process
+-----------------
+
+Figure 1 shows the main operation flowchart.
+
+**Figure 1** Operation flowchart  
+![](/img/docs/best-practices/databases/data-replication-service/en-us_image_0000001655860045.png)
+
+
+Step 1: Create a VPC
+--------------------
+
+1.  Log in to the management console.
+    
+2.  Click ![image1](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001818982734.png) in the upper left corner and select the desired region and project.
+    
+3.  Click ![image2](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001865663089.png) in the upper left corner and choose **Network** > **Virtual Private Cloud**.
+    
+    The **Virtual Private Cloud** page is displayed.
+    
+4.  Click **Create VPC**.
+    
+5.  On the **Create VPC** page, set parameters as prompted.
+    
+    A default subnet will be created together with a VPC and you can also click **Add Subnet** to create more subnets for the VPC.
+    
+    ![**Figure 1** Create a VPC and subnet](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001865837676.png)
+    
+    **Figure 1** Create a VPC and subnet
+    
+    
+Table 1 VPC parameter descriptions¶
+
+
+* Category: Basic Information
+  * Parameter: Region
+  * Description: Select the region nearest to you to ensure the lowest latency possible.
+  * Example Value: eu-de
+* Category: Basic Information
+  * Parameter: Name
+  * Description: The VPC name.The name can contain a maximum of 64 characters, which may consist of letters, digits, underscores (_), hyphens (-), and periods (.). The name cannot contain spaces.
+  * Example Value: VPC-001
+* Category: Basic Information
+  * Parameter: IPv4 CIDR Block
+  * Description: The CIDR block of the VPC. The CIDR block of a subnet can be the same as the CIDR block for the VPC (for a single subnet in the VPC) or a subset of the CIDR block for the VPC (for multiple subnets in the VPC).The following CIDR blocks are supported:10.0.0.0/8-24172.16.0.0/12-24192.168.0.0/16-24
+  * Example Value: 192.168.0.0/16
+* Category: Basic Information
+  * Parameter: Enterprise Project
+  * Description: The enterprise project to which the VPC belongs.An enterprise project facilitates project-level management and grouping of cloud resources and users. The name of the default project is default.
+  * Example Value: default
+* Category: Basic Information/Advanced Settings
+  * Parameter: Tag
+  * Description: The VPC tag, which consists of a key and value pair. You can add a maximum of 20 tags to each VPC.The tag key and value must meet the requirements listed in Table 2.
+  * Example Value: Key: vpc_key1Value: vpc-01
+* Category: Basic Information/Advanced Settings
+  * Parameter: Description
+  * Description: Supplementary information about the VPC. This parameter is optional.The VPC description can contain a maximum of 255 characters and cannot contain angle brackets (< or >).
+  * Example Value: N/A
+* Category: Default Subnet
+  * Parameter: Name
+  * Description: The subnet name.The name can contain a maximum of 64 characters, which may consist of letters, digits, underscores (_), hyphens (-), and periods (.). The name cannot contain spaces.
+  * Example Value: Subnet
+* Category: Default Subnet
+  * Parameter: IPv4 CIDR Block
+  * Description: The CIDR block for the subnet. This value must be within the VPC CIDR block.
+  * Example Value: 192.168.0.0/24
+* Category: Default Subnet
+  * Parameter: IPv6 CIDR Block
+  * Description: Specifies whether to set IPv6 CIDR Block to Enable.After the IPv6 function is enabled, the system automatically assigns an IPv6 CIDR block to the created subnet. Currently, the IPv6 CIDR block cannot be customized. IPv6 cannot be disabled after the subnet is created.
+  * Example Value: -
+* Category: Default Subnet
+  * Parameter: Associated Route Table
+  * Description: The default route table to which the subnet will be associated. You can change the route table to a custom route table on the Subnets page.
+  * Example Value: Default
+* Category: Default Subnet/Advanced Settings
+  * Parameter: Gateway
+  * Description: The gateway address of the subnet.
+  * Example Value: 192.168.0.1
+* Category: Default Subnet/Advanced Settings
+  * Parameter: DNS Server Address
+  * Description: By default, two DNS server addresses are configured. You can change them as required. A maximum of five DNS server addresses can be configured. Multiple IP addresses must be separated using commas (,).
+  * Example Value: 100.125.x.x
+* Category: Default Subnet/Advanced Settings
+  * Parameter: NTP Server Address
+  * Description: The IP address of the NTP server. This parameter is optional.You can configure the NTP server IP addresses to be added to the subnet as required. The IP addresses are added in addition to the default NTP server addresses. If you do not specify this parameter, no additional NTP server IP addresses will be added.A maximum of four IP addresses can be configured. Multiple IP addresses must be separated using commas (,).
+  * Example Value: 192.168.2.1
+* Category: Default Subnet/Advanced Settings
+  * Parameter: Tag
+  * Description: The subnet tag, which consists of a key and value pair. You can add a maximum of 20 tags to each subnet.The tag key and value must meet the requirements listed in Table 3.
+  * Example Value: Key: subnet_key1Value: subnet-01
+* Category: Default Subnet/Advanced Settings
+  * Parameter: Description
+  * Description: Supplementary information about the subnet. This parameter is optional.The subnet description can contain a maximum of 255 characters and cannot contain angle brackets (< or >).
+  * Example Value: N/A
+
+    
+    
+Table 2 VPC tag key and value requirements¶
+
+
+* Parameter: Key
+  * Requirements: Cannot be left blank.Must be unique for each VPC and can be the same for different VPCs.Can contain a maximum of 36 characters.Can contain only the following character types:Uppercase lettersLowercase lettersDigitsOnly hyphens (-), underscores (_), and at signs (@) are allowed.
+  * Example Value: vpc_key1
+* Parameter: Value
+  * Requirements: Can contain a maximum of 43 characters.Can contain only the following character types:Uppercase lettersLowercase lettersDigitsOnly underscores (_), hyphens (-), and at signs (@) are allowed.
+  * Example Value: vpc-01
+
+    
+    
+Table 3 Subnet tag key and value requirements¶
+
+
+* Parameter: Key
+  * Requirements: Cannot be left blank.Must be unique for each subnet.Can contain a maximum of 36 characters.Can contain only the following character types:Uppercase lettersLowercase lettersDigitsOnly hyphens (-), underscores (_), and at signs (@) are allowed.
+  * Example Value: subnet_key1
+* Parameter: Value
+  * Requirements: Can contain a maximum of 43 characters.Can contain only the following character types:Uppercase lettersLowercase lettersDigitsOnly underscores (_), hyphens (-), and at signs (@) are allowed.
+  * Example Value: subnet-01
+
+    
+6.  Click **Create Now**.
+
+Step 2: Create a Security Group
+-------------------------------
+
+1.  Log in to the management console.
+    
+2.  Click ![image1](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001818982734.png) in the upper left corner and select the desired region and project.
+    
+3.  Click ![image2](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001865582681.png) in the upper left corner and choose **Network** > **Virtual Private Cloud**.
+    
+    The **Virtual Private Cloud** page is displayed.
+    
+4.  In the navigation pane on the left, choose **Access Control** > **Security Groups**.
+    
+    The security group list is displayed.
+    
+5.  In the upper right corner, click **Create Security Group**.
+    
+    The **Create Security Group** page is displayed.
+    
+6.  Configure the parameters as prompted.
+    
+    ![**Figure 1** Create Security Group](https://docs.otc.t-systems.com/virtual-private-cloud/umn/_images/en-us_image_0000001865662885.png)
+    
+    **Figure 1** Create Security Group
+    
+    
+Table 2 Parameter description¶
+
+
+* Parameter: Name
+  * Description: MandatoryEnter the security group name.The security group name can contain a maximum of 64 characters, which may consist of letters, digits, underscores (_), hyphens (-), and periods (.). The name cannot contain spaces.NoteYou can change the security group name after a security group is created. It is recommended that you give each security group a different name.
+  * Example Value: sg-AB
+* Parameter: Enterprise Project
+  * Description: MandatoryWhen creating a security group, you can add the security group to an enabled enterprise project.An enterprise project facilitates project-level management and grouping of cloud resources and users. The name of the default project is default.
+  * Example Value: default
+* Parameter: Template
+  * Description: MandatoryThe system provides several security group templates for you to create a security group. A security group template has preconfigured inbound and outbound rules. You can select a template based on your service requirements.Table 1 describes the security group templates.
+  * Example Value: General-purpose web server
+* Parameter: Description
+  * Description: OptionalSupplementary information about the security group. This parameter is optional.The security group description can contain a maximum of 255 characters and cannot contain angle brackets (< or >).
+  * Example Value: N/A
+
+    
+7.  Confirm the inbound and outbound rules of the template and click **OK**.
+
+
+Step 3: Create a GaussDB Instance
+----------------------------------
+This section describes how to create a GaussDB instance as the destination database.
+
+1.  Log in to the management console
+2.  Click ![](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/en-us_image_0000001655860509.png) in the upper left corner and select a region.
+3.  Under the service list, choose **Databases** > **GaussDB**.
+4.  Click **Buy DB Instance**.
+5.  Configure the instance name and basic information.
+    
+    ![](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/en-us_image_0000001606660766.png)
+    
+6.  Configure instance specifications.
+    
+    ![](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/en-us_image_0000001607020226.png)
+    
+    Select small specifications for the test. You are advised to configure specifications based on service requirements in actual use.
+    
+7.  Select a VPC and security group (created in [Creating a VPC and Security Group](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/drs_04_0031.html)) for the instance and configure the database port.
+    
+    ![](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/en-us_image_0000001655980449.png)
+    
+8.  Configure password and other information.
+    
+    ![](https://support.huaweicloud.com/intl/en-us/bestpractice-drs/en-us_image_0000001656100217.png)
+    
+9.  Click **Next**, confirm the information, and click **Submit**.
+10.  Go to the instance list.
+    
+    If the instance status becomes available, the instance has been created.
+    
