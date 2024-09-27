@@ -18,7 +18,7 @@ import {
       title: "DCS",
       text: "Distributed Cache Service",
       link: "/docs/tags/dcs",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DCS-redis.svg').default,
     },
     {
         title: "DDM",
@@ -30,7 +30,7 @@ import {
       title: "DDS",
       text: "Document Database Service",
       link: "/docs/tags/dds",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DDS.svg').default,
     },
     {
       title: "DRS",
@@ -54,7 +54,7 @@ import {
       title: "RDS",
       text: "Relational Database Service",
       link: "/docs/tags/rds",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/RDS .svg').default,
     },
   ];
 

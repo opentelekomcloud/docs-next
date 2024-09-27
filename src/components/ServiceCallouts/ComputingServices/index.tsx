@@ -18,25 +18,25 @@ var calloutsList: Callout[] = [
     title: "AS",
     text: "Auto Scaling",
     link: "/docs/tags/as",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/AS.svg').default,
   },
   {
     title: "BMS",
     text: "Bare Metal Services",
     link: "/docs/tags/bms",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/BMS.svg').default,
   },
   {
     title: "DHS",
     text: "Dedicated Host",
     link: "/docs/tags/dhs",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/DeH.svg').default,
   },
   {
     title: "ECS",
     text: "Elastic Cloud Server",
     link: "/docs/tags/ecs",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/ECS.svg').default,
   },
   {
     title: "FGS",
@@ -48,7 +48,7 @@ var calloutsList: Callout[] = [
     title: "IMS",
     text: "Image Management Service",
     link: "/docs/tags/ims",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/IMS.svg').default,
   },
 ];
 

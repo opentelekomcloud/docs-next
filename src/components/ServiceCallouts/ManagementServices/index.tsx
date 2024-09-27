@@ -36,13 +36,13 @@ import {
       title: "CTS",
       text: "Cloud Trace Service",
       link: "/docs/tags/cts",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/CTS.svg').default,
     },
     {
       title: "LTS",
       text: "Log Tank Service",
       link: "/docs/tags/lts",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/LTS.svg').default,
     },
     {
       title: "RMS",
@@ -54,7 +54,7 @@ import {
       title: "TMS",
       text: "Tag Management Service",
       link: "/docs/tags/rds",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/TMS.svg').default,
     },
   ];
 

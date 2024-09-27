@@ -18,7 +18,7 @@ import {
       title: "Anti-DDoS",
       text: "Anti-DDoS Traffic Cleaning Service",
       link: "/docs/tags/anti-ddos",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/Anti-DDoS.svg').default,
     },
     {
         title: "DDS",
@@ -36,25 +36,25 @@ import {
       title: "IAM",
       text: "Identity & Access Management",
       link: "/docs/tags/iam",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/IAM.svg').default,
     },
     {
       title: "KMS",
       text: "Key Management Service",
       link: "/docs/tags/kms",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/Security-KMS.svg').default,
     },
     {
       title: "WAF",
       text: "Web Application Firewall",
       link: "/docs/tags/waf",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/web-WAF.svg').default,
     },
     {
       title: "Dedicated WAF",
       text: "Dedicated Web Application Firewall",
       link: "/docs/tags/dedicated-waf",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/web-WAF.svg').default,
     },
   ];
 

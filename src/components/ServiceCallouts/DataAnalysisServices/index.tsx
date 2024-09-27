@@ -18,7 +18,7 @@ import {
       title: "CSS",
       text: "Cloud Search Service",
       link: "/docs/tags/css",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/CSS.svg').default,
     },
     {
         title: "DataArts Studio",
@@ -30,7 +30,7 @@ import {
       title: "DIS",
       text: "Data Ingestion Service",
       link: "/docs/tags/dis",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DIS.svg').default,
     },
     {
       title: "DLI",
@@ -42,7 +42,7 @@ import {
       title: "DWS",
       text: "Data Warehouse Service",
       link: "/docs/tags/dws",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DWS.svg').default,
     },
     {
       title: "ModelArts",
@@ -54,7 +54,7 @@ import {
       title: "MRS",
       text: "MapReduce Service",
       link: "/docs/tags/mrs",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/mapReduce-MRS.svg').default,
     },
     {
       title: "OCR",

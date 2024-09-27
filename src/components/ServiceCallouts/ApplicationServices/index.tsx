@@ -18,7 +18,7 @@ import {
       title: "AOM",
       text: "Application Operations Management",
       link: "/docs/tags/aom",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/aom.svg').default,
     },
     {
         title: "APIG",
@@ -30,13 +30,13 @@ import {
       title: "DMS",
       text: "Distributed Message Service",
       link: "/docs/tags/dms",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DMS.svg').default,
     },
     {
       title: "SMN",
       text: "Simple Message Notification",
       link: "/docs/tags/smn",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/SMN.svg').default,
     },
   ];
 

@@ -18,13 +18,13 @@ import {
       title: "ttt",
       text: "Application Operations Management",
       link: "/docs/best-practices/building-highly-available-web-server-clusters-with-keepalived",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DNS.svg').default,
     },
     {
         title: "yyy",
         text: "Application Operations Management",
         link: "/docs/best-practices/building-highly-available-web-server-clusters-with-keepalived",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/DNS.svg').default,
       },
   ];
 

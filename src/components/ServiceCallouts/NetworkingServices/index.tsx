@@ -18,25 +18,25 @@ import {
       title: "Direct Connect",
       text: "Dedicated Network Connection",
       link: "/docs/tags/direct-connect",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/DC_DirectConnect.svg').default,
     },
     {
         title: "DNS",
         text: "Domain Name Service",
         link: "/docs/tags/dns",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/DNS.svg').default,
     },
     {
       title: "EIP",
       text: "Elastic IP",
       link: "/docs/tags/eip",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/IP-EIP.svg').default,
     },
     {
       title: "ELB",
       text: "Elastic Load Balancing",
       link: "/docs/tags/elb",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/ELB.svg').default,
     },
     {
       title: "Enterprise Router",
@@ -48,13 +48,13 @@ import {
       title: "NATGW",
       text: "NAT Gateway",
       link: "/docs/tags/natgw",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/nat-nat-gateway.svg').default,
     },
     {
       title: "PLAS",
       text: "Private Link Access Service",
       link: "/docs/tags/plas",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/plas.svg').default,
     },
     {
       title: "Secure Mail Gateway",
@@ -66,19 +66,19 @@ import {
       title: "VPC",
       text: "Virtual Private Cloud",
       link: "/docs/tags/vpc",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/VPC.svg').default,
     },
     {
       title: "VPCEP",
       text: "Virtual Private Cloud Endpoint",
       link: "/docs/tags/vpcep",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/Vpc Endpoint.svg').default,
     },
     {
       title: "VPN",
       text: "Virtual Private Network",
       link: "/docs/tags/vpn",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/VPN.svg').default,
     },
   ];
 

@@ -18,13 +18,13 @@ import {
       title: "CCE",
       text: "Cloud Container Engine",
       link: "/docs/tags/cce",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/CCE.svg').default,
     },
     {
         title: "SWR",
         text: "Software Repository for Containers",
         link: "/docs/tags/swr",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/swr.svg').default,
     },
   ];
 

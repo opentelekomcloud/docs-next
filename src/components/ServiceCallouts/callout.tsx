@@ -24,7 +24,7 @@ import {
       <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
         <div className="card__header">
           <h3 className={styles.callout__title}>
-            <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" />
+            <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" role="img"/>
             {props.title}
           </h3>
         </div>
