@@ -3,16 +3,6 @@ id: best-practices
 title: Best Practices
 ---
 
-# Best Practices
-
-Welcome to the Open Telekom Cloud Architecture Center Best Practices.
-Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
-enhance reliability, scalability, and security. Explore our recommended strategies for resource management, such as
-efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
-to ensure robust system performance. This section serves as a valuable resource for architects and developers
-to implement cloud solutions that align with industry best practices and maximize the benefits of the public cloud
-infrastructure.
-
 import BestPractices from '@site/src/components/ServiceCallouts';
 import ApplicationServices from '@site/src/components/ServiceCallouts/ApplicationServices';
 import DataAnalysisServices from '@site/src/components/ServiceCallouts/DataAnalysisServices';
@@ -23,39 +13,76 @@ import ManagementServices from '@site/src/components/ServiceCallouts/ManagementS
 import NetworkingServices from '@site/src/components/ServiceCallouts/NetworkingServices';
 import SecurityServices from '@site/src/components/ServiceCallouts/SecurityServices';
 import StorageServices from '@site/src/components/ServiceCallouts/StorageServices';
+import clsx from 'clsx';
+import Heading from '@theme/Heading';
+import styles from './styles.module.css';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-### Application Services
+# Best Practices
 
-<ApplicationServices/>
+ Welcome to the Open Telekom Cloud Architecture Center Best Practices.
+                    Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
+                    enhance reliability, scalability, and security. Explore our recommended strategies for resource management, such as
+                    efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
+                    to ensure robust system performance. This section serves as a valuable resource for architects and developers
+                    to implement cloud solutions that align with industry best practices and maximize the benefits of the public cloud
+                    infrastructure.
 
-### Big Data & Data Analysis
+<Tabs>
+  <TabItem value="iaas" label="IaaS" default>
+    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row row--no-gutters")}>
+            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Computing</scale-tag>
+                <ComputingServices/>
+                <scale-divider></scale-divider>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Networking</scale-tag>
+                <NetworkingServices/>
+                <scale-divider></scale-divider>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Storage</scale-tag>
+                <StorageServices/>
+            </div>
+          </div>
+        </section>
+  </TabItem>
+  <TabItem value="paas" label="PaaS">
+    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row row--no-gutters")}>
+            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Application Services</scale-tag>
+                <ApplicationServices/>
+                <scale-divider></scale-divider>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Big Data & Data Analysis</scale-tag>
+                <DataAnalysisServices/>
+                <scale-divider></scale-divider>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Database Services</scale-tag>
+                <DatabaseServices/>
+                <scale-divider></scale-divider>
+                <scale-tag style={{ marginLeft: '20px', paddingBottom: '80px' }}>Container Services</scale-tag>
+                <ContainerServices/>
+            </div>
+          </div>
+        </section>
+  </TabItem>
+  <TabItem value="security" label="Security">
+    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row row--no-gutters")}>
+            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
+                <SecurityServices/>
+            </div>
+          </div>
+        </section>
+  </TabItem>
+  <TabItem value="management" label="Management">
+     <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row row--no-gutters")}>
+            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
+                <ManagementServices/>
+            </div>
+          </div>
+        </section>
+  </TabItem>
+</Tabs>
 
-<DataAnalysisServices/>
-
-### Computing
-
-<ComputingServices/>
-
-### Containers
-
-<ContainerServices/>
-
-### Databases
-
-<DatabaseServices/>
-
-### Management & Deployment
-
-<ManagementServices/>
-
-### Networking
-
-<NetworkingServices/>
-
-### Security Services
-
-<SecurityServices/>
-
-### Storage
-
-<StorageServices/>
+       

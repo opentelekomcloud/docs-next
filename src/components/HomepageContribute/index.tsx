@@ -34,6 +34,5 @@ export default function HomepageContribute(): JSX.Element {
             ></div>
           </div>
         </section>
-
     );
   }
