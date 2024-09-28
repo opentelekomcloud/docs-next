@@ -42,7 +42,7 @@ import {
       title: "Enterprise Router",
       text: "Cloud Router Service",
       link: "/docs/tags/enterprise-router",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/er.svg').default,
     },
     {
       title: "NATGW",
@@ -60,7 +60,7 @@ import {
       title: "Secure Mail Gateway",
       text: "Anti-Spam & Anti-Junk Outgoing Email Traffic",
       link: "/docs/tags/smg",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/smg.svg').default,
     },
     {
       title: "VPC",

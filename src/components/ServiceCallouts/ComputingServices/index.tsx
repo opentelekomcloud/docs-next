@@ -42,7 +42,7 @@ var calloutsList: Callout[] = [
     title: "FGS",
     text: "FunctionGraph",
     link: "/docs/tags/functiongraph",
-    icon: RectangleStackIcon,
+    icon: require('@site/static/img/services/fg.svg').default,
   },
   {
     title: "IMS",

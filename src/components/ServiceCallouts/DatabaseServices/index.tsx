@@ -24,7 +24,7 @@ import {
         title: "DDM",
         text: "Distributed Database Middleware",
         link: "/docs/tags/ddm",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/ddm.svg').default,
     },
     {
       title: "DDS",
@@ -36,19 +36,19 @@ import {
       title: "DRS",
       text: "Data Replication Service",
       link: "/docs/tags/drs",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/drs.svg').default,
     },
     {
       title: "GaussDB for MySQL",
       text: "Enterprise-Class Distributed Database",
       link: "/docs/tags/gaussdb-mysql",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/gaussdb_mysql.svg').default,
     },
     {
       title: "GaussDB NoSQL",
       text: "Distributed NoSQL Database Service ",
       link: "/docs/tags/model-arts",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/gaussdb_nosql.svg').default,
     },
     {
       title: "RDS",

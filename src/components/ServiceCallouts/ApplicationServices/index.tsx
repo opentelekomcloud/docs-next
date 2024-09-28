@@ -24,7 +24,7 @@ import {
         title: "APIG",
         text: "API Gateway",
         link: "/docs/tags/apig",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/apig.svg').default,
     },
     {
       title: "DMS",

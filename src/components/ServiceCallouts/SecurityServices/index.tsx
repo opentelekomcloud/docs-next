@@ -24,13 +24,13 @@ import {
         title: "DDS",
         text: "Database Security Service",
         link: "/docs/tags/dss",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/dbss.svg').default,
     },
     {
       title: "HSS",
       text: "Host Security Service",
       link: "/docs/tags/hss",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/hss.svg').default,
     },
     {
       title: "IAM",

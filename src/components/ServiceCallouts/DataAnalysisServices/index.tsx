@@ -24,7 +24,7 @@ import {
         title: "DataArts Studio",
         text: "Data Operations Platform",
         link: "/docs/tags/data-arts",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/dataarts_studio.svg').default,
     },
     {
       title: "DIS",
@@ -36,7 +36,7 @@ import {
       title: "DLI",
       text: "Data Lake Insight",
       link: "/docs/tags/dli",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/dli.svg').default,
     },
     {
       title: "DWS",
@@ -48,7 +48,7 @@ import {
       title: "ModelArts",
       text: "Development Platform for AI",
       link: "/docs/tags/model-arts",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/ma.svg').default,
     },
     {
       title: "MRS",
@@ -60,7 +60,7 @@ import {
       title: "OCR",
       text: "Optical Character Recognition",
       link: "/docs/tags/ocr",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/ocr.svg').default,
     },
   ];
 

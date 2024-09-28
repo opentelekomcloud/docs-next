@@ -18,19 +18,19 @@ import {
       title: "APM",
       text: "Application Performance Management",
       link: "/docs/tags/apm",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/apm.svg').default,
     },
     {
         title: "Cloud Create",
         text: "Multi-Cloud Management Platform",
         link: "/docs/tags/cloud-create",
-        icon: RectangleStackIcon,
+        icon: require('@site/static/img/services/cc.svg').default,
     },
     {
       title: "CloudEye",
       text: "Multi-Dimensional Monitoring Platform",
       link: "/docs/tags/cloudeye",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/CES.svg').default,
     },
     {
       title: "CTS",
@@ -48,7 +48,7 @@ import {
       title: "RMS",
       text: "Resource Management Service ",
       link: "/docs/tags/rms",
-      icon: RectangleStackIcon,
+      icon: require('@site/static/img/services/rms.svg').default,
     },
     {
       title: "TMS",
