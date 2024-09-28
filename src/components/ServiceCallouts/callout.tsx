@@ -21,23 +21,23 @@ import {
   
   function Callout(props: Callout): JSX.Element {
     return (
-      <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
-        <div className="card__header">
-          <h3 className={styles.callout__title}>
-            <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" role="img"/>
-            {props.title}
-          </h3>
-        </div>
-        <div className="card__body" style={{paddingTop: '0'}}>
-          <p>
-            <a href={props.link} className={styles.callout__link}>
-              <span className="link--inset" aria-hidden="true"></span>
+      <a href={props.link} className={styles.callout__link}>
+        <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
+          <div className="card__header">
+            <h3 style={{ fontWeight: 'bold', fontSize: 'medium', alignItems: 'center', display: 'flex', marginBottom: '0'}}>
+              <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" role="img"/>
+              {props.title}
+            </h3>
+          </div>
+          <div className="card__body" style={{paddingTop: '0'}}>
+          <span className="link--inset" aria-hidden="true"></span>
+            <p>
               {props.text}
-            </a>
-          </p>
+            </p>
+          </div>
+          <div className={styles.callout__bottom} />
         </div>
-        <div className={styles.callout__bottom} />
-      </div>
+      </a>
     );
   }
 
