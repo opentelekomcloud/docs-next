@@ -13,7 +13,7 @@ export default function HomepageFeaturedServices(): JSX.Element {
                 Explore our Featured Services
               </h1>
               <p className="margin-bottom--md">
-                Discover our collection of technical solutions, best practices and cool hacks for the most common services of Open Telekom Cloud.
+                Check out our collection of technical solutions, best practices and cool tips for the most popular services of Open Telekom Cloud.
               </p>
               <a className="button button--secondary" href="/docs/best-practices">
                 Explore our Best Practices
