@@ -33,6 +33,12 @@ import {
       icon: require('@site/static/img/services/CES.svg').default,
     },
     {
+      title: "Config",
+      text: "Continuously Evaluate Resource Configuration",
+      link: "/docs/tags/config",
+      icon: require('@site/static/img/services/rms.svg').default,
+    },
+    {
       title: "CTS",
       text: "Cloud Trace Service",
       link: "/docs/tags/cts",

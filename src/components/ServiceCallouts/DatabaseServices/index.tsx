@@ -51,6 +51,12 @@ import {
       icon: require('@site/static/img/services/gaussdb_nosql.svg').default,
     },
     {
+      title: "GeminiDB",
+      text: "Distributed, Multi-Model NoSQL Database Service",
+      link: "/docs/tags/gemini-db",
+      icon: require('@site/static/img/services/RDS .svg').default,
+    },
+    {
       title: "RDS",
       text: "Relational Database Service",
       link: "/docs/tags/rds",
