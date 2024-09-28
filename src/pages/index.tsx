@@ -10,6 +10,7 @@ import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
 import HomepageContribute from '../components/HomepageContribute';
+import HomepageNewServices from '../components/HomepageNewServices';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -41,7 +42,10 @@ export default function Home(): JSX.Element {
       {/* <HomepageHeader /> */}
       <main>
         <HomepageFeatures />
+
         <HomepageFeaturedServices />
+        {/* <HomepageNewServices />       */}
+
         <HomepageAskAQuestion />
         <HomepageContribute />
       </main>

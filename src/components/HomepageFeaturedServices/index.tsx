@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import FeaturedServices from '../ServiceCallouts/FeaturedServices';
+import NewServices from '../ServiceCallouts/NewServices';
 
 export default function HomepageFeaturedServices(): JSX.Element {
     return (
@@ -22,6 +23,22 @@ export default function HomepageFeaturedServices(): JSX.Element {
           </div>
           <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
             <FeaturedServices />
+          </div>
+          <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
+            <NewServices />
+          </div>
+          <div className={clsx("col col--4", styles.item__inner)}>
+            <div>
+              <h1 className={clsx("margin-bottom--md", styles.item__title)}>
+                What's new?
+              </h1>
+              <p className="margin-bottom--md">
+                Explore the new services added in Open Telekom Cloud portfolio.
+              </p>
+              <a className="button button--secondary" href="https://docs.otc.t-systems.com/" target="_blank">
+                Go to Open Telekom Cloud Console
+              </a>
+            </div>
           </div>
         </div>
       </section>
