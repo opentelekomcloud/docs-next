@@ -21,16 +21,16 @@ import {
       icon: require('@site/static/img/services/asm.svg').default,
     },
     {
-      title: "Config",
-      text: "Continuously Evaluate Resource Configuration",
-      link: "/docs/tags/config",
-      icon: require('@site/static/img/services/rms.svg').default,
-    },
-    {
       title: "CCI",
       text: "Serverless Container Engine",
       link: "/docs/tags/cci",
       icon: require('@site/static/img/services/cci.svg').default,
+    },
+    {
+      title: "Config",
+      text: "Continuously Evaluate Resource Configuration",
+      link: "/docs/tags/config",
+      icon: require('@site/static/img/services/rms.svg').default,
     },
     {
       title: "OCR",
@@ -39,16 +39,16 @@ import {
       icon: require('@site/static/img/services/ocr.svg').default,
     },
     {
-      title: "GeminiDB",
-      text: "Distributed, Multi-Model NoSQL Database Service",
-      link: "/docs/tags/gemini-db",
-      icon: require('@site/static/img/services/RDS .svg').default,
-    },
-    {
       title: "FGS",
       text: "FunctionGraph",
       link: "/docs/tags/functiongraph",
       icon: require('@site/static/img/services/fg.svg').default,
+    },
+    {
+      title: "GeminiDB",
+      text: "Distributed, Multi-Model NoSQL Database Service",
+      link: "/docs/tags/gemini-db",
+      icon: require('@site/static/img/services/RDS .svg').default,
     },
   ];
 

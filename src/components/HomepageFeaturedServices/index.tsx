@@ -24,9 +24,7 @@ export default function HomepageFeaturedServices(): JSX.Element {
           <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
             <FeaturedServices />
           </div>
-          <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
-            <NewServices />
-          </div>
+          {/* <scale-divider></scale-divider> */}
           <div className={clsx("col col--4", styles.item__inner)}>
             <div>
               <h1 className={clsx("margin-bottom--md", styles.item__title)}>
@@ -40,6 +38,10 @@ export default function HomepageFeaturedServices(): JSX.Element {
               </a>
             </div>
           </div>
+          <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
+            <NewServices />
+          </div>
+          
         </div>
       </section>
     );
