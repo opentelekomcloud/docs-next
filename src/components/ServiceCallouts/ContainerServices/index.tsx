@@ -16,7 +16,7 @@ import {
  var calloutsList: Callout[] = [
     {
       title: "ASM",
-      text: "Application Service Mesh (Istio-Based)",
+      text: "Application Service Mesh",
       link: "/docs/tags/asm",
       icon: require('@site/static/img/services/asm.svg').default,
     },
