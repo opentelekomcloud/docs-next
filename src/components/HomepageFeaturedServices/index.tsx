@@ -31,7 +31,7 @@ export default function HomepageFeaturedServices(): JSX.Element {
                 What's new?
               </h1>
               <p className="margin-bottom--md">
-                Explore the new services added in Open Telekom Cloud portfolio.
+                Explore the technical documentation of our brand new services in Help Center.
               </p>
               <a className="button button--secondary" href="https://docs.otc.t-systems.com/" target="_blank">
                 Go to Open Telekom Cloud Console

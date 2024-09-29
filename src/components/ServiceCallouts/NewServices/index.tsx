@@ -17,37 +17,37 @@ import {
     {
       title: "ASM",
       text: "Application Service Mesh (Istio-Based)",
-      link: "/docs/tags/asm",
+      link: "https://docs.otc.t-systems.com/application-service-mesh/index.html",
       icon: require('@site/static/img/services/asm.svg').default,
     },
     {
       title: "CCI",
       text: "Serverless Container Engine",
-      link: "/docs/tags/cci",
+      link: "https://docs.otc.t-systems.com/cloud-container-instance/index.html",
       icon: require('@site/static/img/services/cci.svg').default,
     },
     {
       title: "Config",
       text: "Continuously Evaluate Resource Configuration",
-      link: "/docs/tags/config",
+      link: "https://docs.otc.t-systems.com/config/index.html",
       icon: require('@site/static/img/services/rms.svg').default,
     },
     {
       title: "OCR",
       text: "Optical Character Recognition",
-      link: "/docs/tags/ocr",
+      link: "https://docs.otc.t-systems.com/optical-character-recognition/index.html",
       icon: require('@site/static/img/services/ocr.svg').default,
     },
     {
       title: "FGS",
       text: "FunctionGraph",
-      link: "/docs/tags/functiongraph",
+      link: "https://docs.otc.t-systems.com/function-graph/index.html",
       icon: require('@site/static/img/services/fg.svg').default,
     },
     {
       title: "GeminiDB",
       text: "Distributed, Multi-Model NoSQL Database Service",
-      link: "/docs/tags/gemini-db",
+      link: "https://docs.otc.t-systems.com/geminidb/index.html",
       icon: require('@site/static/img/services/RDS .svg').default,
     },
   ];
