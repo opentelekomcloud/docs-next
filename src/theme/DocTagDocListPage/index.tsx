@@ -12,6 +12,7 @@ import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
 import Unlisted from '@theme/Unlisted';
 import Heading from '@theme/Heading';
+import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -46,10 +47,18 @@ function usePageTitle(props: Props): string {
 function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
   return (
     <article className="margin-vert--lg">
-      <Link to={doc.permalink}>
-        <Heading as="h2">{doc.title}</Heading>
-      </Link>
-      {doc.description && <p>{doc.description}</p>}
+       <div className={clsx("row row--no-gutters", styles.item)}>
+          {/* <div className="col col--2" aria-hidden="true">
+          </div> */}
+          <div className={clsx("col col--12", styles.item__inner)}>
+            <div>
+            <Link to={doc.permalink}>
+              <Heading as="h2">{doc.title}</Heading>
+            </Link>
+            {doc.description && <p>{doc.description}</p>}
+            </div>
+          </div>
+        </div>
     </article>
   );
 }

@@ -43,6 +43,6 @@ export default function HomepageFeaturedServices(): JSX.Element {
           </div>
           
         </div>
-      </section>
+    </section>
     );
   }
