@@ -4,12 +4,16 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
-import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
+import { useColorMode, useThemeConfig } from '@docusaurus/theme-common';
 
 import styles from './index.module.css';
+import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
+import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
+import HomepageContribute from '../components/HomepageContribute';
+import HomepageNewServices from '../components/HomepageNewServices';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   const navbarStyle = useThemeConfig().navbar.style;
   var buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
   return (
@@ -30,7 +34,7 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={`${siteConfig.title}`}
@@ -38,6 +42,19 @@ export default function Home(): JSX.Element {
       {/* <HomepageHeader /> */}
       <main>
         <HomepageFeatures />
+        <HomepageFeaturedServices />
+
+        <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row")}>
+            <div className={clsx("col col--6")}>
+              <HomepageContribute />
+            </div>
+            <div className={clsx("col col--6")}>
+              <HomepageAskAQuestion />
+            </div>
+          </div>
+        </section>
+
       </main>
     </Layout>
   );

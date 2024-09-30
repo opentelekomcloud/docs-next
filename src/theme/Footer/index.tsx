@@ -5,20 +5,24 @@ import FooterLinks from '@theme/Footer/Links';
 import FooterLogo from '@theme/Footer/Logo';
 import FooterCopyright from '@theme/Footer/Copyright';
 import FooterLayout from '@theme/Footer/Layout';
+// import useDocusaurusContext from "@docusaurus/useDocusaurusContext"; // get metadata about page
 
 function Footer(): JSX.Element | null {
+  // const context = useDocusaurusContext();
+  // const { siteConfig = {} } = context;
+
   const {footer} = useThemeConfig();
   if (!footer) {
     return null;
   }
   const {copyright, links, logo, style} = footer;
-
+  // const {version} = siteConfig.customFields["version"];
   return (
     <FooterLayout
       style={style}
       links={links && links.length > 0 && <FooterLinks links={links} />}
       logo={logo && <FooterLogo logo={logo} />}
-      copyright={copyright && <FooterCopyright copyright={copyright} />}
+      copyright={copyright && <FooterCopyright copyright={copyright}/>}
     />
   );
 }

@@ -226,7 +226,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph 🔥',
+          label: 'FunctionGraph',
           items: [
             {
               type: 'link',
@@ -264,6 +264,17 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Containers',
       items: [
+        {
+          type: 'category',
+          label: 'Application Service Mesh',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/application-service-mesh/index.html',
+            },
+          ],
+        },
         {
           type: 'category',
           label: 'Cloud Container Engine',
@@ -306,6 +317,17 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-container-engine/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Cloud Container Instance',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/cloud-container-instance/index.html',
             },
           ],
         },
@@ -430,6 +452,17 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'GeminiDB',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/geminidb/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Relational Database Service',
           items: [
             {
@@ -458,7 +491,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Cloud Create 🔥',
+          label: 'Cloud Create',
           link: {
             type: 'doc',
             id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
@@ -525,6 +558,17 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-eye/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Config',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/config/index.html',
             },
           ],
         },
