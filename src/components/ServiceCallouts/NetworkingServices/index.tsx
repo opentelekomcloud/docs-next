@@ -47,8 +47,8 @@ import ServiceCallouts, { Callout } from './../callout';
       icon: require('@site/static/img/services/plas.svg').default,
     },
     {
-      title: "Secure Mail Gateway",
-      text: "Anti-Spam & Anti-Junk Outgoing Email Traffic",
+      title: "SMG",
+      text: "Secure Mail Gateway",
       link: "/docs/tags/smg",
       icon: require('@site/static/img/services/smg.svg').default,
     },
