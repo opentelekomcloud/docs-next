@@ -33,8 +33,8 @@ export default function HomepageFeaturedServices(): JSX.Element {
               <p className="margin-bottom--md">
                 Explore the technical documentation of our brand new services in Help Center.
               </p>
-              <a className="button button--secondary" href="https://docs.otc.t-systems.com/" target="_blank">
-                Go to Open Telekom Cloud Console
+              <a className="button button--secondary" href="https://www.open-telekom-cloud.com/en/products-services/roadmap" target="_blank">
+                Check the Portfolio Roadmap
               </a>
             </div>
           </div>

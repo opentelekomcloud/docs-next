@@ -19,7 +19,7 @@ export default function HomepageNewServices(): JSX.Element {
                 Explore the new services added in Open Telekom Cloud portfolio.
               </p>
               <a className="button button--secondary" href="/docs/best-practices">
-                Go to Open Telekom Cloud Console
+                Check the Roadmap Portfolio
               </a>
             </div>
           </div>

@@ -42,12 +42,19 @@ export default function Home(): JSX.Element {
       {/* <HomepageHeader /> */}
       <main>
         <HomepageFeatures />
-
         <HomepageFeaturedServices />
-        {/* <HomepageNewServices />       */}
 
-        <HomepageAskAQuestion />
-        <HomepageContribute />
+        <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+          <div className={clsx("row")}>
+            <div className={clsx("col col--6")}>
+              <HomepageContribute />
+            </div>
+            <div className={clsx("col col--6")}>
+              <HomepageAskAQuestion />
+            </div>
+          </div>
+        </section>
+
       </main>
     </Layout>
   );
