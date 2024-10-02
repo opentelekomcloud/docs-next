@@ -202,4 +202,4 @@ You can see more information about the features of the extension [here](https://
 1. Include a mini overview of the blueprint under the blueprint title (additional sub-header **is not** required).
 2. If you need to present (with a picture) a high-level architecture of the blueprint, insert a paragraph under the overview with the name *Solution Design* (additional sub-header **is** required).
 3. Include a *Conclusion* paragraph in the end of **every** blueprint as a summary of what we achieved during the process (additional sub-header **is** required).
-4. If you want to convey information that the user should not miss or overlook use **always** [adminitions](https://docusaurus.io/docs/markdown-features/admonitions).
+4. If you want to convey information that the user should not miss or overlook use **always** [admonitions](https://docusaurus.io/docs/markdown-features/admonitions).
