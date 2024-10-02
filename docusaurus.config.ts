@@ -40,7 +40,7 @@ const config: Config = {
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
-          exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
+          // exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
         },
         
         theme: {
@@ -103,7 +103,7 @@ const config: Config = {
           "aria-label": 'Open Telekom Cloud Console',
         },
         { 
-          href: 'https://github.com/opentelekomcloud-blueprints', 
+          href: 'https://github.com/opentelekomcloud-docs', 
           position: 'right',
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
