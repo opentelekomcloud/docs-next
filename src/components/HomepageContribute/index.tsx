@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 export default function HomepageContribute(): JSX.Element {
     return (
       // <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-          <div className={clsx("row row--no-gutters", styles.item)}>
+          <div className={clsx("row row--no-gutters", styles.item)} style={{ marginBottom: '20px' }}>
             <div className={clsx("col col--12", styles.item__inner)}>
               <div>
                 <h1 className="margin-bottom--md">Contribute</h1>

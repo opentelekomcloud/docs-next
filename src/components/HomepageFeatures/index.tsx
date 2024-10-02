@@ -34,33 +34,21 @@ const FeatureList: FeatureItem[] = [
     ),
     link: '/docs/blueprints'
   },
-  {
-    title: 'Cloud Adoption Framework',
-    Svg: require('@site/static/img/caf.svg').default,
-    description: (
-      <>
-        The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
-        Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
-      </>
-    ),
-    link: '/caf'
-  },
+  // {
+  //   title: 'Cloud Adoption Framework',
+  //   Svg: require('@site/static/img/caf.svg').default,
+  //   description: (
+  //     <>
+  //       The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
+  //       Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
+  //     </>
+  //   ),
+  //   link: '/caf'
+  // },
 ];
 
 function Feature({title, Svg, description, link}: FeatureItem) {
   return (
-    // <div className={clsx('col col--4')}>
-    //   <div className="text--center">
-    //     <Svg className={styles.featureSvg} role="img" />
-    //   </div>
-    //   <div className="text--center padding-horiz--md">
-    //     <Heading as="h3">{title}</Heading>
-    //     <p>{description}</p>
-    //     {/* <scale-button icon-position="after">
-    //       Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-    //     </scale-button> */}
-    //   </div>
-    // </div>
     <div className={clsx('col col--4')}>
         <scale-card to={link} class="scale-telekom-feature-card">
           <div style={{margin: '-24px'}}>
@@ -80,7 +68,6 @@ function Feature({title, Svg, description, link}: FeatureItem) {
           </div>
         </scale-card>
     </div>
-
     );
 }
 
@@ -89,9 +76,11 @@ export default function HomepageFeatures(): JSX.Element {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
+          <div className={clsx('col col--2')}></div>
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
+          <div className={clsx('col col--2')}></div>
         </div>
       </div>
     </section>

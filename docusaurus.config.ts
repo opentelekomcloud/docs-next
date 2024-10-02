@@ -179,7 +179,7 @@ const config: Config = {
             },
             {
               label: 'Terraform Provider',
-              to: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
+              href: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
             },
             {
               label: 'Ansible Collections',
