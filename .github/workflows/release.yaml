@@ -69,7 +69,7 @@ jobs:
             file: ./Dockerfile
             push: true
             tags: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-preview
+              ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-preview
 
     build-stable:
       environment: stable
@@ -127,8 +127,8 @@ jobs:
             file: ./Dockerfile
             push: true
             tags: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
-              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-stable
+              ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:latest
+              ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.IMG_NAME }}:${{ vars.APP_VERSION }}.${{github.run_number}}-${{ steps.commit_hash.outputs.short }}-stable
         
         # - name: Image Digest
         #   run: echo ${{ steps.docker_build.outputs.digest }}
