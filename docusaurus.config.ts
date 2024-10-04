@@ -36,7 +36,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl:'https://github.com/akyriako/docs-next/tree/main/',
+          editUrl:'https://github.com/opentelekomcloud/docs-next/tree/main/',
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
@@ -103,7 +103,7 @@ const config: Config = {
           "aria-label": 'Open Telekom Cloud Console',
         },
         { 
-          href: 'https://github.com/opentelekomcloud-blueprints', 
+          href: 'https://github.com/opentelekomcloud/docs-next', 
           position: 'right',
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
@@ -160,7 +160,7 @@ const config: Config = {
               label: 'Webinars',
               href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-             {
+            {
               label: 'Medium',
               href: 'https://medium.com',
             },
