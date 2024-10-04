@@ -111,7 +111,7 @@ npm run serve
 ## Deployment
 
 You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
-an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter at [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts) repository.
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter at [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts) repository.
 
 ### Manual
 
@@ -136,7 +136,7 @@ The repository is already employed with a GitHub Release Workflow that will do t
 
 1. Builds the application for production (`npm run build`)
 2. Builds and tags a container image and push the image to a predefined docker hub organization
-3. Updates the Helm Charts with new versions and image tags in [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/akyriako/docs-next-charts)
+3. Updates the Helm Charts with new versions and image tags in [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts)
 
 ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `timeout.reconciliation` value (default is *180s*), and provision
 the changes without any human intervention.
@@ -202,4 +202,4 @@ You can see more information about the features of the extension [here](https://
 1. Include a mini overview of the blueprint under the blueprint title (additional sub-header **is not** required).
 2. If you need to present (with a picture) a high-level architecture of the blueprint, insert a paragraph under the overview with the name *Solution Design* (additional sub-header **is** required).
 3. Include a *Conclusion* paragraph in the end of **every** blueprint as a summary of what we achieved during the process (additional sub-header **is** required).
-4. If you want to convey information that the user should not miss or overlook use **always** [adminitions](https://docusaurus.io/docs/markdown-features/admonitions).
+4. If you want to convey information that the user should not miss or overlook use **always** [admonitions](https://docusaurus.io/docs/markdown-features/admonitions).
