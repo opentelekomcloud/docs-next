@@ -12,10 +12,10 @@ export default function HomepageContribute(): JSX.Element {
                 <p className="margin-bottom--md">
                   Share with our vibrant community all that cool staff you've built with Open Telekom Cloud.
                 </p>
-                <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
+                <a href="https://github.com/opentelekomcloud/docs-next" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
                   Join us on GitHub
                 </a>
-                <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
+                <a href="https://www.medium.com/" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
                   Join us on Medium
                 </a>
               </div>
