@@ -5,7 +5,7 @@ import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-uma
 
 const config: Config = {
   title: 'Architecture Center',
-  tagline: 'Best Practices and Blueprints',
+  tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
