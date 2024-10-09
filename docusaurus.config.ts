@@ -158,7 +158,7 @@ const config: Config = {
             },
             {
               label: 'Webinars',
-              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
+              href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
              {
               label: 'Medium',
