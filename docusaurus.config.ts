@@ -63,6 +63,11 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/open-telekom-cloud-social-card.png',
+    colorMode: {
+      defaultMode: "light",
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       // title: 't',
       logo: {
@@ -215,10 +220,10 @@ const config: Config = {
       ],
       copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
     },
-    prism: {
-      theme: prismThemes.oneDark,
-      darkTheme: prismThemes.oneDark,
-    },
+    // prism: {
+    //   theme: prismThemes.oneDark,
+    //   darkTheme: prismThemes.oneDark,
+    // },
     docs: {
       sidebar: {
         hideable: false,

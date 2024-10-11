@@ -41,13 +41,12 @@ html[data-theme='light'] {
   --ifm-footer-link-color: black;
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'TeleNeoWeb';
-  --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #ffffff;
+  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   --background: #ffffff;
   --telekom-shadow-raised-standard: none;
   --telekom-radius-large: 2rem;
-  --telekom-color-background-surface: var(--ifm-background-surface-color);
   --telekom-shadow-raised-hover: 0px 16px 64px 0px hsla(0, 0%, 0%, 0.1), 0px 8px 16px 0px hsla(0, 0%, 0%, 0.1);
 }
 
@@ -59,13 +58,12 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: #a1b1fb;
   --ifm-color-primary-lighter: #b3c0fb;
   --ifm-color-primary-lightest: #e8ecfe;
-  --ifm-background-color: #1d1d1b;
-  --ifm-background-surface-color: #1b1b1d;
+  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   --background: #000000;
   --telekom-shadow-raised-standard: none;
   --telekom-radius-large: 2rem;
-  --telekom-color-background-surface: var(--ifm-background-surface-color);
   --telekom-shadow-raised-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
 }
 
