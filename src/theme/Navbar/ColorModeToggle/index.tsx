@@ -10,9 +10,8 @@ import { useEffect } from 'react';
 // Create a custom hook that extends the original useColorMode for Scale
 export function useColorModeWithScale() {
   const { colorMode, setColorMode } = originalUseColorMode();
-
   const toggleScaleColorMode = (newMode) => {
-    document.body.dataset.mode = newMode
+    document.documentElement.dataset.mode = newMode
   };
 
   useEffect(() => {
