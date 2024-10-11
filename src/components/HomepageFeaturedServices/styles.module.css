@@ -1,7 +1,7 @@
 
 .item {
   box-shadow: 0 1px 3px gray;
-  background-color: var(--ifm-background-color);
+  background-color: var(--telekom-color-background-surface);
   border-radius: 2rem;
   color: black;
   overflow: hidden;
@@ -9,7 +9,7 @@
 
 html[data-theme='dark'] .item {
   box-shadow: 0px 1px 3px var(--ifm-color-primary);
-  background-color: var(--ifm-background-color);
+  background-color: var(--telekom-color-background-surface);
   border-radius: 2rem;
   color: white;
   overflow: hidden;

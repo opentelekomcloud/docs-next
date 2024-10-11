@@ -220,10 +220,10 @@ const config: Config = {
       ],
       copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
     },
-    // prism: {
-    //   theme: prismThemes.oneDark,
-    //   darkTheme: prismThemes.oneDark,
-    // },
+    prism: {
+      theme: prismThemes.oneDark,
+      darkTheme: prismThemes.oneDark,
+    },
     docs: {
       sidebar: {
         hideable: false,

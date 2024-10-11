@@ -44,7 +44,7 @@ html[data-theme='light'] {
   --ifm-background-color: var(--telekom-color-background-canvas-subtle);
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
-  --background: #ffffff;
+  /* --background: #ffffff; */
   --telekom-shadow-raised-standard: none;
   --telekom-radius-large: 2rem;
   --telekom-shadow-raised-hover: 0px 16px 64px 0px hsla(0, 0%, 0%, 0.1), 0px 8px 16px 0px hsla(0, 0%, 0%, 0.1);
@@ -61,7 +61,7 @@ html[data-theme='dark'] {
   --ifm-background-color: var(--telekom-color-background-canvas-subtle);
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
-  --background: #000000;
+  /* --background: #000000; */
   --telekom-shadow-raised-standard: none;
   --telekom-radius-large: 2rem;
   --telekom-shadow-raised-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
