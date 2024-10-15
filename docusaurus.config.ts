@@ -68,6 +68,12 @@ const config: Config = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
+    scripts: [
+      {
+        src: '/js/update_color.js',
+        async: false,
+      }
+    ],
     navbar: {
       // title: 't',
       logo: {
