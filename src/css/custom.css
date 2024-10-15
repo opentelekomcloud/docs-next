@@ -49,7 +49,7 @@ html[data-theme='light'] {
   --ifm-footer-link-color: black;
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'TeleNeoWeb';
-  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-background-color: #fbfbfb;
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   /* --background: #ffffff; */
@@ -66,7 +66,7 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: #a1b1fb;
   --ifm-color-primary-lighter: #b3c0fb;
   --ifm-color-primary-lightest: #e8ecfe;
-  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-background-color: #0e0e0f;
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   /* --background: #000000; */
