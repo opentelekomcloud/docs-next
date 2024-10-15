@@ -68,12 +68,6 @@ const config: Config = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
-    scripts: [
-      {
-        src: '/js/update_color.js',
-        async: false,
-      }
-    ],
     navbar: {
       // title: 't',
       logo: {
@@ -264,6 +258,27 @@ const config: Config = {
 
   customFields: {
     version: `(v` + process.env.REACT_APP_VERSION + `)`,
+    injectHtmlTags() {
+      return {
+        headTags: [
+          {
+            tagName: 'script',
+            innerHTML: `
+              (function() {
+                try {
+                  const userPref = localStorage.getItem('theme');
+                  const systemPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  const mode = userPref || systemPref;
+                  document.documentElement.setAttribute('data-mode', mode);
+                } catch (e) {
+                  console.error('Error setting data-mode:', e);
+                }
+              })();
+            `,
+          },
+        ],
+      };
+    }
   },
 
   plugins: [
@@ -279,7 +294,7 @@ const config: Config = {
         dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
       } as UmamiOptions,
     ],
-  ],
+  ]
 };
 
 export default config;
