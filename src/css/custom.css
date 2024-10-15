@@ -29,6 +29,14 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 } */
 :root,
+html {
+  display: none; /* Hide until the correct theme is applied */
+}
+
+html[data-mode] {
+  display: block; /* Show after the correct theme is set */
+}
+
 html[data-theme='light'] {
   --ifm-color-primary: #e20074;
   --ifm-color-primary-dark: #cb0068;
@@ -41,7 +49,7 @@ html[data-theme='light'] {
   --ifm-footer-link-color: black;
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'TeleNeoWeb';
-  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-background-color: #fbfbfb;
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   /* --background: #ffffff; */
@@ -58,7 +66,8 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: #a1b1fb;
   --ifm-color-primary-lighter: #b3c0fb;
   --ifm-color-primary-lightest: #e8ecfe;
-  --ifm-background-color: var(--telekom-color-background-canvas-subtle);
+  --ifm-font-family-base: 'TeleNeoWeb';
+  --ifm-background-color: #0e0e0f;
   --ifm-background-surface-color: var(--telekom-color-background-surface);
 
   /* --background: #000000; */
@@ -68,12 +77,12 @@ html[data-theme='dark'] {
 }
 
 /* Override system color scheme preference */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html[data-theme='light'] {
     --ifm-background-color: #ffffff;
     --ifm-background-surface-color: #ffffff;
   }
-}
+} */
 
 
 @media screen and (max-width: 996px) {
