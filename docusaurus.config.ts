@@ -63,6 +63,11 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/open-telekom-cloud-social-card.png',
+    colorMode: {
+      defaultMode: "light",
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       // title: 't',
       logo: {
