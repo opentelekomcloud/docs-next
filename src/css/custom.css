@@ -76,12 +76,12 @@ html[data-theme='dark'] {
 }
 
 /* Override system color scheme preference */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html[data-theme='light'] {
     --ifm-background-color: #ffffff;
     --ifm-background-surface-color: #ffffff;
   }
-}
+} */
 
 
 @media screen and (max-width: 996px) {
