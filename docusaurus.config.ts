@@ -273,7 +273,7 @@ const config: Config = {
         dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
       } as UmamiOptions,
     ],
-    require.resolve('./plugins/html-tags'),
+    // require.resolve('./plugins/html-tags'),
   ]
 };
 
