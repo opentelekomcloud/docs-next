@@ -1,0 +1,1 @@
+import{useColorMode as originalUseColorMode}from"@docusaurus/theme-common";import{useEffect}from"react";export function useColorModeWithScale(){const{colorMode:o,setColorMode:e}=originalUseColorMode(),r=o=>{document.documentElement.dataset.mode=o};return useEffect((()=>{r(o)}),[o]),{colorMode:o,setColorMode:e,toggleScaleColorMode:r}}useColorModeWithScale();
