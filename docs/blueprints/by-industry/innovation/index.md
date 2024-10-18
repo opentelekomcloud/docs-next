@@ -1,9 +1,9 @@
 ---
-id: Automotive
-title: Automotive
+id: Innovation
+title: Innovation
 ---
 
-# Automotive
+# Innovation
 
 The Computing section offers essential insights for optimizing computing resources. Discover guidelines for selecting
 appropriate instance types, managing virtual machines efficiently, and leveraging auto-scaling capabilities for dynamic
