@@ -17,6 +17,7 @@
 } */
 .callout {
   position: relative;
+  background-color: var(--telekom-color-background-surface-subtle);
 }
 .callout__title {
   align-items: center;
@@ -60,7 +61,7 @@
 
 html[data-theme='dark'] .callout__shadow {
   box-shadow: unset;
-  background-color: #1b1b1d;
+  background-color: var(--telekom-color-background-surface-subtle);
 }
 
 .video {
