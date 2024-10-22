@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 type FeatureItem = {
   title: string;
@@ -29,7 +30,7 @@ const FeatureList: FeatureItem[] = [
       <>
         Discover tailored out-of-the-box solutions and
         practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal
-        application and infrastructure design using Open Telekom Cloud. 
+        application and infrastructure design using Open Telekom Cloud.
       </>
     ),
     link: '/docs/blueprints'
@@ -39,15 +40,15 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/caf.svg').default,
     description: (
       <>
-        The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
-        Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
+        The Cloud Adoption Framework provides a structured approach for organizations to transition their business to
+        Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management.
       </>
     ),
     link: '/caf'
   },
 ];
 
-function Feature({title, Svg, description, link}: FeatureItem) {
+function Feature({ title, Svg, description, link }: FeatureItem) {
   return (
     // <div className={clsx('col col--4')}>
     //   <div className="text--center">
@@ -62,26 +63,26 @@ function Feature({title, Svg, description, link}: FeatureItem) {
     //   </div>
     // </div>
     <div className={clsx('col col--4')}>
-        <scale-card to={link} class="scale-telekom-feature-card">
-          <div style={{margin: '-24px'}}>
-            <div className="text--center">
-              <Svg className={styles.featureSvg} role="img" />
-            </div>
-            <div className="text--center padding-horiz--md" style={{margin: '0 0 16px 0'}}> 
-              {/* <h4 style={{margin: '0px 0 16px 0', font: 'var(--telekom-text-style-heading-4)'}}>{title} </h4> */}
-              <Heading as="h3" style={{margin: '8px'}}>{title}</Heading>
-              <span>
-                {description}              
-              </span>
-              {/* <scale-button style={{margin: '16px'}} icon-position="after">
+      <scale-card to={useBaseUrl(link)} class="scale-telekom-feature-card">
+        <div style={{ margin: '-24px' }}>
+          <div className="text--center">
+            <Svg className={styles.featureSvg} role="img" />
+          </div>
+          <div className="text--center padding-horiz--md" style={{ margin: '0 0 16px 0' }}>
+            {/* <h4 style={{margin: '0px 0 16px 0', font: 'var(--telekom-text-style-heading-4)'}}>{title} </h4> */}
+            <Heading as="h3" style={{ margin: '8px' }}>{title}</Heading>
+            <span>
+              {description}
+            </span>
+            {/* <scale-button style={{margin: '16px'}} icon-position="after">
                 Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
               </scale-button>  */}
-            </div>
           </div>
-        </scale-card>
+        </div>
+      </scale-card>
     </div>
 
-    );
+  );
 }
 
 export default function HomepageFeatures(): JSX.Element {
