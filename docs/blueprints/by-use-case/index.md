@@ -6,7 +6,7 @@ sidebar_position: 2
 
 # By Use Case
 
-Welcome to the Open Telekom Cloud Architecture Center Best Practices.
+Weslcome to the Open Telekom Cloud Architecture Center Best Practices.
 Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
 enhance reliability, scalability, and security. Explore our recommended strategies for resource management, such as
 efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
