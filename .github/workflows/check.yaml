@@ -1,0 +1,23 @@
+name: Go and TypeScript Checks
+
+on:
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'npm' # Use npm for caching
+
+      - name: Install dependencies
+        run: npm ci  # Use npm ci for installing dependencies
+
+      - name: Run typecheck
+        run: npm run typecheck
