@@ -1,22 +1,14 @@
-import {
-    ClockIcon,
-    CogIcon,
-    CubeTransparentIcon,
-    RectangleGroupIcon,
-    RectangleStackIcon,
-    ShareIcon,
-    SparklesIcon,
-    UsersIcon,
-  } from "@heroicons/react/24/outline";
   import clsx from "clsx";
   import React from "react";
   import styles from "./styles.modules.css";
+  import { ComponentType, SVGProps } from 'react';
   
   export interface Callout {
     title: string;
     text?: string;
     link: string;
-    icon: (props: React.ComponentProps<"svg">) => JSX.Element;
+    // icon: (props: React.ComponentProps<"svg">) => JSX.Element;
+    icon: ComponentType<SVGProps<SVGSVGElement>>;
   }
   
   function Callout(props: Callout): JSX.Element {
