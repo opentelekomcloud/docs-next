@@ -1,37 +1,35 @@
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
-import { useColorMode, useThemeConfig } from '@docusaurus/theme-common';
+// import Heading from '@theme/Heading';
+// import { useThemeConfig } from '@docusaurus/theme-common';
 
-import styles from './index.module.css';
+// import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
 import HomepageContribute from '../components/HomepageContribute';
-import HomepageNewServices from '../components/HomepageNewServices';
 
-function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
-  const navbarStyle = useThemeConfig().navbar.style;
-  const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <scale-button href="/docs/blueprints" variant={buttonVariant}>
-            Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-          </scale-button>
-        </div>
-      </div>
-    </header>
-  );
-}
+// function HomepageHeader() {
+//   const { siteConfig } = useDocusaurusContext();
+//   const navbarStyle = useThemeConfig().navbar.style;
+//   const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
+//   return (
+//     <header className={clsx('hero hero--primary', styles.heroBanner)}>
+//       <div className="container">
+//         <Heading as="h1" className="hero__title">
+//           {siteConfig.title}
+//         </Heading>
+//         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
+//         <div className={styles.buttons}>
+//           <scale-button href="/docs/blueprints" variant={buttonVariant}>
+//             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
+//           </scale-button>
+//         </div>
+//       </div>
+//     </header>
+//   );
+// }
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();

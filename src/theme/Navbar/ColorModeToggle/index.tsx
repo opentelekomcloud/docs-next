@@ -1,4 +1,3 @@
-import React from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import ColorModeToggle from '@theme/ColorModeToggle';
 import type {Props} from '@theme/Navbar/ColorModeToggle';

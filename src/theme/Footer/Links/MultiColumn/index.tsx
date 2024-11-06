@@ -1,4 +1,3 @@
-import React from 'react';
 import LinkItem from '@theme/Footer/LinkItem';
 import type {Props} from '@theme/Footer/Links/MultiColumn';
 
