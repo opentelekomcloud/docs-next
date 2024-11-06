@@ -215,6 +215,7 @@ const config: Config = {
       copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
+      additionalLanguages: ['powershell', 'bash'],
       theme: prismThemes.oneDark,
       darkTheme: prismThemes.oneDark,
     },
