@@ -1,50 +1,55 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from './../callout';
+
+import AntiddosSvg from '@site/static/img/services/Anti-DDoS.svg'
+import DbssSvg from '@site/static/img/services/dbss.svg'
+import HssSvg from '@site/static/img/services/hss.svg'
+import IamSvg from '@site/static/img/services/IAM.svg'
+import KmsSvg from '@site/static/img/services/Security-KMS.svg'
+import WafSvg from '@site/static/img/services/web-WAF.svg'
+import DwafSvg from '@site/static/img/services/web-WAF.svg'
 
  const calloutsList: Callout[] = [
     {
       title: "Anti-DDoS",
       text: "Anti-DDoS Traffic Cleaning Service",
       link: "/docs/tags/anti-ddos",
-      icon: require('@site/static/img/services/Anti-DDoS.svg').default,
+      icon: AntiddosSvg
     },
     {
         title: "DDS",
         text: "Database Security Service",
         link: "/docs/tags/dss",
-        icon: require('@site/static/img/services/dbss.svg').default,
+        icon: DbssSvg
     },
     {
       title: "HSS",
       text: "Host Security Service",
       link: "/docs/tags/hss",
-      icon: require('@site/static/img/services/hss.svg').default,
+      icon: HssSvg
     },
     {
       title: "IAM",
       text: "Identity & Access Management",
       link: "/docs/tags/iam",
-      icon: require('@site/static/img/services/IAM.svg').default,
+      icon: IamSvg
     },
     {
       title: "KMS",
       text: "Key Management Service",
       link: "/docs/tags/kms",
-      icon: require('@site/static/img/services/Security-KMS.svg').default,
+      icon: KmsSvg
     },
     {
       title: "WAF",
       text: "Web Application Firewall",
       link: "/docs/tags/waf",
-      icon: require('@site/static/img/services/web-WAF.svg').default,
+      icon: WafSvg
     },
     {
       title: "Dedicated WAF",
       text: "Dedicated Web Application Firewall",
       link: "/docs/tags/dedicated-waf",
-      icon: require('@site/static/img/services/web-WAF.svg').default,
+      icon: DwafSvg
     },
   ];
 
