@@ -3,7 +3,7 @@ import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from './../callout';
 
- var calloutsList: Callout[] = [
+ const calloutsList: Callout[] = [
     {
       title: "Direct Connect",
       text: "Dedicated Network Connection",

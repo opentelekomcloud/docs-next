@@ -15,7 +15,7 @@ import HomepageNewServices from '../components/HomepageNewServices';
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   const navbarStyle = useThemeConfig().navbar.style;
-  var buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
+  const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
