@@ -2,7 +2,7 @@ import ServiceCallouts, { Callout } from './../callout';
 
 import AsSvg from '@site/static/img/services/AS.svg'
 import BmsSvg from '@site/static/img/services/BMS.svg'
-import DhsSvg from '@site/static/img/services/DHS.svg'
+import DhsSvg from '@site/static/img/services/DeH.svg'
 import EcsSvg from '@site/static/img/services/ECS.svg'
 import FgsSvg from '@site/static/img/services/fg.svg'
 import ImsSvg from '@site/static/img/services/IMS.svg'
