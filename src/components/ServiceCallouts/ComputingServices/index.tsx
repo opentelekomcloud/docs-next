@@ -1,44 +1,48 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from './../callout';
 
-var calloutsList: Callout[] = [
+import AsSvg from '@site/static/img/services/AS.svg'
+import BmsSvg from '@site/static/img/services/BMS.svg'
+import DhsSvg from '@site/static/img/services/DHS.svg'
+import EcsSvg from '@site/static/img/services/ECS.svg'
+import FgsSvg from '@site/static/img/services/fg.svg'
+import ImsSvg from '@site/static/img/services/IMS.svg'
+
+const calloutsList: Callout[] = [
   {
     title: "AS",
     text: "Auto Scaling",
     link: "/docs/tags/as",
-    icon: require('@site/static/img/services/AS.svg').default,
+    icon: AsSvg,
   },
   {
     title: "BMS",
     text: "Bare Metal Services",
     link: "/docs/tags/bms",
-    icon: require('@site/static/img/services/BMS.svg').default,
+    icon: BmsSvg,
   },
   {
     title: "DHS",
     text: "Dedicated Host",
     link: "/docs/tags/dhs",
-    icon: require('@site/static/img/services/DeH.svg').default,
+    icon: DhsSvg,
   },
   {
     title: "ECS",
     text: "Elastic Cloud Server",
     link: "/docs/tags/ecs",
-    icon: require('@site/static/img/services/ECS.svg').default,
+    icon: EcsSvg,
   },
   {
     title: "FGS",
     text: "FunctionGraph",
     link: "/docs/tags/functiongraph",
-    icon: require('@site/static/img/services/fg.svg').default,
+    icon: FgsSvg,
   },
   {
     title: "IMS",
     text: "Image Management Service",
     link: "/docs/tags/ims",
-    icon: require('@site/static/img/services/IMS.svg').default,
+    icon: ImsSvg,
   },
 ];
 
