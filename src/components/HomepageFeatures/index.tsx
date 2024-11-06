@@ -2,6 +2,10 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
+import BestPracticesSvg from '@site/static/img/best-practices.svg';
+import BlueprintsSvg from '@site/static/img/blueprints.svg';
+import CafSvg from '@site/static/img/caf.svg';
+
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
@@ -12,7 +16,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Best Practices',
-    Svg: require('@site/static/img/best-practices.svg').default,
+    Svg: BestPracticesSvg,
     description: (
       <>
         Explore the recommended strategies for resource management, such as
@@ -24,7 +28,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Blueprints',
-    Svg: require('@site/static/img/blueprints.svg').default,
+    Svg: BlueprintsSvg,
     description: (
       <>
         Discover tailored out-of-the-box solutions and
@@ -36,7 +40,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Cloud Adoption Framework',
-    Svg: require('@site/static/img/caf.svg').default,
+    Svg: CafSvg,
     description: (
       <>
         The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 

@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import FeaturedServices from '../ServiceCallouts/FeaturedServices';
 import NewServices from '../ServiceCallouts/NewServices';

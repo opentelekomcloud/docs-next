@@ -10,7 +10,7 @@ export default [
     languageOptions: { globals: globals.browser },
   },
   {
-    ignores: [".docusaurus/*"],  // Add ignore patterns her
+    ignores: [".docusaurus/*"],
   },
   ...tseslint.configs.recommended,
   pluginReact.configs.flat["jsx-runtime"],
