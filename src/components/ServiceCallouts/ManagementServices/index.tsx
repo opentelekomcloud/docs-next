@@ -1,56 +1,62 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from './../callout';
+
+import ApmSvg from '@site/static/img/services/apm.svg'
+import CesSvg from '@site/static/img/services/CES.svg'
+import ConfigSvg from '@site/static/img/services/rms.svg'
+import CtsSvg from '@site/static/img/services/CTS.svg'
+import LtsSvg from '@site/static/img/services/LTS.svg'
+import RmsSvg from '@site/static/img/services/rms.svg'
+import TmsSvg from '@site/static/img/services/TMS.svg'
+import CcSvg from '@site/static/img/services/cc.svg'
 
  const calloutsList: Callout[] = [
     {
       title: "APM",
       text: "Application Performance Management",
       link: "/docs/tags/apm",
-      icon: require('@site/static/img/services/apm.svg').default,
+      icon: ApmSvg
     },
     {
         title: "Cloud Create",
         text: "Multi-Cloud Management Platform",
         link: "/docs/tags/cloud-create",
-        icon: require('@site/static/img/services/cc.svg').default,
+        icon: CcSvg
     },
     {
       title: "CloudEye",
       text: "Multi-Dimensional Monitoring Platform",
       link: "/docs/tags/cloudeye",
-      icon: require('@site/static/img/services/CES.svg').default,
+      icon: CesSvg
     },
     {
       title: "Config",
       text: "Continuously Evaluate Resource Configuration",
       link: "/docs/tags/config",
-      icon: require('@site/static/img/services/rms.svg').default,
+      icon: ConfigSvg
     },
     {
       title: "CTS",
       text: "Cloud Trace Service",
       link: "/docs/tags/cts",
-      icon: require('@site/static/img/services/CTS.svg').default,
+      icon: CtsSvg
     },
     {
       title: "LTS",
       text: "Log Tank Service",
       link: "/docs/tags/lts",
-      icon: require('@site/static/img/services/LTS.svg').default,
+      icon: LtsSvg
     },
     {
       title: "RMS",
       text: "Resource Management Service ",
       link: "/docs/tags/rms",
-      icon: require('@site/static/img/services/rms.svg').default,
+      icon: RmsSvg
     },
     {
       title: "TMS",
       text: "Tag Management Service",
       link: "/docs/tags/rds",
-      icon: require('@site/static/img/services/TMS.svg').default,
+      icon: TmsSvg
     },
   ];
 
