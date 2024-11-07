@@ -5,6 +5,7 @@
   border-radius: 2rem;
   color: black;
   overflow: hidden;
+  height: 100%;
 }
 
 html[data-theme='dark'] .item {
@@ -13,6 +14,7 @@ html[data-theme='dark'] .item {
   border-radius: 2rem;
   color: white;
   overflow: hidden;
+  height: 100%;
 }
 
 .item__inner {
