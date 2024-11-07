@@ -1,62 +1,69 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from '../callout';
 
- var calloutsList: Callout[] = [
+import VpcSvg from '@site/static/img/services/VPC.svg'
+import EcsSvg from '@site/static/img/services/ECS.svg'
+import ObsSvg from '@site/static/img/services/OBS.svg'
+import IamSvg from '@site/static/img/services/IAM.svg'
+import ElbSvg from '@site/static/img/services/ELB.svg'
+import DmsSvg from '@site/static/img/services/DMS.svg'
+import CceSvg from '@site/static/img/services/CCE.svg'
+import SwrSvg from '@site/static/img/services/swr.svg'
+import CcSvg from '@site/static/img/services/cc.svg'
+
+ const calloutsList: Callout[] = [
     {
       title: "VPC",
       text: "Virtual Private Cloud",
       link: "/docs/tags/vpc",
-      icon: require('@site/static/img/services/VPC.svg').default,
+      icon: VpcSvg
     },
     {
       title: "ECS",
       text: "Elastic Cloud Server",
       link: "/docs/tags/ecs",
-      icon: require('@site/static/img/services/ECS.svg').default,
+      icon: EcsSvg
     },
     {
       title: "OBS",
       text: "Object Storage Service",
       link: "/docs/tags/obs",
-      icon: require('@site/static/img/services/OBS.svg').default,
+      icon: ObsSvg
     },
     {
       title: "IAM",
       text: "Identity & Access Management",
       link: "/docs/tags/iam",
-      icon: require('@site/static/img/services/IAM.svg').default,
+      icon: IamSvg
     },
     {
       title: "ELB",
       text: "Elastic Load Balancing",
       link: "/docs/tags/elb",
-      icon: require('@site/static/img/services/ELB.svg').default,
+      icon: ElbSvg
     },
     {
       title: "DMS",
       text: "Distributed Message Service",
       link: "/docs/tags/dms",
-      icon: require('@site/static/img/services/DMS.svg').default,
+      icon: DmsSvg
     },
     {
       title: "CCE",
       text: "Cloud Container Engine",
       link: "/docs/tags/cce",
-      icon: require('@site/static/img/services/CCE.svg').default,
+      icon: CceSvg
     },
     {
-        title: "SWR",
-        text: "Software Repository for Containers",
-        link: "/docs/tags/swr",
-        icon: require('@site/static/img/services/swr.svg').default,
+      title: "SWR",
+      text: "Software Repository for Containers",
+      link: "/docs/tags/swr",
+      icon: SwrSvg
     },
     {
       title: "Cloud Create",
       text: "Multi-Cloud Management Platform",
       link: "/docs/tags/cloud-create",
-      icon: require('@site/static/img/services/cc.svg').default,
+      icon: CcSvg
   },
   ];
 
