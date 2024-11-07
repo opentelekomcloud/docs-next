@@ -11,7 +11,7 @@ on:
 concurrency: preview-${{ github.ref }}
 
 jobs:
-  deploy-preview:
+  deploy-pull-request-preview:
     environment: pull-requests-preview
     runs-on: ubuntu-20.04
 
