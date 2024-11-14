@@ -1,0 +1,82 @@
+name: Build and Deploy Production Docker Images
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+    build-stable:
+      name: Build Production Artifacts
+      environment: 
+        name: stable
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Setup NodeJS
+          uses: actions/setup-node@v4
+          with:
+            node-version: 'lts/*'
+
+        - name: Install NodeJS Dependencies
+          run: npm install
+        
+        - name: Build Version Tag
+          id: build_version_tag
+          run: echo "IMAGE_SEMVER=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+        - name: Build Container Image Metadata
+          id: meta
+          uses: docker/metadata-action@v5
+          with:
+            # list of Docker images to use as base name for tags
+            images: |
+              ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
+            # generate Docker tags based on the following events/attributes
+            tags: |
+              type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
+              type=raw,value=latest
+    
+  
+        - name: Build App
+          env: 
+            REACT_APP_VERSION: ${{ env.IMAGE_SEMVER }}
+            REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
+            REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
+            REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
+            REACT_APP_TYPESENSE_PROTOCOL: ${{ vars.TYPESENSE_PROTOCOL }}
+            REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
+            REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
+            REACT_APP_TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
+            UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
+            UMAMI_ANALYTICS_DOMAIN: ${{ vars.UMAMI_ANALYTICS_DOMAIN }}
+            UMAMI_DATAHOST_URL: ${{ vars.UMAMI_DATAHOST_URL }}
+            UMAMI_DATA_DOMAIN: ${{ vars.UMAMI_DATA_DOMAINS }}
+          run: npm run build
+        
+        - name: Login to Container Registry
+          uses: docker/login-action@v3
+          with:
+            registry: ${{ vars.REGISTRY }}
+            username: ${{ secrets.REGISTRY_USER }}
+            password: ${{ secrets.REGISTRY_PASSWORD }}
+          
+        - name: Setup Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v3.7.1
+  
+        - name: Build and Push (Docker Image)
+          id: docker_build 
+          uses: docker/build-push-action@v6.9.0
+          with: 
+            context: ./
+            file: ./Dockerfile
+            provenance: false
+            push: ${{ github.event_name != 'pull_request' }}
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: ${{ steps.meta.outputs.labels }}
+            annotations: ${{ steps.meta.outputs.annotations }}
