@@ -47,7 +47,7 @@ jobs:
           uses: docker/metadata-action@v5
           with:
             images: |
-              ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/docs-next
+              ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
             tags: |
               type=raw,value=${{ steps.build_image_tag.outputs.image_version }}
     
