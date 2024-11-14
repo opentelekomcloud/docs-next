@@ -1,4 +1,4 @@
-name: pull-requests-preview-deployment
+name: Manage Pull Request Preview Instances
 
 on:
   pull_request:
@@ -11,13 +11,16 @@ on:
 concurrency: preview-${{ github.ref }}
 
 jobs:
-  deploy-pull-request-preview:
-    environment: pull-requests-preview
+  deploy-ephemeral-preview:
+    name: Deploy or Remove Ephemeral Preview
+    environment: 
+      name: pull-requests-preview
+      url: 'https://${{ github.repository_owner }}.github.io${{ vars.DOCUSAURUS_BASE_URL }}pr-${{ github.event.pull_request.number }}'
     runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get Commit Hash
         id: commit_hash
