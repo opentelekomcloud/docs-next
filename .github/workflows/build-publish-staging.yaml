@@ -40,7 +40,7 @@ jobs:
 
         - name: Build Image Tag
           id: build_image_tag
-          run: echo "image_version=${{ steps.date.outputs.today }}-${{github.run_number}}-${{ steps.commit_hash.outputs.short }}" >> $GITHUB_OUTPUT
+          run: echo "image_version=${{ steps.date.outputs.today }}.${{github.run_number}}.${{ steps.commit_hash.outputs.short }}" >> $GITHUB_OUTPUT
 
         - name: Build Container Image Metadata
           id: meta
