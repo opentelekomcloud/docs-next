@@ -38,6 +38,10 @@ jobs:
           id: date
           run: echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
 
+        - name: Build Image Tag
+          id: build_image_tag
+          run: echo "image_version=${{ steps.date.outputs.today }}-${{github.run_number}}-${{ steps.commit_hash.outputs.short }}" >> $GITHUB_OUTPUT
+
         - name: Build Container Image Metadata
           id: meta
           uses: docker/metadata-action@v5
@@ -45,11 +49,11 @@ jobs:
             images: |
               ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/docs-next
             tags: |
-              type=raw,value=${{ steps.date.outputs.today }}-${{github.run_number}}-${{ steps.commit_hash.outputs.short }}
+              type=raw,value=${{ steps.build_image_tag.outputs.image_version }}
     
         - name: Build App
           env: 
-            REACT_APP_VERSION: ${{ steps.date.outputs.today }}-${{github.run_number}}-${{ steps.commit_hash.outputs.short }}
+            REACT_APP_VERSION: ${{ steps.build_image_tag.outputs.image_version }}
             REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
             REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
             REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
