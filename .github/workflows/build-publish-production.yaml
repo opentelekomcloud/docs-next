@@ -1,27 +1,22 @@
-name: Build and Deploy Staging Docker Images
+name: Build and Deploy Production Docker Images
 
 on:
-    push:
-      branches: 
-        - main
-      paths-ignore:
-        - '**/README.md'
-        - '**/CONTRIBUTING.md'
-        - '**/CONFIGURATION.md'
-        - '**/.devcontainer/**'
-        - "**/.github/workflows/**"   
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
-    build-preview:
-      name: Build Staging Artifacts
+    build-stable:
+      name: Build Production Artifacts
       environment: 
-        name: preview
+        name: stable
       runs-on: ubuntu-latest
   
       steps:
         - name: Checkout
           uses: actions/checkout@v4
-  
+
         - name: Setup NodeJS
           uses: actions/setup-node@v4
           with:
@@ -29,31 +24,27 @@ jobs:
 
         - name: Install NodeJS Dependencies
           run: npm install
-
-        - name: Get Commit Hash
-          id: commit_hash
-          uses: prompt/actions-commit-hash@v3
-
-        - name: Get Current Date
-          id: date
-          run: echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-
-        - name: Build Image Tag
-          id: build_image_tag
-          run: echo "image_version=${{ steps.date.outputs.today }}-${{github.run_number}}-${{ steps.commit_hash.outputs.short }}" >> $GITHUB_OUTPUT
+        
+        - name: Build Version Tag
+          id: build_version_tag
+          run: echo "IMAGE_SEMVER=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
         - name: Build Container Image Metadata
           id: meta
           uses: docker/metadata-action@v5
           with:
+            # list of Docker images to use as base name for tags
             images: |
-              ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/docs-next
+              ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/docusaurus-play
+            # generate Docker tags based on the following events/attributes
             tags: |
-              type=raw,value=${{ steps.build_image_tag.outputs.image_version }}
+              type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
+              type=raw,value=latest
     
+  
         - name: Build App
           env: 
-            REACT_APP_VERSION: ${{ steps.build_image_tag.outputs.image_version }}
+            REACT_APP_VERSION: ${{ env.IMAGE_SEMVER }}
             REACT_APP_DOCS_NEXT_HOST: ${{ vars.DOCS_NEXT_HOST }}
             REACT_APP_DOCS_NEXT_ORG: ${{ vars.DOCS_NEXT_ORG }}
             REACT_APP_DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
@@ -66,7 +57,7 @@ jobs:
             UMAMI_DATAHOST_URL: ${{ vars.UMAMI_DATAHOST_URL }}
             UMAMI_DATA_DOMAIN: ${{ vars.UMAMI_DATA_DOMAINS }}
           run: npm run build
-
+        
         - name: Login to Container Registry
           uses: docker/login-action@v3
           with:
@@ -77,7 +68,7 @@ jobs:
         - name: Setup Docker Buildx
           id: buildx
           uses: docker/setup-buildx-action@v3.7.1
-
+  
         - name: Build and Push (Docker Image)
           id: docker_build 
           uses: docker/build-push-action@v6.9.0
