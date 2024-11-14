@@ -12,7 +12,9 @@ jobs:
       environment: 
         name: stable
       runs-on: ubuntu-latest
-  
+      outputs:
+        image_version: ${{ env.IMAGE_SEMVER }}
+
       steps:
         - name: Checkout
           uses: actions/checkout@v4
@@ -80,3 +82,36 @@ jobs:
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
             annotations: ${{ steps.meta.outputs.annotations }}
+
+    update-helm-charts:
+      needs: [build-stable]
+      environment: stable
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Configure Git User as GitHub Actions Bot
+          run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+        - name: Checkout
+          uses: actions/checkout@v4
+          with: 
+            repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
+            token: ${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}
+          
+        - name: Update Charts and Commit Changes
+          id: update_charts
+          env:
+            image: ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
+            tag: ${{ needs.build-stable.outputs.image_version }}
+          run: |
+              # docusaurus
+              sed -i 's/^version: .*/version: ${{ vars.DOCS_NEXT_CHART_VERSION }}.${{github.run_number}}/' ./charts/docusaurus/Chart.yaml
+              sed -i 's/^appVersion: .*/appVersion: ${{ env.tag }}/' ./charts/docusaurus/Chart.yaml
+              sed -i 's/^tag: .*/tag: ${{ env.tag }}/' ./charts/docusaurus/values-prod.yaml
+              sed -i 's/^image: .*/image: ${{ env.image }}/' ./charts/docusaurus/values-prod.yaml
+              # commit and push
+              git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
+              git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
+              git push origin main 
