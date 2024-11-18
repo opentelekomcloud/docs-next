@@ -9,7 +9,8 @@ on:
         - '**/CONTRIBUTING.md'
         - '**/CONFIGURATION.md'
         - '**/.devcontainer/**'
-        - "**/.github/workflows/**"   
+        - "**/.github/workflows/**"
+    workflow_dispatch:   
 
 jobs:
     build-preview:
