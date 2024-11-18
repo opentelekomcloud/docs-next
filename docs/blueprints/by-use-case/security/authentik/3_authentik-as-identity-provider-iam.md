@@ -3,7 +3,7 @@ id: authentik-as-identity-provider-iam
 title: Authentik as an Identity Provider for IAM
 tags: [security, oauth2, iam, authentik]
 ---
-# Connecting Authentik with IAM for Login
+# Authentik as an Identity Provider for IAM
 
 This guide will walk you through the process of integrating authentik, with Identity and Access Management (IAM) of Open Telekom Cloud using OAuth 2.0.
 

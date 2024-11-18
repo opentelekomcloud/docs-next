@@ -1,7 +1,7 @@
 ---
 id: ci-devtron-swr-cce
 title: Build a CI/CD Pipeline with Devtron, SWR and CCE
-tags: [devops, ci, cd, ci-cd, devtron, swr, cce]
+tags: [devops, ci, cd, cicd, devtron, swr, cce]
 ---
 
 # Build a CI/CD Pipeline with Devtron, SWR and CCE

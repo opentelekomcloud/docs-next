@@ -1,7 +1,7 @@
 ---
 id: cce-keycloak
 title: Deploy Keycloak on CCE
-tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ngress, externaldns, dns]
+tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ingress, externaldns, dns]
 ---
 
 # Deploy Keycloak on CCE
