@@ -97,29 +97,38 @@ jobs:
       needs: [build-preview]
       environment: preview
       runs-on: ubuntu-latest
+      permissions:
+        contents: write
+        pull-requests: write
 
       steps:
-        - name: Configure Git User as GitHub Actions Bot
-          run: |
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-        - name: Checkout
+        - name: Create GitHub App Token
+          id: app-token
+          uses: actions/create-github-app-token@v1
+          with:
+            app-id: ${{ secrets.APP_ID }}
+            private-key: ${{ secrets.APP_KEY }}
+        - name: Checkout Charts Repo
           uses: actions/checkout@v4
           with: 
             repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
-            token: ${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}
-          
-        - name: Update Charts and Commit Changes
-          id: update_charts
+            token: ${{ steps.app-token.outputs.token }}
+        - name: Commit Changes
           env:
             image: ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
             tag: ${{ needs.build-preview.outputs.image_version }}
           run: |
-              # docusaurus
-              sed -i 's/^tag: .*/tag: ${{ env.tag }}/' ./charts/docusaurus/values-stg.yaml
-              sed -i 's/^image: .*/image: ${{ env.image }}/' ./charts/docusaurus/values-stg.yaml
-              # commit and push
-              git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
-              git remote set-url origin https://${{ secrets.DOCS_NEXT_CHARTS_TOKEN }}@github.com/${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}.git
-              git push origin main 
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            sed -i 's/^tag: .*/tag: ${{ env.tag }}/' ./charts/docusaurus/values-stg.yaml
+            sed -i 's/^image: .*/image: ${{ env.image }}/' ./charts/docusaurus/values-stg.yaml
+            git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v7
+          env:
+            remote_pr_branch: 'release/staging-${{ needs.build-preview.outputs.image_version }}'
+          with:
+            title: ${{ env.remote_pr_branch }}
+            token: ${{ steps.app-token.outputs.token }}
+            branch: ${{ env.remote_pr_branch }}
+          
