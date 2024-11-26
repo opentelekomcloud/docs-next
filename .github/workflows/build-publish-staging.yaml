@@ -120,8 +120,8 @@ jobs:
           run: |
             git config --global user.name 'github-actions[bot]'
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            sed -i 's/^tag: .*/tag: ${{ env.tag }}/' ./charts/docusaurus/values-stg.yaml
-            sed -i 's/^image: .*/image: ${{ env.image }}/' ./charts/docusaurus/values-stg.yaml
+            sed -i 's|^tag: .*|tag: ${{ env.tag }}|' ./charts/docusaurus/values-stg.yaml
+            sed -i 's|^image: .*|image: ${{ env.image }}|' ./charts/docusaurus/values-stg.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v7
