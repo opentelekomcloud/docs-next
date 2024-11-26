@@ -118,8 +118,8 @@ jobs:
             image: ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
             tag: ${{ needs.build-preview.outputs.image_version }}
           run: |
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git config --global user.name 'otcbot'
+            git config --global user.email 'otc_ecosystem_squad@t-systems.com'
             sed -i 's|^tag: .*|tag: ${{ env.tag }}|' ./charts/docusaurus/values-stg.yaml
             sed -i 's|^image: .*|image: ${{ env.image }}|' ./charts/docusaurus/values-stg.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
