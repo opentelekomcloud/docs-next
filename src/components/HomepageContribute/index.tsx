@@ -14,9 +14,9 @@ export default function HomepageContribute(): JSX.Element {
                 <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
                   Join us on GitHub
                 </a>
-                <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
+                {/* <a href="/docs/features/version-and-publish" className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
                   Join us on Medium
-                </a>
+                </a> */}
               </div>
             </div>
             {/* <div

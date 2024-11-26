@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 import BestPracticesSvg from '@site/static/img/best-practices.svg';
 import BlueprintsSvg from '@site/static/img/blueprints.svg';
-import CafSvg from '@site/static/img/caf.svg';
+// import CafSvg from '@site/static/img/caf.svg';
 
 type FeatureItem = {
   title: string;
@@ -38,34 +38,22 @@ const FeatureList: FeatureItem[] = [
     ),
     link: '/docs/blueprints'
   },
-  {
-    title: 'Cloud Adoption Framework',
-    Svg: CafSvg,
-    description: (
-      <>
-        The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
-        Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
-      </>
-    ),
-    link: '/caf'
-  },
+  // {
+  //   title: 'Cloud Adoption Framework',
+  //   Svg: CafSvg,
+  //   description: (
+  //     <>
+  //       The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
+  //       Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
+  //     </>
+  //   ),
+  //   link: '/caf'
+  // },
 ];
 
 function Feature({title, Svg, description, link}: FeatureItem) {
   return (
-    // <div className={clsx('col col--4')}>
-    //   <div className="text--center">
-    //     <Svg className={styles.featureSvg} role="img" />
-    //   </div>
-    //   <div className="text--center padding-horiz--md">
-    //     <Heading as="h3">{title}</Heading>
-    //     <p>{description}</p>
-    //     {/* <scale-button icon-position="after">
-    //       Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-    //     </scale-button> */}
-    //   </div>
-    // </div>
-    <div className={clsx('col col--4')}>
+    <div className={clsx('col col--6')}>
         <scale-card to={link} class="scale-telekom-feature-card">
           <div style={{margin: '-24px'}}>
             <div className="text--center">
@@ -84,7 +72,6 @@ function Feature({title, Svg, description, link}: FeatureItem) {
           </div>
         </scale-card>
     </div>
-
     );
 }
 

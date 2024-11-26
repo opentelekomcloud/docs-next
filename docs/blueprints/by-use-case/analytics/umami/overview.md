@@ -1,7 +1,7 @@
 ---
 id: umami
 title: Umami
-tags: [umami, analytics, web-analytics, gdpr]
+tags: [umami, analytics, gdpr]
 ---
 
 # Umami

@@ -1,7 +1,7 @@
 ---
 id: using-rds-postgresql-to-setup-umami-on-ecs
 title: Using RDS for PostgreSQL to Set Up Umami on ECS
-tags: [umami, analytics, web-analytics, ecs, rds, postgresql]
+tags: [umami, analytics, ecs, rds, postgresql]
 ---
 
 # Using RDS for PostgreSQL to Set Up Umami on ECS
