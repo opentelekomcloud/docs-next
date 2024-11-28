@@ -5,6 +5,7 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
 import { useColorMode, useThemeConfig } from '@docusaurus/theme-common';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
@@ -24,7 +25,7 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <scale-button href="/docs/blueprints" variant={buttonVariant}>
+          <scale-button href={useBaseUrl("/docs/blueprints")} variant={buttonVariant}>
             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
           </scale-button>
         </div>
