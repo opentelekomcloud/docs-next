@@ -129,6 +129,6 @@ jobs:
             remote_pr_branch: 'release/staging-${{ needs.build-preview.outputs.image_version }}'
           with:
             title: ${{ env.remote_pr_branch }}
-            token: ${{ steps.app-token.outputs.token }}
+            token: ${{ secrets.DOCS_NEXT_TOKEN }}
             branch: ${{ env.remote_pr_branch }}
           
