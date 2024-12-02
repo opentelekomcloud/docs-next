@@ -120,7 +120,7 @@ jobs:
             git config --global user.name 'otcbot'
             git config --global user.email 'otc_ecosystem_squad@t-systems.com'
             sed -i 's|^version: .*|version: 0.3.${{github.run_number}}|' ./charts/docusaurus/Chart.yaml
-            sed -i 's|^appVersion: .*|appVersion:${{ env.tag }}/' ./charts/docusaurus/Chart.yaml
+            sed -i 's|^appVersion: .*|appVersion:${{ env.tag }}|' ./charts/docusaurus/Chart.yaml
             sed -i 's|^tag: .*|tag: ${{ env.tag }}|' ./charts/docusaurus/values-prod.yaml
             sed -i 's|^image: .*|image: ${{ env.image }}|' ./charts/docusaurus/values-prod.yaml
             git commit -am "Automatic commit from GitHub Actions triggered by action ${{github.run_number}}"
