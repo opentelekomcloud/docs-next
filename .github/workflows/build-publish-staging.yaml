@@ -122,7 +122,7 @@ jobs:
             git config --global user.email 'otc_ecosystem_squad@t-systems.com'
             sed -i 's|^tag: .*|tag: ${{ env.tag }}|' ./charts/docusaurus/values-stg.yaml
             sed -i 's|^image: .*|image: ${{ env.image }}|' ./charts/docusaurus/values-stg.yaml
-            git commit -am "Automatic commit from GitHub Actions triggered by action #${{github.run_number}}"
+            git commit -am "Automatic commit from GitHub Actions triggered by action ${{github.run_number}}"
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v7
           env:
