@@ -6,8 +6,8 @@ tags: [storage, obs, reverse-proxy, nginx]
 
 # Accessing OBS Through an NGINX Reverse Proxy
 
-Generally, you can access OBS using a bucket's access domain name [for
-example](https://**bucketname**.obs.eu-de.otc.t-systems.com)
+Generally, you can access OBS using a bucket's access domain name (for
+example, **https://`bucketname`.obs.eu-de.otc.t-systems.com**)
 provided by OBS or using a user-defined domain name bound to an OBS
 bucket.
 
@@ -34,11 +34,7 @@ actual domain name or IP address of OBS is hidden.
 proxy](/img/docs/best-practices/storage/object-storage-service/en-us_image_0273872842.png)
 
 ## Prerequisites
-
-- You have known the region and access domain name of the bucket. For
-    example, the access domain name of a bucket in the eu-de region is
-    `nginx-obs.obs.eu-de.otc.t-systems.com`. To obtain the
-    information, see [Querying Basic Information of a
+- You know the region and access domain name of the bucket. For example, the access domain name of a bucket named `nginx-obs` in the **eu-de** region is `nginx-obs.obs.eu-de.otc.t-systems.com`. To obtain the information, see [Querying Basic Information of a
     Bucket](https://docs.otc.t-systems.com/object-storage-service/umn/obs_browser_operation_guide/managing_buckets/viewing_basic_information_of_a_bucket.html).
 - You have a Linux ECS **in the same region**. CentOS is used here as an
     example. For details, see [Creating an
@@ -110,9 +106,12 @@ b.  Press the *i* key to go to the edit mode and modify the
     | Parameter       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
     | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     | server_name     | IP address that provides the reverse proxy service. It is the fixed IP address that is exposed to end users for access. Enter the EIP of the ECS where the NGINX reverse proxy service is deployed.                                                                                                                                                                                                                                                                   |
-    | proxy_pass      | IP address of the proxied server. Enter the OBS bucket access domain name required in [Prerequisites](#prerequisites). The domain name must start with http:// or https://. <br/><br/> Example: [https://nginx-obs.obs.eu-de.otc.t-systems.com](https://nginx-obs.obs.eu-de.otc.t-systems.com) **Note**: When you use an API, SDK, or obsutil for calling, set this parameter to the region domain name. The following is an example: `obs.eu-de.otc.t-systems.com` |
-    | proxy_buffering | Whether to enable the proxy buffer. The value can be `on` or `off`. If this parameter is set to on, Nginx stores the response returned by the backend in a buffer and then sends the data to the client. If this parameter is set to off, Nginx sends the response to the client as soon as it receives the data from the backend. Default value: `on` <br/><br/> Example: `proxy_buffering off`                                                                                          |
+    | proxy_pass      | IP address of the proxied server. Enter the OBS bucket access domain name required in [Prerequisites](#prerequisites). The domain name must start with http:// or https://. <br/><br/> Example: [https://nginx-obs.obs.eu-de.otc.t-systems.com](https://nginx-obs.obs.eu-de.otc.t-systems.com)|
+    | proxy_buffering | Whether to enable the proxy buffer. The value can be `on` or `off`. If this parameter is set to on, Nginx stores the response returned by the backend in a buffer and then sends the data to the client. If this parameter is set to off, Nginx sends the response to the client as soon as it receives the data from the backend. Default value: `on` <br/><br/> Example: `proxy_buffering off`                                                                    |
 
+:::note
+When you use an API, SDK, or obsutil for calling, set **proxy_pass** to the region domain name. The following is an example: `obs.eu-de.otc.t-systems.com`.
+:::
 c.  Press the *ESC* key and enter *:wq* to save the
     configuration and exit.
 
@@ -157,10 +156,106 @@ c.  In the navigation pane, choose *Permissions* -> *Bucket
 
 d.  Click *Create*.
 
-e.  Choose a policy configuration method you like. *Visual Editor*
-    is used here.
+e.  Choose a policy configuration method you like. *Visual Editor* is used here. 
+
+![*Figure 3*  ](/img/docs/best-practices/storage/object-storage-service/policy-visual-editor.png)
 
 f.  Configure the following parameters.
+
+<table>
+        <caption>
+            <strong>Table 2</strong>
+            Bucket policy parameters
+        </caption>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th></th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Policy Name</td>
+                <td></td>
+                <td>Enter a policy name.</td>
+            </tr>
+            <tr >
+                <td>Policy content</td>
+                <td>Effect</td>
+                <td>Select <strong>Allow</strong>.</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Principal</td>
+                <td>
+                    <ul>
+                        <li>To select <strong>All accounts</strong> enter <strong>*</strong>.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Resources</td>
+                <td>
+                    <ul>
+                        <li>
+                            Method 1:
+                            <ul>
+                                <li>Select <strong>Entire bucket (including the objects in it)</strong>.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Method 2:
+                            <ul>
+                                <li>Select <strong>Current bucket</strong> and <strong>Specified objects</strong>.</li>
+                                <li>Set the resource path to <strong>*</strong> to indicate all objects in the bucket.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr >
+                <td></td>
+                <td>Actions</td>
+                <td>
+                    <ul>
+                        <li>Choose <strong>Customize</strong>.</li>
+                        <li>Select <strong>Get*</strong> and <strong>List*</strong>.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr >
+                <td></td>
+                <td>Conditions (Optional)</td>
+                <td>
+                    <ul>
+                        <li><strong>Key</strong>: Select <strong>SourceIp</strong>.</li>
+                        <li><strong>Condition Operator</strong>: Select <strong>IpAddress</strong></li>
+                        <li>
+                            <strong>Value</strong>:
+                            <ul>
+                                <li>
+                                    <p>If the ECS uses a public DNS, the value is as follows:</p>
+                                    <p><em>Elastic IP address of the ECS</em></p>
+                                </li>
+                                <li>
+                                    <p>If the ECS uses a Open Telekom Cloud private DNS, the value is as follows:</p>
+                                    <p><strong>100.64.0.0/10,214.0.0.0/7,</strong><em>Private IP address of the ECS</em></p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+:::note
+In conditions you can click **Add** to configure IP addresses (CIDR blocks).
+IP addresses in the range starting with **100** or **214** are for ECSs to access OBS through an internal network.
+:::
 
 g.  Click *Create*.
 
@@ -172,5 +267,5 @@ configuration is successful.
 
 For example, visit `http://**ECS EIP**/otc.jpg`.
 
-![*Figure 3* Using a fixed IP address to access OBS
+![*Figure 4* Using a fixed IP address to access OBS
 resources](/img/docs/best-practices/storage/object-storage-service/en-us_image_0273876194.png)
