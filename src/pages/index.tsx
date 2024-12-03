@@ -4,7 +4,7 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 // import Heading from '@theme/Heading';
 // import { useThemeConfig } from '@docusaurus/theme-common';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+// import useBaseUrl from '@docusaurus/useBaseUrl';
 
 // import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
