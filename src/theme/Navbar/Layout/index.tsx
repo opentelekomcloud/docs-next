@@ -1,4 +1,4 @@
-import React, { type ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import clsx from 'clsx';
 import { useThemeConfig } from '@docusaurus/theme-common';
 import {
@@ -23,7 +23,7 @@ function NavbarBackdrop(props: ComponentProps<'div'>) {
 
 export default function NavbarLayout({ children }: Props): JSX.Element {
   const {
-    navbar: { hideOnScroll, style, title },
+    navbar: { hideOnScroll, style },
   } = useThemeConfig();
   const mobileSidebar = useNavbarMobileSidebar();
   const { navbarRef, isNavbarVisible } = useHideableNavbar(hideOnScroll);

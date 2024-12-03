@@ -1,4 +1,3 @@
-import React from 'react';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import IconMenu from '@theme/Icon/Menu';

@@ -226,7 +226,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'FunctionGraph 🔥',
+          label: 'FunctionGraph',
           items: [
             {
               type: 'link',
@@ -243,6 +243,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'best-practices/computing/image-management-service/migrating-service-data-across-accounts-data-disks',
             },
+            // {
+            //   type: 'doc',
+            //   id: 'best-practices/computing/image-management-service/creating-a-linux-Image-using-virtualBox-and-an-iso-file',
+            // },
             {
               type: 'doc',
               id: 'best-practices/computing/image-management-service/creating-a-linux-Image-using-virtualBox-and-an-iso-file',
@@ -262,8 +266,23 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
+          label: 'Application Service Mesh',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/application-service-mesh/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Cloud Container Engine',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce',
+            },
             {
               type: 'doc',
               id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
@@ -298,6 +317,17 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-container-engine/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Cloud Container Instance',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/cloud-container-instance/index.html',
             },
           ],
         },
@@ -377,6 +407,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/databases/document-database-service/from-other-cloud-mongodb-to-dds',
             },
             {
+              type: 'doc',
+              id: 'best-practices/databases/document-database-service/how-do-replica-sets-achieve-high-availability-and-readwrite-splitting',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/document-database-service/index.html',
@@ -418,6 +452,17 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'GeminiDB',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/geminidb/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Relational Database Service',
           items: [
             {
@@ -446,7 +491,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Cloud Create 🔥',
+          label: 'Cloud Create',
           link: {
             type: 'doc',
             id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
@@ -513,6 +558,17 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-eye/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Config',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/config/index.html',
             },
           ],
         },
@@ -713,6 +769,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Virtual Private Network',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',

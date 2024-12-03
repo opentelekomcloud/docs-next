@@ -6,10 +6,6 @@ sidebar_position: 2
 
 # By Use Case
 
-Welcome to the Open Telekom Cloud Architecture Center Best Practices.
-Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
-enhance reliability, scalability, and security. Explore our recommended strategies for resource management, such as
-efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
-to ensure robust system performance. This section serves as a valuable resource for architects and developers
-to implement cloud solutions that align with industry best practices and maximize the benefits of the public cloud
-infrastructure.
+Here you can find guidance for implementing solutions on Open Telekom Cloud based on a wide range of use cases. Topics include containerized applications and orchestration with tools like Kubernetes, microservices architectures for building scalable and resilient systems, and DevOps practices for automating workflows and streamlining collaboration between development and operations teams. 
+
+Additional topics cover disaster recovery strategies to ensure business continuity, big data processing for handling large-scale data analysis, AI and machine learning workloads for building intelligent applications, high-performance computing for resource-intensive tasks, serverless architectures for event-driven computing, and automation to optimize resource management and deployment processes. Here are also provided reference architectures, step-by-step guides, and real-world case studies to help organizations efficiently design, deploy, and scale cloud solutions tailored to their unique operational needs and business objectives.

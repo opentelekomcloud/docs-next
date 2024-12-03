@@ -1,23 +1,23 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Architecture Center - GitOps',
+  title: 'Architecture Center',
   tagline: 'Best Practices & Blueprints',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'http://docs-next.hypelens.de',
+  url: 'https://' + process.env.REACT_APP_DOCS_NEXT_HOST,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL ?? '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'akyriako', // Usually your GitHub org/user name.
+  organizationName: process.env.REACT_APP_DOCS_NEXT_ORG, // Usually your GitHub org/user name.
   projectName: 'docs-next', // Usually your repo name.
-  deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -36,10 +36,11 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl:'https://github.com/akyriako/docs-next/tree/main/',
+          editUrl:'https://github.com/opentelekomcloud/docs-next/tree/main/',
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
-          breadcrumbs: true
+          breadcrumbs: true,
+          // exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
         },
         
         theme: {
@@ -62,6 +63,11 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/open-telekom-cloud-social-card.png',
+    colorMode: {
+      defaultMode: "light",
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       // title: 't',
       logo: {
@@ -102,21 +108,34 @@ const config: Config = {
           "aria-label": 'Open Telekom Cloud Console',
         },
         { 
-          href: 'https://github.com/opentelekomcloud-blueprints', 
+          href: 'https://github.com/opentelekomcloud/docs-next', 
           position: 'right',
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
         },
-        { 
-          href: 'https://discord.gg/zpSRgC9as5', 
-          position: 'right',
-          className: 'navbar--discord-link',
-          "aria-label": 'Discord Invite',
-        },
+        // { 
+        //   href: 'https://open-telekom-cloud.com', 
+        //   position: 'right',
+        //   className: 'navbar--discourse-link',
+        //   "aria-label": 'Discourse OTC',
+        // },
+        // { 
+        //   href: 'https://discord.gg/zpSRgC9as5', 
+        //   position: 'right',
+        //   className: 'navbar--discord-link',
+        //   "aria-label": 'Discord Invite',
+        // },
       ],
     },
     footer: {
       style: 'dark',
+      logo: {
+        alt: 'Open Telekom Cloud Logo',
+        src: 'img/telekom-logo.svg',
+        href: 'https://www.open-telekom-cloud.com',
+        width: 72,
+        height: 72,
+      },
       links: [
         {
           title: 'Docs',
@@ -126,13 +145,30 @@ const config: Config = {
               to: 'https://docs.otc.t-systems.com/',
             },
             {
-              label: 'Medium',
-              href: 'https://medium.com',
-            },
-            {
               label: 'Portfolio Roadmap',
               to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
             },
+            {
+              label: 'Core Services Certifications',
+              to: 'https://www.open-telekom-cloud.com/en/products-services/core-services/certifications',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Community Forums',
+              to: 'https://community.open-telekom-cloud.com/',
+            },
+            {
+              label: 'Webinars',
+              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
+            },
+            // {
+            //   label: 'Medium',
+            //   href: 'https://medium.com',
+            // },
           ],
         },
         {
@@ -173,7 +209,7 @@ const config: Config = {
             },
             {
               label: 'Endpoints',
-              to: 'https://docs.otc.t-systems.com/additional/endpoints.html',
+              to: 'https://docs.otc.t-systems.com/regions-and-endpoints/index.html',
             },
             {
               label: 'Status Dashboard',
@@ -181,29 +217,8 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Community Forums',
-              to: 'https://community.open-telekom-cloud.com/',
-            },
-            {
-              label: 'Webinars',
-              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discord.gg/zpSRgC9as5',
-            },
-            // {
-            //   label: 'Twitter',
-            //   href: 'https://x.com/tsystemscom',
-            // },
-          ],
-        },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
       theme: prismThemes.oneDark,
@@ -240,6 +255,25 @@ const config: Config = {
       contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
+
+  customFields: {
+    version: `(v` + process.env.REACT_APP_VERSION + `)`,
+  },
+
+  plugins: [
+    [
+      '@dipakparmar/docusaurus-plugin-umami',
+      {
+        websiteID: process.env.UMAMI_WEBSITE_ID, // Required
+        analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN, // Required
+        dataHostURL: process.env.UMAMI_DATAHOST_URL, // Optional
+        dataAutoTrack: true, // Optional
+        dataDoNotTrack: true, // Optional
+        dataCache: true, // Optional
+        dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
+      } as UmamiOptions,
+    ],
+  ],
 };
 
 export default config;

@@ -5,9 +5,4 @@ title: Security
 
 # Security
 
-The Computing section offers essential insights for optimizing computing resources. Discover guidelines for selecting
-appropriate instance types, managing virtual machines efficiently, and leveraging auto-scaling capabilities for dynamic
-workloads. Learn best practices for designing resilient and high-performance computing architectures, ensuring optimal
-utilization of resources while maintaining cost-effectiveness. This section serves as a comprehensive guide for architects
-and developers to fine-tune their computing strategies, enhancing the overall efficiency and reliability of applications
-in the Open Telekom Cloud environment.
+In this category, you can find guidance for implementing robust security solutions on Open Telekom Cloud. Topics include identity and access management, data encryption, network security, and compliance frameworks. Here are also provided strategies for safeguarding applications, securing workloads, and ensuring regulatory compliance, all while maintaining a strong security posture across cloud environments.

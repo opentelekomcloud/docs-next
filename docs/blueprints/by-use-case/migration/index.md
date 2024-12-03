@@ -5,9 +5,4 @@ title: Migration
 
 # Migration
 
-The Computing section offers essential insights for optimizing computing resources. Discover guidelines for selecting
-appropriate instance types, managing virtual machines efficiently, and leveraging auto-scaling capabilities for dynamic
-workloads. Learn best practices for designing resilient and high-performance computing architectures, ensuring optimal
-utilization of resources while maintaining cost-effectiveness. This section serves as a comprehensive guide for architects
-and developers to fine-tune their computing strategies, enhancing the overall efficiency and reliability of applications
-in the Open Telekom Cloud environment.
+In this category, you can find guidance for planning and executing migrations to Open Telekom Cloud. Topics include migration strategies, tools for workload and data transfer, application modernization, and minimizing downtime during transitions. Here are also provided step-by-step approaches, case studies, and recommendations to ensure a smooth migration process while maintaining security, performance, and cost efficiency.
