@@ -1,18 +1,20 @@
 import clsx from "clsx";
 import styles from "./styles.modules.css";
 import { ComponentType, SVGProps } from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 
 export interface Callout {
   title: string;
   text?: string;
   link: string;
+
   // icon: (props: React.ComponentProps<"svg">) => JSX.Element;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
-
 function Callout(props: Callout): JSX.Element {
   return (
-    <a href={props.link} className={styles.callout__link}>
+    <a href={useBaseUrl(props.link)} className={styles.callout__link}>
       <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
         <div className="card__header">
           <h3 style={{ fontWeight: 'bold', fontSize: 'medium', alignItems: 'center', display: 'flex', marginBottom: '0'}}>

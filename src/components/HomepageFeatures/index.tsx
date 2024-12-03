@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import BestPracticesSvg from '@site/static/img/best-practices.svg';
 import BlueprintsSvg from '@site/static/img/blueprints.svg';
@@ -33,7 +34,7 @@ const FeatureList: FeatureItem[] = [
       <>
         Discover tailored out-of-the-box solutions and
         practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal
-        application and infrastructure design using Open Telekom Cloud. 
+        application and infrastructure design using Open Telekom Cloud.
       </>
     ),
     link: '/docs/blueprints'
@@ -51,10 +52,10 @@ const FeatureList: FeatureItem[] = [
   // },
 ];
 
-function Feature({title, Svg, description, link}: FeatureItem) {
+function Feature({ title, Svg, description, link }: FeatureItem) {
   return (
     <div className={clsx('col col--6')}>
-        <scale-card to={link} class="scale-telekom-feature-card">
+        <scale-card to={useBaseUrl(link)} class="scale-telekom-feature-card">
           <div style={{margin: '-24px'}}>
             <div className="text--center">
               <Svg className={styles.featureSvg} role="img" />
@@ -68,9 +69,9 @@ function Feature({title, Svg, description, link}: FeatureItem) {
               {/* <scale-button style={{margin: '16px'}} icon-position="after">
                 Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
               </scale-button>  */}
-            </div>
           </div>
-        </scale-card>
+        </div>
+      </scale-card>
     </div>
     );
 }
