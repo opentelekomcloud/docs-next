@@ -1,21 +1,9 @@
 import clsx from 'clsx';
-import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
 export default function HomepageAskAQuestion(): JSX.Element {
     return (
-      // <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
       <div className={clsx("row row--no-gutters ", styles.item)}>
-        {/* <div
-          className="col col--6"
-          aria-hidden="true"
-          style={{
-            backgroundImage: "url('./img/homeoffice.svg')",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
-        ></div> */}
         <div className={clsx("col col--12", styles.item__inner)}>
           <div>
             <h1 className={clsx("margin-bottom--md", styles.item__title)}>

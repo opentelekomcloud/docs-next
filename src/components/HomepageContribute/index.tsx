@@ -1,9 +1,9 @@
 import clsx from 'clsx';
-import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function HomepageContribute(): JSX.Element {
+
   return (
     // <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
     <div className={clsx("row row--no-gutters", styles.item)}>
@@ -21,16 +21,6 @@ export default function HomepageContribute(): JSX.Element {
           </a>
         </div>
       </div>
-      {/* <div
-              className="col col--6"
-              aria-hidden="true"
-              style={{
-                backgroundImage: "url('./img/factory-inside.svg')",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right",
-              }}
-            ></div> */}
     </div>
     // </section>
   );

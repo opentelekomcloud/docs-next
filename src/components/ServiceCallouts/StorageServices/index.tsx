@@ -1,50 +1,55 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 import ServiceCallouts, { Callout } from './../callout';
 
- var calloutsList: Callout[] = [
+import CbrSvg from '@site/static/img/services/CBR.svg'
+import CsbsSvg from '@site/static/img/services/CSBS.svg'
+import EvsSvg from '@site/static/img/services/EVS.svg'
+import ObsSvg from '@site/static/img/services/OBS.svg'
+import SdrsSvg from '@site/static/img/services/sdrs.svg'
+import SfsSvg from '@site/static/img/services/SFS.svg'
+import VbsSvg from '@site/static/img/services/VBS.svg'
+
+ const calloutsList: Callout[] = [
     {
       title: "CBR",
       text: "Cloud Backup & Recovery",
       link: "/docs/tags/cbr",
-      icon: require('@site/static/img/services/CBR.svg').default,
+      icon: CbrSvg
     },
     {
         title: "CSBS",
         text: "Cloud Server Backup Service",
         link: "/docs/tags/csbs",
-        icon: require('@site/static/img/services/CSBS.svg').default,
+        icon: CsbsSvg
     },
     {
       title: "EVS",
       text: "Elastic Volume Service",
       link: "/docs/tags/evs",
-      icon: require('@site/static/img/services/EVS.svg').default,
+      icon: EvsSvg
     },
     {
       title: "OBS",
       text: "Object Storage Service",
       link: "/docs/tags/obs",
-      icon: require('@site/static/img/services/OBS.svg').default,
+      icon: ObsSvg
     },
     {
       title: "SDRS",
       text: "Storage Disaster Recovery Service",
       link: "/docs/tags/sdrs",
-      icon: require('@site/static/img/services/sdrs.svg').default,
+      icon: SdrsSvg
     },
     {
       title: "SFS",
       text: "Scalable File Service",
       link: "/docs/tags/sfs",
-      icon: require('@site/static/img/services/SFS.svg').default,
+      icon: SfsSvg
     },
     {
       title: "VBS",
       text: "Volume Backup Service",
       link: "/docs/tags/vbs",
-      icon: require('@site/static/img/services/VBS.svg').default,
+      icon: VbsSvg
     },
   ];
 

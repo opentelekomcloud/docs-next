@@ -5,9 +5,4 @@ title: Analytics
 
 # Analytics
 
-The Computing section offers essential insights for optimizing computing resources. Discover guidelines for selecting
-appropriate instance types, managing virtual machines efficiently, and leveraging auto-scaling capabilities for dynamic
-workloads. Learn best practices for designing resilient and high-performance computing architectures, ensuring optimal
-utilization of resources while maintaining cost-effectiveness. This section serves as a comprehensive guide for architects
-and developers to fine-tune their computing strategies, enhancing the overall efficiency and reliability of applications
-in the Open Telekom Cloud environment.
+In this category, you can find guidance for designing, deploying, and managing scalable analytics solutions on Open Telekom Cloud. Topics include data ingestion, transformation, and storage; real-time and batch processing architectures; tools for data visualization and business intelligence; and leveraging machine learning for predictive analytics. Here are also provided architectural patterns, case studies, and reference implementations to help organizations derive actionable insights from their data while ensuring security, cost-efficiency, and performance.

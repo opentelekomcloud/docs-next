@@ -40,7 +40,7 @@ const config: Config = {
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
-          exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
+          // exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
         },
         
         theme: {
@@ -165,10 +165,10 @@ const config: Config = {
               label: 'Webinars',
               href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-            {
-              label: 'Medium',
-              href: 'https://medium.com',
-            },
+            // {
+            //   label: 'Medium',
+            //   href: 'https://medium.com',
+            // },
           ],
         },
         {
@@ -218,7 +218,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (v` + process.env.REACT_APP_VERSION + `)`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
     },
     prism: {
       theme: prismThemes.oneDark,
