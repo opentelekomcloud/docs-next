@@ -577,6 +577,10 @@ const sidebars: SidebarsConfig = {
           label: 'Cloud Trace Service',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-trace-service/index.html',
