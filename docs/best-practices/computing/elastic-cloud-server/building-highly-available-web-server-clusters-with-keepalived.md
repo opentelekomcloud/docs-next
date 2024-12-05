@@ -101,7 +101,7 @@ The overall operation process is as follows:
      3. Click *Service List*. Under *Network*, click *Elastic IP*.
      4. Click *Assign EIP* and set parameters as prompted. For
          details, see
-         `Table 1 <ecs_bp_0081__en-us_topic_0285680794_en-us_topic_0279633252_table53397903105052>`.
+         `Table 1`.
    c.  Assign a virtual IP address.
      5. Log in to the management console.
      6. Click *Service List*. Under *Network*, click *Virtual
@@ -492,17 +492,14 @@ The overall operation process is as follows:
 
     **ip addr show**
 
-    As shown in
-    `Figure 6 <ecs_bp_0081__en-us_topic_0285680794_en-us_topic_0279633252_fig3820151311615>`, the virtual IP address has been bound to the `ens3` NIC
-    of `ecs-HA1`.
+    As shown in *Figure 6*, the virtual IP address has been bound to the `ens3` NIC of `ecs-HA1`.
 
     ![**Figure 6** Virtual IP address of ecs-HA1](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681032.png)
 
 4. Use a browser to access the EIP and check whether the web page on
     ecs-HA1 can be accessed.
 
-    If the information shown in
-    `Figure 7 <ecs_bp_0081__en-us_topic_0285680794_en-us_topic_0279633252_fig8529184875819>` is displayed, the access is normal.
+    If the information shown in *Figure 7*`* is displayed, the access is normal.
 
     ![**Figure 7** ecs-HA1 access verification](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681030.png)
 
@@ -520,7 +517,6 @@ The overall operation process is as follows:
 7. Use a browser to access the EIP and check whether the web page on
     ecs-HA2 can be accessed.
 
-    If the information shown in
-    `Figure 9 <ecs_bp_0081__en-us_topic_0285680794_en-us_topic_0279633252_fig75296483585>`is displayed, the access is normal.
+    If the information shown in *Figure 9* is displayed, the access is normal.
 
     ![**Figure 9** ecs-HA2 access verification](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681031.png)

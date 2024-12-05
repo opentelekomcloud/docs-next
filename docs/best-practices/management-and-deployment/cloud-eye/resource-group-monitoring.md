@@ -1,7 +1,7 @@
 ---
 id: resource-group-monitoring
 title: Resource Group Monitoring 
-tags: []
+tags: [cloud-eye]
 ---
 
 # Resource Group Monitoring
@@ -91,14 +91,14 @@ When resource exceptions occur, an alarm notification can be sent to the configu
 
         ![**Figure 5** Configuring an alarm rule](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987653.png)
 
-        Set **Group** to *Development group resources* created in [Step 1 Creating a Resource Group](#step-1-creating-a-resource-group).
+        Set **Group** to *Development group resources* created in [Step 1 Creating a Resource Group](#creating-a-resource-group).
 
     3. Set **Alarm Notification** parameters.
 
         ![**Figure 6** Configuring alarm notification](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987913.png)
 
         :::note
-        Note: When configuring **Notification Object**, select **Mytopic** created in [Step 2 Creating a Topic and Configuring the Notification Object](#step-2-creating-a-topic-and-configuring-the-notification-object).
+        Note: When configuring **Notification Object**, select **Mytopic** created in [Step 2 Creating a Topic and Configuring the Notification Object](#creating-a-topic-and-configuring-the-notification-object).
         :::
 
     4. Click *Create*.
