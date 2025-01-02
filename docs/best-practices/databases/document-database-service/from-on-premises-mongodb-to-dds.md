@@ -6,10 +6,7 @@ tags: [dds, migration, mongodb]
 
 # From On-Premises MongoDB to DDS
 
-DRS helps you migrate data from on-premises MongoDB databases to DDS on
-the current cloud. With DRS, you can migrate databases online with zero
-downtime and your services and databases can remain operational during
-migration.
+DRS helps you migrate data from on-premises MongoDB databases to DDS on the current cloud. With DRS, you can migrate databases online with zero downtime and your services and databases can remain operational during migration.
 
 ## Solution Design
 

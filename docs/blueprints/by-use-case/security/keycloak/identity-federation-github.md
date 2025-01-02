@@ -6,11 +6,7 @@ tags: [keycloak, security, github, oauth2, iam, federation]
 
 # Identity Federation with GitHub
 
-Identity Federation in Keycloak refers to the ability to use external identity providers to authenticate users in your
-application. In this context, GitHub can be used as an identity provider, allowing users to log in to your
-Open Telekom Cloud tenant using their GitHub credentials. Users can choose to log in with their GitHub accounts and
-Keycloak takes care of the authentication process, providing a seamless experience for users while ensuring security
-and centralized identity management for external accounts that are not actively managed in your tenant's IAM.
+Identity Federation in Keycloak refers to the ability to use external identity providers to authenticate users in your application. In this context, GitHub can be used as an identity provider, allowing users to log in to your Open Telekom Cloud tenant using their GitHub credentials. Users can choose to log in with their GitHub accounts and Keycloak takes care of the authentication process, providing a seamless experience for users while ensuring security and centralized identity management for external accounts that are not actively managed in your tenant's IAM.
 
 ## Prerequisites
 

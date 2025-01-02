@@ -1,7 +1,7 @@
 ---
 id: identity-federation-github
 title: Identity Federation with GitHub
-tags: [github, security, github, oauth2, federation]
+tags: [github, security, github, oauth2, federation, iam]
 ---
 
 

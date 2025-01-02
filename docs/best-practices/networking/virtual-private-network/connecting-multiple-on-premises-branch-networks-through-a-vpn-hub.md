@@ -6,13 +6,11 @@ tags: [vpn, hybrid, networking]
 
 # Connecting Multiple On-Premises Branch Networks Through a VPN Hub
 
-To meet service requirements, enterprise A needs to implement communication between its two on-premises data centers.
+In this solution we are going to demonstrate how an Enterprise A can implement communication between its two on-premises data centers in order to  meet service requirements.
 
 ## Solution Design
 
-[Figure 1](#figure-1) shows the networking where the VPN service is used to connect the two on-premises data centers.
-
-<a id="figure-1"></a>
+*Figure 1* shows the networking where the VPN service is used to connect the two on-premises data centers.
 
 ![](/img/docs/best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/en-us_image_0000001592878805.png)
 
@@ -175,17 +173,15 @@ Open Telekom Cloud VPNs support static routing mode, BGP routing mode, and polic
     1. Choose *Virtual Private Network* -> *Enterprise – VPN Gateways*, and click *Create VPN Gateway*.
     2. Set parameters as prompted.
         
-        [Table 1](#table-1) only describes the key parameters for creating a VPN gateway.
+        *Table 1* only describes the key parameters for creating a VPN gateway.
         
-        <a id="table-1"></a>
-
         **Table 1** Description of VPN gateway parameters        
         | Parameter              | Description                                                                                                                                                      | Value                         |
         | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
         | Name                   | Name of a VPN gateway.                                                                                                                                           | vpngw-001                     |
         | Network Type           | Select **Public network**.                                                                                                                                       | Public network                |
         | Associate With         | Select **VPC**. If the VPN gateway is associated with an enterprise router, select **Enterprise Router**.                                                        | VPC                           |
-        | VPC                    | Open Telekom Cloud VPC that the on-premises data centers need to access.                                                                                               | vpc-001(192.168.0.0/16)       |
+        | VPC                    | Open Telekom Cloud VPC that the on-premises data centers need to access.                                                                                         | vpc-001(192.168.0.0/16)       |
         | Local Subnet           | VPC subnets that the on-premises data centers need to access.                                                                                                    | 192.168.0.0/24,192.168.1.0/24 |
         | Interconnection Subnet | This subnet is used for communication between the VPN gateway and VPC. Ensure that the selected interconnection subnet has four or more assignable IP addresses. | 192.168.2.0/24                |
         | BGP ASN                | BGP AS number.                                                                                                                                                   | 64512                         |
@@ -198,16 +194,14 @@ Open Telekom Cloud VPNs support static routing mode, BGP routing mode, and polic
     1. Choose *Virtual Private Network* -> *Enterprise – Customer Gateways*, and click *Create Customer Gateway*.
     2. Set parameters as prompted.
         
-        [Table 2](#table-2) only describes the key parameters for creating a customer gateway.
-        
-        <a id="table-2"></a>
-        
+        *Table 2* only describes the key parameters for creating a customer gateway.
+                
         **Table 2** Description of customer gateway parameters
 
-        | Parameter          | Description                                                                                                                                                                                                                        | Value   |
-        | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-        | Name               | Name of a customer gateway.                                                                                                                                                                                                        | cgw-fw1 |
-        | Routing Mode       | Select **Static**.                                                                                                                                                                                                                 | Static  |
+        | Parameter          | Description                                                                                                                                                                                                                              | Value   |
+        | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+        | Name               | Name of a customer gateway.                                                                                                                                                                                                              | cgw-fw1 |
+        | Routing Mode       | Select **Static**.                                                                                                                                                                                                                       | Static  |
         | Gateway IP Address | IP address used by the customer gateway in on-premises data center 1 to communicate with the Open Telekom Cloud VPN gateway. <br/> Ensure that UDP port 4500 is permitted on the customer gateway device in the on-premises data center. | 1.1.1.1 |
 
 
@@ -217,26 +211,24 @@ Open Telekom Cloud VPNs support static routing mode, BGP routing mode, and polic
     1. Choose *Virtual Private Network* -> *Enterprise – VPN Connections*, and click *Create VPN Connection*.
     2. Set parameters for VPN connection 1 and click *Submit*.
         
-        [Table 3](#table-3) only describes the key parameters for creating a VPN connection.
-        
-        <a id="table-3"></a>
-        
+        *Table 3* only describes the key parameters for creating a VPN connection.
+                
         **Table 3** Description of VPN connection parameters
 
-        | Parameter                         | Description                                                                                                                                                                                                                                                                                                     | Value            |
-        | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-        | Name                              | Name of a VPN connection.                                                                                                                                                                                                                                                                                       | vpn-001          |
-        | VPN Gateway                       | VPN gateway for which the VPN connection is created.                                                                                                                                                                                                                                                            | vpngw-001        |
-        | Gateway IP Address                | Active EIP bound to the VPN gateway.                                                                                                                                                                                                                                                                            | 1.1.1.2          |
-        | VPN Type                          | Select **Static routing**.                                                                                                                                                                                                                                                                                      | Static routing   |
-        | Customer Gateway                  | Name of a customer gateway.                                                                                                                                                                                                                                                                                     | cgw-fw1          |
+        | Parameter                         | Description                                                                                                                                                                                                                                                                                                           | Value            |
+        | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+        | Name                              | Name of a VPN connection.                                                                                                                                                                                                                                                                                             | vpn-001          |
+        | VPN Gateway                       | VPN gateway for which the VPN connection is created.                                                                                                                                                                                                                                                                  | vpngw-001        |
+        | Gateway IP Address                | Active EIP bound to the VPN gateway.                                                                                                                                                                                                                                                                                  | 1.1.1.2          |
+        | VPN Type                          | Select **Static routing**.                                                                                                                                                                                                                                                                                            | Static routing   |
+        | Customer Gateway                  | Name of a customer gateway.                                                                                                                                                                                                                                                                                           | cgw-fw1          |
         | Customer Subnet                   | Subnet in on-premises data center 1 that needs to access the VPC on Open Telekom Cloud.  A customer subnet cannot be included in any local subnet or any subnet of the VPC to which the VPN gateway is attached.   Reserved VPC CIDR blocks such as 100.64.0.0/10 and 214.0.0.0/8 cannot be used as customer subnets. | 172.16.0.0/16    |
-        | Interface IP Address Assignment   | Manually specify In this example, select **Manually specify**. Automatically assign                                                                                                                                                                                                                             | Manually specify |
-        | Local Tunnel Interface Address    | Tunnel interface IP address configured on the VPN gateway.                                                                                                                                                                                                                                                      | 169.254.70.1     |
-        | Customer Tunnel Interface Address | Tunnel interface IP address configured on the customer gateway device.                                                                                                                                                                                                                                          | 169.254.70.2     |
-        | Link Detection                    | Whether to enable route reachability detection in multi-link scenarios. When NQA is enabled, ICMP packets are sent for detection and your device needs to respond to these ICMP packets.                                                                                                                        | **NQA** enabled  |
-        | PSK, Confirm PSK                  | The value must be the same as the PSK configured on the customer gateway device.                                                                                                                                                                                                                                | Test@123         |
-        | Policy Settings                   | The policy settings must be the same as those on the customer gateway device.                                                                                                                                                                                                                                   | Default          |
+        | Interface IP Address Assignment   | Manually specify In this example, select **Manually specify**. Automatically assign                                                                                                                                                                                                                                   | Manually specify |
+        | Local Tunnel Interface Address    | Tunnel interface IP address configured on the VPN gateway.                                                                                                                                                                                                                                                            | 169.254.70.1     |
+        | Customer Tunnel Interface Address | Tunnel interface IP address configured on the customer gateway device.                                                                                                                                                                                                                                                | 169.254.70.2     |
+        | Link Detection                    | Whether to enable route reachability detection in multi-link scenarios. When NQA is enabled, ICMP packets are sent for detection and your device needs to respond to these ICMP packets.                                                                                                                              | **NQA** enabled  |
+        | PSK, Confirm PSK                  | The value must be the same as the PSK configured on the customer gateway device.                                                                                                                                                                                                                                      | Test@123         |
+        | Policy Settings                   | The policy settings must be the same as those on the customer gateway device.                                                                                                                                                                                                                                         | Default          |
 
 
         
@@ -245,8 +237,6 @@ Open Telekom Cloud VPNs support static routing mode, BGP routing mode, and polic
         :::note
         For VPN connection 2, you are advised to use the same parameter settings as VPN connection 1, except the parameters listed in the following table.
         :::
-        
-        <a id="table-4"></a>
 
         **Table 4** Parameter settings for VPN connection 2
 
@@ -261,26 +251,24 @@ Open Telekom Cloud VPNs support static routing mode, BGP routing mode, and polic
     1. Choose *Virtual Private Network* -> *Enterprise – VPN Connections*, and click *Create VPN Connection*.
     2. Set parameters for VPN connection 1 as prompted and click *Submit*.
         
-        [Table 5](#table-5) only describes the key parameters for creating a VPN connection.
-
-        <a id="table-5"></a>
+        *Table 5* only describes the key parameters for creating a VPN connection.
 
         **Table 5** Description of VPN connection parameters
         
-        | Parameter                         | Description                                                                                                                                                                                                                                                                                                     | Value            |
-        | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-        | Name                              | Name of a VPN connection.                                                                                                                                                                                                                                                                                       | vpn-003          |
-        | VPN Gateway                       | VPN gateway for which the VPN connection is created.                                                                                                                                                                                                                                                            | vpngw-001        |
-        | Gateway IP Address                | Active EIP bound to the VPN gateway.                                                                                                                                                                                                                                                                            | 1.1.1.2          |
-        | Customer Gateway                  | Name of a customer gateway.                                                                                                                                                                                                                                                                                     | cgw-fw2          |
-        | VPN Type                          | Select **Static routing**.                                                                                                                                                                                                                                                                                      | Static routing   |
+        | Parameter                         | Description                                                                                                                                                                                                                                                                                                           | Value            |
+        | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+        | Name                              | Name of a VPN connection.                                                                                                                                                                                                                                                                                             | vpn-003          |
+        | VPN Gateway                       | VPN gateway for which the VPN connection is created.                                                                                                                                                                                                                                                                  | vpngw-001        |
+        | Gateway IP Address                | Active EIP bound to the VPN gateway.                                                                                                                                                                                                                                                                                  | 1.1.1.2          |
+        | Customer Gateway                  | Name of a customer gateway.                                                                                                                                                                                                                                                                                           | cgw-fw2          |
+        | VPN Type                          | Select **Static routing**.                                                                                                                                                                                                                                                                                            | Static routing   |
         | Customer Subnet                   | Subnet in on-premises data center 2 that needs to access the VPC on Open Telekom Cloud.  A customer subnet cannot be included in any local subnet or any subnet of the VPC to which the VPN gateway is attached.   Reserved VPC CIDR blocks such as 100.64.0.0/10 and 214.0.0.0/8 cannot be used as customer subnets. | 10.10.0.0/16     |
-        | Interface IP Address Assignment   | **Manually specify** In this example, select Manually specify. Automatically assign                                                                                                                                                                                                                             | Manually specify |
-        | Local Tunnel Interface Address    | Tunnel interface IP address configured on the VPN gateway.                                                                                                                                                                                                                                                      | 169.254.72.1     |
-        | Customer Tunnel Interface Address | Tunnel interface IP address configured on the customer gateway device.                                                                                                                                                                                                                                          | 169.254.72.2     |
-        | Link Detection                    | Whether to enable route reachability detection in multi-link scenarios. When NQA is enabled, ICMP packets are sent for detection and your device needs to respond to these ICMP packets.                                                                                                                        | **NQA** enabled  |
-        | PSK, Confirm PSK                  | The value must be the same as the PSK configured on the customer gateway device in on-premises data center 2.                                                                                                                                                                                                   | Test@123         |
-        | Policy Settings                   | The policy settings must be the same as those configured on the customer gateway device in on-premises data center 2.                                                                                                                                                                                           | Default          |
+        | Interface IP Address Assignment   | **Manually specify** In this example, select Manually specify. Automatically assign                                                                                                                                                                                                                                   | Manually specify |
+        | Local Tunnel Interface Address    | Tunnel interface IP address configured on the VPN gateway.                                                                                                                                                                                                                                                            | 169.254.72.1     |
+        | Customer Tunnel Interface Address | Tunnel interface IP address configured on the customer gateway device.                                                                                                                                                                                                                                                | 169.254.72.2     |
+        | Link Detection                    | Whether to enable route reachability detection in multi-link scenarios. When NQA is enabled, ICMP packets are sent for detection and your device needs to respond to these ICMP packets.                                                                                                                              | **NQA** enabled  |
+        | PSK, Confirm PSK                  | The value must be the same as the PSK configured on the customer gateway device in on-premises data center 2.                                                                                                                                                                                                         | Test@123         |
+        | Policy Settings                   | The policy settings must be the same as those configured on the customer gateway device in on-premises data center 2.                                                                                                                                                                                                 | Default          |
 
 
         

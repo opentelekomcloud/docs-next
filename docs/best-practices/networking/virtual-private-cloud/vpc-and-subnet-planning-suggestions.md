@@ -10,30 +10,17 @@ Before creating your VPCs, determine how many VPCs, the number of
 subnets, and what IP address ranges or connectivity options you will
 need.
 
-- [VPC and Subnet Planning Suggestions](#vpc-and-subnet-planning-suggestions)
-  - [How Do I Determine How Many VPCs I Need?](#how-do-i-determine-how-many-vpcs-i-need)
-      - [One VPC](#one-vpc)
-      - [Multiple VPCs](#multiple-vpcs)
-  - [How Do I Plan Subnets?](#how-do-i-plan-subnets)
-  - [How Do I Plan Routing Policies?](#how-do-i-plan-routing-policies)
-  - [How Do I Connect to an On-Premises Data Center?](#how-do-i-connect-to-an-on-premises-data-center)
-  - [How Do I Access the Internet?](#how-do-i-access-the-internet)
-    - [Use EIPs to enable a small number of ECSs to access the Internet](#use-eips-to-enable-a-small-number-of-ecss-to-access-the-internet)
-    - [Use a NAT gateway to enable a large number of ECSs to access the Internet](#use-a-nat-gateway-to-enable-a-large-number-of-ecss-to-access-the-internet)
-    - [Use ELB to access the Internet If there are a large number of concurrent requests](#use-elb-to-access-the-internet-if-there-are-a-large-number-of-concurrent-requests)
-  - [Additional Resources](#additional-resources)
-
 ## How Do I Determine How Many VPCs I Need?
 
 VPCs are region-specific. By default, networks in VPCs in different
 regions or even in the same region are not connected.
 
-#### One VPC
+### One VPC
 
 If your services do not require network isolation, a single VPC
 should be enough.
 
-#### Multiple VPCs
+### Multiple VPCs
 
 If you have multiple service systems in a region and each service system
 requires an isolated network, you can create a separate VPC for each
@@ -64,12 +51,11 @@ block:
 - IP address range: Avoid IP address conflicts if you need to connect
     a VPC to an on-premises data center or connect two VPCs.
 
-
-| VPC CIDR Block  Addresses |    IP Address Range        |      Maximum Number IP         |                                                                  
-| ------------------- |-----------------------------| ---------------------------- |
-| 10.0.0.0/8-24     |  10.0.0.0-10.255.255.255    |   2\^24-2=16777214             |
-| 172.16.0.0/12-24 |   172.16.0.0-172.31.255.255  |   2\^20-2=1048574              |
-| 192.168.0.0/16-24 |  192.168.0.0-192.168.255.255  | 2\^16-2=65534                |
+| VPC CIDR Block  Addresses | IP Address Range            | Maximum Number IP |
+| ------------------------- | --------------------------- | ----------------- |
+| 10.0.0.0/8-24             | 10.0.0.0-10.255.255.255     | 2\^24-2=16777214  |
+| 172.16.0.0/12-24          | 172.16.0.0-172.31.255.255   | 2\^20-2=1048574   |
+| 192.168.0.0/16-24         | 192.168.0.0-192.168.255.255 | 2\^16-2=65534     |
 
   : **Table 1** VPC CIDR blocks
 

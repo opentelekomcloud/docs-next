@@ -1,16 +1,12 @@
 ---
 id: combining-waf-and-layer-7-load-balancers-to-protect-services-over-any-ports
 title: Combining WAF and Layer-7 Load Balancers to Protect Services over Any Ports
-tags: [waf, layer-7, load-balancer, security]
+tags: [waf, load-balancer, security]
 ---
 
 # Combining WAF and Layer-7 Load Balancers to Protect Services over Any Ports
 
-This topic walks you through how to combine dedicated WAF instances and
-layer-7 load balancers to protect your services over non-standard ports
-that cannot be protected with WAF alone. For ports supported by WAF, see
-[Ports Supported by
-WAF](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/ports_supported_by_waf.html).
+This topic walks you through how to combine dedicated WAF instances and layer-7 load balancers to protect your services over non-standard ports that cannot be protected with WAF alone. For ports supported by WAF, see [Ports Supported by WAF](https://docs.otc.t-systems.com/web-application-firewall-dedicated/umn/enabling_waf_protection/ports_supported_by_waf.html).
 
 ## Protection Scenarios
 

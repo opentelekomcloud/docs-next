@@ -6,14 +6,11 @@ tags: [dcs, nginx, redis, jump-server]
 
 # Using Nginx for Public Access of DCS Redis Instances
 
+This section describes how to access a single-node, master/standby, read/write splitting, or Proxy Cluster DCS Redis 4.0, 5.0, or 6.0 instance **by using a jump server**. This solution **cannot be used** to access a Redis Cluster instance over public networks.
+
 Currently, DCS Redis 4.0, 5.0, and 6.0 instances cannot be bound with
 elastic IP addresses (EIPs) and cannot be accessed over public networks
 directly.
-
-This section describes how to access a single-node, master/standby,
-read/write splitting, or Proxy Cluster DCS Redis 4.0, 5.0, or 6.0
-instance **by using a jump server**. This solution **cannot be used** to
-access a Redis Cluster instance over public networks.
 
 As shown in figure below, the ECS where
 Nginx is installed is a jump server. The ECS is in the same VPC as the

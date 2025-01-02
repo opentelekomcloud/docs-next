@@ -5,8 +5,6 @@ tags: [cloud-create]
 ---
 
 # Cloud Create
-Overview
-------------------------------------------------------
 
 Cloud Create is a **free-to-use** Development and Management Platform, which enables cloud developers to create applications on Open Telekom Cloud **fast**.
 

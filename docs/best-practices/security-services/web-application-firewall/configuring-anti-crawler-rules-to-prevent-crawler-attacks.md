@@ -6,6 +6,8 @@ tags: [waf, anti-crawler, security]
 
 # Configuring Anti-Crawler Rules to Prevent Crawler Attacks
 
+WAF provides three anti-crawler policies, bot detection by identifying User-Agent, website anti-crawler by checking browser validity, and CC attack protection by limiting the access frequency, to comprehensively mitigate crawler attacks against your websites.
+
 Web crawlers make network information collection and query easy, but
 they also introduce the following negative impacts:
 
@@ -17,11 +19,6 @@ they also introduce the following negative impacts:
     due to resource exhaustion.
 - Bad actors may use web crawlers to steal mission-critical data on
     your websites, which will damage your economic interests.
-
-WAF provides three anti-crawler policies, bot detection by identifying
-User-Agent, website anti-crawler by checking browser validity, and CC
-attack protection by limiting the access frequency, to comprehensively
-mitigate crawler attacks against your websites.
 
 ## Prerequisites
 

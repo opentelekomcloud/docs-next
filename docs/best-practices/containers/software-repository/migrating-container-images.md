@@ -11,7 +11,7 @@ Containers are growing in popularity. Many enterprises choose to build their own
 This blueprint describes three different scenarios for migrating image repositories to SWR smoothly. You can select one as required:
 
    | Solution   | Application Scenario | Precautions    |
-   | ----------------- | ---------------------------------- | ------------ | 
+   | ----------------- | ---------------------------------- | ------------ |
    | Migrating images to SWR using **[Docker commands](#migrating-images-to-swr-using-docker-commands)**          | Small quantity of images                                                                  | -  Disk storage leads to the timely deletion of local images and time-cost flushing.                                                        |
    |                                                       |                                                                                           | -  Docker daemon strictly restricts the number of concurrent pull/push operations, so high-concurrency synchronization cannot be performed. |
    |                                                       |                                                                                           | -  Scripts are complex because HTTP APIs are needed to perform the operations that cannot be implemented through Docker CLI.                |
@@ -24,13 +24,13 @@ This blueprint describes three different scenarios for migrating image repositor
    |                                                       |                                                                                           | -  Docker or other programs are not required.                                                                                               |
    | Synchronizing images across clouds [from **Harbor** to SWR](#synchronizing-images-across-clouds-from-harbor-to-swr) | A customer deploys services in multiple clouds and uses Harbor as their image repository. | Only Harbor v1.10.5 and later versions are supported.                                                                                       |
 
-## Migrating Images to SWR using Docker Commands 
+## Migrating Images to SWR using Docker Commands
 
 SWR provides easy-to-use image hosting and efficient distribution
 services. If small quantity of images need to be migrated, enterprises
 can use the **docker pull/push** command to migrate images to SWR:
 
-1.  Pull images from the source repository.
+1. Pull images from the source repository.
     Run the `docker pull` command to pull the images.
 
     :::note Example
@@ -46,7 +46,7 @@ can use the **docker pull/push** command to migrate images to SWR:
     nginx                             latest    22f2bf2e2b4f   5 hours ago     22.8MB
     ```
 
-2.  Push the images pulled to SWR.
+2. Push the images pulled to SWR.
 
     a.  Log in to the VM where the target container is located and log
         in to SWR. For details, see [Uploading an Image Through a Container Engine Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
@@ -82,7 +82,7 @@ can use the **docker pull/push** command to migrate images to SWR:
 
         To view the pushed image, refresh the *My Images* page.
 
-## Migrating Images to SWR using image-syncer {#cce_bestpractice_0331}
+## Migrating Images to SWR using image-syncer
 
 If small quantity of images need to be migrated, you can use Docker
 commands. However, for thousands of images and several TBs of image
@@ -90,7 +90,7 @@ repository data, it takes a long time and even data may be lost. In this
 case, you can use the open-source image migration tool
 [image-syncer](https://github.com/AliyunContainerService/image-syncer):
 
-1.  Download, decompress, and run image-syncer.
+1. Download, decompress, and run image-syncer.
 
     The following uses **image-syncer v1.3.1** as an example.
 
@@ -99,7 +99,7 @@ case, you can use the open-source image migration tool
     tar -zvxf image-syncer-v1.3.1-linux-amd64.tar.gz
     ```
 
-2.  Create **auth.json**, the authentication information file of the
+2. Create **auth.json**, the authentication information file of the
     image repositories.
 
     image-syncer supports the Docker image repository based on Docker
@@ -135,10 +135,10 @@ case, you can use the open-source image migration tool
 
     In the above figure :
     - `eu-de_otc@9LA\...\...` is the `username`
-    - `077be\...\...\...\.....` is the `password` and 
+    - `077be\...\...\...\.....` is the `password` and
     - `swr.eu-de.otc.t-systems.com` is the image repository address.
 
-3.  Create **images.json**, the image synchronization description file.
+3. Create **images.json**, the image synchronization description file.
 
     In the following example, the source repository address is on the
     left, and the target repository address is on the right.
@@ -151,7 +151,7 @@ case, you can use the open-source image migration tool
     }
     ```
 
-4.  Run the following command to migrate the images to SWR:
+4. Run the following command to migrate the images to SWR:
 
     ```bash
     ./image-syncer \--auth=./auth.json \--images=./images.json
@@ -159,7 +159,6 @@ case, you can use the open-source image migration tool
     \--retries=3 \--log=./log
     ```
 
-      
       <!-- | Parameter      | Description                                                            |
       | -------------- | --------------------------------------------------------------------   |
       |\--config      | Path of the configuration file. This file needs to be created before you start the synchronization. By default, the configuration file is  \
@@ -199,6 +198,7 @@ case, you can use the open-source image migration tool
     target image repository to view the migrated images. -->
 
 ## Synchronizing Images Across Clouds from Harbor to SWR
+
 [Harbor](https://goharbor.io/) is an open-source enterprise-class Docker Registry server
 developed by VMware. It extends the Docker Distribution by adding the
 functionalities such as role-based access control (RBAC), image
@@ -208,7 +208,7 @@ and distribute container images.
 Our scenarion in this blueprint is a customer that deploys services in **multiple clouds** and uses Harbor as their
 image repository. We are going to be accessing SWR through a **public** network.
 
-1.  Configure a registry endpoint on Harbor.
+1. Configure a registry endpoint on Harbor.
 
     :::note
     Open Telekom Cloud SWR has not yet integrated with Harbor. You need clone [this repo](https://github.com/akyriako/harbor/tree/opentelekomcloud_adapter) and build it from branch **opentelekomcloud\_adapter**.
@@ -218,19 +218,19 @@ image repository. We are going to be accessing SWR through a **public** network.
 
     ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418569120.png)
 
-    -   `Provider`: Select `Open Telekom Cloud SWR`.
-    -   `Name`: Enter a customized name.
-    -   `Endpoint URL`: Enter the public network domain name of
+    - `Provider`: Select `Open Telekom Cloud SWR`.
+    - `Name`: Enter a customized name.
+    - `Endpoint URL`: Enter the public network domain name of
         SWR in the format of `https://{SWR image repository
         address}`. To obtain the image repository address, log in
         to the SWR console, choose *My Images*, and click *Upload
         Through Client*. You can view the image repository address
         of the current region on the page that is displayed.
-    -   `Access ID`: Enter an access ID in the format of `Regional project name@\[AK\]`.
-    -   `Access Secret`: Enter an AK/SK. To obtain an AK/SK, see [Obtaining a Long-Term Valid Login Command](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/obtaining_a_long-term_valid_login_command.html).
-    -   `Verify Remote Cert`: *Deselect* the option.
+    - `Access ID`: Enter an access ID in the format of `Regional project name@\[AK\]`.
+    - `Access Secret`: Enter an AK/SK. To obtain an AK/SK, see [Obtaining a Long-Term Valid Login Command](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/obtaining_a_long-term_valid_login_command.html).
+    - `Verify Remote Cert`: *Deselect* the option.
   
-2.  Configure a replication rule.
+2. Configure a replication rule.
 
     a.  Create a replication rule.
 
@@ -256,7 +256,7 @@ image repository. We are going to be accessing SWR through a **public** network.
             executing the replication rule. The value `-1` indicates
             no limitation.
 
-3.  After creating the replication rule, select it and click
+3. After creating the replication rule, select it and click
     *REPLICATE* to complete the replication.
 
     ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418729104.png)

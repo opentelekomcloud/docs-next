@@ -4,10 +4,9 @@ title: Routing Traffic to Backend Servers in Different VPCs from the Load Balanc
 tags: [vpc, elb, load-balancing]
 ---
 
-# Routing Traffic to Backend Servers in Different VPCs from the Load Balancer {#elb_bp_0302}
+# Routing Traffic to Backend Servers in Different VPCs from the Load Balancer
 
-You can use ELB to route traffic to backend servers in two VPCs
-connected over a VPC peering connection.
+You can use ELB to route traffic to backend servers in two VPCs connected over a VPC peering connection.
 
 ## Solution Design
 

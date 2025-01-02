@@ -1,7 +1,7 @@
 ---
 id: deploy-umami-cce
 title: Deploy Umami on CCE
-tags: [umami, analytics, cce, postgresql, zalando-postgres-operator]
+tags: [umami, analytics, cce, postgresql]
 ---
 
 # Deploy Umami on CCE

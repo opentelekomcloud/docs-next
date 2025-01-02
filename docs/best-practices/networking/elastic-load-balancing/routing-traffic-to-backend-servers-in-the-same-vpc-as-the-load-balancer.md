@@ -6,8 +6,7 @@ tags: [vpc, elb, load-balancing]
 
 # Routing Traffic to Backend Servers in the Same VPC as the Load Balancer
 
-You can route traffic to backend servers in the VPC where the load
-balancer is running.
+You can route traffic to backend servers in the VPC where the load balancer is running.
 
 ## Solution Design
 

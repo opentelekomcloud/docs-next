@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function HomepageContribute(): JSX.Element {
 
@@ -13,12 +12,12 @@ export default function HomepageContribute(): JSX.Element {
           <p className="margin-bottom--md">
             Share with our vibrant community all that cool staff you've built with Open Telekom Cloud.
           </p>
-          <a href={useBaseUrl("/docs/features/version-and-publish")} className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
+          <a href='https://github.com/opentelekomcloud/docs-next' className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
             Join us on GitHub
           </a>
-          <a href={useBaseUrl("/docs/features/version-and-publish")} className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
+          {/* <a href={useBaseUrl("/docs/features/version-and-publish")} className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }}>
             Join us on Medium
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

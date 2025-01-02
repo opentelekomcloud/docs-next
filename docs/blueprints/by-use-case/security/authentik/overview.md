@@ -6,8 +6,6 @@ tags: [authentik, security]
 
 # Authentik
 
-## Overview
-
 Authentik is a modern, open-source Identity Provider (IdP) that offers flexible and secure authentication and authorization solutions for organizations of all sizes. It provides a comprehensive suite of identity management features, allowing businesses to centralize user authentication, implement single sign-on (SSO), and manage access to various applications and services.
 
 ## Key Features

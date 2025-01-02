@@ -1,7 +1,7 @@
 ---
 id: create-a-public-dns-endpoint-with-externaldns
 title: Create a Public DNS Endpoint with ExternalDNS
-tags: [cce, networking, dns, cname, externaldns]
+tags: [cce, dns, externaldns]
 ---
 
 # Create a Public DNS Endpoint with ExternalDNS
