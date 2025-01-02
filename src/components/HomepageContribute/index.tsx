@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function HomepageContribute(): JSX.Element {
 
