@@ -1,20 +1,12 @@
 ---
 id: auto-scaling-based-on-elb-monitoring-metrics
 title: Auto Scaling Based on ELB Monitoring Metrics
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, metrics, cloudeye, swr]
+tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, cloud-eye, swr]
 ---
 
 # Auto Scaling Based on ELB Monitoring Metrics
 
-By default, Kubernetes scales a workload based on resource usage metrics
-such as CPU and memory. However, this mechanism cannot reflect the
-real-time resource usage when traffic bursts arrive, because the
-collected CPU and memory usage data lags behind the actual load balancer
-traffic metrics. For some services (such as flash sale and social media)
-that require fast auto scaling, scaling based on this rule may not be
-performed in a timely manner and cannot meet these services\' actual
-needs. In this case, auto scaling based on ELB QPS data can respond to
-service requirements more timely.
+By default, Kubernetes scales a workload based on resource usage metrics such as CPU and memory. However, this mechanism cannot reflect the real-time resource usage when traffic bursts arrive, because the collected CPU and memory usage data lags behind the actual load balancer traffic metrics. For some services (such as flash sale and social media) that require fast auto scaling, scaling based on this rule may not be performed in a timely manner and cannot meet these services' actual needs. In this case, auto scaling based on ELB QPS data can respond to service requirements more timely.
 
 ## Solution Design
 

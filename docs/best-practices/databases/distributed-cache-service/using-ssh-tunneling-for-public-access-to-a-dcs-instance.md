@@ -6,9 +6,7 @@ tags: [dcs, ssh, redis, tunneling, jump-server]
 
 # Using SSH Tunneling for Public Access to a DCS Instance
 
-VPCs are used to ensure network security of public cloud services, such
-as DCS. Your DCS instance can be accessed only by an ECS that is in the
-same VPC as the instance.
+VPCs are used to ensure network security of public cloud services, such as DCS. Your DCS instance can be accessed only by an ECS that is in the same VPC as the instance.
 
 ## Solution Design
 

@@ -1,7 +1,7 @@
 ---
 id: kubernetes-logging-with-loki
 title: CCE Logging with Grafana Loki & Promtail
-tags: [cce, observability, logging, grafana, loki, promtail, kubernetes]
+tags: [cce, observability, logging, grafana, loki, promtail]
 ---
 
 # CCE Logging with Grafana Loki & Promtail

@@ -6,10 +6,9 @@ tags: [kafka, mirror-maker, migration, dms]
 
 # Migrating Kafka Services
 
-You can migrate Kafka services to connect message producers and
-consumers to a new Kafka instance and can even migrate persisted message
-data to the new Kafka instance. Kafka services can be migrated in the
-following two scenarios:
+This solution will demonstrate how you can migrate Kafka services to connect message producers and consumers to a new Kafka instance and can even migrate persisted message data to a new Kafka instance.
+
+Kafka services can be migrated in the following two scenarios:
 
 -   Migrating services to the cloud without downtime
 

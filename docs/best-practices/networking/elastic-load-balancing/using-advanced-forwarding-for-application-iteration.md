@@ -6,11 +6,7 @@ tags: [vpc, elb, load-balancing]
 
 # Using Advanced Forwarding for Application Iteration
 
-As the business grows, you may need to upgrade your application. Both
-the old and new versions are used. Now, the new version is optimized
-based on users'  feedback, and you want all the users to use the new
-version. In this process, you can use advanced forwarding to route
-requests to different versions.
+As the business grows, you may need to upgrade your application. Both the old and new versions are used. Now, the new version is optimized based on users' feedback, and you want all the users to use the new version. In this process, you can use advanced forwarding to route requests to different versions.
 
 ## Solution Design
 

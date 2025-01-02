@@ -6,8 +6,7 @@ tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ingress, externa
 
 # Deploy Keycloak on CCE
 
-In this blueprint, we are going to discuss the steps to install
-Keycloak, in Open Telekom Cloud, on a CCE Cluster.
+In this blueprint, we are going to discuss the steps to install Keycloak, in Open Telekom Cloud, on a CCE Cluster.
 
 ## Creating a VPC and a Subnet
 

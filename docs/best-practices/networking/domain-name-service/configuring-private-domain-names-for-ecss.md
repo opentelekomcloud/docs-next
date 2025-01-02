@@ -6,11 +6,7 @@ tags: [dns, ecs]
 
 # Configuring Private Domain Names for ECSs
 
-If one of your ECSs is not working normally and you need to use the
-backup ECS to handle requests, but you have not configured private zones
-for the two ECSs, you need to change the private IP address in the code
-for the faulty ECS. This will interrupt your services and cause you to
-publish your website again, which is time- and labor-consuming.
+If one of your ECSs is not working normally and you need to use the backup ECS to handle requests, but you have not configured private zones for the two ECSs, you need to change the private IP address in the code for the faulty ECS. This will interrupt your services and cause you to publish your website again, which is time- and labor-consuming.
 
 Assume that you have configured private zones for the ECSs and have
 included their private domain names in the code. If one ECS is

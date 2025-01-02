@@ -1,15 +1,12 @@
 ---
 id: zone-redundant-nfs
 title: Zone-redundant NFS Server
-tags: [ecs, evs, sdrs, nfs, disaster-recovery, storage, zone-redundant, failover]
+tags: [ecs, evs, sdrs, nfs, disaster-recovery, storage, failover]
 ---
 
 # Zone-redundant NFS Server
 
-The main target of this guide is to provide a zone-redundant NFS Server
-with the option to perform a failover. We are going to use ECS, EVS and
-Storage Disaster Recovery Service of Open Telekom Cloud for that. Additionally we will
-cover operational tasks like extending the size of the NFS Share.
+The main target of this blueprint is to provide a zone-redundant NFS Server with the option to perform a failover. We are going to use ECS, EVS and Storage Disaster Recovery Service of Open Telekom Cloud for that. Additionally we will cover operational tasks like extending the size of the NFS Share.
 
 :::important
 This guide is to be treated as proposal and it's only intend is to

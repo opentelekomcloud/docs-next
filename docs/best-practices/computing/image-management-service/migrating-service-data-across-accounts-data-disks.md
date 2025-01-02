@@ -6,11 +6,7 @@ tags: [ims, migration]
 
 # Migrating Service Data Across Accounts (Data Disks) 
 
-Generally, service data is stored on data disks. To migrate the data
-across accounts, you need to create data disk images and share them with
-the target account. This section uses Linux as an example to describe
-how to migrate service data (only data disks) across accounts in the
-same region.
+Generally, service data is stored on data disks. To migrate the data across accounts, you need to create data disk images and share them with the target account. This section uses Linux as an example to describe how to migrate service data (only data disks) across accounts in the same region.
 
 ## Solution Design
 

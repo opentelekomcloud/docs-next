@@ -7,10 +7,7 @@ tags: [dds, migration, mongodb, ecs, drs]
 
 # From ECS-hosted MongoDB to DDS
 
-DRS helps you migrate data from MongoDB databases on ECSs to DDS
-instances on the current cloud. With DRS, you can migrate databases
-online with zero downtime and your services and databases can remain
-operational during migration.
+DRS helps you migrate data from MongoDB databases on ECSs to DDS instances on the current cloud. With DRS, you can migrate databases online with zero downtime and your services and databases can remain operational during migration.
 
 ## Solution Design
 

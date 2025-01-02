@@ -7,11 +7,7 @@ tags: [waf, logging, lts]
 
 # Using LTS to Quickly Query and Analyze WAF Access Logs
 
-After you authorize WAF to access Log Tank Service (LTS), you can use
-the WAF logs recorded by
-[LTS](https://www.open-telekom-cloud.com/en/products-services/core-services/log-tank-service)
-for quick and efficient real-time analysis, device O&M management, and
-analysis of service trends.
+After you authorize WAF to access Log Tank Service (LTS), you can use the WAF logs recorded by [LTS](https://www.open-telekom-cloud.com/en/products-services/core-services/log-tank-service) for quick and efficient real-time analysis, device O&M management, and analysis of service trends.
 
 This practice uses the access log stream **lts-waf-access** of log group
 **lts-waf** as an example to describe how to use LTS to quickly query

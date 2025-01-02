@@ -6,7 +6,7 @@ tags: [cloud-eye]
 
 # Resource Group Monitoring
 
-Cloud Eye provides the resource group and alarm functions. How to effectively group and monitor resources and receive alarm notifications of the resources in different groups?
+Cloud Eye provides the resource group and alarm functions. How can we effectively group and monitor resources and receive alarm notifications of the resources in different groups?
 
 Assume that there are four ECSs, namely ECS-01, ECS-02, ECS-03, and ECS-04. ECS-01 and ECS-02 are used by the development team. ECS-03 and ECS-04 are used by the test team. You need to obtain the running status of the two ECSs in the development team in a timely manner, including their CPU usage, idle CPU usage, average load, I/O usage, disk usage, memory usage, and percentage of total inode used.
 

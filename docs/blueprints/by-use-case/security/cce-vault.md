@@ -6,12 +6,7 @@ tags: [cce, vault, hashicorp, secrets]
 
 # Secrets management with CCE and Hashicorp Vault
 
-Most **modern** IT setups are composed of several subsystems like databases,
-object stores, master controller, node access, and more. To access one
-component from another, some form of credentials are required.
-Configuring and storing these secrets directly in the components is
-considered as an anti-pattern, since a vulnerability of one component
-may iteratively and transitively affect the security of the whole setup.
+Most **modern** IT setups are composed of several subsystems like databases, object stores, master controller, node access, and more. To access one component from another, some form of credentials are required. Configuring and storing these secrets directly in the components is considered as an anti-pattern, since a vulnerability of one component may iteratively and transitively affect the security of the whole setup.
 
 With centralized secret management in place, it\'s not necessary to keep
 secrets used by various applications spread across DevOps environments.

@@ -6,9 +6,7 @@ tags: [storage, evs, raid]
 
 # RAID Array Creation with EVS Disks
 
-Redundant Array of Independent Disks (RAID) is a technology that
-combines multiple physical disks into one or more logical units for the
-purposes of data redundancy and performance improvement.
+Redundant Array of Independent Disks (RAID) is a technology that combines multiple physical disks into one or more logical units for the purposes of data redundancy and performance improvement.
 
 :::note
 In this document, Elastic Volume Service (EVS) disks instead of physical

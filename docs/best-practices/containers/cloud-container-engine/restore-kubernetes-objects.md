@@ -6,12 +6,11 @@ tags: [cce, migration, azure, velero, obs]
 
 # Restoring Kubernetes Objects in a CCE Cluster
 
+In this example, the WordPress application uses Azure SSD persistent data volumes, which need to be replaced with Open Telekom Cloud SSDs.
+
 ## Creating a StorageClass
 
-In this example, the WordPress application uses Azure SSD persistent
-data volumes, which need to be replaced with Open Telekom Cloud SSDs.
-
-The `StorageClass` used in this example is `azurefile-csi`. 
+The `StorageClass` used in this example is `azurefile-csi`.
 
 :::caution
 **You must** create a `StorageClass` with the **exact same name** as in the other cloud provider and use it in Open Telekom Cloud. In this case SSDs as backend storage media will be mapped to a new `StorageClass` that has the same name, `azurefile-csi`, as their equivalent in Azure. 

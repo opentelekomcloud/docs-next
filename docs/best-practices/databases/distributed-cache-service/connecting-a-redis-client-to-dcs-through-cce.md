@@ -6,10 +6,7 @@ tags: [dcs, redis, cce]
 
 # Connecting a Redis Client to DCS Through CCE
 
-With the development of the container technology, more and more
-applications are deployed in containers. This section describes how to
-deploy a Redis client in a Cloud Container Engine (CCE) cluster
-container and connect it to DCS.
+With the development of the container technology, more and more applications are deployed in containers. This section describes how to deploy a Redis client in a Cloud Container Engine (CCE) cluster container and connect it to DCS.
 
 ![image1](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001479114773.png)
 

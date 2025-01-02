@@ -6,7 +6,7 @@ tags: [vpn, hybrid, networking]
 
 # Connecting Multiple On-Premises Branch Networks Through a VPN Hub
 
-To meet service requirements, enterprise A needs to implement communication between its two on-premises data centers.
+In this solution we are going to demonstrate how an Enterprise A can implement communication between its two on-premises data centers in order to  meet service requirements.
 
 ## Solution Design
 

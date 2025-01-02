@@ -1,16 +1,12 @@
 ---
 id: building-highly-available-web-server-clusters-with-keepalived
 title: Building Highly Available Web Server Clusters with Keepalived
-tags: [ecs, high-availability, keepalived, cluster]
+tags: [ecs, high-availability, keepalived]
 ---
 
 # Building Highly Available Web Server Clusters with Keepalived
 
-Virtual IP addresses are used for active and standby switchover of ECSs
-to achieve high availability. This way if one ECS goes down for some
-reason, the other one can take over and services continue uninterrupted. This article uses CentOS Stream
-release 9 ECSs as an example to describe how to set up highly available web server clusters using
-Keepalived and Nginx.
+Virtual IP addresses are used for active and standby switchover of ECSs to achieve high availability. This way if one ECS goes down for some reason, the other one can take over and services continue uninterrupted. This article uses CentOS Stream release 9 ECSs as an example to describe how to set up highly available web server clusters using Keepalived and Nginx.
 
 ## Solution Design
 

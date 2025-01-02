@@ -6,10 +6,7 @@ tags: [storage, obs, reverse-proxy, nginx]
 
 # Accessing OBS Through an NGINX Reverse Proxy
 
-Generally, you can access OBS using a bucket's access domain name (for
-example, **https://`bucketname`.obs.eu-de.otc.t-systems.com**)
-provided by OBS or using a user-defined domain name bound to an OBS
-bucket.
+Generally, you can access OBS using a bucket's access domain name (for example, **https://`bucketname`.obs.eu-de.otc.t-systems.com**) provided by OBS or using a user-defined domain name bound to an OBS bucket.
 
 In some cases, you may need to use a fixed IP address to access OBS. For
 security purposes, some enterprises need to set a blacklist and a
