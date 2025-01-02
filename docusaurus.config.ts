@@ -40,7 +40,6 @@ const config: Config = {
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
-          // exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
           exclude: ['**/by-use-case/computing/**', '**/by-use-case/hybrid/**', '**/by-use-case/migration/**']
         },
         
