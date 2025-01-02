@@ -41,6 +41,7 @@ const config: Config = {
           // showLastUpdateTime: true,
           breadcrumbs: true,
           // exclude: ['**/by-industry/**', '**/caf/**', '**/crossplane/**']
+          exclude: ['**/by-use-case/computing/**', '**/by-use-case/hybrid/**', '**/by-use-case/migration/**']
         },
         
         theme: {
@@ -76,12 +77,6 @@ const config: Config = {
         srcDark: 'img/logo_headline_kombination_m_w_m.png'
       },
       items: [
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'bestPracticesSidebar',
-        //   position: 'left',
-        //   label: 'Best Practices',
-        // },
         {
           type: 'docSidebar',
           sidebarId: 'bestPracticesSidebar',
