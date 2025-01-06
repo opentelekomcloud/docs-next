@@ -44,6 +44,10 @@ const sidebars: SidebarsConfig = {
           label: 'API Gateway (APIG)',
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/application-services/api-gateway/selectively-exposing-cce-workloads-with-a-dedicated-gateway',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/api-gateway/index.html',
