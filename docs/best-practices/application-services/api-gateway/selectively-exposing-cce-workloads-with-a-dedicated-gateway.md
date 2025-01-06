@@ -367,7 +367,7 @@ Grayscale release is a service release policy that gradually switches traffic fr
 **Figure 3** Grayscale release principle  
 ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108890953.png "Click to enlarge")
 
-CCE workloads are configured using the pod label selector for grayscale release. You can quickly roll out and verify new features, and switch servers for traffic processing. For details, see [Using Services to Implement Simple Grayscale Release and Blue-Green Deployment](https://support.huaweicloud.com/intl/en-us/bestpractice-cce/cce_bestpractice_10002.html).
+CCE workloads are configured using the pod label selector for grayscale release. You can quickly roll out and verify new features, and switch servers for traffic processing. For details, see [Using Services to Implement Simple Grayscale Release and Blue-Green Deployment](https://docs.otc.t-systems.com/cloud-container-engine/umn/best_practice/release/using_services_to_implement_simple_grayscale_release_and_blue-green_deployment.html#prerequisites).
 
 The following describes how to smoothly switch traffic from V1 to V2 through grayscale release.
 
