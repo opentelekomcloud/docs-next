@@ -22,7 +22,9 @@
 				"DavidAnson.vscode-markdownlint",
 				"redhat.vscode-yaml",
 				"TakumiI.markdowntable",
-				"Perkovec.emoji"
+				"Perkovec.emoji",
+				"fill-labs.dependi",
+				"howardzuo.vscode-npm-dependency"
 			]
 		}
 	},
