@@ -9,7 +9,6 @@ import {
 import Translate, {translate} from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
-import Unlisted from '@theme/Unlisted';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
