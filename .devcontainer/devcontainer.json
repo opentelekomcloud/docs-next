@@ -23,8 +23,8 @@
 				"redhat.vscode-yaml",
 				"TakumiI.markdowntable",
 				"Perkovec.emoji",
-				"idered.npm",
-				"fill-labs.dependi"
+				"fill-labs.dependi",
+				"howardzuo.vscode-npm-dependency"
 			]
 		}
 	},

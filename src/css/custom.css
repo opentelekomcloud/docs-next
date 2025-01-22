@@ -217,7 +217,7 @@ html[data-theme='dark'] .footer__link-item:hover {
     width: 36px;
     height: 36px;
     padding: 6px;
-    margin-right: 6px;
+    margin-right: 12px;
     margin-left: 6px;
     border-radius: 50%;
     transition: background var(--ifm-transition-fast);

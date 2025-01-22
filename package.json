@@ -16,28 +16,28 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@dipakparmar/docusaurus-plugin-umami": "^2.1.6",
-    "@docusaurus/core": "^3.4.0",
-    "@docusaurus/preset-classic": "^3.4.0",
-    "@mdx-js/react": "^3.0.1",
+    "@dipakparmar/docusaurus-plugin-umami": "^2.1.7",
+    "@docusaurus/core": "^3.7.0",
+    "@docusaurus/preset-classic": "^3.7.0",
+    "@mdx-js/react": "^3.1.0",
     "@telekom/scale-components": "^3.0.0-beta.151",
     "clsx": "^2.1.1",
-    "docusaurus-theme-search-typesense": "^0.20.0",
-    "prism-react-renderer": "^2.3.1",
+    "docusaurus-theme-search-typesense": "^0.23.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.4.0",
-    "@docusaurus/tsconfig": "^3.4.0",
-    "@docusaurus/types": "^3.4.0",
-    "@typescript-eslint/eslint-plugin": "^8.13.0",
-    "@typescript-eslint/parser": "^8.13.0",
-    "eslint": "^9.14.0",
-    "eslint-plugin-react": "^7.37.2",
-    "globals": "^15.12.0",
-    "typescript": "~5.5.2",
-    "typescript-eslint": "^8.13.0"
+    "@docusaurus/module-type-aliases": "^3.7.0",
+    "@docusaurus/tsconfig": "^3.7.0",
+    "@docusaurus/types": "^3.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.14.0",
+    "typescript": "~5.7.3",
+    "typescript-eslint": "^8.21.0"
   },
   "browserslist": {
     "production": [
