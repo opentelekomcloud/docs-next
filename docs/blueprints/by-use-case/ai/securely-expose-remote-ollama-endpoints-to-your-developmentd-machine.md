@@ -49,7 +49,7 @@ On the other hand, using a Point-to-Site (P2S) VPN to connect to the VPC where t
 
 Moreover, a P2S VPN provides flexibility for multiple users to securely connect from different locations without needing complex infrastructure changes. This approach also facilitates compliance with data protection regulations since access can be restricted to authorized users only and connections can be monitored and logged for auditing and incident response purposes.
 
-You can find instruction on how to create and establish a P2S VPN connection in the Blueprint: [Establish a Point-to-Site VPN Connection between your Development Machine and a VPC](../networking/establish-a-p2s-vpn-connection-with-a-vpc.md).
+You can find instruction on how to create and establish a P2S VPN connection here: [Establish a Point-to-Site VPN Connection between your Development Machine and a VPC](../networking/establish-a-p2s-vpn-connection-with-a-vpc.md).
 
 ## Changing Ollama's Listening Address
 
@@ -117,7 +117,7 @@ We instantly notice that although Ollama is bound to all available network inter
 :::caution
 Although we configured Ollama service to listen to any interface, we want to restrict access to the Ollama endpoint **only** to resources that reside inside the same VPC **and not to anyone that might potentially reach this VM**, `0.0.0.0/0`.
 
-In this lab the VPC CIDR for this lab was `192.168.10.0/24`, this might differ in your environment given your individual configuration of the VPC and its Subnets so adjust the **Source** of the Inbound Rule accordingly.
+The VPC CIDR for this lab was `192.168.10.0/24`, this might differ in your environment given your individual configuration of the VPC and its Subnets so adjust the **Source** of the Inbound Rule accordingly.
 
 After establishing the P2S VPN connection, your development machine will be technically a part of this VPC and will be allowed to access the Ollama endpoint.
 :::
