@@ -22,51 +22,72 @@ import TabItem from '@theme/TabItem';
 # Best Practices
 
  Welcome to the Open Telekom Cloud Architecture Center Best Practices.
-                    Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
-                    enhance reliability, scalability, and security. Explore our recommended strategies for resource management, such as
-                    efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance
-                    to ensure robust system performance. This section serves as a valuable resource for architects and developers
-                    to implement cloud solutions that align with industry best practices and maximize the benefits of the public cloud
-                    infrastructure.
+Here we provide crucial guidelines for optimizing cloud-based solutions with emphasis to architectural principles that
+enhance reliability, scalability, security, high availability and fault tolerance.
+
+## Open Telekom Cloud Services Portfolio
 
 <Tabs>
-  <TabItem value="iaas" label="IaaS" default>
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+  <TabItem value="iaas" label="IaaS">
+    <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row row--no-gutters")}>
-            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Computing</scale-tag>
-                <ComputingServices/>
-                <scale-divider></scale-divider>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Networking</scale-tag>
-                <NetworkingServices/>
-                <scale-divider></scale-divider>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Storage</scale-tag>
-                <StorageServices/>
-            </div>
+            <scale-accordion dependent heading-level="1">
+                  <scale-collapsible>
+                    <span slot="heading">Computing</span>
+                    <p>
+                      <ComputingServices/>
+                    </p>
+                  </scale-collapsible>
+                  <scale-collapsible>
+                    <span slot="heading">Networking</span>
+                    <p>
+                      <NetworkingServices/>
+                    </p>
+                  </scale-collapsible>
+                  <scale-collapsible>
+                    <span slot="heading">Storage</span>
+                    <p>
+                      <StorageServices/>
+                    </p>
+                  </scale-collapsible>
+              </scale-accordion>
           </div>
         </section>
   </TabItem>
   <TabItem value="paas" label="PaaS">
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+    <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row row--no-gutters")}>
-            <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Application Services</scale-tag>
-                <ApplicationServices/>
-                <scale-divider></scale-divider>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Big Data & Data Analysis</scale-tag>
-                <DataAnalysisServices/>
-                <scale-divider></scale-divider>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Database Services</scale-tag>
-                <DatabaseServices/>
-                <scale-divider></scale-divider>
-                <scale-tag style={{ marginLeft: '20px', marginBottom: '20px' }}>Container Services</scale-tag>
-                <ContainerServices/>
-            </div>
+            <scale-accordion dependent heading-level="1">
+                  <scale-collapsible>
+                    <span slot="heading">Application Services</span>
+                    <p>
+                      <ApplicationServices/>
+                    </p>
+                  </scale-collapsible>
+                  <scale-collapsible>
+                    <span slot="heading">Big Data & Data Analysis</span>
+                    <p>
+                      <DataAnalysisServices/>
+                    </p>
+                  </scale-collapsible>
+                  <scale-collapsible>
+                    <span slot="heading">Database Services</span>
+                    <p>
+                      <DatabaseServices/>
+                    </p>
+                  </scale-collapsible>
+                  <scale-collapsible>
+                    <span slot="heading">Container Services</span>
+                    <p>
+                      <ContainerServices/>
+                    </p>
+                  </scale-collapsible>
+              </scale-accordion>
           </div>
         </section>
   </TabItem>
   <TabItem value="security" label="Security">
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+    <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row row--no-gutters")}>
             <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
                 <SecurityServices/>
@@ -75,7 +96,7 @@ import TabItem from '@theme/TabItem';
         </section>
   </TabItem>
   <TabItem value="management" label="Management">
-     <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+     <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row row--no-gutters")}>
             <div className="col col--12" aria-hidden="true" style={{ paddingTop: '20px' }}>
                 <ManagementServices/>
