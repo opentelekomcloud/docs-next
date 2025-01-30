@@ -8,7 +8,7 @@ tags: [ollama, vpn]
 
 Exposing Ollama endpoints directly from your cloud environment to your local development machine can be highly beneficial, especially when it comes to optimizing the use of expensive resources like GPUs and integrating them with local cost-effective development hardware.
 
-The benefits of integrating remote Ollama endpoints to local development workflows are are multi-faceted but not limited to:
+The benefits of integrating remote Ollama endpoints to local development workflows are multi-faceted but not limited to:
 
 - **Enhanced Development Workflow** : By securely exposing Ollama endpoints locally, you can streamline the development process. This setup allows you to test changes in real-time without deploying them in a public or external environment, accelerating iteration and debugging.
 - **Data Privacy and Security** : Keeping data within your local machine minimizes exposure to potential security vulnerabilities associated with cloud environments. By ensuring secure access protocols (such as HTTPS), you protect sensitive information from unauthorized access.
