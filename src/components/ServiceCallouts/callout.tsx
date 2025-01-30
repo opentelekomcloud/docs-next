@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "./styles.modules.css";
+import styles from "./styles.module.css";
 import { ComponentType, SVGProps } from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
