@@ -1,28 +1,50 @@
 
 .item {
-  box-shadow: 0 1px 3px gray;
+  /* box-shadow: 0 1px 3px gray;
   background-color: var(--ifm-background-color);
   border-radius: 0.5rem;
   color: black;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 html[data-theme='dark'] .item {
-  box-shadow: 0px 1px 3px var(--ifm-color-primary);
+  /* box-shadow: 0px 1px 3px var(--ifm-color-primary);
   background-color: var(--ifm-background-color);
   border-radius: 0.5rem;
   color: white;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 .item__inner {
   align-items: center;
   display: flex;
 }
+
 .item__inner div {
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
+  /* padding-top: 5px; */
+  /* padding-left: -25px; */
 }
-.item__title span {
+
+.item__title {
   display: block;
   font-size: 1.25rem;
+}
+
+.item__image {
+  width: 100%;
+  max-width: 80px; /* Adjust as needed */
+  height: auto;
+  border-radius: 8px; /* Optional: Rounded corners */
+}
+
+.item__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add '...' at the end */
+  max-height: 4.5em; /* Adjust based on your line height */
+  line-height: 1.5em; /* Ensures proper line spacing */
 }

@@ -45,18 +45,35 @@ function usePageTitle(props: Props): string {
 function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
   return (
     <article className="margin-vert--lg">
-       <div className={clsx("row row--no-gutters", styles.item)}>
-          {/* <div className="col col--2" aria-hidden="true">
-          </div> */}
-          <div className={clsx("col col--12", styles.item__inner)}>
-            <div>
+      <div className={clsx("row row--no-gutters", styles.item)}>
+        
+        {/* Image Content */}
+        <div className="col col--1" aria-hidden="true">
+          <img 
+            src={doc.image || "/img/open-telekom-cloud-social-card.png"} 
+            alt={doc.title} 
+            className={styles.item__image} 
+          />
+        </div>
+
+        {/* Title content */}
+        <div className={clsx("col col--11", styles.item__inner)}>
+          <div style={{ paddingTop: '4px', paddingLeft: '15px' }}>
             <Link to={doc.permalink}>
               <Heading as="h2">{doc.title}</Heading>
             </Link>
-            {doc.description && <p>{doc.description}</p>}
-            </div>
+            {/* {doc.description && <p className={styles.item__description}>{doc.description}</p>} */}
           </div>
         </div>
+
+        {/* Description content */}
+        <div className={clsx("col col--12", styles.item__inner)}>
+          <div>
+            {doc.description && <p className={styles.item__description}>{doc.description}</p>}
+          </div>
+        </div>
+
+      </div>
     </article>
   );
 }
@@ -87,13 +104,16 @@ function DocTagDocListPageContent({
             <header className="margin-bottom--xl">
               <Heading as="h1">{title}</Heading>
               {tag.description && <p>{tag.description}</p>}
-              <Link href={tag.allTagsPath}>
-                <Translate
-                  id="theme.tags.tagsPageLink"
-                  description="The label of the link targeting the tag list page">
-                  View All Tags
-                </Translate>
-              </Link>
+
+              <scale-button size="small" variant="secondary" href={tag.allTagsPath}>
+                <scale-icon-action-backward></scale-icon-action-backward> 
+                  <Translate
+                    id="theme.tags.tagsPageLink"
+                    description="The label of the link targeting the tag list page">
+                    View All Tags
+                  </Translate>
+              </scale-button>
+
             </header>
             <section className="margin-vert--lg">
               {tag.items.map((doc) => (
