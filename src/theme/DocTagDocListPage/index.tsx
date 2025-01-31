@@ -11,6 +11,7 @@ import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -50,7 +51,7 @@ function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
         {/* Image Content */}
         <div className="col col--1" aria-hidden="true">
           <img 
-            src={doc.image || "/img/open-telekom-cloud-social-card.png"} 
+            src={doc.image || useBaseUrl("img/open-telekom-cloud-social-card.png")} 
             alt={doc.title} 
             className={styles.item__image} 
           />
