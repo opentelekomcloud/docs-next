@@ -224,7 +224,6 @@ const config: Config = {
         autoCollapseCategories: true,
       },
     },
-
     typesense: {
       // Replace this with the name of your index/collection.
       // It should match the "index_name" entry in the scraper's "config.json" file.
@@ -248,6 +247,17 @@ const config: Config = {
       // Optional
       contextualSearch: true,
     },
+    zooming: {
+      selector: '.markdown img',
+      delay: 500,
+      background: {
+        light: 'rgba(101,108,133,0.8)',
+        dark: 'rgba(9,10,17,0.8)'
+      },
+      options: {
+        // See the docs of zooming for all available options: https://github.com/francoischalifour/medium-zoom#usage
+      }
+    },
   } satisfies Preset.ThemeConfig,
 
   customFields: {
@@ -255,6 +265,7 @@ const config: Config = {
   },
 
   plugins: [
+    'docusaurus-plugin-zooming',
     [
       '@dipakparmar/docusaurus-plugin-umami',
       {
