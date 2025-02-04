@@ -1,7 +1,7 @@
 ---
 id: improving-kafka-message-processing-efficiency
 title: Improving Kafka Message Processing Efficiency
-tags: [kafka, migration, dms]
+tags: [kafka, dms]
 ---
 
 # Improving Kafka Message Processing Efficiency
