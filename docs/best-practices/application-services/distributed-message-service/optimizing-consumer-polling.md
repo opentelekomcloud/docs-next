@@ -91,7 +91,6 @@ go func() {
     logger.Info("termination signal received, waiting for consumers...")
     cancel()
 }()
-
 ```
 
 - Creates a `context` (`ctx`) that allows cancellation.
@@ -121,7 +120,6 @@ for i := 0; i < consumers; i++ {
 
 <-ctx.Done()
 wg.Wait()
-
 ```
 
 - Initializes a `sync.WaitGroup` (`wg`) to track active consumers.
@@ -162,7 +160,6 @@ func newTopic(partitions int) {
 		}
 	}
 }
-
 ```
 
 ### Producer
@@ -218,7 +215,6 @@ ffunc newProducer(ctx context.Context) {
 		time.Sleep(200 * time.Millisecond)
 	}
 }
-
 ```
 
 :::note Configuration
