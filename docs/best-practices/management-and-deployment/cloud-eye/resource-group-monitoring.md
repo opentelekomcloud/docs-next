@@ -1,7 +1,7 @@
 ---
 id: resource-group-monitoring
 title: Resource Group Monitoring 
-tags: [cloud-eye]
+tags: [cloudeye]
 ---
 
 # Resource Group Monitoring

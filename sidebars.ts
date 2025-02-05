@@ -71,6 +71,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/application-services/distributed-message-service/optimizing-consumer-polling',
             },
             {
+              type: 'doc',
+              id: 'best-practices/application-services/distributed-message-service/configuring-message-accumulation-monitoring',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-message-service/index.html',
