@@ -1,7 +1,7 @@
 ---
 id: securely-expose-remote-ollama-endpoints-to-your-developmentd-machine
 title: Securely Expose Remote Ollama Endpoints to your Development Machine
-tags: [ollama, vpn]
+tags: [ollama, vpn, ai]
 ---
 
 # Securely Expose Remote Ollama Endpoints to your Development Machine
@@ -20,14 +20,14 @@ The benefits of integrating remote Ollama endpoints to local development workflo
 By securely exposing Ollama endpoints, you can achieve a balance between operational efficiency, security, and compliance while facilitating a robust development process for AI models on your machine.
 
 :::caution
-Be aware that this Blueprint can incur additional costs, concerning ingress and egress data.
+Be aware that this blueprint may incur additional costs related to ingress and egress data.
 :::
 
 ## Prerequisites
 
 For this Blueprint, we are going to need:
 
-1. an **ECS Server (Ubuntu 22.04)**: a GPU-accelerated instance (8 vCPUs, 32 GiB) `pi2.2xlarge.4` will suffice.
+1. an **ECS server (Ubuntu 22.04)**: a GPU-accelerated instance (8 vCPUs, 32 GiB) `pi2.2xlarge.4` will suffice.
 2. a **Point-to-Site VPN connection**: We need to establish a connection between our development machine and the VPC hosting the Ollama VM.
 3. an **Ollama** instance: Ollama must be installed on the ECS server above.
 
@@ -41,7 +41,7 @@ Make sure you [**add Ollama as a startup service**](https://github.com/ollama/ol
 
 Exposing an Ollama endpoint by assigning an Elastic IP (EIP) directly to a Virtual Machine or using Destination Network Address Translation (DNAT) through a NAT Gateway is considered dangerous due to several key concerns. First, assigning an EIP makes the VM accessible from the internet, significantly increasing its exposure and risk of unauthorized access. This direct accessibility enlarges the attack surface, leaving it vulnerable to potential breaches.
 
-Additionally, having such an endpoint exposed can make it a target for Distributed Denial of Service (DDoS) attacks aimed at overwhelming your service with excessive traffic, potentially causing downtime or degraded performance. Moreover, using DNAT via a NAT Gateway does not eliminate these risks entirely; it still requires meticulous configuration and management of security groups and firewall rules to ensure only legitimate traffic is allowed. Misconfigurations in this setup can easily lead to unintentional exposure.
+Additionally, having such an endpoint exposed can make it a target for Distributed Denial of Service (DDoS) attacks aimed at overwhelming your service with excessive traffic, potentially causing downtime or degraded performance. Moreover, using DNAT via a NAT Gateway does not eliminate these risks entirely; it still requires meticulous configuration and management of security groups and firewall rules to ensure only legitimate traffic is allowed. Misconfigurations in such setups can easily result in unintentional exposure.
 
 From a compliance perspective, direct internet exposure might violate certain regulatory requirements that mandate strict data protection and access controls, depending on the industry or region.
 
@@ -75,7 +75,7 @@ We instantly notice that although Ollama is bound to all available network inter
     sudo nano /etc/systemd/system/ollama.service
     ```
 
-    and add to it an additionall environment variable: `OLLAMA_HOST=0.0.0.0:11434`
+    and add to it an additional environment variable: `OLLAMA_HOST=0.0.0.0:11434`
 
     ```shell
     [Unit]
@@ -119,24 +119,24 @@ Although we configured Ollama service to listen to any interface, we want to res
 
 The VPC CIDR for this lab was `192.168.10.0/24`, this might differ in your environment given your individual configuration of the VPC and its Subnets so adjust the **Source** of the Inbound Rule accordingly.
 
-After establishing the P2S VPN connection, your development machine will be technically a part of this VPC and will be allowed to access the Ollama endpoint.
+Once the P2S VPN connection is established, your development machine will technically be part of this VPC and will be able to access the Ollama endpoint.
 :::
 
 2. Add the new Security Group to the Security Groups of the ECS Server.
 
 ## Validation
 
-Check connectivity from your development machine with cURL:
+Verify connectivity from your development machine using cURL:
 
 :::important
 
-- Requires that you have already established the VPN connection.
+- Ensure that the VPN connection is already established.
 - `192.168.10.183` is the private IP address assigned by the DHCP server of our VPC to the ECS Server that Ollama is installed on. Remember from the step before that the VPC CIDR for this lab was `192.168.10.0/24`, this might differ in your environment given your individual configuration of the VPC and its Subnets.
 
 :::
 
 ```shell
-curl http://192.168.10.183:11434/api/tags | jq
+curl http://192.168.10.183:11434/api/tags
 ```
 
 If you have already pulled some models, the response should look similar to this:
