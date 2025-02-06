@@ -129,5 +129,5 @@ by Cloud Eye concerning the Kafka instance:
 </center>
 
 :::important
-You can create slarms for various other Kafka metrics besides Accumulated Messages, and you use as your target besides the Kafka instance, the broker, different topics or consumer groups.
+You can set up alerts for a variety of Kafka metrics beyond Accumulated Messages. In addition to targeting the Kafka instance itself, you have the option to focus on individual brokers, specific topics, or distinct consumer groups. This flexibility allows for more granular monitoring and quicker responses to potential issues within your DMS/Kafka environment.
 :::
