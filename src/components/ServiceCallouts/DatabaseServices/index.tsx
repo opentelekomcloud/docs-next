@@ -43,7 +43,7 @@ import GeminidbSvg from '@site/static/img/services/RDS .svg'
     {
       title: "GaussDB NoSQL",
       text: "Distributed NoSQL Database Service ",
-      link: "/docs/tags/model-arts",
+      link: "/docs/tags/gaussdb-nosql",
       icon: GaussdbnosqlSvg
     },
     {
