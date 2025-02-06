@@ -1,7 +1,7 @@
 ---
 id: auto-scaling-based-on-elb-monitoring-metrics
 title: Auto Scaling Based on ELB Monitoring Metrics
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, cloud-eye, swr]
+tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, cloudeye, swr]
 ---
 
 # Auto Scaling Based on ELB Monitoring Metrics

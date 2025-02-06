@@ -152,7 +152,9 @@ then produces the consumed data to the target cluster. For more
 information about MirrorMaker, see [Mirroring data between
 clusters](https://kafka.apache.org/documentation/?spm=a2c4g.11186623.0.0.c82870aav6G9no#basic_ops_mirror_maker).
 
+<center>
 ![**Figure 1** How MirrorMakerworks](/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001348167557.png)
+</center>
 
 :::warning Restrictions
 -   The IP addresses and port numbers of the nodes in the source cluster
