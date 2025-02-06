@@ -1,5 +1,5 @@
 ---
-id: securely-expose-remote-ollama-endpoints-to-your-developmentd-machine
+id: securely-expose-remote-ollama-endpoints-to-your-development-machine
 title: Securely Expose Remote Ollama Endpoints to your Development Machine
 tags: [ollama, vpn, ai]
 ---
