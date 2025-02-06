@@ -212,7 +212,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© T-Systems International GmbH ${new Date().getFullYear()} (` + process.env.REACT_APP_VERSION + `)`,
+      copyright: `© T-Systems International GmbH ${new Date().getFullYear()}`,
     },
     prism: {
       additionalLanguages: ['powershell', 'bash'],
@@ -262,7 +262,7 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
 
   customFields: {
-    version: `(v` + process.env.REACT_APP_VERSION + `)`,
+    version: process.env.REACT_APP_VERSION,
   },
 
   plugins: [
