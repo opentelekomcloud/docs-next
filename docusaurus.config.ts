@@ -157,7 +157,7 @@ const config: Config = {
             },
             {
               label: 'Webinars',
-              href: 'https://www.youtube.com/watch?v=U-x2gEy3968&list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
+              href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
             // {
             //   label: 'Medium',
@@ -178,7 +178,7 @@ const config: Config = {
             },
             {
               label: 'Terraform Provider',
-              to: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
+              href: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
             },
             {
               label: 'Ansible Collections',
