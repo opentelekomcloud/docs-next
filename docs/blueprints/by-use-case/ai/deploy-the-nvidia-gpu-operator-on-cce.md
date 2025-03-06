@@ -6,7 +6,7 @@ tags: [nvidia,nvidia-operator,gpu, ai]
 
 # Deploy the NVIDIA GPU Operator on CCE
 
-The [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator) is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
+The [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator) is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA GPU Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ This blueprint requires:
 - Access to the CCE cluster with **kubectl**.
 - Helm installed on your system.
 
-## Preparing & Configuring GPU Nodes Pool
+## Preparing & Configuring a GPU Node Pool
 
 Go to the *Open Telekom Cloud console* and choose the specific cluster you want to add the GPU node pool to. At the left sidebar select *Nodes* and click  *Create Node Pool*.
 
@@ -60,7 +60,7 @@ For more information see [CCE AI Suite (NVIDIA GPU)](https://github.com/kubernet
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
   :::caution
-  The selected driver must be compatible with the GPU nodes and supported by NVIDIA Operator, otherwise the cluster will not be able to allocate GPU resources.
+  The selected driver must be compatible with the GPU nodes and supported by NVIDIA GPU Operator, otherwise the cluster will not be able to allocate GPU resources.
   Check supported drivers at:
 
 - [CCE AI Suite (NVIDIA GPU)](https://github.com/kubernetes-sigs/external-dnshttps://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html),
@@ -68,7 +68,7 @@ For more information see [CCE AI Suite (NVIDIA GPU)](https://github.com/kubernet
 
   :::
 
-## Deploying the NVIDIA Operator via Helm
+## Deploying the NVIDIA GPU Operator via Helm
 
   Create a `values.yaml` file to include the required Helm Chart configuration values:
 
