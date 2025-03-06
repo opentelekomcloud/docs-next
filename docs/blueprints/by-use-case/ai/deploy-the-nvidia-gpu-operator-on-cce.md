@@ -1,12 +1,12 @@
 ---
-id: deploying-nvidia-operator-on-cce
-title: Deploying NVIDIA Operator on CCE
+id: deploy-the-nvidia-gpu-operator-on-cce
+title: Deploy the NVIDIA GPU Operator on CCE
 tags: [nvidia,nvidia-operator,gpu, ai]
 ---
 
-# Deploy the NVIDIA Operator on CCE
+# Deploy the NVIDIA GPU Operator on CCE
 
-The NVIDIA Operator is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
+The [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator) is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
 
 ## Prerequisites
 
