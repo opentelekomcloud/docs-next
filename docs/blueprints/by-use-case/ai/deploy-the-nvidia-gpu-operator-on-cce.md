@@ -156,5 +156,97 @@ Done
 
 ## Troubleshooting Tips
 
-- Verify NVIDIA drivers are installed on nodes.
-- Check resource requests and limits against cluster capacity.
+### Verifying NVIDIA Drivers are Installed on Nodes
+
+Ensuring that the GPU nodes have the correct NVIDIA drivers is a critical first step. SSH into one of your GPU nodes and run:
+  
+  ```bash
+# If the add-on version is earlier than 2.0.0, run the following command:
+cd /opt/cloud/cce/nvidia/bin && ./nvidia-smi
+
+# If the add-on version is 2.0.0 or later and the driver installation path is changed, run the following command:
+cd /usr/local/nvidia/bin && ./nvidia-smi
+  ```
+
+or directly on the Container:
+
+```bash
+cd /usr/local/nvidia/bin && ./nvidia-smi
+```
+
+This command should display details such as the driver version, GPU utilization, and any active processes. If it fails or shows an outdated driver, this indicates that the node isn’t properly set up.
+
+You can find more information [here](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html#verifying-the-add-on).
+
+### Verifying Driver Compatibility
+
+If drivers are missing or incompatible, verify that the CCE AI Suite is correctly installed and configured. Reinstalling or updating the suite might be necessary if the drivers aren’t correctly deployed. Follow the [instructions](https://docs.otc.t-systems.com/cloud-container-engine/umn/faqs/node/node_running/how_do_i_rectify_failures_when_the_nvidia_driver_is_used_to_start_containers_on_gpu_nodes.html).
+
+Additionally, run the following command to check the CUDA version in the container:
+
+```bash
+cat /usr/local/cuda/version.txt
+```
+
+Check whether the CUDA version supported by the NVIDIA driver version of the node where the container is located contains the CUDA version of the container.
+
+### Reviewing Logs
+
+Check whether the NVIDIA driver is running properly. Log in to the node where the add-on is running and view the driver installation log in the following path:
+
+```bash
+/opt/cloud/cce/nvidia/nvidia_installer.log
+```
+
+View standard output logs of the NVIDIA container. Filter the container ID by running the following command:
+
+```bash
+docker ps -a | grep nvidia
+```
+
+View logs by running the following command:
+
+```bash
+docker logs Container ID
+```
+
+### Validating Pod Resource Requests
+
+Make sure the nodes that have GPUs are properly decorated with the following, that instructs Kubernetes to schedule the pods only on 
+nodes that have available GPUs.
+
+```yaml
+resources:
+  limits:
+    nvidia.com/gpu: 1
+```
+
+:::tip
+Ensure that the requested number of GPUs does not exceed what’s available **on any** node.
+:::
+
+### Addressing Scheduling Conflicts
+
+- **Resource Overcommitment:**  
+  - If multiple pods are scheduled with GPU resource requests, ensure that the overall demand does not exceed the cluster’s capacity.
+  - Overcommitting resources might lead to scheduling failures.
+- **Taints and Tolerations:**  
+  - GPU nodes may have specific taints (e.g., `nvidia.com/gpu=true:NoExecute`).
+  - Verify that your GPU-enabled pods include the proper tolerations so that the scheduler can place the pods on the GPU nodes.
+
+### Checking Operator Status
+
+Any errors here might indicate issues that indirectly affect GPU resource allocation:
+
+  ```bash
+  helm list -n gpu-operator
+  kubectl get pods -n gpu-operator
+  ```
+
+### Additional Information
+
+:::info see also
+
+- [How Do I Rectify Failures When the NVIDIA Driver Is Used to Start Containers on GPU Nodes?](https://docs.otc.t-systems.com/cloud-container-engine/umn/faqs/node/node_running/how_do_i_rectify_failures_when_the_nvidia_driver_is_used_to_start_containers_on_gpu_nodes.html)
+- [What Should I Do If an Error Occurs When I Deploy a Service on the GPU Node?](https://docs.otc.t-systems.com/cloud-container-engine/umn/faqs/workload/workload_exception_troubleshooting/what_should_i_do_if_an_error_occurs_when_i_deploy_a_service_on_the_gpu_node.html#cce-faq-00109)
+:::
