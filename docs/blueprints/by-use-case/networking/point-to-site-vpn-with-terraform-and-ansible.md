@@ -1,17 +1,17 @@
 ---
 id: point-to-site-vpn-with-terraform-and-ansible
-title: Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible
+title: Setup and Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible
 tags: [vpc, vpn, openvpn, terraform, ansible]
 ---
 
-# Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible
+# Setup and Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible
 
 ## Description
 
 - Engineers access sites from almost anywhere, thus being called road warriors.
 - In order to make sure, access is as secure as possible, VPNs are a good choice.
 - The goal of this project is to deliver an easy setup of an OpenVPN Server, and maintain it together with its users.
-- The OpenVPN Server will push a default route to its clients to make sure all traffic is routed through the VPN.
+- The OpenVPN Server will push a default route to its clients to make sure all traffic is routed through the VPN. **Please be aware that this additional traffic may create additional cost!**
 
 The current Terraform code:
 - creates a VPC and Subnet
