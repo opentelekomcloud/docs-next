@@ -56,16 +56,11 @@ From sidebar select *Add-ons* and install the **CCE AI Suite (NVIDIA GPU)**.
 
 ### Plugin Configuration
 
-For more information see [CCE AI Suite (NVIDIA GPU)](https://github.com/kubernetes-sigs/external-dnshttps://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
+For more information see [CCE AI Suite (NVIDIA GPU)](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
   :::caution
-  The selected driver must be compatible with the GPU nodes and supported by NVIDIA GPU Operator, otherwise the cluster will not be able to allocate GPU resources.
-  Check supported drivers at:
-
-- [CCE AI Suite (NVIDIA GPU)](https://github.com/kubernetes-sigs/external-dnshttps://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html),
-- [Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html).
-
+  The selected driver must be compatible with the GPU nodes and supported by NVIDIA GPU Operator, otherwise the cluster will not be able to allocate GPU resources. Check supported drivers at [Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html).
   :::
 
 ## Deploying the NVIDIA GPU Operator via Helm
@@ -153,6 +148,10 @@ Copy output data from the CUDA device to the host memory
 Test PASSED
 Done
 ```
+
+:::tip
+If you are looking for more sample workloads visit [NVIDIA GPU Operator Verification: Running Sample GPU Applications](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html#verification-running-sample-gpu-applications).
+:::
 
 ## Troubleshooting Tips
 
@@ -249,4 +248,5 @@ Any errors here might indicate issues that indirectly affect GPU resource alloca
 
 - [How Do I Rectify Failures When the NVIDIA Driver Is Used to Start Containers on GPU Nodes?](https://docs.otc.t-systems.com/cloud-container-engine/umn/faqs/node/node_running/how_do_i_rectify_failures_when_the_nvidia_driver_is_used_to_start_containers_on_gpu_nodes.html)
 - [What Should I Do If an Error Occurs When I Deploy a Service on the GPU Node?](https://docs.otc.t-systems.com/cloud-container-engine/umn/faqs/workload/workload_exception_troubleshooting/what_should_i_do_if_an_error_occurs_when_i_deploy_a_service_on_the_gpu_node.html#cce-faq-00109)
+- [NVIDIA Container Toolkit Troubleshooting](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/1.17.4/troubleshooting.html)
 :::
