@@ -7,6 +7,7 @@ import IamSvg from '@site/static/img/services/IAM.svg'
 import KmsSvg from '@site/static/img/services/Security-KMS.svg'
 import WafSvg from '@site/static/img/services/web-WAF.svg'
 import DwafSvg from '@site/static/img/services/web-WAF.svg'
+import CfwSvg from '@site/static/img/services/cfw.svg'
 
  const calloutsList: Callout[] = [
     {
@@ -14,6 +15,12 @@ import DwafSvg from '@site/static/img/services/web-WAF.svg'
       text: "Anti-DDoS Traffic Cleaning Service",
       link: "/docs/tags/anti-ddos",
       icon: AntiddosSvg
+    },
+    {
+      title: "CFW",
+      text: "Cloud Firewall",
+      link: "/docs/tags/cfw",
+      icon: CfwSvg
     },
     {
         title: "DDS",

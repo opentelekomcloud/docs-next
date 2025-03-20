@@ -2,6 +2,7 @@ import ServiceCallouts, { Callout } from './../callout';
 
 import AomSvg from '@site/static/img/services/aom.svg'
 import ApigSvg from '@site/static/img/services/apig.svg'
+import ApmSvg from '@site/static/img/services/apm.svg'
 import DmsSvg from '@site/static/img/services/DMS.svg'
 import SmnSvg from '@site/static/img/services/SMN.svg'
 
@@ -17,6 +18,12 @@ import SmnSvg from '@site/static/img/services/SMN.svg'
         text: "API Gateway",
         link: "/docs/tags/apig",
         icon: ApigSvg,
+    },
+    {
+      title: "APM",
+      text: "Application Performance Management",
+      link: "/docs/tags/apm",
+      icon: ApmSvg
     },
     {
       title: "DMS",
