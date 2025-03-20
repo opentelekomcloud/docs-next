@@ -42,7 +42,9 @@ You can install Jenkins using one of the following methods:
 In this blueprint, Jenkins is installed with a containerized Master and
 Agents. Kubernetes schedules the dynamic Agents:
 
-![**Figure 1** Installing Jenkins onKubernetes](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001348013634.png)
+<center>
+![**Figure 1** Installing Jenkins onKubernetes](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001348013634.jpg)
+</center>
 
 -   The Master handles jobs. Install Kubernetes add-ons on the Master to
     use the Kubernetes platform resources.
