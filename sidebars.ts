@@ -466,17 +466,17 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        {
-          type: 'category',
-          label: 'GaussDB NoSQL',
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
-            },
-          ],
-        },
+        // {
+        //   type: 'category',
+        //   label: 'GaussDB NoSQL',
+        //   items: [
+        //     {
+        //       type: 'link',
+        //       label: '📚 Go to Help Center',
+        //       href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
+        //     },
+        //   ],
+        // },
         {
           type: 'category',
           label: 'GeminiDB',

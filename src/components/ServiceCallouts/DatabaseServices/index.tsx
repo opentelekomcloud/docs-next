@@ -5,7 +5,7 @@ import DdmSvg from '@site/static/img/services/ddm.svg'
 import DdsSvg from '@site/static/img/services/DDS.svg'
 import DrsSvg from '@site/static/img/services/drs.svg'
 import GaussdbmysqlSvg from '@site/static/img/services/gaussdb_mysql.svg'
-import GaussdbnosqlSvg from '@site/static/img/services/gaussdb_nosql.svg'
+// import GaussdbnosqlSvg from '@site/static/img/services/gaussdb_nosql.svg'
 import RdsSvg from '@site/static/img/services/RDS .svg'
 import GeminidbSvg from '@site/static/img/services/RDS .svg'
 
@@ -40,12 +40,12 @@ import GeminidbSvg from '@site/static/img/services/RDS .svg'
       link: "/docs/tags/gaussdb-mysql",
       icon: GaussdbmysqlSvg
     },
-    {
-      title: "GaussDB NoSQL",
-      text: "Distributed NoSQL Database Service ",
-      link: "/docs/tags/gaussdb-nosql",
-      icon: GaussdbnosqlSvg
-    },
+    // {
+    //   title: "GaussDB NoSQL",
+    //   text: "Distributed NoSQL Database Service ",
+    //   link: "/docs/tags/gaussdb-nosql",
+    //   icon: GaussdbnosqlSvg
+    // },
     {
       title: "GeminiDB",
       text: "Distributed, Multi-Model NoSQL Database Service",
