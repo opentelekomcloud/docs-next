@@ -56,6 +56,17 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'Application Performance Management',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/application-performance-management/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Distributed Message Service',
           items: [
             {
@@ -194,7 +205,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
-          label: 'Auto-Scaling',
+          label: 'Auto Scaling',
           items: [
             {
               type: 'link',
@@ -455,17 +466,17 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        {
-          type: 'category',
-          label: 'GaussDB NoSQL',
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
-            },
-          ],
-        },
+        // {
+        //   type: 'category',
+        //   label: 'GaussDB NoSQL',
+        //   items: [
+        //     {
+        //       type: 'link',
+        //       label: '📚 Go to Help Center',
+        //       href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
+        //     },
+        //   ],
+        // },
         {
           type: 'category',
           label: 'GeminiDB',
@@ -494,17 +505,6 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Management & Deployment',
       items: [
-        {
-          type: 'category',
-          label: 'Application Performance Management',
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/application-performance-management/index.html',
-            },
-          ],
-        },
         {
           type: 'category',
           label: 'Cloud Create',
@@ -614,14 +614,25 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
+        // {
+        //   type: 'category',
+        //   label: 'Resource Management Service',
+        //   items: [
+        //     {
+        //       type: 'link',
+        //       label: '📚 Go to Help Center',
+        //       href: 'https://docs.otc.t-systems.com/resource-management-service/index.html',
+        //     },
+        //   ],
+        // },
         {
           type: 'category',
-          label: 'Resource Management Service',
+          label: 'Resource Formation Service',
           items: [
             {
               type: 'link',
               label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/resource-management-service/index.html',
+              href: 'https://docs.otc.t-systems.com/resource-formation-service/index.html',
             },
           ],
         },
@@ -810,6 +821,17 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/anti-ddos/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Cloud Firewall',
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/cloud-firewall/index.html',
             },
           ],
         },
