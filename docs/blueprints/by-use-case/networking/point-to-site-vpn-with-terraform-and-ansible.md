@@ -51,12 +51,6 @@ ssh-keygen -t rsa -C "user@example.com" -b 4096 -f ~/.ssh/ssh-private-key
 chmod 600 ~/.ssh/ssh-private-key
 ```
 
-### Configuration
-
-- The main configuration is done in a JSON file, use the template `./config.json`, e.g. copy it to a new file like `cp config.json otc-backend.config.json` before editing.
-- Place your SSH public key string in the variable `SSH_PUBLIC_KEY`.
-- Make sure the VPC/Subnet IP network does not have any overlapping with existing VPCs/Subnets you'd like to create a peering with, or with the usual private networks used by your users.
-
 ### Install Terraform
 
 You can use [tfenv](https://github.com/tfutils/tfenv) project to maintain your Terraform installation, or refer to the Terraform Website on [howto install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
@@ -82,21 +76,6 @@ echo 'export PATH=$PATH:$HOME/otc-auth/usr/bin/' >> ~/.bashrc
 otc-auth --version
 ```
 
-Create a file on your system, or in the root of this repository, e.g. named `otc-backend.auth` with the following content:
-
-```bash
-export ENV_OTC_DOMAIN="OTCxxxxxxxxxxxxxxxxxxxxxx"
-export ENV_OTC_DOMAIN_ID="*** a.k.a. Account ID ***"
-export ENV_OTC_REGION="e.g. eu-de"
-export ENV_OTC_PROJECT_NAME="e.g. eu-de_MyProjectName"
-export ENV_OTC_PROJECT_ID="***"
-export ENV_OTC_USERNAME="IAM username"
-export ENV_OTC_PASSWORD="IAM password"
-export ENV_OTC_AUTH_URL="https://iam.eu-de.otc.t-systems.com/v3"
-```
-
-**Security note: please make sure that the credentials are not accessed by unauthorized people!**
-
 ### Terraform state file in OBS
 
 - Just ignore this topic if you want to have a local state file.
@@ -115,7 +94,35 @@ pip install --upgrade ansible==10.7.0
 
 ## Install/Maintain your OpenVPN infrastructure with Terraform on your OTC environment
 
+### Clone the Repository
+
+```bash
+git clone --branch main --single-branch https://github.com/opentelekomcloud-blueprints/ovpn.git
+cd ovpn
+```
+
+### Configuration
+
+- The main configuration is done in a JSON file, use the template `./config.json`, e.g. copy it to a new file like `cp config.json otc-backend.config.json` before editing.
+- Place your SSH public key string in the variable `SSH_PUBLIC_KEY`.
+- Make sure the VPC/Subnet IP network does not have any overlapping with existing VPCs/Subnets you'd like to create a peering with, or with the usual private networks used by your users.
+
 ### Create a temporary token
+
+Create a file on your system, or in the root of this repository, e.g. named `otc-backend.auth` with the following content:
+
+```bash
+export ENV_OTC_DOMAIN="OTCxxxxxxxxxxxxxxxxxxxxxx"
+export ENV_OTC_DOMAIN_ID="*** a.k.a. Account ID ***"
+export ENV_OTC_REGION="e.g. eu-de"
+export ENV_OTC_PROJECT_NAME="e.g. eu-de_MyProjectName"
+export ENV_OTC_PROJECT_ID="***"
+export ENV_OTC_USERNAME="IAM username"
+export ENV_OTC_PASSWORD="IAM password"
+export ENV_OTC_AUTH_URL="https://iam.eu-de.otc.t-systems.com/v3"
+```
+
+**Security note: please make sure that the credentials are not accessed by unauthorized people!**
 
 The token will be valid 4h. You can change that value in `get_token.sh`
 
