@@ -9,6 +9,14 @@ import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 
 import styles from './styles.module.css';
 
+function truncateMiddle(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  const charsToShow = maxLength - 3;
+  const front = Math.ceil(charsToShow / 2);
+  const back = Math.floor(charsToShow / 2);
+  return text.substring(0, front) + '...' + text.substring(text.length - back);
+}
+
 // TODO move to design system folder
 function BreadcrumbsItemLink({
   children,
@@ -99,16 +107,14 @@ export default function DocBreadcrumbs(): ReactNode {
             item.type === 'category' && item.linkUnlisted
               ? undefined
               : item.href;
+          const label = !isLast ? truncateMiddle(item.label, 25) : truncateMiddle(item.label, 80)
+
           return (
-            <BreadcrumbsItem
-              key={idx}
-              active={isLast}
-              index={idx}
-              addMicrodata={!!href}>
+            <BreadcrumbsItem key={idx} active={isLast} index={idx} addMicrodata={!!href}>
               <BreadcrumbsItemLink href={href} isLast={isLast}>
-                {item.label}
+                {label}
               </BreadcrumbsItemLink>
-            </BreadcrumbsItem>
+            </BreadcrumbsItem> 
           );
         })}
       </ul>
