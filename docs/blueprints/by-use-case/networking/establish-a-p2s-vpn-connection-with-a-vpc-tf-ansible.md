@@ -6,41 +6,24 @@ tags: [vpc, vpn, openvpn, terraform, ansible, p2s]
 
 # Establish a Point-to-Site VPN Connection between your Development Machine and a VPC using Terraform and Ansible
 
-Engineers access sites from almost anywhere, earning the nickname road warriors.In order to make sure, access is as secure as possible, VPNs are a good choice. The goal of this blueprint is to deliver an easy way to setup, configure and manage an [OpenVPN](https://openvpn.net/) Server and its users. The OpenVPN Server will push a default route to its clients to make sure all traffic is routed through the VPN.
+Engineers access sites from almost anywhere, earning the nickname road warriors. In order to make sure, access is as secure as possible, VPNs are a good choice. The goal of this blueprint is to deliver an easy way to setup, configure and manage an [OpenVPN](https://openvpn.net/) Server and its users. The OpenVPN Server will push a default route to its clients to make sure all traffic is routed through the VPN.
 
 :::warning
-Please be aware that all traffic that will be routed through the VPN may create additional costs!
+Please be aware that all traffic that will be routed through the VPN creates additional costs!
 :::
 
 We are going to accomplish and automate this by using [Terraform](https://www.terraform.io/) and [Ansible](https://github.com/ansible/ansible).
-<!-- 
-With Terraform we are going to:
-
-- create a VPC and Subnet.
-- create an ECS (Ubuntu Linux box).
-- create security groups for incoming traffic on `tcp/22` (SSH) and `udp/1194` (OpenVPN).
-- create a private DNS domain.
-
-and with Ansible we will:
-
-- install and configure an OpenVPN Server.
-- install and configure EasyRSA.
-- setup local firewall (ufw).
-- maintain users by:
-    - creating/revoking user certificates.
-    - creating OpenVPN client configurations.
-    - packaging OpenVPN client configurations and certificates in ZIP archives ready to deliver to the users. -->
 
 ## Prerequisites
 
-- ECS Server running on Linux, git
+- A computer running Linux with git (e.g. your Laptop)
 - SSH key (private and public)
 - otc-auth >=2.2.1 [https://github.com/iits-consulting/otc-auth](https://github.com/iits-consulting/otc-auth)
 - Terraform Version v1.5.7 (Open Telekom CLoud Provider >= v1.36.31)
-    - Install Terraform: [https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-    - or use tfenv instead: [https://github.com/tfutils/tfenv](https://github.com/tfutils/tfenv)
+  - Install Terraform: [https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+  - or use tfenv instead: [https://github.com/tfutils/tfenv](https://github.com/tfutils/tfenv)
 - Ansible >= 10.7.0 (ansible-core >= 2.17.8)
-    - [https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+  - [https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 ### Creating SSH Key
 
@@ -173,14 +156,14 @@ terraform -chdir=./terraform_otc apply -var-file=../otc-backend.config.json
 ## Installing OpenVPN Server
 
 - The Ansible playbook was tested with Ansible 10.7.0 (ansible-core 2.17.8)
-- You may need to install `community.general` using the command ```ansible-galaxy collection install community.general```
+- Please install `community.general` using the command ```ansible-galaxy collection install community.general```
 - Make sure you have your SSH private key accessible, e.g. `... --private-key ~/.ssh/ssh-private-key ...`
 
 ### Initial Installation & Configuration
 
-- You may want to login to the OpenVPN host and reboot after the initial installation!
-- Please also consider changing/setting a password for the default user ubuntu (and store that safely)!
-- Please consider running this again whenever there are (security) updates available!
+- Please login to the OpenVPN host and reboot after the initial installation!
+- Please change the password for the default user ubuntu (and store that safely)! E.g. ```sudo passwd ubuntu```
+- Please create a reminder to run this step again on regular basis to apply any security updates available at the time!
 
 ```bash
 ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
@@ -234,7 +217,6 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 :::tip
 You can overwrite the variable `vpn_users` during a `create_users` call, in order to speed things up, when you have a lot of users;
 but make sure putting every user into `./ansible/vars/main.yml:vpn_users` as well, in order to keep track of your users.
-
 
 ```bash
 ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
@@ -313,15 +295,106 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 
 ## Installing & Configuring an OpenVPN Client
 
-<!-- ## OpenVPN Client
+### MS Windows 11 64bit OpenVPN Client
 
-### MS Windows 11 64bit
+- Download OpenVPN Community Client from [https://openvpn.net/community-downloads/](https://openvpn.net/community-downloads/)
+  - Tests were carried out using OpenVPN GUI Version 2.6.12 and Windows 11 Pro 64bit (24H2)
+- Install OpenVPN Client, follow the instructions of the installer
+  - Check the taskbar settings and enable the visibility of OpenVPN GUI taskbar icon
 
-- You can download the OpenVPN Community Client from [https://openvpn.net/community-downloads/](https://openvpn.net/community-downloads/).
-- Tests were carried out using OpenVPN GUI Version 2.6.12 and Windows 11 Pro 64bit (24H2)
-    - You may have to check the taskbar settings and enable the visibility of OpenVPN GUI
-- Unzip your ZIP archive into `C:\Program Files\OpenVPN\config` (only the files, no subdirectories)
-- Right click on the OpenVPN GUI icon and click connect -->
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Offline.png').default}
+  alt="GUIIconOffline" style={{width: 200}}
+/>
 
+- Unzip the ZIP archive containing your client configuration and certificates into `C:\Program Files\OpenVPN\config` (files only, no subdirectories!)
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-config-directory.png').default}
+  alt="ConfigDirectory" style={{width: 200}}
+/>
+
+- Right click on the OpenVPN GUI icon in the taskbar and click connect
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connect.png').default}
+  alt="IconConnect" style={{width: 200}}
+/>
+
+### MacOS OpenVPN Connect
+
+- Download the OpenVPN Connect v3 from [https://openvpn.net/client-connect-vpn-for-mac-os/](https://openvpn.net/client-connect-vpn-for-mac-os/)
+  - Tests were carried out using OpenVPN Connect Version 3.7.0 (5510) on macOS Sequoia Version 15.3.2
+- Install OpenVPN Client, follow the instructions of the installer
+- Unzip the ZIP archive containing your client configuration and certificates on your local disk (e.g. Documents/VPN)
+- Start OpenVPN Connect, click on UPLOAD FILE
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-GUI.png').default}
+  alt="ConnectGUI" style={{width: 200}}
+/>
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure.png').default}
+  alt="ConnectConfigure" style={{width: 200}}
+/>
+
+- Navigate to the unarchived contents of your ZIP archive, and choose your `*.ovpn` file
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-Choose-ConfigDirectory.png').default}
+  alt="ConnectConfigDirectory" style={{width: 200}}
+/>
+
+- Click on CONNECT
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-ImportedConfig.png').default}
+  alt="ConnectImportConfig" style={{width: 200}}
+/>
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Connected.png').default}
+  alt="Ping" style={{width: 200}}
+/>
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-NotConnected.png').default}
+  alt="NotConnected" style={{width: 200}}
+/>
 
 ## Validating Connectivity
+
+### Connectivity check on MS Windows 11 64bit
+
+- On your Windows Client after establishing the VPN connecting
+- Double-click on the OpenVPN GUI icon in the taskbar
+  - You should see "Current State: Connected" above the logs
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connected.png').default}
+  alt="IconConnected" style={{width: 200}}
+/>
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Connected.png').default}
+  alt="GUIConnected" style={{width: 200}}
+/>
+
+- Hit the Windows button on your keyboard, type cmd and hit enter
+  - In the cmd Window type ```ping 10.8.0.1``` and hit enter, you should get 4 replies
+
+<img
+  src={require('/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-CMD-Ping.png').default}
+  alt="Ping" style={{width: 200}}
+/>
+
+### Connectivity check on MacOS
+
+- On your MacOS Client after establishing the VPN connecting
+- Open a Terminal Window, type ```ping 10.8.0.1```, and hit enter. You should see replies coming in, until you enter Control+c
+
+<img
+  src={require('/workspaces/docs-next/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-TerminalPING.png').default}
+  alt="Ping" style={{width: 200}}
+/>
