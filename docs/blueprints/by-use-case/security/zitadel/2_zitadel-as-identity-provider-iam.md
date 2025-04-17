@@ -135,7 +135,7 @@ Replace `$ZITADEL_EXTERNALDOMAIN` with the actual fully qualified domain name po
 :::info
 Exchanging SAML metadata between the identity provider (ZITADEL) and the service provider (Open Telekom Cloud IAM) is a foundational step in establishing mutual trust within a SAML-based authentication flow. The metadata files serve as structured, signed documents that contain the public key infrastructure (PKI) necessary to validate digital signatures on SAML assertions—ensuring that identity claims are authentic and have not been altered in transit.
 
-Beyond cryptographic trust, SAML metadata also defines key operational endpoints such as the Single Sign-On (SSO), Assertion Consumer Service (ACS) URL and Single Logout (SLO) endpoint. By exchanging this information up front, both systems can interoperate seamlessly, eliminating the need for manual configuration and significantly reducing the risk of misrouted authentication messages. This automation is critical for ensuring that authentication flows are reliable, secure, and standards-compliant.
+Beyond cryptographic trust, SAML metadata also defines key operational endpoints such as the Single Sign-On (SSO) and Single Logout (SLO) endpoint. By exchanging this information up front, both systems can interoperate seamlessly, eliminating the need for manual configuration and significantly reducing the risk of misrouted authentication messages. This automation is critical for ensuring that authentication flows are reliable, secure, and standards-compliant.
 :::
 
 ## Creating a new Action
