@@ -16,7 +16,7 @@ jobs:
     environment: 
       name: pull-requests-preview
       url: 'https://${{ github.repository_owner }}.github.io${{ vars.DOCUSAURUS_BASE_URL }}pr-${{ github.event.pull_request.number }}'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
