@@ -32,7 +32,7 @@ Since ZITADEL is a stateful application, it requires persistent storage to retai
 
 Two distinct Security Groups will be required for this setup. The first will be assigned to the RDS instance/nodes and must allow inbound traffic on port `5432`, which is the default PostgreSQL port. If both the RDS and CCE nodes are deployed within the same Subnet, this rule can be restricted to that Subnet’s IP range for tighter control. This ensures that only internal workloads—such as ZITADEL running on CCE—can initiate connections to the database, minimizing exposure and adhering to the principle of least privilege.
 
-![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-fh3.png)
 
 The second Security Group will be assigned to the client nodes—in this case, the CCE worker nodes where ZITADEL will be running. This group must allow outbound traffic on port `5432` to reach the RDS instance. By explicitly controlling egress rules, you can enforce that only authorized services within your Kubernetes environment can initiate connections to the database, maintaining a secure and auditable network flow between components.
 
@@ -42,7 +42,7 @@ The second Security Group will be assigned to the client nodes—in this case, t
 
 The next step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that ZITADEL operates reliably under load and can scale as demand increases.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k8t.png)
+![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
 When provisioning the PostgreSQL instance, ensure the following network and security configurations are in place:
 
@@ -259,9 +259,9 @@ zitadel:
     Database:
       Postgres:
         User:
-          Password: ${ZITADEL_RDS_PASSWORD}
+          Password: ${ZITADEL_RDS_ROOT_PASSWORD}
         Admin:
-          Password: ${ZITADEL_RDS_PASSWORD}
+          Password: ${ZITADEL_RDS_ROOT_PASSWORD}
 
   dbSslCaCrtSecret: zitadel-rds-ssl-cert
 
