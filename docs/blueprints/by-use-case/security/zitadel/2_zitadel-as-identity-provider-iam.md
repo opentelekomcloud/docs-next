@@ -279,7 +279,7 @@ You can find more detailed information about **Conversion Rules** in Open Teleko
 
 :::
 
-## Validating
+## Validation
 
 Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud IAM Console*, locate your configured ZITADEL SAML provider, Then click *View* next to your configured Identity Provider. In the details panel, locate the *Login Link*, copy its value, and open it in an incognito or private browsing session using your preferred browser.
 
