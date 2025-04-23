@@ -68,6 +68,7 @@ const Carousel: React.FC<CarouselProps> = ({
     width,
     height,
     overflow: 'hidden',
+    marginBottom: '24px'
   };
   const sliderStyle: CSSProperties = {
     display: 'flex',
