@@ -24,6 +24,11 @@ For resilient, secure operations, follow Microsoft's [best practices](https://le
 
 Before proceeding with the deployment, make sure you have control over a publicly registered domain name. This is required for configuring a public endpoint for AD FS and enabling secure communication over HTTPS.
 
+For the rest of this blueprint we are going to assume:
+
+* **Public Domain**: `example.com`
+* **Private Domain**: `mycompany.com`
+
 ## Creating an ECS Server
 
 Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* and click *Create ECS Server*. Choose :
@@ -46,10 +51,10 @@ to get the credentials for the local Administrator account.
   showIndicators
   className="carousel-container"
 >
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-23-43.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-24-03.png" alt="Second slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-20-45.png" alt="First slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-25-43.png" alt="First slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-23-43.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-24-03.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-20-45.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-25-43.png"  />
 </Carousel>
 
 :::important
@@ -96,13 +101,13 @@ Create a Public DNS Zone in the Open Telekom Cloud DNS service, then define an *
   showIndicators
   className="carousel-container"
 >
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-38.png" alt="First slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-53.png" alt="Second slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-03.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-32.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-48-21.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-00.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-06.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-38.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-53.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-03.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-32.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-48-21.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-00.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-06.png"  />
 </Carousel>
 
 or run as Administrator the following Powershell command:
@@ -129,10 +134,10 @@ Once the ADDS role installation completes, the *Post-Deployment Configuration* l
   showIndicators
   className="carousel-container"
 >
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-56-50.png" alt="First slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-59-35.png" alt="Second slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-00-04.png" alt="Third slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-01-05.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-56-50.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-59-35.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-00-04.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-01-05.png"  />
 </Carousel>
 
 Alternatively, use PowerShell:
@@ -202,6 +207,32 @@ Add-ADGroupMember -Identity "ECS-Admins"    -Members mmax
 Be sure to substitute every occurrence of `ThisIsNotASecurePassword!` with a strong, organization-approved password.
 :::
 
+## Configuring a DNS Zone
+
+1. Go to *Server Manager* -> *Tools* -> *DNS*.
+2. Expand the tree and right-click *Forward Lookup Zones* -> *New Zone* and click *Next*.
+3. Choose *"Primary Zone"* as **Zone Type** and click *Next*.
+4. Choose *"To all DNS servers running on domain controllers in this domain: mycompany.com"* as **Active Directory Zone Replication Scope** and click *Next*.
+5. Enter `example.com` as **Zone Name** and click *Next* and *Finish*.
+
+Once the zone is created, right-click on it and then click on *New Host (A or AAAA)*. Fill in the following values for the A record and click *OK*:
+* **Host**: `adfs`
+* **IP address**: The private IP address of the ECS Server assigned by the VPC DHCP server.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-49-24.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-49-32.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-51-15.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-50-12.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-52-11.png"  />
+</Carousel>
+
 ## Installing Active Directory Certificate Services
 
 Before AD FS can issue and consume the SSL/TLS & token-signing certificates it needs, 
@@ -219,11 +250,149 @@ or alternatively via PowerShell:
 Install-WindowsFeature AD-Certificate -IncludeManagementTools
 ```
 
-## Configuring Active Directory Certificate Services
+Once the Active Directory Certificate Services are installed, Open *Server Manager* → *Tasks* and click the link *Configure Active Directory Services*
 
-## Configuring a DNS Zone
+![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-29-18.png)
+
+Follow the wizard steps and set the following values:
+
+1. **Credentials**: `MYCOMPANY\Administrator`, click *Next*
+2. **Select Role Services to configure**: select *"Certification Authority"* and click *Next*
+3. **Specify the setup type of the CA**: select *"Enterprise CA"* and click *Next*
+4. **Specify the type of the CA**: select *"Root CA"* and click *Next*
+5. **Specify the type of the private key**: select *"Create a new private key"* and click *Next*
+6. **Specify the cryptographic options**: select *"RSA#Microsoft Software Key Storage Provider"* with `2048` length and hash algorithm `SHA256`, click *Next*
+7. Click *Next* for the rest of the wizard steps and finally *Configure*
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-29-27.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-29-38.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-29-48.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-29-55.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_12-30-17.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-44-30.png"  />
+</Carousel>
 
 ## Installing Active Directory Federation Services
+
+### Creating Certificate
+
+First, we need to create a Certificate Template:
+
+1. Go to *Server Manager* -> *Tools* -> *Certificate Authority*.
+2. Expand the tree of the local authority, right-click on *Certificate Templates* and then click on *Manage* and the *Certificate Templates Console* will open.
+3. Find the template *Web Server* in the list, right-click on it and then click on *Duplicate Template*.
+4. Fill in the following information:
+    * Tab **General**: 
+      - **Template display name**: `ADFS SSL`.
+      - **Template name**: `ADFS SSL`.
+      - **Publish certificate in Active Directory**: Enable this option.
+    * Tab **Request Handling**: 
+      - **Allow private key to be exported**: Enable this option.
+    * Tab **Security**: 
+      - Add `Authenticated Users` in the *Group or user names* list and assign them `Read` and `Enroll` permissions.
+      - Add `Domain Computers` in the *Group or user names* list and assign them `Read` and `Enroll` permissions.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-45-47.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-46-12.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-46-53.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-47-03.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_13-47-37.png"  />
+</Carousel>
+
+Then we need to enable this Certificate Template:
+
+1. Go to *Server Manager* -> *Tools* -> *Certificate Authority*.
+2. Expand the tree of the local authority, right-click on *Certificate Templates* and then click on *New* -> *Certificate Template to Issue*.
+3. Pick the template you created in the previous step from the list and click *OK*.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 09-36-43.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 09-36-50.png" />
+</Carousel>
+
+And lastly, we need to issue the Certificate:
+
+1. Open a Powershell Console as Administrator and run `mmc`.
+2. Add the *Certificates* Snap-in. Select to manage a *"Computer Account"* and click *Next*/*.
+3. Select the *"Local computer"* and click *Finish* and *OK*.
+4. Right-click *Personal* -> *All Tasks* -> *Request New Certificate*, and the *Certificate Enrollment wizard* will open. Click *Next*.
+5. Select *"Active Directory Enrollment Policy"* as Certificate Enrollment Policy and click *Next*.
+6. Click on the link "More information is required to enroll for this certificate. Click here to configure settings." under your certificate template.
+7. On the *Certificate Properties* modal, configure the following and the exit by clicking *OK*:
+    * Tab **Subject**:
+      - **Subject name**::**Type**: *"Common name"*
+      - **Subject name**::**Value**: `adfs.example.com`
+      - **Alternative name**::**Type**: *"DNS"*
+      - **Alternative name**::**Value**: `adfs.example.com`
+      - **Alternative name**::**Value**: `certauth.adfs.example.com`
+    * Tab **General**:
+      - **Friendly name**: `ADSL SSL Cert`
+      - **Description**: `ADSL SSL Cert`
+    * Tab **Private Key**:
+      - **Key options**::**Make private key exportable**: Make sure this option is enabled
+8. Select the certificate template you just configured and click *Enroll*.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_13-45-14.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_13-45-25.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_13-46-12.png"  />
+</Carousel>
+
+### Installing the Server Role
+
+Once the AD FS role installation completes and the certificate is installed, the Post-Deployment Configuration link appears in Server Manager -> Tasks:
+
+1. Click *Configure the federation service on this server*.
+2. Choose *"Create the first federation server in a federation server farm"* and click *Next*.
+3. Add `adfs.example.com` as **SSL Certificate** and as **Federation Service Name**. Enter `ADSL example.com SSO Login` as **Federation Service Display Name** and click *Next*.
+4. Set `MYCOMPANY\Administrator` as the **Account Name** under *"Use an existing domain user account or group Managed Service Account"* and click *Next*.
+    :::warning
+    In production environments you should use a Service Account.
+    :::
+5. Select *"Create a database on this server using Windows Internal Database"* and click *Next*.
+6. Wait until the prerequisites checks are completed and if they are successful, click *Configure*.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-30-38.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-01.png" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-08.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-49.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-32-22.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-32-31.png"  />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-33-21.png"  />
+</Carousel>
 
 ### Registering SPN
 
@@ -238,9 +407,9 @@ setspn -s http/adfs.mycompany.com administrator
 ### Disabling Extended Protection Token Check
 
 :::warning
-When you integrate AD FS with most cloud‑based IAM or SSO front‑ends, you're typically introducing one or more TLS‑terminating proxies or load‑balancers. Those intermediaries break the Channel‑Binding Token (CBT) exchange that Extended Protection relies on, so AD FS sees no binding data and rejects the request.
+When you integrate AD FS with most cloud-based IAM or SSO front-ends, you're typically introducing one or more TLS-terminating proxies or load-balancers. Those intermediaries break the Channel-Binding Token (CBT) exchange that Extended Protection relies on, so AD FS sees no binding data and rejects the request.
 
-Disabling Extended Protection is almost always needed when you're fronting AD FS with a cloud‑based TLS terminator that doesn't forward the original channel‑binding info. Once you have an end‑to‑end TLS path (or move to non‑CBT‑based auth), you can safely turn it back on.
+Disabling Extended Protection is almost always needed when you're fronting AD FS with a cloud-based TLS terminator that doesn't forward the original channel-binding info. Once you have an end-to-end TLS path (or move to non-CBT-based auth), you can safely turn it back on.
 :::
 
 **Run as Administrator** the following command in PowerShell:
@@ -261,3 +430,10 @@ Set-AdfsProperties -EnableIdpInitiatedSignonPage $true
 
 ## Verification
 
+Open the address `https://adfs.example.com/adfs/ls/idpinitiatedsignon.aspx`, in an incognito or private browsing session using your preferred browser,
+and:
+
+1. Confirm that the SSL certificate is properly installed and trusted.  
+2. Verify the login page loads without errors and that the “Sign in” button is displayed.
+
+![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_12-27-34.png)

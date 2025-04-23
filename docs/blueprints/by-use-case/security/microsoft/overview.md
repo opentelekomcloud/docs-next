@@ -13,7 +13,7 @@ To enable federated access, [Active Directory Federation Services](https://learn
 [Microsoft Entra ID](https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id) (formerly Azure Active Directory) is the cloud‑native identity and access management platform that complements on‑prem AD and ADFS by providing OAuth 2.0/OpenID Connect endpoints, B2B/B2C collaboration features, and conditional access policies. Entra ID supports hybrid identity architectures—synchronizing on‑prem accounts to the cloud via Azure AD Connect—and offers scalable authentication for SaaS applications, mobile clients and microservices in distributed environments.
 
 :::info Next Steps
+
 * [Active Directory as Identity Provider for IAM](active-directory-as-identity-provider-iam.md)
-* [Entra ID as Identity Provider for IAM](active-directory-as-identity-provider-iam.md)
 
 :::
