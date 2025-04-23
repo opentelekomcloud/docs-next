@@ -5,6 +5,7 @@ tags: [security, saml, active-directory, ldap, adfs, microsoft]
 ---
 
 import Carousel from '@site/src/components/Carousel';
+import { useBaseUrl } from '@docusaurus/useBaseUrl';
 
 # Deploy Active Directory Federation Services on ECS
 
@@ -385,13 +386,13 @@ Once the AD FS role installation completes and the certificate is installed, the
   showIndicators
   className="carousel-container"
 >
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-30-38.png" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-01.png" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-08.png"  />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-31-49.png"  />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-32-22.png"  />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-32-31.png"  />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot from 2025-04-23 10-33-21.png"  />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-30-38.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-31-01.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-31-08.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-31-49.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-32-22.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-32-31.png")} />
+  <img src={useBaseUrl("img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-23_10-33-21.png")} />
 </Carousel>
 
 ### Registering SPN
