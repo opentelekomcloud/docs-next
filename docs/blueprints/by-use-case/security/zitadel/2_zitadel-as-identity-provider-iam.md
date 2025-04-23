@@ -279,7 +279,7 @@ You can find more detailed information about **Conversion Rules** in Open Teleko
 
 :::
 
-## Validation
+## Verification
 
 Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud IAM Console*, locate your configured ZITADEL SAML provider, Then click *View* next to your configured Identity Provider. In the details panel, locate the *Login Link*, copy its value, and open it in an incognito or private browsing session using your preferred browser.
 
@@ -287,7 +287,7 @@ Complete all first-time login steps as prompted, and if the SAML assertions and 
 
 ![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_08-10-39.png)
 
-## Debugging
+## Troubleshooting
 
 If the SAML federation flow is not working as expected, follow this step-by-step guide to isolate and resolve issues:
 
