@@ -272,6 +272,7 @@ const Carousel: React.FC<CarouselProps> = ({
     width,
     height,
     overflow: 'hidden',
+    marginBottom: '32px'
   };
 
   const sliderStyle: CSSProperties = {

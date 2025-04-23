@@ -6,7 +6,7 @@ tags: [security, saml, iam, active-directory, ldap, adfs, microsoft]
 
 # Active Directory as Identity Provider for IAM
 
-In this guide, we’ll walk you through extending your on‑premises Microsoft Active Directory Domain Services (AD DS) environment by deploying Active Directory Federation Services (AD FS) to establish a secure, claims‑based federation with Open Telekom Cloud’s Identity and Access Management (IAM) platform. We’ll cover everything from preparing SSL certificates and configuring your AD FS farm, to creating the Relying Party Trust in AD FS, defining claim issuance rules, and exchanging federation metadata. By leveraging the SAML 2.0 protocol, you’ll achieve seamless single‑sign‑on between your corporate directory and the cloud IAM, ensuring both strong security and a smooth user experience.
+In this guide, we'll walk you through extending your on‑premises Microsoft Active Directory Domain Services (AD DS) environment by deploying Active Directory Federation Services (AD FS) to establish a secure, claims‑based federation with Open Telekom Cloud's Identity and Access Management (IAM) platform. We'll cover everything from preparing SSL certificates and configuring your AD FS farm, to creating the Relying Party Trust in AD FS, defining claim issuance rules, and exchanging federation metadata. By leveraging the SAML 2.0 protocol, you'll achieve seamless single‑sign‑on between your corporate directory and the cloud IAM, ensuring both strong security and a smooth user experience.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ First, retrieve the Service Provider metadata for Open Telekom Cloud:
 2. When the XML metadata loads, save the document locally under the filename **sp-metadata.xml**.  
 3. Confirm that **sp-metadata.xml** is intact—its root element should be `<EntityDescriptor>`—before proceeding.  
 
-You’ll reference this file when establishing the Relying Party Trust in AD FS.
+You'll reference this file when establishing the Relying Party Trust in AD FS.
 
 Then, go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts* -> *Add Relying Party Trust*
 
@@ -42,7 +42,7 @@ Follow the wizard:
 6. **Finish**: Deselect "*Configure claims issuance policy for this application*" and click *Close*.
 
 :::danger
-In Step 4 of the Relying Party Trust configuration, you’ll specify the Access Control Policy that governs who can authenticate via this trust. For the purposes of this blueprint we’ve selected the built‑in "*Permit everyone*" policy to streamline testing and validation. In your environment, however, you should work closely with your security and platform architects to choose a policy that enforces the appropriate controls (for example, requiring MFA, restricting by AD group membership, or integrating with Conditional Access rules) in accordance with your organization’s security guidelines.
+In Step 4 of the Relying Party Trust configuration, you'll specify the Access Control Policy that governs who can authenticate via this trust. For the purposes of this blueprint we've selected the built‑in "*Permit everyone*" policy to streamline testing and validation. In your environment, however, you should work closely with your security and platform architects to choose a policy that enforces the appropriate controls (for example, requiring MFA, restricting by AD group membership, or integrating with Conditional Access rules) in accordance with your organization's security guidelines.
 :::
 
 ### Setting the Secure Hash Algorithm
@@ -94,7 +94,7 @@ Next, let's configure the Claims Issuance Policy so that AD FS will emit the co
    * **Outgoing claim value**: *ECS-Admins*
 
 :::important
-This blueprint assumes you’ve already deployed and configured your AD FS farm on Open Telekom Cloud ECS in accordance with the [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs.md) guide. If your AD FS topology or certificate infrastructure differs, adjust the settings in steps 3 & 4—and throughout the rest of this document—to align with your organization’s landscape and security requirements.
+This blueprint assumes you've already deployed and configured your AD FS farm on Open Telekom Cloud ECS in accordance with the [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs.md) guide. If your AD FS topology or certificate infrastructure differs, adjust the settings in steps 3 & 4—and throughout the rest of this document—to align with your organization's landscape and security requirements.
 :::
 
 5. **Rule 05**: Click on *Add Rule*:
@@ -105,44 +105,6 @@ This blueprint assumes you’ve already deployed and configured your AD FS farm
   Fill in the *Mapping of LDAP attributes to outgoing claim types* as depicted in the picture below:
 
   ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_10-59-39.png)
-
-## Registering SPN
-
-:::important 
-This blueprint assumes you’ve already deployed and configured your AD FS farm on Open Telekom Cloud ECS in accordance with the [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs.md) guide, so the **internal** FQDN name of your AD FS server is `adfs.mycompany.com`.
-:::
-
-When you configure Windows Integrated Authentication against your ADFS endpoint, the client will request a Kerberos ticket for the SPN **HTTP/adfs.mycompany.com.**. The Active Directory Key Distribution Center (KDC) must locate that SPN on the correct service account in order to encrypt the ticket with the matching key. If the SPN is missing or bound to the wrong account, Kerberos authentication cannot proceed—clients will either fall back to NTLM or enter a `401` challenge loop. To prevent this, we need to register the SPN explicitly on your AD FS service account in order to ensure that KDC can issue a valid Kerberos ticket and your Windows Integrated Auth flow succeeds.
-
-**Run as Administrator** the following command in PowerShell:
-
-```powershell
-setspn -s http/adfs.mycompany.com administrator
-```
-
-## Disabling Extended Protection Token Check
-
-:::warning
-When you integrate AD FS with most cloud‑based IAM or SSO front‑ends, you’re typically introducing one or more TLS‑terminating proxies or load‑balancers. Those intermediaries break the Channel‑Binding Token (CBT) exchange that Extended Protection relies on, so AD FS sees no binding data and rejects the request.
-
-Disabling Extended Protection is almost always needed when you’re fronting AD FS with a cloud‑based TLS terminator that doesn’t forward the original channel‑binding info. Once you have an end‑to‑end TLS path (or move to non‑CBT‑based auth), you can safely turn it back on.
-:::
-
-**Run as Administrator** the following command in PowerShell:
-
-```powershell
-Set-ADFSProperties -ExtendedProtectionTokenCheck None
-```
-
-## Enabling AD FS Sign-On Page
-
-By default (in Microsoft Server 2016 and later) the sign-on page is off, so trying to browse to: `https://adfs.example.com/adfs/ls/idpinitiatedsignon.aspx` will yield a `404` error.
-
-**Run as Administrator** the following command in PowerShell:
-
-```powershell
-Set-AdfsProperties -EnableIdpInitiatedSignonPage $true
-```
 
 ## Configuring IAM
 
@@ -269,6 +231,6 @@ Exception details:
 Microsoft.IdentityServer.Protocols.Saml.SamlProtocolSignatureAlgorithmMismatchException: MSIS7093: The message is not signed with expected signature algorithm. Message is signed with signature algorithm http://www.w3.org/2000/09/xmldsig#rsa-sha1. Expected signature algorithm http://www.w3.org/2001/04/xmldsig-more#rsa-sha256.
 ```
 
-That exception is informing us that AD FS will **only** accept SAML messages signed with the algorithm it’s been configured to expect—and in this case it was configured for `RSA‑SHA256`, but the Service Provider (Open Telekom Cloud) is signing everything with `RSA‑SHA1`. In order to solve this error refer to [Setting the Secure Hash Algorithm](#setting-the-secure-hash-algorithm).
+That exception is informing us that AD FS will **only** accept SAML messages signed with the algorithm it's been configured to expect—and in this case it was configured for `RSA‑SHA256`, but the Service Provider (Open Telekom Cloud) is signing everything with `RSA‑SHA1`. In order to solve this error refer to [Setting the Secure Hash Algorithm](#setting-the-secure-hash-algorithm).
 
 

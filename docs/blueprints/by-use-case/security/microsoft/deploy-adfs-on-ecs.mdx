@@ -1,15 +1,43 @@
 ---
 id: deploy-adfs-on-ecs
-title: Deploy Active Directory Federation Service on ECS
+title: Deploy Active Directory Federation Services on ECS
 tags: [security, saml, active-directory, ldap, adfs, microsoft]
 ---
 
 import Carousel from '@site/src/components/Carousel';
 
+# Deploy Active Directory Federation Services on ECS
 
-# Deploy Active Directory Federation Service on ECS
+In this guide, we'll walk you through deploying Microsoft Active Directory Federation Service (AD FS) on ECS. We'll cover everything from installing Active Directory Domain Services & Active Directory Certificate Services, preparing SSL certificates, configuring DNS zones till installing and configuring an AD FS farm.
 
-In this guide, we’ll walk you through deploying Microsoft Active Directory Federation Service (AD FS) on ECS. We’ll cover everything from installing Active Directory Domain Services & Active Directory Certificate Services, preparing SSL certificates, configuring DNS zones till installing and configuring an AD FS farm.
+:::warning disclaimer
+Deploying Active Directory Domain Services (AD DS), Active Directory Certificate Services (AD CS), and Active Directory Federation Services (AD FS) all on a single Windows server is supported for proof-of-concept or lab environments but is not recommended for production. Co-locating these roles can lead to:
+
+* **Resource Contention**: Directory replication, certificate issuance and federation token processing all compete for CPU, memory and I/O, potentially degrading performance.
+* **Security Boundaries**: A compromise of one service (e.g. the CA) could expose your entire identity infrastructure—isolating roles on dedicated VMs or hardened physical hosts reduces blast radius.
+* **Patch and Maintenance Complexity**: Windows updates or configuration changes for one role may inadvertently impact the others, complicating change windows and downtime planning.
+
+For resilient, secure operations, follow Microsoft's [best practices](https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/deployment/best-practices-securing-ad-fs) by placing AD DS, AD CS and AD FS on separate servers, enforce strict network segmentation, and implement a robust backup and DR strategy.
+:::
+
+## Prerequisites
+
+Before proceeding with the deployment, make sure you have control over a publicly registered domain name. This is required for configuring a public endpoint for AD FS and enabling secure communication over HTTPS.
+
+## Creating an ECS Server
+
+Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* and click *Create ECS Server*. Choose :
+
+  * **Flavor**: "*General-purpose s7n.large.2*"
+  * **Image**: *Public Image* -> "*Windows*" -> "*Enterprise_Windows_Server_2025_STD_amd64_bios_latest*"
+  * **Security Group**: Add the following **Inbound Rules** to a new Security Group (or amend an existing one):
+    - `TCP/80`, `TCP/443`
+    - `TCP/3389 ` 
+  * **EIP**: Click on "*Auto assign*"
+
+Complete the wizard and deploy the ECS instance. Once the deployment completes, return the *Elastic Cloud Server*, enter your ECS instance 
+and click *More* -> *Get Password*. Click *Select File* to select the Key Pair you used during the installation and click *Get Password* in order 
+to get the credentials for the local Administrator account. 
 
 <Carousel
  width="100%"
@@ -18,17 +46,218 @@ In this guide, we’ll walk you through deploying Microsoft Active Directory Fed
   showIndicators
   className="carousel-container"
 >
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-23-20.png" alt="First slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-31-37.png" alt="Second slide" />
-  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_12-17-20.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-23-43.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-24-03.png" alt="Second slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-20-45.png" alt="First slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-25-43.png" alt="First slide" />
 </Carousel>
 
-## Creating an ECS Server
+:::important
+* Make sure you save the Key Pair (a `.pem` file) after its creation in your working station.
+* Getting the password will not be available for the first 3-5min after the creation of the instance.
+:::
+
+## Creating a Public DNS Endpoint
+
+When integrating AD FS as an Identity Provider (IdP) within your Open Telekom Cloud tenant—it is essential that the Elastic IP (EIP) assigned to your ECS Server 
+resolves to a valid and secure FQDN. This means the public DNS entry must point to the EIP and be backed by a properly issued TLS certificate.
+
+Without this, the Open Telekom Cloud platform will not accept the IdP registration due to trust and validation requirements. 
+Ensuring your AD FS endpoint is accessible over a recognized, secure URL is not just best practice—it's a prerequisite for federation scenarios with OTC's IAM services.
+
+To enable full DNS-based automation and allow for secure domain validation—especially when configuring AD FS as an Identity Provider—you need to delegate domain management to Open Telekom Cloud's Domain Name Service (DNS). This requires transferring authority over your domain's NS (Name Server) records to OTC.
+
+Start by logging into your domain registrar's control panel and ensure the following:
+
+1. Disable any dynamic DNS features associated with the domain or subdomains that will be used by AD FS endpoints.
+2. Update the NS records of your domain to point exclusively to the following OTC name servers. 
+
+  ```
+  ns1.open-telekom-cloud.com
+  ns2.open-telekom-cloud.com
+  ```
+
+Once the nameserver change propagates and OTC has authoritative control over your domain, you're ready to define DNS zones and records. 
+Create a Public DNS Zone in the Open Telekom Cloud DNS service, then define an **A record** that maps your AD FS public domain (e.g., `adfs.example.com`) to the EIP you've already assigned to your ECS Server.
 
 ## Installing Active Directory Domain Services
 
+### Installing the Server Roles
+
+1. Open *Server Manager* → *Add roles and features*.
+2. Select "*Role-based or feature-based installation*" and choose the ECS Server from the *Server Pool*.
+3. Under *Server Roles*, check "*Active Directory Domain Services*" and "*DNS Server*"
+4. Click *Next* through the wizard, confirm installation selections and click *Install*.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-38.png" alt="First slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-46-53.png" alt="Second slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-03.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-47-32.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-48-21.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-00.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-49-06.png" alt="Third slide" />
+</Carousel>
+
+or run as Administrator the following Powershell command:
+
+```Powershell
+Install-WindowsFeature AD-Domain-Services, DNS -IncludeManagementTools
+```
+
+### Promoting ECS Server to Domain Controller
+
+Once the ADDS role installation completes, the *Post-Deployment Configuration* link appears in *Server Manager* -> *Tasks*:
+
+1. Click *Promote this server to a domain controller*.
+2. Choose *Add a new forest* and enter `mycompany.com` as domain name .
+3. Specify a *Directory Services Restore Mode (DSRM)* password.
+4. Accept *NETBIOS domain name* as is and **disable** (if it's enabled) the *Create DNS delegation* option.
+4. Accept default locations for the database, log files and SYSVOL.
+5. Review prerequisites, then click *Install*. The server will reboot when promotion finishes.
+
+<Carousel
+ width="100%"
+  height="400px"
+  showArrows
+  showIndicators
+  className="carousel-container"
+>
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-56-50.png" alt="First slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_06-59-35.png" alt="Second slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-00-04.png" alt="Third slide" />
+  <img src="/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_07-01-05.png" alt="Third slide" />
+</Carousel>
+
+Alternatively, use PowerShell:
+
+```PowerShell
+$secPwd = ConvertTo-SecureString "ThisIsNotASecurePassword!" -AsPlainText -Force
+Install-ADDSForest `
+  -DomainName "mycompany.com" `
+  -CreateDNSDelegation:$false `
+  -DatabasePath "C:\Windows\NTDS" `
+  -DomainMode "WinThreshold" `
+  -ForestMode "WinThreshold" `
+  -InstallDNS:$true `
+  -LogPath "C:\Windows\NTDS" `
+  -SysvolPath "C:\Windows\SYSVOL" `
+  -SafeModeAdministratorPassword $secPwd `
+  -Force
+```
+
+:::warning
+Be sure to substitute every occurrence of `ThisIsNotASecurePassword!` with a strong, organization-approved password.
+:::
+
+### Creating Organization Unit, Users & Groups
+
+Before mapping roles in AD FS and Open Telekom Cloud, we need first to define our administrative scopes by provisioning a new Organization Unit (OU), 
+two security groups,`Tenant-Admins` and `ECS-Admins`, and then create one user per group. 
+
+1. Open *Server Manager* -> *Tools* -> *Active Directory Users and Computers*, right-click on **mycompany.com** -> *New* -> *Organization Unit*.
+    Enter as name, the name of your Open Telekom Cloud Tenant and enable *"Protect container from accidental deletion"* and click *OK*.
+2. Right-click the newly created OU -> *New* -> *Group*.
+    - **Group name**: `Tenant-Admins`
+    - **Group scope**: *"Global"*
+    - **Group type**: *"Security"*
+
+    Repeat to create `ECS-Admins`.
+3. Right-click the newly created OU -> *New* -> *User*. Create a new user (e.g. Erika Mustermann, merika@mycompany.com) and assign them to group **Tenant-Admins**.
+4. Right-click the newly created OU -> *New* -> *User*. Create a new user (e.g. Max Mustermann, mmax@mycompany.com) and assign them to group **ECS-Admins**.
+
+![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_14-38-59.png)
+
+or altenative run as Administrator the following PowerShell commands:
+
+```PowerShell
+# Define base DN for the OTC OU in the mycompany.com domain
+$otcOu = "OU=OTC0000001XXXXX,DC=mycompany,DC=com"
+# Create groups
+New-ADGroup -Name "Tenant-Admins" -GroupScope Global -GroupCategory Security -Path $otcOu
+New-ADGroup -Name "ECS-Admins"    -GroupScope Global -GroupCategory Security -Path $otcOu
+# Create users
+New-ADUser -Name "Erika Mustermann" -SamAccountName merika `
+  -UserPrincipalName merika@mycompany.com `
+  -Path $otcOu `
+  -AccountPassword (ConvertTo-SecureString "ThisIsNotASecurePassword!" -AsPlainText -Force) `
+  -Enabled $true
+New-ADUser -Name "Max Mustermann" -SamAccountName mmax `
+  -UserPrincipalName mmax@mycompany.com `
+  -Path $otcOu `
+  -AccountPassword (ConvertTo-SecureString "ThisIsNotASecurePassword!" -AsPlainText -Force) `
+  -Enabled $true
+# Add users to groups
+Add-ADGroupMember -Identity "Tenant-Admins" -Members merika
+Add-ADGroupMember -Identity "ECS-Admins"    -Members mmax
+```
+
+:::warning
+Be sure to substitute every occurrence of `ThisIsNotASecurePassword!` with a strong, organization-approved password.
+:::
+
 ## Installing Active Directory Certificate Services
+
+Before AD FS can issue and consume the SSL/TLS & token-signing certificates it needs, 
+we must setup an Enterprise Certificate Authority on the ECS domain controller.
+
+1. Open *Server Manager*, click *Add roles and features*.
+2. Choose *"Role-based or feature-based installation"*, and select the ECS Server from the *Server Pool*.
+3. Under *Server Roles*, check *"Active Directory Certificate Services"*.
+4. When prompted to select *AD CS/Role Services*, include the "*Certification Authority*".
+5. Click *Next* through the wizard and then *Install*.
+
+or alternatively via PowerShell:
+
+```PowerShell
+Install-WindowsFeature AD-Certificate -IncludeManagementTools
+```
+
+## Configuring Active Directory Certificate Services
 
 ## Configuring a DNS Zone
 
 ## Installing Active Directory Federation Services
+
+### Registering SPN
+
+When you configure Windows Integrated Authentication against your ADFS endpoint, the client will request a Kerberos ticket for the SPN **HTTP/adfs.mycompany.com.**. The Active Directory Key Distribution Center (KDC) must locate that SPN on the correct service account in order to encrypt the ticket with the matching key. If the SPN is missing or bound to the wrong account, Kerberos authentication cannot proceed—clients will either fall back to NTLM or enter a `401` challenge loop. To prevent this, we need to register the SPN explicitly on your AD FS service account in order to ensure that KDC can issue a valid Kerberos ticket and your Windows Integrated Auth flow succeeds.
+
+**Run as Administrator** the following command in PowerShell:
+
+```powershell
+setspn -s http/adfs.mycompany.com administrator
+```
+
+### Disabling Extended Protection Token Check
+
+:::warning
+When you integrate AD FS with most cloud‑based IAM or SSO front‑ends, you're typically introducing one or more TLS‑terminating proxies or load‑balancers. Those intermediaries break the Channel‑Binding Token (CBT) exchange that Extended Protection relies on, so AD FS sees no binding data and rejects the request.
+
+Disabling Extended Protection is almost always needed when you're fronting AD FS with a cloud‑based TLS terminator that doesn't forward the original channel‑binding info. Once you have an end‑to‑end TLS path (or move to non‑CBT‑based auth), you can safely turn it back on.
+:::
+
+**Run as Administrator** the following command in PowerShell:
+
+```powershell
+Set-ADFSProperties -ExtendedProtectionTokenCheck None
+```
+
+### Enabling AD FS Sign-On Page
+
+By default (in Microsoft Server 2016 and later) the sign-on page is off, so trying to browse to: `https://adfs.example.com/adfs/ls/idpinitiatedsignon.aspx` will yield a `404` error.
+
+**Run as Administrator** the following command in PowerShell:
+
+```powershell
+Set-AdfsProperties -EnableIdpInitiatedSignonPage $true
+```
+
+## Verification
+
