@@ -1,8 +1,8 @@
----
+{/* ---
 id: deploy-adfs-on-ecs
 title: Deploy Active Directory Federation Services on ECS
 tags: [security, saml, active-directory, ldap, adfs, microsoft]
----
+--- */}
 
 import React from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';

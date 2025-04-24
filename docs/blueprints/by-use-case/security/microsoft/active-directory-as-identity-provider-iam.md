@@ -12,7 +12,7 @@ In this guide, we'll walk you through extending your on‑premises Microsoft Act
 
 Before initiating the integration process, make sure the following prerequisites are met:
 
-* A fully deployed and accessible ADFS instance, reachable via a valid public domain. Otherwise, follow the guide: [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs).
+* A fully deployed and accessible ADFS instance, reachable via a valid public domain.
 * Administrator-level access to both Microsoft ADFS and Open Telekom Cloud's Identity and Access Management (IAM) console.
 * A working knowledge of SAML 2.0, particularly around concepts such as assertions, metadata exchange, and service provider (SP) vs. identity provider (IdP) roles. If needed, refer to the SAML 2.0 specification for a foundational overview.
 These requirements ensure that you're equipped to configure and validate the trust relationship between the two platforms.
@@ -47,7 +47,7 @@ In Step 4 of the Relying Party Trust configuration, you'll specify the Access C
 
 ### Setting the Secure Hash Algorithm
 
-Finally, if you have followed the guide [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs) or your existing Certificates Authority works with `RSA-SHA256`, we need to set the secure hash algorith to `RSA-SHA1`. Go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts*, right-click on **Open Telekom Cloud**, click *Properties* and go to tab *Advanced*:
+Finally, we need to set the secure hash algorith to `RSA-SHA1`. Go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts*, right-click on **Open Telekom Cloud**, click *Properties* and go to tab *Advanced*:
 
 ![alt text](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_12-17-20.png)
 
@@ -94,10 +94,10 @@ Next, let's configure the Claims Issuance Policy so that AD FS will emit the co
    * **Outgoing claim value**: *ECS-Admins*
 
 :::important
-This blueprint assumes you've already deployed and configured your AD FS farm on Open Telekom Cloud ECS in accordance with the [Deploy Active Directory Federation Service on ECS](deploy-adfs-on-ecs) guide. If your AD FS topology or certificate infrastructure differs, adjust the settings in steps 3 & 4—and throughout the rest of this document—to align with your organization's landscape and security requirements.
+This blueprint assumes you have the following groups in Active Directory : `Tenant-Admins` and `ECS-Admins`. Adjust the settings in steps 3 & 4 according to your AD users and groups.
 :::
 
-5. **Rule 05**: Click on *Add Rule*:
+1. **Rule 05**: Click on *Add Rule*:
    * **Claim rule template**: "*Send LDAP Attributes as Claims*"
    * **Claim rule name**: *ldap_attributes_rule*
    * **Attribute store**: "*Active Directory*"
