@@ -24,7 +24,7 @@ The network topology requirements are as follows:
 <center>
 **Figure 1** Network topology  
 
-![](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0268337419.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0268337419.png)
 </center>
 
 ## Creating the ECSs
@@ -37,7 +37,7 @@ The network topology requirements are as follows:
 
     <center>
     **Figure 2** Disabling source/destination check  
-    ![](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0268337422.png)
+    ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0268337422.png)
     </center>
 
 3. **Deploy containers on ECSs.**

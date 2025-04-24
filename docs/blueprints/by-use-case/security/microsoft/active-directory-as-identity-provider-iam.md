@@ -30,7 +30,7 @@ You'll reference this file when establishing the Relying Party Trust in AD FS.
 
 Then, go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts* -> *Add Relying Party Trust*
 
-![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_09-34-05.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_09-34-05.png)
 
 Follow the wizard:
 
@@ -49,13 +49,13 @@ In Step 4 of the Relying Party Trust configuration, you'll specify the Access C
 
 Finally, we need to set the secure hash algorith to `RSA-SHA1`. Go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts*, right-click on **Open Telekom Cloud**, click *Properties* and go to tab *Advanced*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_12-17-20.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_12-17-20.png)
 
 ## Editing Claim Issuance Policy
 
 Next, let's configure the Claims Issuance Policy so that AD FS will emit the correct SAML assertions to Open Telekom Cloud. go to *Server Manager* -> *Tools* -> *AD FS Management* -> *Relying Party Trusts*, right-click on **Open Telekom Cloud** and click *Edit Claim Issuance Policy*:
 
-![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_14-23-32.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-21_14-23-32.png)
 
 1. **Rule 01**: Click on *Add Rule*:
    * **Claim rule template**: "*Send Claims using a Custom Rule*"
@@ -104,7 +104,7 @@ This blueprint assumes you have the following groups in Active Directory : `Tena
   
   Fill in the *Mapping of LDAP attributes to outgoing claim types* as depicted in the picture below:
 
-  ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_10-59-39.png)
+  ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_10-59-39.png)
 
 ## Configuring IAM
 
@@ -206,11 +206,11 @@ This blueprint operates under the assumption that your Open Telekom Cloud IAM en
 
 Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud IAM Console*, locate your configured AD FS SAML provider, Then click *View* next to your configured Identity Provider. In the details panel, locate the *Login Link*, copy its value, and open it in an incognito or private browsing session using your preferred browser:
 
-![alt text](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-23-20.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-23-20.png)
 
 Enter your corporate credentials for a user who is a member of `MYCOMPANY\ECS-Admins` and verify that he is operating with reduced priviledges in Open Telekom Cloud Console:
 
-![alt text](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-31-37.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-04-22_11-31-37.png)
 
 ## Troubleshooting
 

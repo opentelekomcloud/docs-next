@@ -18,7 +18,7 @@ You'll need a Virtual Private Cloud (VPC) along with at least one Subnet to host
 
 Go to *Open Telekom Cloud Console* -> *Virtual Private Cloud* and click *Create VPC*:
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ezg.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ezg.png)
 
 :::important
 This deployment model assumes that both the RDS instances and the CCE nodes are provisioned within the same VPC. Keeping all resources within a single virtual network simplifies routing, reduces latency, and allows for more straightforward security group and network ACL management.
@@ -32,24 +32,24 @@ Since ZITADEL is a stateful application, it requires persistent storage to retai
 
 Two distinct Security Groups will be required for this setup. The first will be assigned to the RDS instance/nodes and must allow inbound traffic on port `5432`, which is the default PostgreSQL port. If both the RDS and CCE nodes are deployed within the same Subnet, this rule can be restricted to that Subnet’s IP range for tighter control. This ensures that only internal workloads—such as ZITADEL running on CCE—can initiate connections to the database, minimizing exposure and adhering to the principle of least privilege.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-fh3.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-fh3.png)
 
 The second Security Group will be assigned to the client nodes—in this case, the CCE worker nodes where ZITADEL will be running. This group must allow outbound traffic on port `5432` to reach the RDS instance. By explicitly controlling egress rules, you can enforce that only authorized services within your Kubernetes environment can initiate connections to the database, maintaining a secure and auditable network flow between components.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k2x.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k2x.png)
 
 ### Provisioning a Database
 
 The next step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that ZITADEL operates reliably under load and can scale as demand increases.
 
-![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
 When provisioning the PostgreSQL instance, ensure the following network and security configurations are in place:
 
 - Deploy the RDS instance within the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the database.
 - Attach the previously created `rds-instances` Security Group to the RDS instance. This group must allow inbound traffic on port `5432` from the Subnet or Security Group associated with the CCE nodes to enable secure database access.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ka7.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ka7.png)
 
 ### Exporting Database SSL Certificate
 
@@ -63,7 +63,7 @@ Secure Socket Layer (SSL) is a protocol designed to establish encrypted communic
 
 To establish the necessary SSL connection between your database connection and ZITADEL, locate the *SSL/International* section on the *Basic Information* page of your RDS instance. Download the pre-installed SSL certificate by clicking the provided link. Once downloaded, extract the archive and place the resulting **otc-ca-rds.pem** file in your local working directory—it will be required during the client configuration stage.
 
-![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_07-32-24.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_07-32-24.png)
 
 ## Provisioning a CCE Cluster
 
@@ -73,13 +73,13 @@ To proceed with the setup, you'll need to provision a Cloud Container Engine (CC
 - **Network Placement**: Ensure the CCE cluster is provisioned within the **same VPC** as the RDS instance to facilitate secure and low-latency communication.
 - **Subnet Configuration**: If you're using a single Subnet for both services, place the CCE worker nodes in the **same Subnet** as the RDS instance to align with the predefined security group and routing rules.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fp6.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fp6.png)
 
 After the CCE cluster has been created, proceed to add worker nodes using the wizard. Once all nodes are in a **Running** or **Ready** state, you’ll need to update their network configuration to enable outbound connectivity to the database.
 
 For each worker node, attach the previously created `rds-client` Security Group in addition to any existing group already associated with the node. This step ensures that outbound traffic on port `5432`—required for connecting to the RDS instance—is permitted, establishing a secure and functional path between your application layer and the database backend.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-g7y.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-g7y.png)
 
 :::caution
 Decide on the access method you'll use to interact with the CCE cluster post-deployment. There are two main options:
@@ -96,11 +96,11 @@ The first step in preparing the environment is to provision an Elastic Load Bala
 
 Go to *Open Telekom Cloud Console* -> *Network* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Ensure that the Elastic Load Balancer is provisioned within the same VPC and Subnet as your CCE cluster. This network alignment is essential to allow the load balancer to reach the CCE worker nodes directly using their private IP addresses. Misplacing the ELB in a different network segment would result in unreachable backends and broken ingress routing.
 
-![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_08-06-28.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_08-06-28.png)
 
 Once the Elastic Load Balancer is provisioned, make sure to **note down the ELB ID**. This identifier will be required during the configuration of the NGINX Ingress Controller, allowing it to bind correctly to the external load balancer and handle incoming traffic. The ELB ID serves as a reference for associating Kubernetes resources with the underlying network infrastructure, ensuring seamless integration between your Ingress layer and the public-facing endpoint.
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-i88.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-i88.png)
 
 ## Creating a Public DNS Endpoint
 
@@ -313,7 +313,7 @@ After initiating the Helm deployment, monitor the status of the ZITADEL-related 
 
 Successful completion of these two components, and eventually the creation of 3 ZITADEL pods, indicates that ZITADEL has initialized its backend correctly and is ready for service startup. If either pod enters a failed or crashloop state, check the logs to identify misconfigurations or connectivity issues before proceeding.
 
-![text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-07-01.png)
+![text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-07-01.png)
 
 Once the Helm deployment completes and the ZITADEL pods are in a healthy state, verify that the Ingress resource has been successfully created and is bound to the expected Elastic Load Balancer (ELB) with the correct Elastic IP (EIP).
 
@@ -321,7 +321,7 @@ The output should display the external IP or hostname that matches the EIP assoc
 
 Additionally, confirm DNS resolution for your custom domain (e.g., `zitadel.example.com`) points to this EIP. This alignment is critical for secure TLS termination and external access to the ZITADEL service.
 
-![text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-07-11.png)
+![text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-07-11.png)
 
 ## Accessing ZITADEL
 
@@ -334,4 +334,4 @@ For the initial login, use the credentials defined in the following environment 
 
 Upon successful authentication, you’ll be prompted to set a new password. After completing the reset, you should be redirected to the default organization within the ZITADEL instance—assuming no changes were made to the default organization name during Helm templating. This confirms that the deployment is operational and the platform is ready for further configuration and integration.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-37-01.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_11-37-01.png)

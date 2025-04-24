@@ -34,21 +34,21 @@ For further details, check out the [ZITADEL documentation](https://zitadel.com/d
 
 Go to the *ZITADEL Dashboard* and click *New Organization*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-00-07.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-00-07.png)
 
 Enter the name of your new organization, (e.g. `mycompany.com`) and click *Create*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-08-17.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-08-17.png)
 
 ## Creating a new Project
 
 Go to the new *Organization Dashboard* -> *Projects* -> *Owned Projects* and click *Create New Project*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-14-24.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-14-24.png)
 
 and name it after your tenant in Open Telekom Cloud:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-19-24.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-19-24.png)
 
 :::note
 While naming the ZITADEL project after your Open Telekom Cloud tenant isn't strictly required, it does offer clarity—especially in multi-tenant or federated environments. Aligning project names with your organizational structure or tenant identifiers helps maintain consistency, eases traceability, and simplifies access policy management. You're free to adapt naming conventions based on your broader application landscape, governance model, or internal naming standards. Prioritize what makes sense for your operational context.
@@ -58,11 +58,11 @@ While naming the ZITADEL project after your Open Telekom Cloud tenant isn't stri
 
 Go to the new *Project Dashboard* and click *New Application*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-31-36.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-31-36.png)
 
 1. Assign a name to the new application and for the application type select `SAML`.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-34-37.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-34-37.png)
 
 2. In Step 2 of the application setup, configure the SAML integration using Option 1: Metadata URL. This approach allows ZITADEL to fetch the necessary service provider metadata automatically.
 
@@ -70,17 +70,17 @@ Go to the new *Project Dashboard* and click *New Application*:
 
     This URL points to the SAML metadata of Open Telekom Cloud’s Identity and Access Management system. After entering the URL, proceed by clicking Continue through the remaining steps of the wizard. No additional configuration is required at this point. Once you exit the wizard, the application will be created with the SP metadata preloaded and ready for further claim mapping and policy setup
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-50-51.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-50-51.png)
 
 3. Back on the *Application Dashboard*, enable **Assert Roles on Authentication** and **Check authorization on Authentication** and click *Save*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_13-08-55.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_13-08-55.png)
 
 ### Creating a new User
 
 Go to the *Project Dashboard* -> *Users* -> *Users* and click *New*. Fill in the form and enable **Email verified** and **Set initial password** and click *Create*:
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-55-32.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-55-32.png)
 
 :::danger
 Enabling **Email Verified** at this stage is shown purely for the sake of progressing through the blueprint without the need for multi-factor authentication (MFA), SMS gateway, or SMTP server setup. This shortcut allows testing and validation of the SAML integration without additional infrastructure.
@@ -110,7 +110,7 @@ You can either create these groups directly in your Open Telekom Cloud tenant, o
 
 Go to the *Project Dashboard* -> *Roles* and click *New*. Fill in **Key**, **Display Name** and **Group** as: `ecs-admin`. Repeat for `rds-admin` and click *Save*.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-00-46.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-00-46.png)
 
 #### Creating Authorizations
 
@@ -118,11 +118,11 @@ Go to the *Project Dashboard* -> *Authorizations* and click *New*:
 
 1. Select the user we created earlier
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-06-32.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-06-32.png)
 
 2. Assign to the user the role(s) you want to test and click *Save*.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-07-03.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_15-07-03.png)
 
 ## Retrieving ZITADEL's SAML 2.0 Metadata
 
@@ -200,7 +200,7 @@ To integrate your custom Action into ZITADEL’s authentication process, you nee
 
 Go to *Organization Dashboard* -> *Actions* -> *Flows*, choose `Complement SAMLResponse` as **Flow Type**, `Pre SAMLResponse creation` as **Trigger Type**, `setCustomAttribute` as **Action** and click *Save*.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_16-16-52.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_16-16-52.png)
 
 ## Configuring IAM
 
@@ -225,7 +225,7 @@ This file contains ZITADEL’s SAML configuration, including its public keys and
 
 Click twice *OK* to apply changes and exit.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_07-40-52.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_07-40-52.png)
 
 ### Configuring the Conversion Rules
 
@@ -285,7 +285,7 @@ Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud I
 
 Complete all first-time login steps as prompted, and if the SAML assertions and conversion rules were applied correctly, and the federation flow succeeded, you should be redirected to the Open Telekom Cloud Console, now logged in as a federated user. Your federated identity should reflect the mapped *username* and *organization membership* based on the SAML attributes provided by ZITADEL, confirming that the trust relationship and role mappings are functioning as intended.
 
-![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_08-10-39.png)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_08-10-39.png)
 
 ## Troubleshooting
 
