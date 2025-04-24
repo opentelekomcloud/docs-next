@@ -6,7 +6,7 @@ tags: [security, saml, iam, active-directory, ldap, adfs, microsoft]
 
 # Active Directory as Identity Provider for IAM
 
-In this guide, we'll walk you through extending your on‑premises Microsoft Active Directory Domain Services (AD DS) environment by deploying Active Directory Federation Services (AD FS) to establish a secure, claims‑based federation with Open Telekom Cloud's Identity and Access Management (IAM) platform. We'll cover everything from preparing SSL certificates and configuring your AD FS farm, to creating the Relying Party Trust in AD FS, defining claim issuance rules, and exchanging federation metadata. By leveraging the SAML 2.0 protocol, you'll achieve seamless single‑sign‑on between your corporate directory and the cloud IAM, ensuring both strong security and a smooth user experience.
+In this guide, we'll walk you through extending your on‑premises Microsoft Active Directory Domain Services (AD DS) and Active Directory Federation Services (AD FS) in order to establish a secure, claims‑based federation with Open Telekom Cloud's Identity and Access Management (IAM) platform. We are going to leverage the SAML 2.0 protocol to achieve seamless single‑sign‑on between your on-premises corporate directory and the Open Telekom Cloud IAM, ensuring both strong security and a smooth user experience.
 
 ## Prerequisites
 
