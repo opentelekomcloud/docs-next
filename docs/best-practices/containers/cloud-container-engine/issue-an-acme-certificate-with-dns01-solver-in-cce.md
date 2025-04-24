@@ -46,7 +46,7 @@ helm install \
 
 In the console, go to *My Credentials* -> *Access Keys* and either pick up an existing pair or create a new one:
 
-![alt text](<../../../../static/img/docs/best-practices/containers/cloud-container-engine/Screenshot from 2024-09-07 11-33-33.png>)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/Screenshot%20from%202024-09-07%2011-33-33.png)
 
 Export this pair as environment variables:
 

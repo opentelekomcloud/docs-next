@@ -135,7 +135,7 @@ A Kubernetes Secret with the name `umami.umami-psql.credentials.postgresql.acid.
 
 Navigate to *Network Console*->*Elastic Load Balancing* and click *Create Elastic Load Balancer*. Choose to create *Shared Load Balancer* and choose *New EIP* so the new ELB is automatically bound to a new elastic IP:
 
-![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 14-32-38.png>)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot%20from%202024-09-10%2014-32-38.png)
 
 :::tip
 Write down the ID of the Elastic Load Balancer we are going to need it in the next steps.
@@ -213,7 +213,7 @@ kubectl apply -f umami-ingress.yaml
 
 Open in a browser the address: `http://ELB_EIP` and you should now land at the logon page of Umami:
 
-![alt text](<../../../../../static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot from 2024-09-10 15-05-13.png>)
+![alt text](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot%20from%202024-09-10%2015-05-13.png)
 
 :::warning
 Umami uses `admin`/`umami` as default credentials. **Change them immediatelly after you log in!**
