@@ -466,17 +466,6 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        // {
-        //   type: 'category',
-        //   label: 'GaussDB NoSQL',
-        //   items: [
-        //     {
-        //       type: 'link',
-        //       label: '📚 Go to Help Center',
-        //       href: 'https://docs.otc.t-systems.com/gaussdb-nosql/index.html',
-        //     },
-        //   ],
-        // },
         {
           type: 'category',
           label: 'GeminiDB',
@@ -538,12 +527,6 @@ const sidebars: SidebarsConfig = {
             {
               type: 'category',
               label: 'Service catalogs',
-              // link: {
-              //   type: 'generated-index',
-              //   description: 'Learn about the most important Docusaurus concepts!',
-              //   slug: '/best-practices/management-and-deployment/cloud-create/service-catalogs',
-              //   keywords: ['cloud-create'],
-              // },
               link: {
                 type: 'doc',
                 id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
@@ -773,6 +756,10 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               id: 'best-practices/networking/virtual-private-cloud/unsupported-vpc-peering-configurations',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/networking/virtual-private-cloud/deploying-containers-that-can-communicate-with-each-other-on-ecss',
             },
             {
               type: 'link',
