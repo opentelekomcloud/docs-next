@@ -16,7 +16,7 @@ NFS storage.
 
 ## Solution Design
 
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/architecture.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/architecture.png)
 
 :::note
 As you can see one can optionally use an ELB in front of the NFS Server,
@@ -49,7 +49,7 @@ another EVS-Disk, as each disk can **only** be `16TB` in size.
 7. This will start the synchronization, which takes about 3-5mins,
    depending on the size of disks etc.
 
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild2.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild2.png)
 
 :::tip
 **What is the sync doing**: It is setting up an ECS instance as a cold
@@ -503,14 +503,14 @@ itself)
 In the Open Telekom Cloud Console  -> *SDRS* -> Select protection group and click *More* ->
 *Fail Over*:
 
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild3.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild3.png)
 
 This will have the following effect:
 
 - It *unplugs* the NIC from the running server and attaches it to the
    target host (note we were previously running in **eu-de-01**):
 
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild4.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild4.png)
 
    This results to the client operating-system setting the nfs-share to
    readonly (as it is not able to reach it):
@@ -527,13 +527,13 @@ This will have the following effect:
 
 - It stops the previous production server (in eu-de-01)
   
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild5.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild5.png)
 
 - Failover complete – now you must actively start the nfs-server
    resource in **eu-de-02**. There is a shortcut to do that in
    the overview of SRDS:
 
-![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild6.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild6.png)
 
 - If set up correctly, the nfs-server should start everything on its
    own.

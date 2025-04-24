@@ -17,15 +17,15 @@ scenarios are supported:
 
 ### Source and destination databases are in the same VPC
 
-![**Figure 1** Source and destination databases in the same VPC](/img/docs/best-practices/databases/document-database-service/en-us_image_0295762707.png)
+![**Figure 1** Source and destination databases in the same VPC](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0295762707.png)
 
 ### Source and destination databases are in different VPCs
 
-![**Figure 2** Source and destination databases in the same region and different VPCs](/img/docs/best-practices/databases/document-database-service/en-us_image_0180865321.png)
+![**Figure 2** Source and destination databases in the same region and different VPCs](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0180865321.png)
 
 ### Procedure
 
-![**Figure 3** Flowchart](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
+![**Figure 3** Flowchart](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
 
 #### Migration Suggestions
 
@@ -124,7 +124,7 @@ Migration*.
     3. On the *Create Replication Instance* page, configure the task
         details, recipient, and replication instance and click *Next*.
 
-        ![**Figure 4** Replication instance information](/img/docs/best-practices/databases/document-database-service/en-us_image_0232589882.png)
+        ![**Figure 4** Replication instance information](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0232589882.png)
 
         | Parameter   | Description                                                                                                                                                     |
         | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -156,7 +156,7 @@ Migration*.
         instance. After the connection tests are successful, select the
         check box before the agreement and click *Next*.
 
-        ![**Figure 5** Source and destination database details](/img/docs/best-practices/databases/document-database-service/en-us_image_0232605869.png)
+        ![**Figure 5** Source and destination database details](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0232605869.png)
 
         | Parameter                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
         | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -182,7 +182,7 @@ Migration*.
     5. On the *Set Task* page, select migration objects and click
         *Next*.
 
-        ![**Figure 6** Migration object](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097583.png)
+        ![**Figure 6** Migration object](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097583.png)
 
         | Parameter       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
         | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -205,7 +205,7 @@ Migration*.
 
         - If all check items are successful, click *Next*.
 
-            ![**Figure 7** Task Check](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001152137438.png)
+            ![**Figure 7** Task Check](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001152137438.png)
 
         You can proceed to the next step only when all check items are
         successful. If any alarms are generated, view and confirm the
@@ -215,7 +215,7 @@ Migration*.
         the configured information is correct and click *Submit* to
         submit the task.
 
-        ![**Figure 8** Task startup settings](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001199158158.png)
+        ![**Figure 8** Task startup settings](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001199158158.png)
 
         | Parameter  | Description                                                                                                                                                                                                                                                                                                                                                      |
         | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -255,7 +255,7 @@ Migration*.
             source database in real time. You can also view the data
             consistency on the *Migration Comparison* tab.
 
-            ![**Figure 9** Viewing the synchronization delay](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001243756137.png)
+            ![**Figure 9** Viewing the synchronization delay](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001243756137.png)
 
         - Viewing the migration results: On the *Online Migration
             Management* page, click the target migration task. On the
@@ -265,7 +265,7 @@ Migration*.
             for migration to minimize service downtime.
 
             ![**Figure 10** Database comparison
-            process](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213070166.png)
+            process](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213070166.png)
 
             For details, see [Comparing Migration
             Items](https://docs.otc.t-systems.com/data-replication-service/umn/real-time_migration/task_management/step_4_compare_migration_items.html)

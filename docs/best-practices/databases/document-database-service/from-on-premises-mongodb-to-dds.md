@@ -16,15 +16,15 @@ supported:
 
 ### VPN
 
-![**Figure 1** VPN](/img/docs/best-practices/databases/document-database-service/en-us_image_0295762692.png)
+![**Figure 1** VPN](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0295762692.png)
 
 ### Public network
     
-![**Figure 2** Public network+SSL connection](/img/docs/best-practices/databases/document-database-service/en-us_image_0234000688.png)
+![**Figure 2** Public network+SSL connection](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0234000688.png)
 
 ### Procedure
 
-![**Figure 3** Flowchart](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
+![**Figure 3** Flowchart](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213229532.png)
 
 :::important
 
@@ -106,7 +106,7 @@ Migration*.
             you can find the EIP on the *Configure Source and
             Destination Databases* page as shown below:
             
-            ![**Figure 4** EIP of the replication instance](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001244078029.png)
+            ![**Figure 4** EIP of the replication instance](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001244078029.png)
 
         You can also add `0.0.0.0/0` to the source database whitelist to
         allow any IP address to access the source database but this
@@ -150,7 +150,7 @@ database to a DDS DB instance.
         details, recipient, and replication instance and click *Next*.
 
         ![**Figure 5** Replication instance
-        information](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001493711038.png)
+        information](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001493711038.png)
 
         | Parameter   | Description                                                                                                                                                                |
         | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -185,7 +185,7 @@ database to a DDS DB instance.
         check box before the agreement and click *Next*.
 
         ![**Figure 6** Source database
-        information](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001151977634.png)
+        information](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001151977634.png)
 
         | Parameter               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
             | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -208,13 +208,13 @@ database to a DDS DB instance.
 
         -   Destination database configuration
 
-            ![**Figure 7** Destination database information](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097269.png)
+            ![**Figure 7** Destination database information](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097269.png)
 
     e.  On the *Set Task* page, select migration objects and click
         *Next*.
 
         ![**Figure 8** Migration
-        object](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097583.png)
+        object](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001198097583.png)
 
         | Parameter       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
         | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -236,7 +236,7 @@ database to a DDS DB instance.
         -   If all check items are successful, click *Next*.
 
             ![**Figure 9** Task
-            Check](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001152137438.png)
+            Check](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001152137438.png)
 
     :::note
     You can proceed to the next step only when all check items are
@@ -249,7 +249,7 @@ database to a DDS DB instance.
         submit the task.
 
         ![**Figure 10** Task startup
-        settings](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001199158158.png)
+        settings](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001199158158.png)
 
         | Parameter  | Description                                                                                                                                                                                                                                                                                                                                                      |
         | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -288,7 +288,7 @@ database to a DDS DB instance.
             consistency on the *Migration Comparison* tab.
 
             ![**Figure 11** Viewing the synchronization
-            delay](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001243756137.png)
+            delay](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001243756137.png)
 
         - Viewing the migration results: On the *Online Migration
             Management* page, click the target migration task. On the
@@ -298,7 +298,7 @@ database to a DDS DB instance.
             for migration to minimize service downtime.
 
             ![**Figure 12** Database comparison
-            process](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213070166.png)
+            process](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001213070166.png)
 
             For details, see [Comparing Migration
             Items](https://docs.otc.t-systems.com/data-replication-service/umn/real-time_migration/task_management/step_4_compare_migration_items.html)

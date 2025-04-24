@@ -19,7 +19,7 @@ subnet IP addresses. After an EIP is bound to the ECS, the ECS can be
 accessed over the public network. Nginx can listen on multiple ports and
 forward requests to different DCS Redis instances.
 
-![**Figure 1** Accessing DCS Redis instances in a VPC by usingNginx](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245102971.png)
+![**Figure 1** Accessing DCS Redis instances in a VPC by usingNginx](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245102971.png)
 
 :::note
 **Do not** use public network access in the production environment. Client
@@ -34,12 +34,12 @@ included in the SLA.
     As shown in the following figure, the master/standby instance is
     deployed in the `vpc-demo` VPC.
 
-    ![**Figure 2** DCS Redis instance details](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0254645094.png)
+    ![**Figure 2** DCS Redis instance details](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0254645094.png)
 
 2.  Create an ECS. Configure the ECS with the `vpc-demo` VPC, bind an
     EIP to the ECS, and select the bandwidth as required.
 
-    ![**Figure 3** ECS details](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245116251.png)
+    ![**Figure 3** ECS details](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245116251.png)
 
 ## Installing Nginx
 
@@ -86,7 +86,7 @@ commands vary depending on the OS.
     If the following page is displayed, Nginx has been installed
     successfully.
 
-    ![image1](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245105425.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245105425.png)
 
 ## Setting Up Nginx
 
@@ -125,7 +125,7 @@ forwards requests to.
     area on the DCS instance details page.
     :::
 
-    ![**Figure 4** Adding Nginx configurations](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0267127015.png)
+    ![**Figure 4** Adding Nginx configurations](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0267127015.png)
 
 2.  Restarting Nginx.
 
@@ -139,7 +139,7 @@ forwards requests to.
     netstat -an|grep 808
     ```
     
-    ![**Figure 5** Starting Nginx and verifying the start](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245110151.png)
+    ![**Figure 5** Starting Nginx and verifying the start](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245110151.png)
 
     If Nginx is listening on ports `8080` and `8081`, Nginx has been started successfully.
 
@@ -197,9 +197,9 @@ for public network access, add the following configuration in
         Group Rule*. The security group configuration page is
         displayed.
 
-    ![**Figure 6** Checking the ECS security group](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001275281529.png)
+    ![**Figure 6** Checking the ECS security group](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001275281529.png)
 
-    ![**Figure 7** Adding an inbound rule for the security group](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001275484437.png)
+    ![**Figure 7** Adding an inbound rule for the security group](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001275484437.png)
 
 2.  In the public network environment, open the **redis-cli** and run the
     following command to check whether the login and query are
@@ -222,9 +222,9 @@ for public network access, add the following configuration in
     As shown in the following figures, the two listening ports are `8080`
     and `8081`, which correspond to two DCS Redis instances.
 
-    ![**Figure 8** Accessing the first DCS Redis instance using Nginx](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245112317.png)
+    ![**Figure 8** Accessing the first DCS Redis instance using Nginx](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245112317.png)
 
-    ![**Figure 9** Accessing the second DCS Redis instance using Nginx](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245112233.png)
+    ![**Figure 9** Accessing the second DCS Redis instance using Nginx](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0245112233.png)
 
     The jump server has now been set up. You can access Redis over
     public networks.

@@ -8,7 +8,7 @@ tags: [dcs, redis, cce]
 
 With the development of the container technology, more and more applications are deployed in containers. This section describes how to deploy a Redis client in a Cloud Container Engine (CCE) cluster container and connect it to DCS.
 
-![image1](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001479114773.png)
+![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001479114773.png)
 
 ## Prerequisites
 
@@ -37,7 +37,7 @@ Prepare the following resources:
 
 ## Solution Design
 
-![image2](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001427434044.png)
+![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001427434044.png)
 
 ## Creating a Client Image
 
@@ -48,14 +48,14 @@ Prepare the following resources:
         Click the name of the created node pool. On the displayed page,
         click *Remote Login* in the upper right corner.
 
-        ![image3](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426108974.png)
+        ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426108974.png)
 
     b.  Run the `gcc --version` command to check whether the GCC
         compiler for compiling the Redis program is installed in the OS.
         The following figure shows that the GCC compiler has been
         installed.
 
-        ![image4](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425794174.png)
+        ![image4](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425794174.png)
 
         If the GCC compiler is not installed, run the following commands
         to install it:
@@ -81,7 +81,7 @@ Prepare the following resources:
         sudo wget https://download.redis.io/releases/redis-5.0.13.tar.gz
         ```
 
-        ![image5](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425667664.png)
+        ![image5](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425667664.png)
 
     e.  Decompress the Redis package, go to the Redis directory, run the
         compilation command, and return to the Redis directory.
@@ -127,11 +127,11 @@ Prepare the following resources:
         (`swr.xxxxxx.com` at the end of the login command is the image
         repository address.)
 
-        ![**Figure 1** Obtaining a login command](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425958670.png)
+        ![**Figure 1** Obtaining a login command](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425958670.png)
 
     d.  Run the copied login command on the CCE node to log in to SWR.
 
-        ![**Figure 2** Logging in to SWR](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426121394.png)
+        ![**Figure 2** Logging in to SWR](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426121394.png)
 
     e.  Run the following command to build an image:
 
@@ -145,7 +145,7 @@ Prepare the following resources:
         indicates the name of the image to be built. *version* indicates
         the image version. Replace them with the actual values.
 
-        ![**Figure 3** Building an image](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426145908.png)
+        ![**Figure 3** Building an image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426145908.png)
 
 4.  Run the following command to upload the client image to SWR:
 
@@ -153,12 +153,12 @@ Prepare the following resources:
     docker push <Image repository address>/<Organization name>/<Image name :version>
     ```
 
-    ![**Figure 4** Uploading an image](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426146644.png)
+    ![**Figure 4** Uploading an image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426146644.png)
 
 5.  After the image is uploaded, you can view it on the *My Images*
     page of the SWR console.
 
-    ![**Figure 5** Viewing images](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476188661.png)
+    ![**Figure 5** Viewing images](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476188661.png)
 
 ## Creating a Workload
 
@@ -174,7 +174,7 @@ Prepare the following resources:
 4.  On the Web CLI, run a `SET` command. The following figure uses
     `SET hello "hello redis!"` as an example.
 
-    ![image6](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425685956.png)
+    ![image6](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001425685956.png)
 
 5.  On the CCE console, click the created CCE cluster `cce-test`.
 
@@ -201,12 +201,12 @@ Prepare the following resources:
         you connect to Redis through the Web CLI. Replace them with the
         actual values.
 
-        ![**Figure 6** Configuring lifecycle parameters](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476223097.png)
+        ![**Figure 6** Configuring lifecycle parameters](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476223097.png)
 
 7.  If the workload is in the `Running` state, it has been
     successfully created.
 
-    ![**Figure 7** Checking the workload status](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476227677.png)
+    ![**Figure 7** Checking the workload status](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476227677.png)
 
 ## Testing the Workload
 
@@ -221,7 +221,7 @@ Prepare the following resources:
     kubectl get pod -n default
     ```
 
-    ![image7](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426658306.png)
+    ![image7](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001426658306.png)
 
 4.  Run the following command to view the logs of the Redis container:
 
@@ -231,7 +231,7 @@ Prepare the following resources:
     `redis-xxxxxxxx` indicates the name of the created workload pod.
     (Click the workload name to view the workload pod name.)
 
-    ![image8](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476217873.png)
+    ![image8](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001476217873.png)
 
     In the command output, the information returned by DCS is `hello
     redis!`, which is the data you've previously set.

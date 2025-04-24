@@ -54,12 +54,12 @@ Throughout this guide, we'll use the following placeholders:
 
 1. Go to GitHub Developer Settings: https://github.com/settings/developers
 2. Click on *Register a new application*
-   ![image](/img/docs/blueprints/by-use-case/security/authentik/github-create-oauth-app.png)
+   ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/github-create-oauth-app.png)
 3. Fill in the application details:
    - *Application Name*: Choose a recognizable name (e.g., "authentik")
    - *Homepage URL*: Enter your site's URL (e.g., `www.test-domain.com`)
    - *Authorization callback URL*: `https://authentik.test-domain.com/source/oauth/callback/github`
-   ![image](/img/docs/blueprints/by-use-case/security/authentik/github-New-OAuth-Application.png)
+   ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/github-New-OAuth-Application.png)
 4. Click *Register Application*
 5. On the next page, note down the *Client ID*
 6. Click *Generate a new client secret* and immediately copy it
@@ -77,7 +77,7 @@ You won't be able to see the client secret again, so make sure to save it secure
    - *Slug*: `github` (or choose a custom slug, but remember to update URLs accordingly)
    - *Consumer Key*: Paste the Client ID from GitHub
    - *Consumer Secret*: Paste the Client Secret from GitHub
-  ![image](/img/docs/blueprints/by-use-case/security/authentik/github-idp-configuration.png)
+  ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/github-idp-configuration.png)
 
 4. Save the configuration
 
@@ -106,7 +106,7 @@ To automatically add users who log in via GitHub to a default group in authentik
 1. Go to *Directory -> Groups*
 2. Click *Create*
 3. Name the group (e.g., "gitHub-users")
-    ![image](/img/docs/blueprints/by-use-case/security/authentik/create-group.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/create-group.png)
 4. Save the group
 
 #### Step 2: Modifying Enrollment flow
@@ -116,7 +116,7 @@ To automatically add users who log in via GitHub to a default group in authentik
 3. Click *Stage Bindings*
 4. Click *Edit Stage* of stage which has type of *User Write Stage*
 5. Set a default group under *Group* for the newly created users which login using github
-   ![image](/img/docs/blueprints/by-use-case/security/authentik/configure-groups-enrollment-stage.png)
+   ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/configure-groups-enrollment-stage.png)
 6. Click *Update*
 
 #### Step 4: Configure Post-Authentication Flow

@@ -10,7 +10,7 @@ DDS replica set instances can store multiple duplicates to ensure data high avai
 
 The primary node of a replica set instance is not fixed. If the instance settings are changed, or the primary node fails, or primary and secondary nodes are switched, a new primary node will be elected and the previous one becomes a secondary node. The following figure shows the process of a switchover.
 
-![**Figure 1** Primary/Secondary switchover](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001166068694.png)
+![**Figure 1** Primary/Secondary switchover](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001166068694.png)
 
 ## Connecting to a Replica Set Instance (HA)
 
@@ -22,7 +22,7 @@ The following describes how to use URL and Java to connect to an instance in HA 
 
 On the *Instances* page, click the instance name. The *Basic Information* page is displayed. Choose *Connections*. Click the *Private Connection* tab and obtain the connection address of the current instance from the *Private HA Connection Address* field.
   
-![**Figure 2** Obtaining the private HA connection address](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001210912526.png)
+![**Figure 2** Obtaining the private HA connection address](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001210912526.png)
 
 Example:
 
@@ -32,7 +32,7 @@ mongodb://rwuser:\*\*\*\*@**_192.168.0.148:8635,192.168.0.96:8635_**/test?authSo
 
 In the preceding URL, `192.168.0.148:8635` and `192.168.0.96:8635` are the IP addresses and ports of the primary and secondary nodes, respectively. If you use this address, the connection between your client and the instance can be ensured even when a primary/standby switchover occurs. In addition, using multiple IP addresses and port numbers can enhance the read and write performance of the entire database.
 
-![**Figure 3** Data read and write process ](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001211264689.png)
+![**Figure 3** Data read and write process ](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001211264689.png)
 
 ### Method 2: Using a Java Driver
 
@@ -68,7 +68,7 @@ mongodb://rwuser:\*\*\*\*@**_192.168.0.148:8635_**/test?authSource=admin&replica
 
 In the preceding URL, `192.168.0.148:8635` is the IP address and port number of the current primary node. If a switchover occurs or the primary node is changed, the client fails to connect to the replica set instance because the IP address and port of the newly elected primary node is unknown. As a result, the database service becomes unavailable. In addition, read and write operations can only be performed on a fixed primary node, so the read and write performance cannot be improved by adding nodes.
   
-![**Figure 4** Data read and write process](/img/docs/best-practices/databases/document-database-service/en-us_image_0000001117852888.png)
+![**Figure 4** Data read and write process](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/document-database-service/en-us_image_0000001117852888.png)
 
 ## Read/Write Splitting
 

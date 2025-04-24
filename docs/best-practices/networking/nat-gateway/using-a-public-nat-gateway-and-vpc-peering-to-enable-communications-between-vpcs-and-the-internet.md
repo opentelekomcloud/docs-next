@@ -19,7 +19,7 @@ The CIDR block of VPC B is `192.168.0.0/16` and that of subnet B is `192.168.2.0
 1. A VPC peering connection is used to connect subnet A in VPC A to subnet B in VPC B.
 2. A public NAT gateway is created in VPC A, and subnet B can use the public NAT gateway to communicate the Internet.
 
-    ![**Figure 1** Network topology](/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001089261095.png)
+    ![**Figure 1** Network topology](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001089261095.png)
 
 :::note Advantages
 Only one public NAT gateway needs to be configured. Servers in the two VPCs can share the same public NAT gateway to communicate with the Internet, saving gateway resources.
@@ -61,8 +61,8 @@ After the configuration is complete, test the network connectivity.
 
 Log in to a server in subnet B and ping a public IP address.
 
-![**Figure 2**](/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001092787311.png)
+![**Figure 2**](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001092787311.png)
 
 Log in to a server that can access the Internet and is not deployed in VPC A or VPC B. Use **curl** to check whether the server can communicate with subnet B via the EIP associated with the DNAT rule configured for subnet B.
 
-![**Figure 3**](/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001093306041.png)
+![**Figure 3**](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/nat-gateway/en-us_image_0000001093306041.png)

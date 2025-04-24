@@ -31,11 +31,11 @@ malicious crawlers, scanners, and web shells.
 
 1. Log in to the management console.
 
-2. Click ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533036717.jpg) in
+2. Click ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533036717.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533157169.png) in
+3. Click ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533157169.png) in
     the upper left corner and choose *Web Application Firewall* under
     *Security*.
 
@@ -45,10 +45,10 @@ malicious crawlers, scanners, and web shells.
     the created Policy after its been created.
 
 6. Ensure that *Basic Web Protection* is enabled (status:
-    ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)).
+    ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)).
 
     ![**Figure 1** Basic Web Protection configuration
-    area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716153600.png)
+    area](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001716153600.png)
 
 7. In *Basic Web Protection* click *Advanced Settings* and enable
     *General Check* and *Webshell Detection*.
@@ -57,13 +57,13 @@ malicious crawlers, scanners, and web shells.
     needs.
 
     ![**Figure 2** Feature
-    Library](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001072768952.png)
+    Library](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001072768952.png)
 
 If WAF detects that a malicious crawler or scanner is crawling your
 website, WAF immediately blocks it and logs the event. You can view the
 crawler protection logs on the *Events* page.
 
-![image6](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001182529643.png)
+![image6](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001182529643.png)
 
 ## Enabling Anti-Crawler Protection to Verify Browser Validity
 
@@ -73,11 +73,11 @@ risk control and bot identification approaches.
 
 1. Log in to the management console.
 
-2. Click ![image7](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533461761.jpg) in
+2. Click ![image7](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533461761.jpg) in
     the upper left corner of the management console and select a region
     or project.
 
-3. Click ![image8](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001483021752.png) in
+3. Click ![image8](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001483021752.png) in
     the upper left corner and choose *Web Application Firewall* under
     *Security & Compliance*.
 
@@ -89,9 +89,9 @@ risk control and bot identification approaches.
 6. Select the *JavaScript* tab and change *Status* if needed.
 
     *JavaScript* anti-crawler is disabled by default. To enable it,
-    click ![image11](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013368.png) and
+    click ![image11](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013368.png) and
     then click *Confirm* in the displayed dialog box to toggle on
-    ![image12](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013391.png).
+    ![image12](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0234013391.png).
 
     **Protective Action**: *Block*, *Verification code*, and *Log
     only*.
@@ -127,7 +127,7 @@ risk control and bot identification approaches.
         click *Confirm*.
 
         ![**Figure 3** Exclude
-        Rule](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001481001694.png)
+        Rule](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001481001694.png)
 
     - To protect a specified request only
 
@@ -148,7 +148,7 @@ risk control and bot identification approaches.
 If you enable anti-crawler, web visitors can only access web pages
 through a browser.
 
-![image13](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001132757446.png)
+![image13](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001132757446.png)
 
 ## Configuring CC Attack Protection to Limit Access Frequency
 
@@ -157,11 +157,11 @@ referer to limit the access to a specific path (URL), mitigating the
 impact of CC attacks on web services.
 
 1. Log in to the management
-2. Click ![image14](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533701661.jpg)
+2. Click ![image14](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533701661.jpg)
     in the upper left corner of the management console and select a
     region or project.
 
-3. Click ![image15](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533182113.png)
+3. Click ![image15](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001533182113.png)
     in the upper left corner and choose *Web Application Firewall*
     under *Security & Compliance*.
 
@@ -169,11 +169,11 @@ impact of CC attacks on web services.
 
 5. Click on the *Policy* and ofn the displayed page,, keep the  
    *Status* toggle on
-    (![image16](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)) for
+    (![image16](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001176153064.png)) for
     *CC Attack Protection*.
 
     ![**Figure 4** CC Attack Protection configuration
-    area](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763942269.png)
+    area](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001763942269.png)
 
 6. In **CC Attack Protection** below **Status** , click **Customize
     Rule** and then **Add rule**. The following uses IP address-based
@@ -181,10 +181,10 @@ impact of CC attacks on web services.
     how to add an IP address-based rate limiting rule, as shown in the figue below:
 
     ![**Figure 5** Per IP
-    address](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001490687826.png)
+    address](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001490687826.png)
 
     If the number of access requests exceeds the configured rate limit,
     the visitors are required to enter a verification code to continue
     the access.
 
-    ![image17](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0293910230.png)
+    ![image17](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0293910230.png)

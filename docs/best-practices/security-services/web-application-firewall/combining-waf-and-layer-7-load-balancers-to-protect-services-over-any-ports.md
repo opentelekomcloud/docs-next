@@ -60,19 +60,19 @@ cannot protect.
     Configured** to `Layer-7 proxy`.
 
     ![**Figure 1** Adding a domain name to
-    WAF](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764480001.png)
+    WAF](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764480001.png)
 
 3. Add listeners and backend server groups to the load balancer.
 
     1. Log in to the management console.
 
     2. Click
-        ![image1](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420363093.jpg) in
+        ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420363093.jpg) in
         the upper left corner of the management console and select a
         region or project.
 
     3. Click
-        ![image2](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369643058.png) in
+        ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369643058.png) in
         the upper left corner of the page and choose *Elastic Load
         Balance* under *Networking* to go to the *Load Balancers*
         page.
@@ -86,12 +86,12 @@ cannot protect.
         case, enter `9876`.
 
         ![**Figure 2** Configuring a
-        listener](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369483086.png)
+        listener](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369483086.png)
 
     6. Click *Next: Configure Request Routing Policy*.
 
         ![**Figure 3** Configuring a backend server
-        group](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001423609253.png)
+        group](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001423609253.png)
 
         :::important
 
@@ -114,12 +114,12 @@ cannot protect.
     1. Log in to the management console.
 
     2. Click
-        ![image3](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420502081.jpg) in
+        ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001420502081.jpg) in
         the upper left corner of the management console and select a
         region or project.
 
     3. Click
-        ![image4](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369661940.png) in
+        ![image4](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369661940.png) in
         the upper left corner, select a region, and choose *Security* -> *Web Application Firewall (Dedicated)* to go to the
         *Dashboard* page.
 
@@ -128,7 +128,7 @@ cannot protect.
         instance page.
 
         ![**Figure 4** Dedicated engine
-        list](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369501992.png)
+        list](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369501992.png)
 
     5. Locate the row containing the WAF instance. In the *Operation*
         column, click *More* -> *Add to ELB*.
@@ -138,14 +138,14 @@ cannot protect.
         based on previous step.
 
         ![**Figure 5** Add to
-        ELB](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369683888.png)
+        ELB](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369683888.png)
 
     7. Click *Confirm*. Then, configure service port for the WAF
         instance. In this example, configure *Backend Port* to `86`,
         which is the one we configured in step 2.
 
         ![**Figure 6** Configuring Backend
-        Port](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369344100.png)
+        Port](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001369344100.png)
 
     8. Click *Confirm*.
 
@@ -157,4 +157,4 @@ cannot protect.
 
 ## How the Combination Protects Traffic
 
-![image5](/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764240765.png)
+![image5](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/security-services/web-application-firewall/en-us_image_0000001764240765.png)

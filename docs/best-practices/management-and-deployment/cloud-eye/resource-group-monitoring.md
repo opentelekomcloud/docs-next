@@ -33,7 +33,7 @@ The Agent has been installed on ECS-01 and ECS-02. For details, see [Agent Insta
 6. Enter the group name as prompted. In this example, enter *Development-group-resources*.
 7. Select the target cloud service resources.
 
-    ![**Figure 1** Selecting cloud service resources](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230389993.png)
+    ![**Figure 1** Selecting cloud service resources](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230389993.png)
 
 8. Click *Create*.
 
@@ -55,7 +55,7 @@ When resource exceptions occur, an alarm notification can be sent to the configu
 
     The *Create Topic* dialog box is displayed.
 
-    ![**Figure 2** Create Topic](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230390003.png)
+    ![**Figure 2** Create Topic](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230390003.png)
 
 6. Enter a topic name and display name.
 7. Click *OK.*
@@ -68,7 +68,7 @@ When resource exceptions occur, an alarm notification can be sent to the configu
 
 8. In the topic list, locate the new topic. Click the topic name and in the upper right corner, select *Add Subscription*.
 
-    ![**Figure 3** Add Subscription](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230391072.png)
+    ![**Figure 3** Add Subscription](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0230391072.png)
 
 9. Specify the subscription protocol and endpoints.
 10. Click *OK*.
@@ -85,17 +85,17 @@ When resource exceptions occur, an alarm notification can be sent to the configu
 6. On the *Create Alarm Rule* page, follow the prompts to set the parameters.
     1. Set the alarm rule name.
 
-        ![**Figure 4** Setting an alarm rule name](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987443.png)
+        ![**Figure 4** Setting an alarm rule name](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987443.png)
 
     2. Set the monitored object and alarm triggering conditions.
 
-        ![**Figure 5** Configuring an alarm rule](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987653.png)
+        ![**Figure 5** Configuring an alarm rule](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987653.png)
 
         Set **Group** to *Development group resources* created in [Step 1 Creating a Resource Group](#creating-a-resource-group).
 
     3. Set **Alarm Notification** parameters.
 
-        ![**Figure 6** Configuring alarm notification](/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987913.png)
+        ![**Figure 6** Configuring alarm notification](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-eye/en-us_image_0229987913.png)
 
         :::note
         Note: When configuring **Notification Object**, select **Mytopic** created in [Step 2 Creating a Topic and Configuring the Notification Object](#creating-a-topic-and-configuring-the-notification-object).

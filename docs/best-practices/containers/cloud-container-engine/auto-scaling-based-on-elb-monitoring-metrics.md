@@ -31,7 +31,7 @@ This section uses [cloudeye-exporter](https://github.com/akyriako/cloudeye-expor
 :::
 
 ![**Figure 1** ELB traffic flows and monitoring
-data](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001160642449.png)
+data](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001160642449.png)
 
 :::tip
 Other metrics can be collected in the similar way.
@@ -82,7 +82,7 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
 2. In the navigation pane, choose *My Images* and then click
         *Upload Through Client*. On the page displayed, click
         *Generate a temporary login command* and click
-        ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380832974.png) to
+        ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380832974.png) to
         copy the command.
 
 3.  Run the login command copied in the previous step on the cluster
@@ -201,12 +201,12 @@ Ingress of the `LoadBalancer` type.
         Ingress of the `LoadBalancer` type and click the load balancer
         to access the load balancer page and copy the ELB ID.
 
-        ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001431432309.png)
+        ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001431432309.png)
 
     b.  On the *Listeners* tab, view the listener corresponding to the
         workload and copy the listener ID which corresponds to port `80`.
 
-        ![image3](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380992506.png)
+        ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380992506.png)
 
 2.  Export the Elastic Load Balancer\'s ID and listener ID as an env
     variables
@@ -301,7 +301,7 @@ create an HPA policy for auto scaling.
               value: 1000
     ```
 
-    ![**Figure 2** Created HPA Policy](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606847653.png)
+    ![**Figure 2** Created HPA Policy](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606847653.png)
 
 2.  After the HPA policy is created, perform a pressure test on the
     workload (accessing the pods through ELB). Then, the HPA controller
@@ -310,7 +310,7 @@ create an HPA policy for auto scaling.
 
     In the *Events* dialog box, obtain scaling records in the *Kubernetes Event* column.
 
-    ![**Figure 3** Scaling events](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606845825.png)
+    ![**Figure 3** Scaling events](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606845825.png)
 
 ## Appendix
 
@@ -347,7 +347,7 @@ data record provides the ELB ID, listener ID, namespace where the
 Service is located, Service name, and Service UID as labels, as shown in
 the following figure.
 
-![image5](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001381152106.png)
+![image5](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001381152106.png)
 
 To obtain the preceding data, perform the following steps:
 

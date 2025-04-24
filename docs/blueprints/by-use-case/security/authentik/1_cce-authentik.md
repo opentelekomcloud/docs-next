@@ -94,7 +94,7 @@ Once the installation is complete, you can access authentik by following these s
 2. Set a password for the default `akadmin` user.
 
 Setting admin password for first time:
-![image](/img/docs/blueprints/by-use-case/security/authentik/Screenshot-chpassword-authentik.png "Setting admin password for first time")
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/Screenshot-chpassword-authentik.png "Setting admin password for first time")
 
 Authentik dashboard:
-![image](/img/docs/blueprints/by-use-case/security/authentik/Screenshot-Admin-authentik.png "Authentik dashboard")
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/Screenshot-Admin-authentik.png "Authentik dashboard")

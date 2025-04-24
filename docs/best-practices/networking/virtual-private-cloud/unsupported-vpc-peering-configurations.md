@@ -45,7 +45,7 @@ The VPC peering connection configurations are not supported in table below:
   - Custom route: A route added by a user. It uses the longest
         prefix match rule to find a destination for packet forwarding.
 
-        ![image1](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001261140071.png)
+        ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001261140071.png)
 
 ## Invalid VPC Peering for Overlapping VPC CIDR Blocks
 
@@ -67,7 +67,7 @@ reasons and configuration suggestions.
     be forwarded within VPC-A and cannot reach VPC-B.
 
     ![**Figure 1** Networking diagram
-    (IPv4)](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254335981.png)
+    (IPv4)](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254335981.png)
 
     | Route Table | Destination         | Next Hop   | Route Type | Description                                                                                 |
     | ----------- | ------------------- | ---------- | ---------- | ------------------------------------------------------------------------------------------- |
@@ -85,7 +85,7 @@ reasons and configuration suggestions.
     subnets overlap, the connection is not usable.
 
     ![**Figure 2** Networking diagram
-    (IPv6)](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209300412.png)
+    (IPv6)](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209300412.png)
 
     Two VPCs have overlapping CIDR blocks but some of their subnets do
     not overlap. VPC peering connections will not take effect in the following
@@ -108,7 +108,7 @@ reasons and configuration suggestions.
         will be forwarded within Subnet-B02 and cannot reach Subnet-A01.
 
         ![**Figure 3** Networking diagram
-        (IPv4)](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209777270.png)
+        (IPv4)](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209777270.png)
 
         | Route Table | Destination              | Next Hop   | Route Type | Description                                                                                      |
         | ----------- | ------------------------ | ---------- | ---------- | ------------------------------------------------------------------------------------------------ |
@@ -128,14 +128,14 @@ reasons and configuration suggestions.
     takes effect.
 
     ![**Figure 4** Networking diagram
-    (IPv4)](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209321492.png)
+    (IPv4)](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001209321492.png)
 
     If two VPCs want to use their IPv6 CIDR blocks for communication by
     a VPC peering connection but the IPv4 CIDR blocks of the VPCs or
     subnets overlap, the connection is not usable.
 
     ![**Figure 5** Networking diagram
-    (IPv6)](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254241751.png)
+    (IPv6)](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254241751.png)
 
 ## Invalid VPC Peering for Sharing an EIP
 
@@ -144,4 +144,4 @@ VPC-A and VPC-B are peered and ECS-A01 in VPC-A has an EIP, ECS-B01 in
 VPC-B cannot access the Internet using the EIP bound to ECS-A01.
 
 ![**Figure 6** Networking
-diagram](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254608729.png)
+diagram](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0000001254608729.png)

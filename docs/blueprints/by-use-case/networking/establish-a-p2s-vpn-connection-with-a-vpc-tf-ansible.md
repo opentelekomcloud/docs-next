@@ -304,7 +304,7 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 
 <center>
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Offline.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Offline.png)
 
 </center>
 
@@ -312,7 +312,7 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 
 <center>
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-config-directory.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-config-directory.png)
 
 </center>
 
@@ -320,7 +320,7 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 
 <center>
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connect.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connect.png)
 
 </center>
 
@@ -334,25 +334,25 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 
 <center>
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-GUI.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-GUI.png)
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure.png)
 
 </center>
 
 - Navigate to the unarchived contents of your ZIP archive, and choose your `*.ovpn` file
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-Choose-ConfigDirectory.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-Choose-ConfigDirectory.png)
 
 - Click on CONNECT
 
 <center>
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-ImportedConfig.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Configure-ImportedConfig.png)
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Connected.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-Connected.png)
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-NotConnected.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-NotConnected.png)
 
 </center>
 
@@ -365,15 +365,15 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
   - You should see "Current State: Connected" above the logs
 
 <center>
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connected.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Icon-Connected.png)
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Connected.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-GUI-Connected.png)
 </center>
 
 - Hit the Windows button on your keyboard, type cmd and hit enter
   - In the cmd Window type ```ping 10.8.0.1``` and hit enter, you should get 4 replies
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-CMD-Ping.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/Windows-OpenVPN-Client-CMD-Ping.png)
 
 ### Connectivity check on MacOS
 
@@ -381,5 +381,5 @@ ansible-playbook -i otc-backend.ansible_inventory ansible/openvpn.yml \
 - Open a Terminal Window, type ```ping 10.8.0.1```, and hit enter. You should see replies coming in, until you enter Control+c
 
 <center>
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-TerminalPING.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc-tf-ansible/MacOS-OpenVPN-Connect-TerminalPING.png)
 </center>

@@ -19,7 +19,7 @@ You can use ELB to route traffic to backend servers in two VPCs connected over a
     added to the backend server group associated with `ELB-Test`.
 
 ![*Figure 1*
-Topology](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059065.png)
+Topology](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059065.png)
 
 :::note Advantages
 You can enable `IP as a Backend` for the dedicated load balancer to
@@ -51,7 +51,7 @@ calculator](https://open-telekom-cloud.com/en/prices/price-calculator).
 
 ![*Figure 2* Process of associating servers in a VPC that is different
 from the dedicated load
-balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674259057.png)
+balancer](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674259057.png)
 
 ## Creating VPCs
 
@@ -69,7 +69,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - Configure other parameters as required.
 
     ![*Figure 3* Creating
-    *VPC-Test-01*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459302.png)
+    *VPC-Test-01*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459302.png)
 
 4. Repeat steps 2 & 3 to create the other VPC.
 
@@ -78,7 +78,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - Configure other parameters as required.
 
     ![*Figure 4* Creating
-    *VPC-Test-02*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674139185.png)
+    *VPC-Test-02*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674139185.png)
 
 ## Creating a VPC Peering Connection
 
@@ -97,7 +97,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - Configure other parameters as required.
 
     ![*Figure 5* Creating
-    *Peering-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625779198.png)
+    *Peering-Test*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625779198.png)
 
 ## Adding Routes for the VPC Peering Connection
 
@@ -116,7 +116,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - **Next Hop**: `Peering-Test`
 
     ![*Figure 6* Creating
-    *Route-VPC-Test-01*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625299482.png)
+    *Route-VPC-Test-01*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625299482.png)
 
 4. Repeat steps 2 & 3 to create the other route table.
 
@@ -138,12 +138,12 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     Guide](https://docs.otc.t-systems.com/elastic-cloud-server/umn/getting_started/creating_an_ecs/overview.html).
 
     ![*Figure 7* Creating
-    ECS-Test](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625619214.png)
+    ECS-Test](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625619214.png)
 
 4. Deploy Nginx on the ECS.
 
     ![*Figure 8* Deploying Nginx on
-    *ECS-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001673939081.png)
+    *ECS-Test*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001673939081.png)
 
 ## Creating a Dedicated Load Balancer and Adding an HTTP Listener and a Backend Server Group to the Load Balancer
 
@@ -162,14 +162,14 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - Configure other parameters as required.
 
     ![*Figure 9* Creating
-    *ELB-Test*](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059069.png)
+    *ELB-Test*](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674059069.png)
 
 4. Add an HTTP listener and a backend server group to the dedicated
     load balancer. For details, see [Elastic Load Balance User
     Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/listener/adding_an_http_listener.html).
 
     ![*Figure 10* HTTP listener and backend server
-    group](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674259061.png)
+    group](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674259061.png)
 
 ## Adding the ECS to the Backend Server Group
 
@@ -183,7 +183,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     Backend Servers*.
 
     ![*Figure 11* IP as backend
-    servers](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459306.png)
+    servers](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625459306.png)
 
 4. Click *Add IP as Backend Server*, configure the parameters, and
     click *OK*. For details, see *Elastic Load Balance User Guide*.
@@ -194,7 +194,7 @@ balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image
     - **Weight**: Set this parameter as required.
 
     ![*Figure 12* Adding ECS-Test using its IP
-    address](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674139189.png)
+    address](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001674139189.png)
 
 ## Verifying Traffic Routing
 
@@ -209,7 +209,7 @@ externally, you can always access the ELB from its private IP.
 2. Select *Bind IPv4 EIP* to bind an EIP to `ELB-Test`.
 
     ![*Figure 13* EIP bound to the load
-    balancer](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625779202.png)
+    balancer](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625779202.png)
 
 3. Enter `http://<EIP>` in the address box of your browser to
     access the dedicated load balancer. If the following page is
@@ -223,4 +223,4 @@ externally, you can always access the ELB from its private IP.
     :::
 
     ![*Figure 14* Verifying that the request is routed to
-    ECS-Test](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625299490.png)
+    ECS-Test](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001625299490.png)

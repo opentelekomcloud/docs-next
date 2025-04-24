@@ -222,7 +222,7 @@ provides a step-by-step process to add a SWR to Devtron.
 
 2. Click *Add Registry*.
 
-    ![Figure 2: Add a Registry](/img/docs/blueprints/by-use-case/devops/ci-devtron-swr-cce/en-us_image_A0000001348013634.png)
+    ![Figure 2: Add a Registry](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/ci-devtron-swr-cce/en-us_image_A0000001348013634.png)
 
 3. From the *Registry provider* dropdown, select your desired provider. Select *other* for SWR.
 

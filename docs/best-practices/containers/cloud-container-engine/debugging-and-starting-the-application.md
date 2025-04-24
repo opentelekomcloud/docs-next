@@ -12,11 +12,11 @@ Debug and access the application to check data:
 
 1.  In the navigation pane, choose *Resource Management* -> *Network*. Pick the EIP next to the WordPress Service.
 
-![**Figure 1** Obtaining the access address](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264587870.png)
+![**Figure 1** Obtaining the access address](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264587870.png)
 
 2.  If the access is normal, and the migration is successful.
 
-![**Figure 2** WordPress welcome page](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264587871.png)
+![**Figure 2** WordPress welcome page](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264587871.png)
 
 ## Service Verification
 

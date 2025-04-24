@@ -28,7 +28,7 @@ a whole. Only the IP address of the proxy server is exposed, while the
 actual domain name or IP address of OBS is hidden.
 
 ![*Figure 1* Principles of accessing OBS through an NGINX reverse
-proxy](/img/docs/best-practices/storage/object-storage-service/en-us_image_0273872842.png)
+proxy](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/storage/object-storage-service/en-us_image_0273872842.png)
 
 ## Prerequisites
 - You know the region and access domain name of the bucket. For example, the access domain name of a bucket named `nginx-obs` in the **eu-de** region is `nginx-obs.obs.eu-de.otc.t-systems.com`. To obtain the information, see [Querying Basic Information of a
@@ -74,7 +74,7 @@ e.  Use a browser on any device to access `http://**ECS EIP/`. If
     installed.
 
     ![*Figure 2* NGINX installed
-    successfully](/img/docs/best-practices/storage/object-storage-service/en-us_image_0273792190.png)
+    successfully](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/storage/object-storage-service/en-us_image_0273792190.png)
 
 ## Configuring NGINX as reverse proxy for your OBS bucket
 
@@ -155,7 +155,7 @@ d.  Click *Create*.
 
 e.  Choose a policy configuration method you like. *Visual Editor* is used here. 
 
-![*Figure 3*  ](/img/docs/best-practices/storage/object-storage-service/policy-visual-editor.png)
+![*Figure 3*  ](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/storage/object-storage-service/policy-visual-editor.png)
 
 f.  Configure the following parameters.
 
@@ -265,4 +265,4 @@ configuration is successful.
 For example, visit `http://**ECS EIP**/otc.jpg`.
 
 ![*Figure 4* Using a fixed IP address to access OBS
-resources](/img/docs/best-practices/storage/object-storage-service/en-us_image_0273876194.png)
+resources](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/storage/object-storage-service/en-us_image_0273876194.png)

@@ -131,7 +131,7 @@ case, you can use the open-source image migration tool
     the upper right corner to obtain the login command in the dialog box
     displayed, as shown in the following figure.
 
-    ![**Figure 1** Generating a login command](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001400827629.png)
+    ![**Figure 1** Generating a login command](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001400827629.png)
 
     In the above figure :
     - `eu-de_otc@9LA\...\...` is the `username`
@@ -216,7 +216,7 @@ image repository. We are going to be accessing SWR through a **public** network.
 
     Add an endpoint and configure the following parameters.
 
-    ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418569120.png)
+    ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418569120.png)
 
     - `Provider`: Select `Open Telekom Cloud SWR`.
     - `Name`: Enter a customized name.
@@ -234,7 +234,7 @@ image repository. We are going to be accessing SWR through a **public** network.
 
     a.  Create a replication rule.
 
-        ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001468885853.png)
+        ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001468885853.png)
 
     b.  Configure the following parameters:
 
@@ -259,4 +259,4 @@ image repository. We are going to be accessing SWR through a **public** network.
 3. After creating the replication rule, select it and click
     *REPLICATE* to complete the replication.
 
-    ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418729104.png)
+    ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418729104.png)

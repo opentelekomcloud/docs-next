@@ -44,21 +44,21 @@ computer.
 
 1.  Create an SSH session for connecting to the ECS using port 22.
 
-    ![**Figure 1** Creating an SSH session](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001156281773.png)
+    ![**Figure 1** Creating an SSH session](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001156281773.png)
 
 2.  After the session is configured, enter the username and password to
     log in to the ECS. After login, enter `TMOUT=0` to prevent the
     session from being automatically closed due to timeout.
 
-    ![**Figure 2** Entering "TMOUT=0"](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001109406512.png)
+    ![**Figure 2** Entering "TMOUT=0"](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001109406512.png)
 
 3.  Click *Tunneling* to create a tunnel.
 
-    ![**Figure 3** Creating a tunnel](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001110063992.png)
+    ![**Figure 3** Creating a tunnel](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001110063992.png)
 
 4.  Set the local IP address to `127.0.0.1` and start the tunnel.
 
-    ![**Figure 4** Starting the tunnel](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001110225672.png)
+    ![**Figure 4** Starting the tunnel](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001110225672.png)
 
 5.  Open the Redis client on the local computer. The following uses the
     Redis CLI as an example. Run the following command to access the DCS
@@ -81,4 +81,4 @@ computer.
 6.  If the connection is successful, the following information is
     displayed.
 
-    ![**Figure 5** Successfully connecting to a DCS instance](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001156308977.png)
+    ![**Figure 5** Successfully connecting to a DCS instance](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001156308977.png)

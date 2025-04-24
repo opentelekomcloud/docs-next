@@ -27,11 +27,11 @@ Click on the console *Elastic Cloud Server*->*Create ECS* and pick the flavor an
 
 We are going to create a single, non highly available PostgreSQL v16. In *Relational Database Service* click *Create DB Instance*:
 
-![Create a Database Wizard Part 1](/img/docs/blueprints/by-use-case/analytics/umami/Screenshot_from_2024-09-09_12-51-39.png)
+![Create a Database Wizard Part 1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot_from_2024-09-09_12-51-39.png)
 
 Make sure you place the database server in the same VPC/Subnet that the ECS instance lives. Choose the flavor of your liking, provide the **root** password and press *Create Now*. For the time being, we are going to make no changes in the Security Groups; we are going to fix this in the next step.
 
-![Create a Database Wizard Part 2](/img/docs/blueprints/by-use-case/analytics/umami/Screenshot_from_2024-09-09_12-52-14.png)
+![Create a Database Wizard Part 2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/analytics/umami/Screenshot_from_2024-09-09_12-52-14.png)
 
 :::note
 Picking a single non-HA instance is just for demonstration purposes and **not** suitable for production. While implementing this blueprint adjust instances and replicas according to your needs and volume projections.

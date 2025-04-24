@@ -28,7 +28,7 @@ Use the following values to configure the newly created GPU Node Pool:
     - **Annotations**: If required by your cluster's configuration, add any necessary annotations.
     - **Taints or Tolerations**: Set taints or tolerations to manage pod scheduling. For GPU nodes, you might set a taint like `nvidia.com/gpu=true:NoExecute` and ensure pods requiring GPUs have the appropriate toleration.
     
-    ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/create-node-pool.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/ai/nvidia-operator/create-node-pool.png)
 
 After creating the Node Pool scale it to the desired size.
 
@@ -51,13 +51,13 @@ New GPU nodes should contain a label with `accelerator` as key and `nvidia*` as 
 From sidebar select *Add-ons* and install the **CCE AI Suite (NVIDIA GPU)**.
   
     <center>
-    ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/install-plugin.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/ai/nvidia-operator/install-plugin.png)
     </center>
 
 ### Plugin Configuration
 
 For more information see [CCE AI Suite (NVIDIA GPU)](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
-    ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
   :::caution
   The selected driver must be compatible with the GPU nodes and supported by NVIDIA GPU Operator, otherwise the cluster will not be able to allocate GPU resources. Check supported drivers at [Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html).

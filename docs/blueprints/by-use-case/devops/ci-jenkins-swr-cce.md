@@ -43,7 +43,7 @@ In this blueprint, Jenkins is installed with a containerized Master and
 Agents. Kubernetes schedules the dynamic Agents:
 
 <center>
-![**Figure 1** Installing Jenkins onKubernetes](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001348013634.jpg)
+![**Figure 1** Installing Jenkins onKubernetes](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001348013634.jpg)
 </center>
 
 -   The Master handles jobs. Install Kubernetes add-ons on the Master to
@@ -274,7 +274,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     in the navigation pane. On the *Services* tab , view the
     Jenkins access mode.
 
-    ![image1](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001349490578.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001349490578.png)
 
 
 2.  Enter `http://<ElasticLoadBalancerIPv4Address>:8080` in the browser address box to visit the Jenkins configuration page.
@@ -300,7 +300,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     create an administrator upon the first login. After the initial
     configuration is complete, the Jenkins page is displayed.
 
-    ![image1](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001465971797.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001465971797.png)
 
 ### Modifying the number of Concurrent Build Jobs 
 
@@ -308,7 +308,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     choose *System Configuration* -> *Manage nodes and clouds*, and
     select *Configure* from the drop-down list of the target node.
 
-    ![image2](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001471311349.png)
+    ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001471311349.png)
 
 :::note
 -   You can modify the number of concurrent build jobs on both
@@ -322,7 +322,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
 2.  Modify the maximum number of concurrent build jobs. In this example,
     the value is changed to `2`. You can change the value as required.
 
-    ![image3](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416531766.png)
+    ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416531766.png)
 
 
 ## Configuring Jenkins Agent 
@@ -331,7 +331,7 @@ After Jenkins is installed, the following information may display,
 indicating that Jenkins uses a Master for local build and Agents are not
 configured.
 
-![image1](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001465972145.png)
+![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001465972145.png)
 
 :::note
 If you install Jenkins using a Master, you can build a pipeline after
@@ -348,7 +348,7 @@ For details, see [Using Jenkins to Build a Pipeline](#using-jenkins-to-build-a-p
     *Available* tab page, filter and install *Kubernetes Plugin* and
     *Kubernetes CLI Plugin*.
 
-    ![image6](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001471430697.png)
+    ![image6](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001471430697.png)
 
     The plug-in version may change with time. Select a plug-in version
     as required:
@@ -390,7 +390,7 @@ be iterated due to security risks.
         be enabled for the IP address, that is, the intra-cluster access
         address)**, for example, `http://10.247.222.254:8080`.
 
-    ![**Figure 1**Example](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001349986824.png)
+    ![**Figure 1**Example](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001349986824.png)
 
 5.  **Pod Template**: Click *Add Pod Template -> Pod Template details*
     and set the pod template parameters:
@@ -400,7 +400,7 @@ be iterated due to security risks.
         -   **Labels**: `jenkins-agent`
         -   **Usage**: Select `Use this node as much as possible`.
 
-        ![**Figure 2** Basic parameters of the podtemplate](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001399744097.png)
+        ![**Figure 2** Basic parameters of the podtemplate](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001399744097.png)
 
     -   Add a container. Click *Add Container -> Container Template*.
 
@@ -417,7 +417,7 @@ be iterated due to security risks.
         -   Enable **Run in privileged** mode and set **Run As User ID**
             to `0` (**root** user).
 
-        ![**Figure 3** Container template parameters](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001350206690.png)
+        ![**Figure 3** Container template parameters](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001350206690.png)
 
 6.  Click **Save**
 
@@ -444,7 +444,7 @@ file in PKCS#12 format.
 3.  On the *Jenkins console*, choose *Manage Jenkins* -> *Manage
     Credentials* and click *Global*. You can also create a domain.
 
-    ![image8](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416735446.png)
+    ![image8](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416735446.png)
 
 4.  Click *Add Credential*:
 
@@ -454,7 +454,7 @@ file in PKCS#12 format.
     -   **Password**: The password customized during **cert.pfx** conversion.
     -   **ID**: Set this parameter to `k8s-test-cert`, which can be customized.
 
-    ![image9](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001400577445.png)
+    ![image9](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001400577445.png)
 
 ## Using Jenkins to Build a Pipeline
 
@@ -485,11 +485,11 @@ The pipeline creation procedure is as follows:
 
 2.  Enter a task name and select *Create Pipeline*.
 
-    ![image1](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001466646017.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001466646017.png)
 
 3.  Configure only the pipeline script.
 
-    ![image2](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416249976.png)
+    ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001416249976.png)
 
     The following pipeline scripts are for reference only. You can
     customize the script. For details about the syntax, see

@@ -152,7 +152,7 @@ connection, but to connect to another VPC in that region, like VPC 3, a
 VPC peering connection must be established.
 
 ![**Figure 1** Connections to on-premises data
-centers](/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0287297889.png)
+centers](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-cloud/en-us_image_0287297889.png)
 
 When planning CIDR blocks for VPC 1, VPC 2, and VPC 3:
 

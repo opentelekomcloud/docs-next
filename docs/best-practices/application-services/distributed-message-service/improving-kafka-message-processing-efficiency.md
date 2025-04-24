@@ -39,10 +39,10 @@ Considering extreme conditions such as network exceptions, you can use DMS for K
 It is recommended that messages be sent and consumed in batches to improve efficiency.
 
 **Figure 1** Messages being produced and consumed in batches  
-![](/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001691529441.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001691529441.png "Click to enlarge")
 
 **Figure 2** Messages being produced and consumed one by one  
-![](/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001643370172.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001643370172.png "Click to enlarge")
 
 When consuming messages in batches, consumers need to process and acknowledge messages in the sequence of receiving messages. Therefore, when a message in the batch fails to be consumed, the consumer does not need to consume the remaining messages, and can directly submit consumption acknowledgment of the successfully consumed messages.
 

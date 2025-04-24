@@ -12,7 +12,7 @@ In this solution we are going to demonstrate how an Enterprise A can implement c
 
 *Figure 1* shows the networking where the VPN service is used to connect the two on-premises data centers.
 
-![](/img/docs/best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/en-us_image_0000001592878805.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/virtual-private-network/connecting-multiple-on-premises-branch-networks-through-a-vpn-hub/en-us_image_0000001592878805.png)
 
 **Figure 1**: Networking diagram  
 

@@ -12,7 +12,7 @@ Cloud Trace Service (CTS) collects real-time records of operations on cloud reso
 
 <a id="figure-1"></a>
 
-![Figure 1](/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001264679162.png)
+![Figure 1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001264679162.png)
 
 **Figure 1** Flowchart  
 
@@ -25,8 +25,8 @@ Cloud Trace Service (CTS) collects real-time records of operations on cloud reso
 Configure a tracker, and the system immediately starts recording operations based on the new rule.
 
 1. Log in to the console.
-2. Click ![](/img/en-us_image_0000001264369622.png) in the upper left corner of the console and select a region and a project.
-3. Click ![](/img/en-us_image_0000001312049497.png) in the upper left corner and choose *Management & Governance* -> *Cloud Trace Service*.
+2. Click ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/en-us_image_0000001264369622.png) in the upper left corner of the console and select a region and a project.
+3. Click ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/en-us_image_0000001312049497.png) in the upper left corner and choose *Management & Governance* -> *Cloud Trace Service*.
 4. On the displayed page, choose *Tracker List* in the navigation pane on the left.
 5. Locate a data tracker and click *Configure* in the *Operation* column.
     * **Operation**: Select the data operations that need to be recorded.
@@ -289,7 +289,7 @@ For details about how to set environment variables, see [Using Environment Varia
 
 <a id="figure-2"></a>
 
-![](/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001264392960.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001264392960.png)
 
 **Figure 2** Setting environment variables  
 
@@ -299,7 +299,7 @@ Create a CTS trigger, as shown in [Enabling CTS](#enabling-cts). For details, se
 
 <a id="figure-3"></a>
 
-![](/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001312436037.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000001312436037.png)
 
 **Figure 3** Creating a CTS trigger  
 

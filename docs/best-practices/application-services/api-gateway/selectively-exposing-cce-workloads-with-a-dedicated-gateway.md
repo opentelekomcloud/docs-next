@@ -17,7 +17,7 @@ Expose CCE workloads using either of the following methods. **Method 1** is reco
 ## Solution Design
 
 <center>
-![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051188.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051188.png "Click to enlarge")
 
 **Figure 1** Accessing CCE workloads (composed of pods) through APIG  
 
@@ -45,7 +45,7 @@ Expose CCE workloads using either of the following methods. **Method 1** is reco
 ### General Procedure
 
 <center>
-![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108890949.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108890949.png)
 </center>
 
 1. [Prepare CCE workload](#preparing-a-cce-workload))
@@ -279,7 +279,7 @@ kubectl apply -f version2.yaml
         On the *APIs* tab, copy the API URL. Open a browser and enter the URL. When the defined success response is displayed, the invocation is successful.
 
         <center>
-        ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108771009.png)
+        ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108771009.png)
 
         **Figure 1** Copying the URL  
 
@@ -353,7 +353,7 @@ kubectl apply -f version2.yaml
         On the *APIs* tab, copy the API URL. Open a browser and enter the URL. When the defined success response is displayed, the invocation is successful.
 
         <center>
-        ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051196.png)
+        ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051196.png)
 
         **Figure 2** Copying the URL  
         </center>
@@ -365,7 +365,7 @@ kubectl apply -f version2.yaml
 Grayscale release is a service release policy that gradually switches traffic from an early version to a later version by specifying the traffic distribution weight. Services are verified during release and upgrade. If a later version meets the expectation, you can increase the traffic percentage of this version and decrease that of the early version. Repeat this process until a later version accounts for 100% and an early version is down to 0. Then the traffic is successfully switched to the later version.
 
 **Figure 3** Grayscale release principle  
-![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108890953.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108890953.png "Click to enlarge")
 
 CCE workloads are configured using the pod label selector for grayscale release. You can quickly roll out and verify new features, and switch servers for traffic processing. For details, see [Using Services to Implement Simple Grayscale Release and Blue-Green Deployment](https://docs.otc.t-systems.com/cloud-container-engine/umn/best_practice/release/using_services_to_implement_simple_grayscale_release_and_blue-green_deployment.html).
 
@@ -402,12 +402,12 @@ The following describes how to smoothly switch traffic from V1 to V2 through gra
     Refresh the page for the backend server addresses. The load balance channel automatically monitors the pod IP addresses of the workload and dynamically adds the addresses as backend server addresses. As shown in the following figure, tags `app=deployment-demo` and `version=v2` automatically match the pod IP addresses (backend server addresses) of the workload.
     
     **Figure 4** Pod IP addresses automatically matched  
-    ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002072891388.png "Click to enlarge")
+    ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002072891388.png "Click to enlarge")
     
     100 of 101 (server group weight of total weight) traffic is distributed to **server\_group\_v1**, and the remaining to the later version of **server\_group\_v2**.
     
     **Figure 5** Click *Modify* in the upper right of the page.  
-    ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108771013.png "Click to enlarge")
+    ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002108771013.png "Click to enlarge")
     
 5.  Check that the new features released to V2 through grayscale release are running stably.
 
@@ -417,7 +417,7 @@ The following describes how to smoothly switch traffic from V1 to V2 through gra
 
     Gradually decrease the weight of **server\_group\_v1** and increase that of **server\_group\_v2**. Repeat 5 to 6 until the weight of **server\_group\_v1** becomes `0` and that of **server\_group\_v2** reaches `100`.
     
-    ![](/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051228.png "Click to enlarge")
+    ![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/api-gateway/en-us_image_0000002073051228.png "Click to enlarge")
     
     As shown in the preceding figure, all requests are forwarded to **server\_group\_v2**. New features are switched from workload **deployment-demo** of **version=v1** to **deployment-demo2** of **version=v2** through grayscale release. (You can adjust the traffic weight to meet service requirements.)
     

@@ -70,12 +70,12 @@ Cloud. We do have two mutually exclusive options to do that:
 Go to *IAM management console*, and create a new User that permits
 **programmatic access** to Open Telekom Cloud resources:
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dfp.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dfp.png)
 
 Grant this User the following permissions or add him directly to User
 Group `dns-admins` (if it exists, otherwise create it for a more rigid permissions management but that's completely optional)
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-df8.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-df8.png)
 
 ## Deploying ExternalDNS on CCE
 
@@ -147,4 +147,4 @@ Wait for a couple of seconds, till the reconciliation loop of the
 ExternalDNS controller is done, and if all went well you should now see
 the Record Sets of your Public Zone populated with various entries:
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)

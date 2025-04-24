@@ -23,7 +23,7 @@ As the business grows, you may need to upgrade your application. Both the old an
 ### Procedure
 
 ![*Figure 1*
-Flowchart](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221220190.png)
+Flowchart](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221220190.png)
 
  | Resource Name       |  Resource Type | Description                                    |
 | --------------------- |------------- |---------------------------------------------- |
@@ -67,14 +67,14 @@ data center as needed. For details, see
     Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/listener/adding_an_http_listener.html).
 
     ![*Figure 2* HTTP
-    listener](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265145841.png)
+    listener](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265145841.png)
 
 6. Enable advanced forwarding. For details, see [Elastic Load Balance
     User
     Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/advanced_features_of_http_https_listeners/advanced_forwarding_dedicated_load_balancers/configuring_advanced_forwarding.html)
 
     ![*Figure 3* Enabling advanced
-    forwarding](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001220740254.png)
+    forwarding](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001220740254.png)
 
 ## Creating Backend Server Groups and Adding Backend Servers
 
@@ -90,7 +90,7 @@ data center as needed. For details, see
 3. Repeat *Step 2* to create backend server group `Server_Group-Test02`.
 
     ![*Figure 4* Backend server
-    groups](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265579817.png)
+    groups](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265579817.png)
 
 4. Add `ECS01`, `ECS02`, and `ECS03` to backend server group
     `Server_Group-Test01`.
@@ -107,7 +107,7 @@ version. When the application of the new version runs stably, direct all
 the requests to the application.
 
 ![*Figure 5* Forwarding requests based on HTTP request
-methods](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265745537.png)
+methods](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265745537.png)
 
 1. Locate the dedicated load balancer and click its name *ELB-Test*.
 
@@ -125,7 +125,7 @@ methods](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_
 
     ![*Figure 6* Forwarding GET and DELETE requests to the application
     of the old
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265924809.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265924809.png)
 
 4. Click *Save*
 
@@ -139,7 +139,7 @@ methods](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_
 
     ![*Figure 7* Forwarding PUT and POST requests to the application
     of the new
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265646757.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265646757.png)
 
 ## Forwarding Requests to Different Versions of the Application based on HTTP Headers
 
@@ -153,7 +153,7 @@ Chinese language, direct all the requests to the application.
 
 ![*Figure 8* Smooth application transition between the old and new
 versions based on the HTTP request
-header](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265465929.png)
+header](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265465929.png)
 
 1. Locate the dedicated load balancer and click its name *ELB-Test*.
 
@@ -169,7 +169,7 @@ header](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0
     *Server_Group-Test01* as the backend server group.
 
     ![*Figure 9* Forwarding requests to the application of the old
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265928345.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265928345.png)
 
 4. Click *Save*.
 
@@ -181,7 +181,7 @@ header](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0
     *Server_Group-Test02* as the backend server group.
 
     ![*Figure 10* Forwarding requests to the application of the new
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265488349.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265488349.png)
 
 ## Forwarding Requests to Different Versions of the Application based on Query Strings
 
@@ -193,7 +193,7 @@ application of the new version runs stably, direct all the requests to
 the new version.
 
 ![*Figure 11* Forwarding requests based on query
-strings](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221308334.png)
+strings](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221308334.png)
 
 :::note
 
@@ -220,7 +220,7 @@ strings](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_
     backend server group.
 
     ![*Figure 12* Forwarding requests to the old
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221328134.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001221328134.png)
 
 4. Click *Save*.
 
@@ -233,4 +233,4 @@ strings](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_
     backend server group.
 
     ![*Figure 13* Forwarding requests to the new
-    version](/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265648321.png)
+    version](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/elastic-load-balancing/en-us_image_0000001265648321.png)

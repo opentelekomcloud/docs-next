@@ -10,8 +10,8 @@ Assume that you have deployed the WordPress on 3rd party cloud provider and crea
 
 ## Solution Design
 
-![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
-![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png)
+![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
+![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png)
 
 ## Migrating Data
 
@@ -390,7 +390,7 @@ will not cause a backup failure.
     files. The backups path is the application resource backup path, and
     the restic path is the PV data backup path.
 
-    ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001480191270.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001480191270.png)
 
 ### Restoring Applications in the Target Cluster
 

@@ -23,7 +23,7 @@ Currently, DCS Redis 4.0, 5.0, and 6.0 instances cannot be bound with elastic IP
 
 The following figure shows the process for accessing DCS through ELB.
 
-![**Figure 1** Process for accessing DCS through ELB](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001231321333.png)
+![**Figure 1** Process for accessing DCS through ELB](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001231321333.png)
 
 ## Prerequisites
 
@@ -75,14 +75,14 @@ The following figure shows the process for accessing DCS through ELB.
 3. Click the name of the VPC peering connection to go to its details
     page. Obtain *Local VPC CIDR Block* and *Peer VPC CIDR Block*.
 
-    ![image1](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001616102745.png)
+    ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001616102745.png)
 
 4. Configure local and peer routes for the VPC peering connection.
 
     a.  On the *Local Routes* and *Peer Routes* tab pages, click the
         link to go to the *Route Tables* page.
 
-        ![image2](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001565366900.png)
+        ![image2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001565366900.png)
 
     b.  Local route: On the summary page of local routes, click *Add
         Route*. In the displayed *Add Route* dialog box, set
@@ -116,7 +116,7 @@ The following figure shows the process for accessing DCS through ELB.
         Servers* tab page, view the health check result of the DCS
         instance IP address.
 
-    ![image3](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001260455881.png)
+    ![image3](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001260455881.png)
 
 ## Connecting to the DCS Instance Through ELB
 
@@ -124,7 +124,7 @@ The following figure shows the process for accessing DCS through ELB.
     a.  View the basic information of the load balancer created in
         `3 <dcs-bp-211201001__li185984400426>`.
 
-        ![image4](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229563929.png)
+        ![image4](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229563929.png)
 
     b.  [Create an
         ECS](https://docs.otc.t-systems.com/elastic-cloud-server/umn/getting_started/creating_an_ecs/index.html#en-us-topic-0021831611),
@@ -136,15 +136,15 @@ The following figure shows the process for accessing DCS through ELB.
         `4 <dcs-bp-211201001__li2180434205513>`. If you use the EIP and
         port number of the load balancer, an error will be reported.
 
-        ![image5](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229643735.png)
+        ![image5](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229643735.png)
 - Connecting to a single-node, master/standby, read/write splitting,
     or Proxy Cluster DCS instance through ELB
     a.  View the IPv4 EIP and port number of the load balancer created
         in `3 <dcs-bp-211201001__li185984400426>`.
 
-        ![image6](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229563929.png)
+        ![image6](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229563929.png)
 
-        ![image7](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229645007.png)
+        ![image7](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229645007.png)
 
     b.  [Create an
         ECS](https://docs.otc.t-systems.com/elastic-cloud-server/umn/getting_started/creating_an_ecs/index.html#en-us-topic-0021831611),
@@ -154,11 +154,11 @@ The following figure shows the process for accessing DCS through ELB.
     c.  Use **redis-cli** to access the load balancer using its EIP and port
         number (which is `80`).
 
-        ![image8](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229765759.png)
+        ![image8](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229765759.png)
 
     d.  Write a key through ELB.
 
-        ![image9](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229765989.png)
+        ![image9](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001229765989.png)
 
     e.  Log in to the DCS console. On the *Cache Manager* page, choose
         *More* -> *Connect to Redis* in the row that contains the
@@ -166,4 +166,4 @@ The following figure shows the process for accessing DCS through ELB.
         Check whether the key written in
         `4 <dcs-bp-211201001__li352815512015>` exists.
 
-        ![image10](/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001183928408.png)
+        ![image10](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/databases/distributed-cache-service/en-us_image_0000001183928408.png)

@@ -23,7 +23,7 @@ a website where ECSs and RDS instances are deployed in a VPC.
 - **ECS1**: public service node -> **ECS2**: backup service node
 - **RDS1**: service database -> **RDS2**: backup database
 
-![**Figure 1** Networking example](/img/docs/best-practices/networking/domain-name-service/en-us_image_0000001394829705.png)
+![**Figure 1** Networking example](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/domain-name-service/en-us_image_0000001394829705.png)
 
 :::note
 
@@ -65,7 +65,7 @@ servers.
 The figure below shows the process for configuring private zones:
 
 ![**Figure 2** Process for configuring private
-zones](/img/docs/best-practices/networking/domain-name-service/en-us_image_0173959206.png)
+zones](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/domain-name-service/en-us_image_0173959206.png)
 
 1. (Optional) Create a VPC and a subnet on the VPC console. This
     operation is required when you are configuring private domain names
@@ -85,7 +85,7 @@ zones](/img/docs/best-practices/networking/domain-name-service/en-us_image_01739
 
     a.  Log in to the management console.
 
-    b.  Click ![image1](/img/docs/best-practices/networking/domain-name-service/en-us_image_0131021386.png) in
+    b.  Click ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/domain-name-service/en-us_image_0131021386.png) in
         the upper left corner and select the desired region and project.
 
     c.  Choose *Network* -> *Virtual Private Cloud*.
@@ -168,7 +168,7 @@ zones](/img/docs/best-practices/networking/domain-name-service/en-us_image_01739
 
     a.  Log in to the management console.
 
-    b.  Click ![image1](/img/docs/best-practices/networking/domain-name-service/en-us_image_0131021386.png) in
+    b.  Click ![image1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/networking/domain-name-service/en-us_image_0131021386.png) in
         the upper left and select *eu-de*.
 
     c.  Choose *Network* -> *Domain Name Service*.

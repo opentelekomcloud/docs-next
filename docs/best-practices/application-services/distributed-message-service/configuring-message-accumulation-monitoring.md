@@ -20,7 +20,7 @@ Unprocessed messages accumulate if the client's consumption is slower than the s
 - Go to the *Open Telekom Cloud Console* -> *Simple Message Notification* -> *Subscriptions* and click *Add Subscription*.
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-24-03.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-24-03.png "Click to enlarge")
 **Figure 1** Add a Subscription to the Topic  
 </center>
 
@@ -31,14 +31,14 @@ Unprocessed messages accumulate if the client's consumption is slower than the s
 Back to the *Subscriptions* console click *Request Confirmation*:
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-38-07.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-38-07.png "Click to enlarge")
 **Figure 2** Request Subscription Confirmation  
 </center>
 
 and click *Confirm Subscription* in the "SMN-Confirming Your Subcription" email:
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-41-04.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-41-04.png "Click to enlarge")
 **Figure 3** Respond to the Subscription Confirmation Request Email
 </center>
 
@@ -48,7 +48,7 @@ and click *Confirm Subscription* in the "SMN-Confirming Your Subcription" email:
 - Find your Kafka instance in the list  and click *Create Alarm Rule*.
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-20-50.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-20-50.png "Click to enlarge")
 **Figure 4** Create a Cloud Eye Alarm Rule
 </center>
 
@@ -58,7 +58,7 @@ and click *Confirm Subscription* in the "SMN-Confirming Your Subcription" email:
 - Set **Notification Object** to the name of the SMN topic we created in the previous step (in this case **test_topic**) and click *Create*.
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-21-30.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-21-30.png "Click to enlarge")
 **Figure 5** Configure the Cloud Eye Alarm Rule
 </center>
 
@@ -109,7 +109,7 @@ func newConsumer(ctx context.Context, consumerId int, wg *sync.WaitGroup) {
     and you will notice that the consumers they start lagging behind and unprocessed messages begin to accumulate:
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-27-43.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-27-43.png "Click to enlarge")
 **Figure 6** Kafka Instance Monitoring Details
 </center>
 
@@ -117,14 +117,14 @@ Soon enough, when the limit set in the alarm rule is met, you will receive an em
 by Cloud Eye concerning the Kafka instance:
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-22-58.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-22-58.png "Click to enlarge")
 **Figure 7** Major Alarm is triggered
 </center>
 
 4. Let the simulation continue, and as the time passes the consumers are starting catching up you will be informed by a second email, that Cloud    Eye delegated the situation and the Major Alarm is now been suppressed:
 
 <center>
-![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-26-08.png "Click to enlarge")
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-26-08.png "Click to enlarge")
 **Figure 8** Major Alarm is over
 </center>
 

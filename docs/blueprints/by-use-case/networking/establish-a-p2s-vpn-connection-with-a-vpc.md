@@ -8,7 +8,7 @@ tags: [vpc, vpn, openvpn]
 
 Establishing a Point-to-Site (P2S) VPN connection between your development machine and a Virtual Private Cloud (VPC) offers several advantages for developers. This setup allows you to securely access resources within the VPC from your local environment as if they were part of your private network, without exposing them on the public internet.
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-02-06_07-47-41.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-02-06_07-47-41.png)
 
 One key reason to set up such a connection is to enhance security. By using a P2S VPN, all data exchanged between your development machine and the VPC travels through an encrypted tunnel, protecting sensitive information from potential interception. This secure pathway is crucial for developers working with proprietary or confidential projects that require robust protection measures. Additionally, this configuration is convenient as it enables remote access to resources within the VPC without the need for a dedicated on-premises server. Developers can work seamlessly across different locations while maintaining direct and private connectivity to their cloud environments. It also facilitates collaboration among team members who may be distributed geographically but need consistent access to shared development resources. Moreover, setting up a P2S VPN minimizes latency issues compared to accessing the VPC through public internet routes, ensuring smoother interactions with cloud-hosted applications or databases. This setup not only optimizes performance but also allows for more efficient debugging and testing of applications within their intended deployment environment. Overall, establishing this type of connection is an effective way to bolster security, improve accessibility, and streamline development workflows in a cloud-centric architecture.
 
@@ -23,13 +23,13 @@ Before we begin setting up a Point-to-Site (P2S) VPN connection between your dev
 
 1. In *Open Telekom Cloud Console* -> *Elastic Cloud Server*, click *Create ECS*. Choose the **Flavor** and **Image** as depicted below and assign a `40GB` as the **System Disk** size.
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-26-41.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-26-41.png)
 
 Click *Next: Configure Network*.
 
 2. Choose the VPC you want to establish a connection with, let OTC **Auto assign** an EIP to the ECS instance and set **Bandwidth Size** to `100Mbit/s`:
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-37-06.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-37-06.png)
 
 3. Follow the remaining steps of the wizard and wait until the ECS instance is provisioned.
 
@@ -61,7 +61,7 @@ Click *Next: Configure Network*.
             ```shell
             sudo ./openvpn-install.sh
             ```
-    ![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-59-07.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-59-07.png)
 
     :::important Make sure:
 
@@ -77,7 +77,7 @@ Click *Next: Configure Network*.
 
     Let the wizard create a client (that would be your development machine):
 
-    ![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_09-25-27.png)
+    ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_09-25-27.png)
 
     :::note
     You will find the configuration file for the client in **~/client_name.ovpn**. Copy that file to your development machine.
@@ -95,7 +95,7 @@ Click *Next: Configure Network*.
 
 Let's inspect the network interfaces and their configuration using `ip a`:
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-09-29.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-09-29.png)
 
 As you can observe, we have a new tunnel interface, `tun0`, with IPv4 address `10.8.0.1/24` which is up and running.
 
@@ -117,7 +117,7 @@ In this blueprint, we will demonstrate how to configure an OpenVPN client specif
 
 Go to *Settings* -> *Network* -> *VPN*, click the *add symbol* and then select *Import from file...*:
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-02-35.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-02-35.png)
 
 and import the **client_name.ovpn** file we copied from the ECS Server in the previous step.
 
@@ -125,7 +125,7 @@ and import the **client_name.ovpn** file we copied from the ECS Server in the pr
 
 Establish the VPN connection and then inspect, on your development machine the network interfaces and their configuration with `ip a`:
 
-![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-22-20.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_12-22-20.png)
 
 As you can observe we have a new tunnel interface, `tun0`, with IPv4 address `10.8.0.2/24` which is up and running. If you inquire for the public IP address of your development machine now, with `curl ifconfig.me`, you will notice it returns the EIP that is assigned to OpenVPN instance running on the ECS server.
 

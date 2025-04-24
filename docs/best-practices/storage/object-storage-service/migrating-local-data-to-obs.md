@@ -114,7 +114,7 @@ For details, see [Detailed Instructions on Using Teleport](https://support.huawe
 Direct Connect connects your data center to Open Telekom Cloud, so that you can upload local data directly to Open Telekom Cloud OBS. Direct Connect provides low-latency and high-bandwidth services, which is suitable for you to upload data to OBS at any time, and is therefore recommended when local data needs to be migrated to OBS frequently or in real time.
 
 **Figure 4** Migrating data to OBS using a Direct Connect connection  
-![](/img/docs/best-practices/storage/object-storage-service/migrating-local-data-to-obs-direct-connect.png)
+![](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/storage/object-storage-service/migrating-local-data-to-obs-direct-connect.png)
 
 1.  Create an OBS bucket.
     

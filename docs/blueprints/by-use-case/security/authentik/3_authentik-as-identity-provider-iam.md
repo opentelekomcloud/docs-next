@@ -27,7 +27,7 @@ Before starting the integration, ensure you have:
    - Client ID: Auto-generated or specify your own
    - Redirect URIs: Enter the callback URL from your IAM: `https://auth.otc.t-systems.com/authui/oidc/post`
    - Under Advanced protocol settings -> Scopes: Select the required scopes (e.g., openid, profile, email, groups)
-  ![image](/img/docs/blueprints/by-use-case/security/authentik/create-oauth.png)
+  ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/create-oauth.png)
 5. Save the provider configuration
 6. Note down the Client ID, and Authorization/Token endpoints
 
@@ -42,13 +42,13 @@ Before starting the integration, ensure you have:
    - Protocol: *OpenID Connect*
    - SSO Type: *Virtual User*
    - Status: *Enabled*
-  ![image](/img/docs/blueprints/by-use-case/security/authentik/create-idp-iam.png)
+  ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/create-idp-iam.png)
 
 ### Configure the IAM Identity Provider
 
 Find your newly created provider in Identity Providers list and click *Modify*:
 
-![image](/img/docs/blueprints/by-use-case/security/authentik/modify-idp-iam.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/modify-idp-iam.png)
 
 Set the following values:
 
@@ -59,11 +59,11 @@ Set the following values:
 - **Scopes**: Select the required scopes (e.g., openid, profile, email, groups)
 - **Response Mode**: `form_post`
 - **Signing Key**: Value of the key `jwks_uri` of the *OpenID Endpoint Configuration* JSON output
-   ![image](/img/docs/blueprints/by-use-case/security/authentik/configure-idp-iam.png)
+   ![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/configure-idp-iam.png)
 
 :::note
 All of the links for your setup can be found under *Overview* page of the *OAuth2/OpenID Provider* in Authentik admin dashboard.
-![image](/img/docs/blueprints/by-use-case/security/authentik/authentik-idp-urls.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/authentik-idp-urls.png)
 :::
 
 :::info
@@ -84,7 +84,7 @@ To enable users to authenticate, you need to create an application in Authentik 
    - **Provider**: Select the provider you created earlier.
    - **Launch URL**: Specify the URI where Authentik should redirect users after authentication. You can find this link under *Programmatic access and management console accesses* of the previously created Identity provider in your tenant. 
 
-![image](/img/docs/blueprints/by-use-case/security/authentik/create-application.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/create-application.png)
 
 1. Save the application settings.
 
@@ -104,7 +104,7 @@ IAM console to achieve the following:
 
 This can be done by editing the Identity Conversion Rules. Edit the conversion rule of previously created Identity Provider in IAM:
 
-![image](/img/docs/blueprints/by-use-case/security/authentik/edit-conversion-rules.png)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/security/authentik/edit-conversion-rules.png)
 
 Paste the following conversion rule in the *Edit Rule* panel:
 

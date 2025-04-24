@@ -17,7 +17,7 @@ Think of it as the equivalent of Kibana in the ELK stack.
 [Grafana Loki](https://grafana.com/oss/loki/) is a logs aggregation system designed to be horizontally scalable, highly available, and cost-effective. Inspired by Prometheus, Loki does not index the contents of the logs but rather a set of labels for each log stream. It was launched in 2018 by Grafana Labs.
 
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
 
 Loki uses [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) to aggregate logs. Promtail is a logs collector agent that collects, labels, and ships logs to Loki. It runs on each Kubernetes node, using the same service discovery as Prometheus and supporting similar methods for labeling, transforming, and filtering logs before their ingestion to Loki.
 
@@ -60,7 +60,7 @@ helm repo update
 helm install grafana grafana/grafana --namespace grafana --create-namespace
 ```
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m8J4oWftIIhbRunvacQ9JA.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m8J4oWftIIhbRunvacQ9JA.webp)
 
 :::note
 By default, the `service/grafana` will be of type `ClusterIP`. If you are not working on CCE, you can use [MetalLB](https://metallb.io/) as a network load balancer and patch the service to be of type `LoadBalancer`. Alternatively, port-forwarding this service will suffice for now.
@@ -70,7 +70,7 @@ By default, the `service/grafana` will be of type `ClusterIP`. If you are not wo
 
 Loki consists of multiple components/microservices that can be deployed in three different modes:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dxVzmGkmFHgkuyJmW1VK3g.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dxVzmGkmFHgkuyJmW1VK3g.webp)
 
 that can be deployed in **3 different modes**:
 
@@ -92,11 +92,11 @@ helm show values grafana/loki-distributed > loki-distributed-overrides.yaml
 
 1. If you are using S3 compatible storage, update the object and shared store target to S3 in your Helm chart values:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m6H5W8D5FxdxunL0PYZjmQ.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_m6H5W8D5FxdxunL0PYZjmQ.webp)
 
 2. Configure your storage to point to the designated S3 bucket:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_be63glOSUO7fwc21h1KVDA.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_be63glOSUO7fwc21h1KVDA.webp)
 
 :::note
 The format of S3 endpoint is `s3://{AK}:{SK}@{endpoint}/{region}/{bucket}`
@@ -104,11 +104,11 @@ The format of S3 endpoint is `s3://{AK}:{SK}@{endpoint}/{region}/{bucket}`
 
 3. Next you have to enable the compactor:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_QQU5x7QDEmOBj95hOiAaAw.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_QQU5x7QDEmOBj95hOiAaAw.webp)
 
 4. Then configure the compactor:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_SL6Snpm9qU_ubI3DrfPskA.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_SL6Snpm9qU_ubI3DrfPskA.webp)
 
 
 5. Now that the Loki values are set, install Loki and then move on to Promtail:
@@ -123,7 +123,7 @@ Get all the components that we installed from the Loki chart:
 kubectl get all -n grafana-loki
 ```
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0WVdeJICkfrez73x43r1bQ.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0WVdeJICkfrez73x43r1bQ.webp)
 
 
 ## Installing Promtail
@@ -134,7 +134,7 @@ We need the endpoint of Loki’s gateway as the designated endpoint that Promtai
 helm show values grafana/promtail > promtail-overrides.yaml
 ```
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_-MaxuCNpIezRgFm-VQZ_ow.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_-MaxuCNpIezRgFm-VQZ_ow.webp)
 
 We are now ready to deploy Promtail. Run the command and wait for all pods to reach a Ready state:
 
@@ -154,7 +154,7 @@ kubectl port-forward service/grafana 8080:80 -n grafana
 You can also expose this service in other ways, either by assigning an external IP via a Load Balancer or as an ingress route through your chosen Ingress solution.
 :::
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dSCLtTxGHOeAawTkJGI0lg.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dSCLtTxGHOeAawTkJGI0lg.webp)
 
 
 2. You will need these credentials to log in. The default *user* is **admin**, but you will need to retrieve the password. Get all the `Secrets` in the **grafana** namespace:
@@ -163,7 +163,7 @@ You can also expose this service in other ways, either by assigning an external 
 kubectl get secrets -n grafana
 ```
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_t_0OqRNB4kaMlbUpQZkshQ.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_t_0OqRNB4kaMlbUpQZkshQ.webp)
 
 Extract and decode the password:
 
@@ -173,19 +173,19 @@ kubectl get secret grafana -n grafana -o jsonpath="{.data.admin-password}" | bas
 
 3. Now logged into the Grafana Dashboard, add Grafana Loki as a data source:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_R2CxfRgIMj9uXGzYMcA0GA.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_R2CxfRgIMj9uXGzYMcA0GA.webp)
 
 Use the endpoint of the Grafana Loki gateway service as the URL `[http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local](http://loki-loki-distributed-gateway.grafana-loki.svc.cluster.local/)`. Test, save, and exit!
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0ILMUg1ZbO5W--NfKjkeWQ.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_0ILMUg1ZbO5W--NfKjkeWQ.webp)
 
 4. Finally, add a dashboard to view your logs. Start with an existing dashboard and tailor it to your needs. A good starting point is this dashboard: : https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
    
 Copy the dashboard template ID and paste it into the text field of your Grafana Dashboard import page:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_bPVWpLNj1oS71KIZQI6A9Q.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_bPVWpLNj1oS71KIZQI6A9Q.webp)
 
 
 Now all the pieces should come together, and you should be able to see logs from your Kubernetes workloads directly in your Grafana interface, providing an almost real-time experience:
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_JhD38QI651EA3UW_LYF_qg.webp)
+![image](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_JhD38QI651EA3UW_LYF_qg.webp)

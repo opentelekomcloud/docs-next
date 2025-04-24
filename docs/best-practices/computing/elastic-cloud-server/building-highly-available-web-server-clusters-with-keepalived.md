@@ -32,7 +32,7 @@ The data planning could follow one of the implementations below:
 - Bind a single virtual IP address to the two ECSs.
 - Bind the virtual IP address to an EIP, then you can access the active and standby ECSs bound with the virtual IP address from the Internet.
 
-![**Figure 1** Network topology](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681028.png)
+![**Figure 1** Network topology](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681028.png)
 
 :::note
 
@@ -45,7 +45,7 @@ The data planning could follow one of the implementations below:
 
 The overall operation process is as follows:
 
-![**Figure 2** Operation process](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681029.png)
+![**Figure 2** Operation process](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681029.png)
 
 ## Creating the Cluster
 
@@ -91,7 +91,7 @@ The overall operation process is as follows:
          Communicate with Each Other Through an Internal
          Network](https://docs.otc.t-systems.com/elastic-cloud-server/umn/security/security_groups/security_group_configuration_examples.html#en-us-topic-0140323152-en-us-topic-0118534011-section14197522283).
 
-        ![**Figure 3** Add Inbound Rule](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0000001176019342.png)
+        ![**Figure 3** Add Inbound Rule](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0000001176019342.png)
    b.  Assign an EIP.
      2. Log in to the management console.
      3. Click *Service List*. Under *Network*, click *Elastic IP*.
@@ -200,7 +200,7 @@ The overall operation process is as follows:
 
         6.  Verify the access to a single Nginx node.
 
-            ![**Figure 4** ECS-HA1 access verification](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681030.png)
+            ![**Figure 4** ECS-HA1 access verification](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681030.png)
 
         7.  Run the following command to edit the **keepalived**
             configuration file and save it:
@@ -372,7 +372,7 @@ The overall operation process is as follows:
 
         16. Test the access to a single Nginx node.
 
-            ![**Figure 5** ECS-HA2 verification result](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681031.png)
+            ![**Figure 5** ECS-HA2 verification result](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681031.png)
 
         17. Run the following command to edit the Keepalived
             configuration file:
@@ -490,14 +490,14 @@ The overall operation process is as follows:
 
     As shown in *Figure 6*, the virtual IP address has been bound to the `ens3` NIC of `ecs-HA1`.
 
-    ![**Figure 6** Virtual IP address of ecs-HA1](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681032.png)
+    ![**Figure 6** Virtual IP address of ecs-HA1](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681032.png)
 
 4. Use a browser to access the EIP and check whether the web page on
     ecs-HA1 can be accessed.
 
     If the information shown in *Figure 7*`* is displayed, the access is normal.
 
-    ![**Figure 7** ecs-HA1 access verification](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681030.png)
+    ![**Figure 7** ecs-HA1 access verification](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681030.png)
 
 5. Run the following command to disable Keepalived on ecs-HA1:
 
@@ -508,11 +508,11 @@ The overall operation process is as follows:
 
     **ip addr show**
 
-    ![**Figure 8** Virtual IP address of ecs-HA2](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681032.png)
+    ![**Figure 8** Virtual IP address of ecs-HA2](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681032.png)
 
 7. Use a browser to access the EIP and check whether the web page on
     ecs-HA2 can be accessed.
 
     If the information shown in *Figure 9* is displayed, the access is normal.
 
-    ![**Figure 9** ecs-HA2 access verification](/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681031.png)
+    ![**Figure 9** ecs-HA2 access verification](https://arch-assets-dev.obs.eu-de.otc.t-systems.com/static/img/docs/best-practices/computing/elastic-cloud-server/en-us_image_0285681031.png)
