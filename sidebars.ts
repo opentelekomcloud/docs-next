@@ -579,6 +579,16 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'Identity and Access Management',
+          items: [
+            {
+              type: 'doc',
+              id: 'best-practices/management-and-deployment/iam/recommendations-for-using-iam',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Config',
           items: [
             {
