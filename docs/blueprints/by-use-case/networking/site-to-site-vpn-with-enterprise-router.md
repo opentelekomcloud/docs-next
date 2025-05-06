@@ -23,6 +23,13 @@ This setup connects different Virtual Private Clouds (VPCs) in Open Telekom Clou
 - **Customer Gateway** is a physical or software device that represents your side of a network connection. A Customer Gateway is configured with an external IP address and as BGP ASN both are provided by the other side of the connection (e.g. AWS if you are creating it on Open Telekom Cloud). This provides the necessary information to the VPN connection.
 - **VPN Connection** refers to the network connection that is established between two networks over an encrypted link facilitated by a VPN gateway and customer gateway. It includes all configurations related to encryption (using AES 256-bit encryption as standard), authentication mechanisms, and monitoring tools that track health status and performance metrics.
 
+:::tip Tip
+You can find more information about Site-to-Site VPN and its related components here:
+ - [What is AWS Site-to-Site VPN?
+](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html)
+ - [How AWS Site-to-Site VPN works
+](https://docs.aws.amazon.com/vpn/latest/s2svpn/what-is-vpn-connections.html).
+:::
 
 ## Prerequisite for OTC Side: Enterprise Router Configuration
 
