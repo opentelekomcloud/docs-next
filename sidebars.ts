@@ -579,16 +579,6 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Identity and Access Management',
-          items: [
-            {
-              type: 'doc',
-              id: 'best-practices/management-and-deployment/iam/recommendations-for-using-iam',
-            },
-          ],
-        },
-        {
-          type: 'category',
           label: 'Config',
           items: [
             {
@@ -892,12 +882,21 @@ const sidebars: SidebarsConfig = {
             },
               ],
             }, 
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/host-security-service/index.html',
+            },
           ],
         },
         {
           type: 'category',
           label: 'Identity and Access Management',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/security-services/iam/recommendations-for-using-iam',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
