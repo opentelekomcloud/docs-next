@@ -860,11 +860,38 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Host Security Service',
           items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/host-security-service/index.html',
+              {
+              type: 'category',
+              label: 'Using HSS and CBR to Defend Against Ransomware',
+              items: [
+                 {
+                  type: 'doc',
+                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/overview',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/resources-and-costs',
+                },
+                {
+              type: 'category',
+              label: 'Defense Measures',
+              items: [
+                 {
+                  type: 'doc',
+                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/identifying-and-fixing-ransomware',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/enabling-ransomware-prevention-and-backup',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/restoring-backup-data',
+                }
+              ],
             },
+              ],
+            }, 
           ],
         },
         {
