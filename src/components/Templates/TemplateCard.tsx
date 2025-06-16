@@ -16,14 +16,16 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
         <img src={logo} alt={`${title} logo`} className={styles.logoImg} />
       </div>
       <div className={styles.content}>
-        {link ? (
-          <a href={link} className={styles.title}>
-            {title}
-          </a>
-        ) : (
-          <div className={styles.title}>{title}</div>
-        )}
-        <div className={styles.description}>{description}</div>
+        <div className={styles.text}>
+          {link ? (
+            <a href={link} className={styles.title}>
+              {title}
+            </a>
+          ) : (
+            <div className={styles.title}>{title}</div>
+          )}
+          <div className={styles.description}>{description}</div>
+        </div>
         <span className={styles.type}>{type}</span>
       </div>
     </div>
