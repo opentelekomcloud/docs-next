@@ -12,7 +12,11 @@ export type TemplateItem = {
 const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, link }) => {
   const Wrapper: React.ElementType = link ? 'a' : 'div';
   const wrapperProps = link
-    ? { href: link }
+    ? {
+        href: link,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
     : {};
 
   return (
