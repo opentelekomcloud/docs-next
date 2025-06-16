@@ -1,4 +1,13 @@
 /* styles.module.css */
+:root {
+  /* fallback if variables aren’t set */
+  --card-bg: #fff;
+  --card-border: #ddd;
+  --text-base: #000;
+  --text-muted: #444;
+  --text-weak: #999;
+  --shadow-hover: rgba(0, 0, 0, 0.1);
+}
 
 .container {
   padding: 2rem;
@@ -24,10 +33,29 @@
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background: #fff;
   display: flex;
   flex-direction: column;
+}
+
+.card:hover {
+  text-decoration: none;           
+  box-shadow: 
+    0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
+    0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover))
+}
+
+html[data-theme='dark'] .card {
+  background-color: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-font-color-base);
+}
+
+html[data-theme='dark'] .card:hover {
+  /* your Telekom-pink shadow */
+  box-shadow: 
+    0px 16px 64px 0px #e20074, 
+    0px 8px 16px 0px #e20074;
 }
 
 .cardContent {
@@ -41,10 +69,21 @@
 
 .description {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-base, var(--ifm-font-color-base));
 }
 
 .loader {
   text-align: center;
   padding: 2rem;
+}
+
+/* Dark mode overrides */
+html[data-theme='dark'] .card {
+  --card-bg: var(--ifm-background-surface-color);
+  --card-border: var(--ifm-color-emphasis-200);
+  --text-base: var(--ifm-font-color-base);
+  --text-muted: var(--ifm-color-emphasis-400);
+  --text-weak: var(--ifm-color-emphasis-200);
+  --shadow-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
+  --telekom-shadow-raised-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
 }
