@@ -10,25 +10,24 @@ export type TemplateItem = {
 };
 
 const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, link }) => {
+  const Wrapper: React.ElementType = link ? 'a' : 'div';
+  const wrapperProps = link
+    ? { href: link }
+    : {};
+
   return (
-    <div className={styles.card}>
+    <Wrapper {...wrapperProps} className={styles.card}>
       <div className={styles.logo}>
         <img src={logo} alt={`${title} logo`} className={styles.logoImg} />
       </div>
       <div className={styles.content}>
         <div className={styles.text}>
-          {link ? (
-            <a href={link} className={styles.title}>
-              {title}
-            </a>
-          ) : (
-            <div className={styles.title}>{title}</div>
-          )}
+          <div className={styles.title}>{title}</div>
           <div className={styles.description}>{description}</div>
         </div>
         <span className={styles.type}>{type}</span>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
