@@ -88,6 +88,11 @@ const config: Config = {
           position: 'left',
           label: 'Blueprints',
         },
+        {
+          to: '/templates', 
+          label: 'Templates',
+          position: 'left',
+        },
         // {
         //   type: 'docSidebar',
         //   sidebarId: 'cafSidebar',
