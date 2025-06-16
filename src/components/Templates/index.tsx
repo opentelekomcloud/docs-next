@@ -14,7 +14,7 @@ const TemplatesList: TemplateItem[] = [
                 Setup and Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible.
             </>
         ),
-        type: 'Terraform',
+        type: 'Terraform, Ansible',
         link: 'https://github.com/opentelekomcloud-blueprints/ovpn',
     },
     {
