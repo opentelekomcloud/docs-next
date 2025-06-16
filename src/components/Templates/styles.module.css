@@ -1,3 +1,13 @@
+:root {
+  /* fallback if variables aren’t set */
+  --card-bg: #fff;
+  --card-border: #ddd;
+  --text-base: #000;
+  --text-muted: #444;
+  --text-weak: #999;
+  --shadow-hover: rgba(0, 0, 0, 0.1);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -10,16 +20,31 @@
   display: flex;
   flex-direction: column;
   border-radius: 12px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid var(--card-border, var(--ifm-color-emphasis-200));
+  background-color: var(--card-bg, var(--ifm-background-surface-color));
   padding: 1.5rem;
-  color: inherit;
+  color: var(--text-base, var(--ifm-font-color-base));
   transition: box-shadow 0.2s ease;
   height: 100%;
 }
 
 .card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
+    0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover));
+}
+
+html[data-theme='dark'] .card {
+  background-color: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-font-color-base);
+}
+
+html[data-theme='dark'] .card:hover {
+  /* your Telekom-pink shadow */
+  box-shadow: 
+    0px 16px 64px 0px #e20074, 
+    0px 8px 16px 0px #e20074;
 }
 
 .logo {
@@ -30,7 +55,7 @@
   margin-top: -0.5rem;
   margin-left: -0.5rem;
   margin-bottom: 1rem;
-  background: #f5f5f5;
+  background-color: var(--card-bg, var(--ifm-background-surface-color));
   padding: 4px;
   display: flex;
   align-items: center;
@@ -56,7 +81,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #000;
+  color: var(--text-base, var(--ifm-font-color-base));
   text-decoration: none;
 }
 
@@ -67,7 +92,7 @@
 .description {
   font-size: 0.95rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: var(--text-base, var(--ifm-font-color-base));
 }
 
 .type {
@@ -75,4 +100,15 @@
   font-weight: bold;
   color: #999;
   text-transform: uppercase;
+}
+
+/* Dark mode overrides */
+html[data-theme='dark'] .card {
+  --card-bg: var(--ifm-background-surface-color);
+  --card-border: var(--ifm-color-emphasis-200);
+  --text-base: var(--ifm-font-color-base);
+  --text-muted: var(--ifm-color-emphasis-400);
+  --text-weak: var(--ifm-color-emphasis-200);
+  --shadow-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
+  --telekom-shadow-raised-hover: 0px 16px 64px 0px #e20074, 0px 8px 16px 0px #e20074;
 }
