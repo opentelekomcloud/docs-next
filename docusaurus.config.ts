@@ -243,7 +243,12 @@ const config: Config = {
 
       // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
       typesenseSearchParameters: {},
-      searchPagePath: false,
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
+      insights: true,
 
       // Optional
       contextualSearch: true,
