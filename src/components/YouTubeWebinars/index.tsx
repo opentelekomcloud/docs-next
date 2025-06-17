@@ -94,9 +94,9 @@ const YouTubeWebinars: React.FC = () => {
               <p className={styles.title}>
                 {video.snippet.title.replace(/\s*\| Open Telekom Cloud \| T-Systems\s*$/, '')}
               </p>
-              <p className={styles.description}>
+              {/* <p className={styles.description}>
                 {video.snippet.description.slice(0, 250)}...
-              </p>
+              </p> */}
             </div>
           </div>
         ))}
