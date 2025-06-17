@@ -92,7 +92,7 @@ html[data-theme='dark'] .card:hover {
 }
 
 .description {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   margin-bottom: 1rem;
   color: var(--text-base, var(--ifm-font-color-base));
 }

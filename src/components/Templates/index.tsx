@@ -11,7 +11,10 @@ const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                Setup and Maintain Point-to-Site VPN Connections between Development Machines and a VPC using Terraform and Ansible.
+                Deploy and maintain Point-to-Site OpenVPN connections on Open Telekom Cloud using Terraform + Ansible.
+                Provision VPC, ECS instance, security groups (SSH/UDP), and private DNS in one go.
+                Automate OpenVPN/EasyRSA installation, firewall hardening, and user certificate lifecycle (create, revoke, package).
+                Built-in backup/restore workflows ensure seamless operational continuity.
             </>
         ),
         type: 'Terraform, Ansible',
@@ -22,8 +25,9 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                Create, sign and update HTTPS certificates via Open Telekom Cloud DNS.
-
+                Automate ACME SSL/TLS certificate issuance and renewal on Open Telekom Cloud.
+                Automatically provision a DNS Admin user, enforce 30-day key rotation, and orchestrate DNS-01 challenges.
+                Support wildcard/SAN certs with ECDSA/RSA key options and configurable renewal thresholds for scalable, compliant HTTPS.
             </>
         ),
         type: 'Terraform',
@@ -34,8 +38,9 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                Cloud Container Engine Terraform module.
-                A module designed to support full capabilities of OTC CCE while simplifying the configuration for ease of use.
+                Provision a production-grade Open Telekom Cloud Container Engine (CCE) cluster with a single Terraform module.
+                Seamlessly integrate VPC/subnets, node pools with autoscaling, and optional high availability.
+                Customize cluster version, node flavors, storage, and addons for resilient, scalable container workloads.
             </>
         ),
         type: 'Terraform',
@@ -46,7 +51,10 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                A module designed to create a CCE GPU Node Pool.
+                Provision a production-grade CCE cluster on Open Telekom Cloud with a single Terraform module.
+                Automate VPC/subnet setup, node pools with autoscaling, and optional multi-AZ high availability.
+                Customize Kubernetes version, node flavors, storage classes, and addon integrations.
+                Simplify scalable, resilient container orchestration with end-to-end infrastructure automation.
             </>
         ),
         type: 'Terraform',
@@ -68,7 +76,8 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                A module designed to automatically extract the crds from Helm charts and install them on the target kubernetes cluster.
+                Automate extraction and deployment of Kubernetes CRDs from Helm charts into your OTC cluster.
+                Preload cert-manager, Traefik, Kyverno, Prometheus CRDs—or add custom charts—with version overrides.
             </>
         ),
         type: 'Terraform',
@@ -79,7 +88,10 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                This module enables the Cloud Tracing Service in Open Telekom Cloud. It creates a encrypted OBS bucket and connects it to a CTS tracker.
+                Provision OTC Cloud Trace Service with a secure, encrypted OBS bucket and CTS tracker.
+                Customize data retention (default 180 days), object prefixes, and optional trace analysis.
+                Leverage built-in KMS key management for compliant encryption.
+                Automate trace collection and storage with a single Terraform module.
             </>
         ),
         type: 'Terraform',
@@ -90,7 +102,9 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-                A module designed to create and manage a dedicated ELB instance with private and public IP.
+                Deploy a dedicated ELB instance with public and private IPs (including EIP) on Open Telekom Cloud via Terraform.
+                Automate availability zone, subnet, network, and bandwidth provisioning with selectable L4/L7 load-balancer flavors.
+                Expose ELB ID, private/public IP outputs, and apply custom tags for seamless infrastructure governance.
             </>
         ),
         type: 'Terraform',
@@ -101,8 +115,10 @@ const TemplatesList: TemplateItem[] = [
         logo: iitsPng,
         description: (
             <>
-A module pair (enterprise_vpn_gateway, enterprise_vpn_connection) designed to support full capabilities of OTC Enterpise VPN while simplifying the configuration for ease of use.
-
+                Orchestrate OTC Enterprise VPN gateway and IPSec connections with Terraform.
+                Configure IPsec tunnels (static/policy/BGP) with customizable IKE/IPsec policies, DPD, NQA, and HA modes (active-active/standby).
+                Automate remote gateway and PSK provisioning along with multi-tunnel orchestration.
+                Export connection details for secure, scalable on-premises connectivity.
             </>
         ),
         type: 'Terraform',
@@ -113,7 +129,10 @@ A module pair (enterprise_vpn_gateway, enterprise_vpn_connection) designed to su
         logo: iitsPng,
         description: (
             <>
-A module pair (enterprise_vpn_gateway, enterprise_vpn_connection) designed to support full capabilities of OTC Enterpise VPN while simplifying the configuration for ease of use.
+                Automate deployment of Open Telekom Cloud Enterprise VPN gateways with Terraform.
+                Customize gateway name, bandwidth, description, IKE/IPsec policies, BGP settings, and HA mode.
+                Enable active-active or standby high availability for resilient connectivity.
+                Expose gateway IDs, IP addresses, and status outputs for seamless integration.
             </>
         ),
         type: 'Terraform',
@@ -124,19 +143,24 @@ A module pair (enterprise_vpn_gateway, enterprise_vpn_connection) designed to su
         logo: iitsPng,
         description: (
             <>
-This is a Terraform module that provisions encrypted Elastic Volume Service (EVS) on Open Telekom Cloud. This module is capable of creating multiple EVS volumes using parameters for their names, specifications, and availability zones.
-
+                Automate encrypted EVS volume provisioning on Open Telekom Cloud with a single Terraform module.
+                Define multiple volumes across availability zones with custom specs (size, type, device) and unified tags.
+                Generate and manage KMS keys by prefix, exposing a map of volume resources for seamless orchestration.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-evs',
     },
-     {
+    {
         title: 'Jumphosts',
         logo: iitsPng,
         description: (
             <>
-A module designed to create SSH jumphosts via Open Telekom Cloud ECS for private networks.
+                Deploy a secure SSH jumphost on Open Telekom Cloud via Terraform.
+                Automate VPC/subnet, ECS instance with boot volume, floating IP, and security group rules.
+                Enable cloud-init customization, host key persistence, and optional KMS disk encryption.
+                Expose public/private IPs and security group ID for seamless integration.
+
             </>
         ),
         type: 'Terraform',
@@ -147,8 +171,9 @@ A module designed to create SSH jumphosts via Open Telekom Cloud ECS for private
         logo: iitsPng,
         description: (
             <>
-Configure Keycloak as a Single Sign-on Identity Provider for Open Telekom Cloud. (OIDC)
-
+                Provision Keycloak as an OIDC SSO identity provider for Open Telekom Cloud with a single Terraform module.
+                Automatically create a Keycloak OpenID client, default scopes, and OTC identity_provider resource with JSON-driven claim mappings for users and groups.
+                Supports custom domain, realm, endpoint configuration and outputs the OTC SSO URL for seamless integration.
             </>
         ),
         type: 'Terraform',
@@ -159,8 +184,9 @@ Configure Keycloak as a Single Sign-on Identity Provider for Open Telekom Cloud.
         logo: iitsPng,
         description: (
             <>
-Configure Keycloak as a Single Sign-on Identity Provider for Open Telekom Cloud. (SAML)
-
+                Provision Keycloak as an SAML SSO identity provider for Open Telekom Cloud with a single Terraform module.
+                Automatically create a Keycloak OpenID client, default scopes, and OTC identity_provider resource with JSON-driven claim mappings for users and groups.
+                Supports custom domain, realm, endpoint configuration and outputs the OTC SSO URL for seamless integration.
             </>
         ),
         type: 'Terraform',
@@ -171,8 +197,9 @@ Configure Keycloak as a Single Sign-on Identity Provider for Open Telekom Cloud.
         logo: iitsPng,
         description: (
             <>
-This module manages an Elastic Load Balancer (opentelekomcloud_lb_loadbalancer_v2). The public IP is an output.
-
+                Provision scalable L4/L7 load balancers on Open Telekom Cloud with Terraform.
+                Create listeners, pools, health monitors, and backend members with customizable protocols, ports, and session persistence.
+                Enable SSL termination, cross-AZ deployment, autoscaling, and tagging for end-to-end traffic management.
             </>
         ),
         type: 'Terraform',
@@ -183,20 +210,23 @@ This module manages an Elastic Load Balancer (opentelekomcloud_lb_loadbalancer_v
         logo: iitsPng,
         description: (
             <>
-This modules creates an OBS Bucket with KMS SSE default encryption and user that able to access to it.
+                Provision a KMS-SSE encrypted OBS bucket with a dedicated access user scoped to that bucket on OTC.
+                Automatically create the user, group, roles, and KMS key, with optional versioning, force-destroy, and tagging.
+                Expose bucket name plus scoped access and secret keys for secure, compliant object storage.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-obs-restricted',
     },
-     {
+    {
         title: 'OBS Secrets Reader',
         logo: iitsPng,
         description: (
             <>
-This modules reads JSON formatted secrets from an OBS bucket.
-
-Use this module if you need to read your JSON formatted data and secrets from an OBS bucket.            </>
+                Read JSON-formatted secrets from an encrypted OBS bucket on Open Telekom Cloud.
+                Automatically fetch and parse your secrets file, exposing values as Terraform outputs.
+                Works with KMS-SSE encryption and scoped IAM credentials for secure, in-Terraform secret retrieval.
+            </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-obs-secrets-reader',
@@ -206,7 +236,10 @@ Use this module if you need to read your JSON formatted data and secrets from an
         logo: iitsPng,
         description: (
             <>
-            This modules creates an OBS Bucket with KMS SSE default encryption and a JSON encoded secrets file within the bucket.
+                Automate writing JSON-formatted secrets to an encrypted OBS bucket on Open Telekom Cloud.
+                Provision or reuse a KMS-SSE bucket with scoped IAM credentials, versioning, and force-destroy options.
+                Serialize Terraform variables into a secrets file and upload via OBS object.
+                Output bucket details and object path for seamless consumption by downstream modules.
             </>
         ),
         type: 'Terraform',
@@ -217,7 +250,9 @@ Use this module if you need to read your JSON formatted data and secrets from an
         logo: iitsPng,
         description: (
             <>
-Create a private DNS for your VPC.
+                Manage private DNS in Open Telekom Cloud with a single Terraform module.
+                Automate creation of DNS zones, VPC zone associations, and recordsets (A, CNAME, MX, TXT, SRV).
+                Customize TTLs, tags, and forwarding rules for secure, scalable internal name resolution.
             </>
         ),
         type: 'Terraform',
@@ -228,19 +263,23 @@ Create a private DNS for your VPC.
         logo: iitsPng,
         description: (
             <>
-A module designed to create and manage projects. The module is designed to automatically add agencies required for KMS-SSE and CCE to all projects it creates.
-
+                Optimize tenant project lifecycle on Open Telekom Cloud with Terraform.
+                Automate creation, deletion, and quota configuration—including service enablement and custom resource limits.
+                Assign users, roles, and tags, exposing project IDs and credentials for integrated access management.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-projects',
     },
-     {
+    {
         title: 'Public DNS',
         logo: iitsPng,
         description: (
             <>
-Manage your domain name records via Open Telekom Cloud DNS
+                Manage public DNS zones on Open Telekom Cloud with a single Terraform module.
+                Automate creation of zones, recordsets (A, AAAA, CNAME, MX, TXT, SRV), and optional reverse DNS entries.
+                Customize TTLs, tags, and forwarding policies for resilient, high-performance domain resolution.
+                Enable self-service domain management with minimal operational overhead.
             </>
         ),
         type: 'Terraform',
@@ -251,7 +290,9 @@ Manage your domain name records via Open Telekom Cloud DNS
         logo: iitsPng,
         description: (
             <>
-A module designed to support full capabilities of Open Telekom Cloud Relational Database Service while simplifying the configuration for ease of use.
+                Provision managed MySQL, PostgreSQL, or SQL Server instances on Open Telekom Cloud with Terraform.
+                Customize engine version, compute/storage specs, HA replicas, backup retention, and KMS-encrypted volumes.
+                Integrate monitoring, security groups, optional EIP, and output endpoints and credentials for seamless app integration.
             </>
         ),
         type: 'Terraform',
@@ -262,21 +303,22 @@ A module designed to support full capabilities of Open Telekom Cloud Relational 
         logo: iitsPng,
         description: (
             <>
-A module designed to create and manage SFS volumes with configurable encryption and backup systems.
-
+                Provision and manage Scalable File Service (SFS) volumes with KMS encryption and automated CBR backups via a single Terraform module.
+                Create SFS Turbo shares, security groups, and backup vault/policies with customizable retention and iCal-based trigger schedules.
+                Configure availability zone, VPC/subnet, volume size/type, and KMS key lifecycle for resilient, secure file storage.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-sfs',
     },
-     {
+    {
         title: 'SNAT',
         logo: iitsPng,
         description: (
             <>
-A module designed to create a NAT gateway with SNAT rule to allow internet access from VPCs and Subnets
-
-
+                Provision a dedicated NAT gateway with SNAT rules to enable internet egress from your VPC subnets.
+                Customize gateway bandwidth, size, and target networks using subnet IDs or CIDRs.
+                Defaults to its own subnet if no networks specified and outputs the allocated EIP for seamless integration.
             </>
         ),
         type: 'Terraform',
@@ -287,41 +329,35 @@ A module designed to create a NAT gateway with SNAT rule to allow internet acces
         logo: iitsPng,
         description: (
             <>
-The script essentially sets up an Open Telekom Cloud Object Storage Service (OBS) bucket for storing Terraform states. 
-This bucket is encrypted using an Open Telekom Cloud Key Management Service (KMS) key.
+                Provision an encrypted OBS bucket for Terraform remote state on Open Telekom Cloud with a single module.
+                Encrypt the bucket using a KMS key, enforce <code>prevent_destroy</code> for immutability, and output a ready-to-use backend configuration.
+                It streamlines secure, compliant state management at scale.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-state-bucket',
-    },
-     {
-        title: 'VPC/Subnet',
-        logo: iitsPng,
-        description: (
-            <>
-Module to auto create VPC and multiple Subnets.
-            </>
-        ),
-        type: 'Terraform',
-        link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-vpc',
     },
     {
         title: 'VPC/Subnet',
         logo: iitsPng,
         description: (
             <>
-Module to auto create VPC and multiple Subnets.
+                Deploy a VPC with multiple subnets on Open Telekom Cloud using a single Terraform module.
+                Customize your CIDR block, DNS server list, and tags uniformly across all subnets.
+                Automatically output the VPC and subnet objects for seamless integration and scalable network foundations.
             </>
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-vpc',
     },
-     {
+    {
         title: 'WAF',
         logo: iitsPng,
         description: (
             <>
-Create Web Application Firewall for a Domain
+                Protect web apps with OTC WAF, automating DNS CNAME record, WAF domain and certificate resources via Terraform.
+                Configure backend server endpoints, enforce TLSv1.2 or v1.1 with customizable cipher suites, and opt-in client/server insecure modes.
+                Leverage default or custom WAF policies for Layer-7 threat mitigation and bot protection in code-driven deployments.
             </>
         ),
         type: 'Terraform',
