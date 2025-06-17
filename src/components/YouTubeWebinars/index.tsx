@@ -102,7 +102,7 @@ const YouTubeWebinars: React.FC = () => {
         ))}
       </div>
       <div ref={loaderRef} className={styles.loader}>
-        {loading && <p>Loading more webinars...</p>}
+        {loading && <scale-loading-spinner text="Loading ..."></scale-loading-spinner>}
       </div>
     </div>
   );
