@@ -7,6 +7,62 @@ import iitsPng from '@site/static/img/templates/logos/iits.png';
 
 const TemplatesList: TemplateItem[] = [
     {
+        title: 'OpenShift',
+        logo: telekomPng,
+        description: (
+            <>
+                This template deploys a Self-managed OpenShift Container Platform on Open Telekom Cloud with worker nodes in one availability zone.
+                To deploy worker nodes in three availability zones, use the template OpenStack HA.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
+        title: 'OpenShift HA',
+        logo: telekomPng,
+        description: (
+            <>
+                This template deploys a Self-managed OpenShift Container Platform on Open Telekom Cloud with master and worker nodes in 3 availability zones.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
+        title: 'Bastion Host',
+        logo: telekomPng,
+        description: (
+            <>
+                This template demonstrates the usecase of the bastion host and the NAT gateway. The bastion host is used as a jump-host to access the private compute via the Admin Network. The private compute has the network port in the Data Network as the default port for outgoing traffic. The NAT gateway is used for SNAT outgoing traffic from the private compute.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
+        title: 'Prometheus',
+        logo: telekomPng,
+        description: (
+            <>
+                This template creates a Prometheus monitoring system with Prometheus server (v2.54.1), Grafana (v11.2.2), node exporter (v1.8.2), and alertmanager (v0.27.0).
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
+        title: 'Nextcloud',
+        logo: telekomPng,
+        description: (
+            <>
+                This template deploys NextCloud app (version 28) on Open Telekom Cloud using Object Storage and Relational Database Service as the storage back-end and the MySQL Server, respectively.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
         title: 'P2S VPN',
         logo: telekomPng,
         description: (
