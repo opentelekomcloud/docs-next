@@ -162,6 +162,10 @@ const config: Config = {
           title: 'Community',
           items: [
             {
+              label: 'Marketplace',
+              to: 'https://marketplace.otc.t-systems.com/',
+            },
+            {
               label: 'Community Forums',
               to: 'https://community.open-telekom-cloud.com/',
             },
