@@ -52,7 +52,7 @@ const TemplatesList: TemplateItem[] = [
         link: 'https://designer.otc-service.com/#/applications/list',
     },
     {
-        title: 'Nextcloud',
+        title: 'NextCloud',
         logo: telekomPng,
         description: (
             <>
@@ -88,6 +88,7 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-acme',
+        partner: true,
     },
     {
         title: 'CCE',
@@ -101,6 +102,7 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-cce',
+        partner: true,
     },
     {
         title: 'CCE GPU Node Pool',
@@ -115,6 +117,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-cce',
+                partner: true,
+
     },
     // {
     //     title: 'Cert-Manager',
@@ -138,6 +142,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-crd-installer',
+                partner: true,
+
     },
     {
         title: 'CTS',
@@ -152,6 +158,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-cts',
+                partner: true,
+
     },
     {
         title: 'Dedicated ELB',
@@ -165,6 +173,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-dedicated-loadbalancer',
+                partner: true,
+
     },
     {
         title: 'Enterprise VPN Connection',
@@ -179,6 +189,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-enterprise-vpn-connection',
+                partner: true,
+
     },
     {
         title: 'Enterprise VPN Gateway',
@@ -193,6 +205,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-enterprise-vpn-gateway',
+                partner: true,
+
     },
     {
         title: 'EVS',
@@ -206,6 +220,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-evs',
+                partner: true,
+
     },
     {
         title: 'Jumphosts',
@@ -221,6 +237,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-jumphost',
+                partner: true,
+
     },
     {
         title: 'Keycloak SSO (OIDC)',
@@ -234,6 +252,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-oidc',
+                partner: true,
+
     },
     {
         title: 'Keycloak SSO (SAML)',
@@ -247,6 +267,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-saml',
+                partner: true,
+
     },
     {
         title: 'ELB',
@@ -260,6 +282,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-loadbalancer',
+                partner: true,
+
     },
     {
         title: 'Restricted OBS Bucket',
@@ -273,6 +297,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-obs-restricted',
+                partner: true,
+
     },
     {
         title: 'OBS Secrets Reader',
@@ -286,6 +312,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-obs-secrets-reader',
+                partner: true,
+
     },
     {
         title: 'OBS Secrets Writer',
@@ -300,6 +328,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-obs-secrets-writer',
+                partner: true,
+
     },
     {
         title: 'Private DNS',
@@ -313,6 +343,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-private-dns',
+                partner: true,
+
     },
     {
         title: 'Projects',
@@ -326,6 +358,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-projects',
+                partner: true,
+
     },
     {
         title: 'Public DNS',
@@ -340,6 +374,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-public-dns',
+                partner: true,
+
     },
     {
         title: 'RDS',
@@ -353,6 +389,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-rds',
+                partner: true,
+
     },
     {
         title: 'SFS',
@@ -366,6 +404,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-sfs',
+                partner: true,
+
     },
     {
         title: 'SNAT',
@@ -379,6 +419,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-snat',
+                partner: true,
+
     },
     {
         title: 'Encrypted Terraform Remote State',
@@ -392,6 +434,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-state-bucket',
+                partner: true,
+
     },
     {
         title: 'VPC/Subnet',
@@ -405,6 +449,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-vpc',
+                partner: true,
+
     },
     {
         title: 'WAF',
@@ -418,6 +464,8 @@ const TemplatesList: TemplateItem[] = [
         ),
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-waf',
+                partner: true,
+
     },
 ];
 

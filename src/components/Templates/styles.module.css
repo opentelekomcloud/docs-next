@@ -49,21 +49,31 @@ html[data-theme='dark'] .card:hover {
     0px 8px 16px 0px #e20074;
 }
 
+/* new: flex‐row for logo + partner badge */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -0.5rem;
+  margin-left: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* tweak: lift margins out of .logo into .header */
 .logo {
   width: 48px;
   height: 48px;
   border-radius: 18px;
   overflow: hidden;
-  margin-top: -0.5rem;
-  margin-left: -0.5rem;
-  margin-bottom: 1rem;
   background-color: var(--card-bg, var(--ifm-background-surface-color));
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* ← remove margin-top, margin-left, margin-bottom here */
 }
 
+/* existing */
 .logoImg {
   width: 100%;
   height: 100%;
@@ -71,6 +81,15 @@ html[data-theme='dark'] .card:hover {
   display: block;
   border-radius: 20%;
 }
+
+.partnerLabel {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #999;
+  text-transform: uppercase;
+  /* you can add margin-right or padding here if you need extra space */
+}
+
 
 .content {
   flex-grow: 1;
