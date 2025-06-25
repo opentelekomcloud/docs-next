@@ -4,21 +4,20 @@ title: Real-Time Collaboration with Collabora Online
 tags: [nextcloud,storage,office,collaboration ]
 ---
 
-
-
 # Real-Time Collaboration with Collabora Online
 
-
 ## What is Collabora Online?
-Collabora Online is a web-based office suite built on LibreOffice technology that integrates seamlessly with Nextcloud to provide real-time collaborative document editing. It enables multiple users to simultaneously edit documents, spreadsheets, and presentations directly within the browser while maintaining full compatibility with Microsoft Office and OpenDocument formats. By deploying Collabora Online as a backend service, Nextcloud transforms from a simple file storage platform into a comprehensive collaborative workspace that rivals commercial solutions like Google Workspace or Microsoft Office 365, all while keeping your data under your complete control.
 
+Collabora Online is a web-based office suite built on LibreOffice technology that integrates seamlessly with Nextcloud to provide real-time collaborative document editing. It enables multiple users to simultaneously edit documents, spreadsheets, and presentations directly within the browser while maintaining full compatibility with Microsoft Office and OpenDocument formats. By deploying Collabora Online as a backend service, Nextcloud transforms from a simple file storage platform into a comprehensive collaborative workspace that rivals commercial solutions like Google Workspace or Microsoft Office 365, all while keeping your data under your complete control.
 
 ## Deploy Collabora Online
 
 ### Helm Chart Values
-Add these values in your `values.yaml` file created in [Pervious section](./2_deploy.md):
 
-The `collabora` field specifies whether to enable Collabora Online  as a backend service for your Nextcloud deployment.
+Add these values to your `values.yaml` file created in the [Previous section](./2_deploy.md):
+
+The `collabora` field specifies whether to enable Collabora Online as a backend service for your Nextcloud deployment.
+
 ```yaml
 collabora:
   enabled: true
@@ -73,31 +72,32 @@ collabora:
          - collabora.example.com
 ```
 
-Here’s an explanation of the fields: 
-    1. **enabled**: Determines whether to enable Collabora Online as a backend service for Nextcloud.
-    2. **replicaCount**: Specifies the number of replicas (instances) of the Collabora container to run. In this example, it is set to 1.
-    3. **image**: `tag: 25.04.2.2.1`  Specifies the tag or version of the Collabora image to use.
-    4. **collabora**:
-        * ``aliasgroups`` Defines a list of alias groups for the Collabora service. This field is used to specify the HTTPS nextcloud domain if needed.
-        * ``extra_param: --o:ssl.enable=false --o:ssl.termination=true``: Allows you to pass extra parameters to the Collabora container. These parameters are related to SSL/TLS settings for the Collabora service.
-        * ``server_name: collabora.example.com``: Specifies the server name for the Collabora service when the hostname is not reachable directly (e.g., behind a reverse proxy).
-    5. **existingSecret**:
-        * ``enabled: true`` Determines whether to use an existing secret to retrieve Collabora admin credentials.
-        * ``secretName: collabora`` Specifies the name of the existing Kubernetes Secret with Collabora admin credentials.
-        * ``usernameKey`` and ``passwordKey`` Specify the keys within the existing secret where the Collabora username and password are stored, respectively.
-    6. **ingress**:
-        * ``enabled: true`` Enables ingress for Collabora Online.
-        * ``className: nginx`` Specifies the class name of the ingress controller (in this case, "nginx").
-        * ``annotations`` Provides additional annotations for the ingress resource. These annotations include settings related to upstream hashing, proxy body size, and TLS/SSL certificates managed by cert-manager.
-        * ``hosts`` Defines a list of hosts for the ingress resource.
-        * ``tls``: Specifies the secret name for the TLS certificate used by the Collabora.
+Here’s an explanation of the fields:
 
+1. **enabled**: Determines whether to enable Collabora Online as a backend service for Nextcloud.
+2. **replicaCount**: Specifies the number of replicas (instances) of the Collabora container to run. In this example, it is set to 1.
+3. **image**: `tag: 25.04.2.2.1` specifies the tag or version of the Collabora image to use.
+4. **collabora**:
 
-:::note
-Replace the placeholders for the Nextcloud domain and Collabora domain with your actual Nextcloud and Collabora domains.
-:::
-### Upgrade Nextcloud 
-Run following command to upgrade Nextcloud this time with collabora enabled:
+   * `aliasgroups`: Defines a list of alias groups for the Collabora service. This field is used to specify the HTTPS Nextcloud domain if needed.
+   * `extra_params: --o:ssl.enable=false --o:ssl.termination=true`: Allows you to pass extra parameters to the Collabora container. These parameters relate to SSL/TLS settings for the Collabora service.
+   * `server_name: collabora.example.com`: Specifies the server name for the Collabora service when the hostname is not directly reachable (e.g., behind a reverse proxy).
+5. **existingSecret**:
+
+   * `enabled: true`: Determines whether to use an existing secret to retrieve Collabora admin credentials.
+   * `secretName: collabora`: Specifies the name of the existing Kubernetes Secret with Collabora admin credentials.
+   * `usernameKey` and `passwordKey`: Specify the keys within the existing secret where the Collabora username and password are stored, respectively.
+6. **ingress**:
+
+   * `enabled: true`: Enables ingress for Collabora Online.
+   * `className: nginx`: Specifies the class name of the ingress controller (in this case, "nginx").
+   * `annotations`: Provides additional annotations for the ingress resource. These include settings related to upstream hashing, proxy body size, and TLS/SSL certificates managed by cert-manager.
+   * `hosts`: Defines a list of hosts for the ingress resource.
+   * `tls`: Specifies the secret name for the TLS certificate used by Collabora.
+
+### Upgrade Nextcloud
+
+Run the following command to upgrade Nextcloud with Collabora enabled:
 
 ```bash
 helm -n nextcloud upgrade \
@@ -108,48 +108,51 @@ helm -n nextcloud upgrade \
 
 ### Enable Collabora Online on Nextcloud
 
-1. First, login to you nextcloud click on your user account then select **Apps** in the shown menu.
+1. First, log in to your Nextcloud. Click on your user account, then select **Apps** in the menu.
 2. Search for **Collabora Online – Built-in CODE Server** and click **Download and enable** to install it.
 3. Also install **Nextcloud Office** if it's not already installed.
 
 ![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-install.png)
 
-
 ### Configuring Collabora Online
-Now configure collabora to use the Collabora Online service, which is created by the new chart.
 
-1. Click on your user account then select **Administration settings** to get routed to the page and from the left menu under **Administration** title, select **office**.
-2. Select **Use your own server** option and provide the **Collabora Domain** you have provided in the Helm values in the first step.
-3. Click **Save** and you should see a notification saying **Collabora Online server is reachable**.
+Now configure Nextcloud to use the Collabora Online service that was created by the new chart.
+
+1. Click on your user account, then select **Administration settings**. From the left menu under the **Administration** section, select **Office**.
+2. Select the **Use your own server** option and provide the **Collabora Domain** you specified in the Helm values earlier.
+3. Click **Save**. You should see a notification saying **Collabora Online server is reachable**.
 
 ![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-configure.png)
-
 
 ## Verifying Collaboration
 
 ### Creating a Shared Document
+
 To verify that collaboration is working, create a shared document in Nextcloud. Follow these steps:
 
 1. Log in to your Nextcloud and navigate to the folder where you want to create a new file.
-2. Click on the **+ New** button to create a new file.
+2. Click the **+ New** button to create a new file.
 3. Select the type of file you want to create (e.g., Word document, spreadsheet, presentation).
 4. Give the file a name and click **Create**.
 
 ### Sharing the Document
+
 Share the document with another user by following these steps:
 
-1. Right on the share icon of the newly created file.
+1. Click on the share icon of the newly created file.
 2. Click on the **Sharing** tab and enter the username or email address of the person you want to share the document with.
-3. Select the permissions level and click **Save share**.
-4. The user you shared the document with should now receive an email invitation to edit the file or alternatively the user can view all shared files to them with clicking on the **Shares** on the left panel. They can then access the file through Nextcloud and start editing it in real-time.
+3. Select the permission level and click **Save share**.
+4. The user you shared the document with should now receive an email invitation to edit the file. Alternatively, they can view all files shared with them by clicking on **Shares** in the left panel. They can then access the file through Nextcloud and start editing it in real time.
 
 ![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-test.png)
 
 ### Verifying Real-time Collaboration
+
 To verify that real-time collaboration is working, follow these steps:
 
 1. Have two users (User A and User B) open the shared document simultaneously.
 2. User A makes some changes to the document by typing a sentence.
-3. User B should see the changes made by User A in real-time, without needing to reload the page or refresh the browser.
+3. User B should see the changes made by User A in real time, without needing to reload the page or refresh the browser.
 
 If you see these changes reflected on User B's screen, it means that collaboration is working correctly.
+
