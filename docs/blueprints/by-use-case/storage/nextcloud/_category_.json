@@ -1,7 +1,3 @@
 {
-  "label": "Nextcloud",
-  "link": {
-    "type": "doc",
-    "id": "nextcloud"
-  }
+  "label": "Nextcloud"
 }

@@ -1,6 +1,6 @@
 ---
-id: nextcloud
-title: Nextcloud
+id: introduction
+title: Introduction to Nextcloud
 tags: [nextcloud,storage,office,collaboration ]
 ---
 
