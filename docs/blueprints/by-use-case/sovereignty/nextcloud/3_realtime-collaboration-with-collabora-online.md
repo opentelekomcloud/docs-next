@@ -1,12 +1,10 @@
 ---
-id: collabora
+id: realtime-collaboration-with-collabora-online
 title: Real-Time Collaboration with Collabora Online
-tags: [nextcloud,storage,office,collaboration ]
+tags: [nextcloud,storage,office,collaboration,sovereignty]
 ---
 
 # Real-Time Collaboration with Collabora Online
-
-## What is Collabora Online?
 
 Collabora Online is a web-based office suite built on LibreOffice technology that integrates seamlessly with Nextcloud to provide real-time collaborative document editing. It enables multiple users to simultaneously edit documents, spreadsheets, and presentations directly within the browser while maintaining full compatibility with Microsoft Office and OpenDocument formats. By deploying Collabora Online as a backend service, Nextcloud transforms from a simple file storage platform into a comprehensive collaborative workspace that rivals commercial solutions like Google Workspace or Microsoft Office 365, all while keeping your data under your complete control.
 
@@ -14,7 +12,7 @@ Collabora Online is a web-based office suite built on LibreOffice technology tha
 
 ### Helm Chart Values
 
-Add these values to your `values.yaml` file created in the [Previous section](./2_deploy.md):
+Add these values to your **values.yaml** file created in [Deploy Nextcloud on CCE -> Configuring Helm Chart Values](./2_deploy-nextcloud-on-cce.md#configuring-helm-chart-values):
 
 The `collabora` field specifies whether to enable Collabora Online as a backend service for your Nextcloud deployment.
 
@@ -72,8 +70,6 @@ collabora:
          - collabora.example.com
 ```
 
-Here’s an explanation of the fields:
-
 1. **enabled**: Determines whether to enable Collabora Online as a backend service for Nextcloud.
 2. **replicaCount**: Specifies the number of replicas (instances) of the Collabora container to run. In this example, it is set to 1.
 3. **image**: `tag: 25.04.2.2.1` specifies the tag or version of the Collabora image to use.
@@ -95,7 +91,7 @@ Here’s an explanation of the fields:
    * `hosts`: Defines a list of hosts for the ingress resource.
    * `tls`: Specifies the secret name for the TLS certificate used by Collabora.
 
-### Upgrade Nextcloud
+### Upgrading Nextcloud
 
 Run the following command to upgrade Nextcloud with Collabora enabled:
 
@@ -106,7 +102,7 @@ helm -n nextcloud upgrade \
 --version 6.6.10
 ```
 
-### Enable Collabora Online on Nextcloud
+### Enabling Collabora Online on Nextcloud
 
 1. First, log in to your Nextcloud. Click on your user account, then select **Apps** in the menu.
 2. Search for **Collabora Online – Built-in CODE Server** and click **Download and enable** to install it.
