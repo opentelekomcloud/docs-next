@@ -6,7 +6,7 @@ tags: [nextcloud,storage,office,collaboration,communication,talk,sovereignty]
 
 # Real-Time Communication with Nextcloud Talk
 
-Nextcloud Talk is a web-based communication app that provides real-time chat, video, and calls. As a privacy-respecting communication solution, it combines chat messaging, video conferencing, webinars, and screen sharing capabilities while maintaining complete control over your data and communications. By deploying Nextcloud Talk, organizations can establish a secure, GDPR-compliant alternative to commercial platforms like Microsoft Teams, Zoom, or Google Meet, all while ensuring that conversations, calls, and shared content remain under their direct control.
+Nextcloud Talk is a web-based communication app that provides real-time chat, video, and calls. As a privacy-respecting communication solution, it combines chat messaging, video conferencing, webinars, and screen sharing capabilities while maintaining complete control over your data and communications. By deploying Nextcloud Talk, organizations can establish a secure, GDPR-compliant alternative to other popular commercial platforms while ensuring that conversations, calls, and shared content remain under their direct control.
 
 Talk serves as the central communication hub within Nextcloud's ecosystem, offering features such as federated chat capabilities that allow communication with users on other Nextcloud servers, end-to-end encrypted calls for maximum security, and AI-powered chat and call summaries for enhanced productivity. The platform supports both one-on-one conversations and group discussions, with advanced moderation tools for managing large-scale webinars and conferences.
 
