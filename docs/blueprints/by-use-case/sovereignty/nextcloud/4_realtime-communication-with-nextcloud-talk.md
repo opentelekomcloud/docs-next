@@ -19,7 +19,7 @@ Nextcloud Talk is available as an application within the Nextcloud app store and
 3. Search for **Talk** and click **Download and enable** to install it.
 4. **Verify Installation**: Once installed, you should see a Talk icon in your Nextcloud interface.
 
-![image](/img/docs/blueprints/by-use-case/storage/nextcloud/talk-enable.png)
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/talk-enable.png)
 
 ## Configuring Nextcloud Talk
 

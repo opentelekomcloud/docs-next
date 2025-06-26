@@ -883,7 +883,7 @@ kubectl -n nextcloud get svc,ingress
 
 You can check the security of your setup with the [Nextcloud Security Scan](https://scan.nextcloud.com/). If everything is secure, you will get an **A+** score. If not, you can check the scan results for specific issues.
 
-![image](/img/docs/blueprints/by-use-case/storage/nextcloud/scan.png)
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/scan.png)
 
 :::tip
 You can also check the following to make sure your setup is reliable and resilient to failures:

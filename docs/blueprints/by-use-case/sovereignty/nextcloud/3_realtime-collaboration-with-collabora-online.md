@@ -108,7 +108,7 @@ helm -n nextcloud upgrade \
 2. Search for **Collabora Online – Built-in CODE Server** and click **Download and enable** to install it.
 3. Also install **Nextcloud Office** if it's not already installed.
 
-![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-install.png)
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/collabora-install.png)
 
 ### Configuring Collabora Online
 
@@ -118,7 +118,7 @@ Now configure Nextcloud to use the Collabora Online service that was created by 
 2. Select the **Use your own server** option and provide the **Collabora Domain** you specified in the Helm values earlier.
 3. Click **Save**. You should see a notification saying **Collabora Online server is reachable**.
 
-![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-configure.png)
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/collabora-configure.png)
 
 ## Verifying Collaboration
 
@@ -140,7 +140,7 @@ Share the document with another user by following these steps:
 3. Select the permission level and click **Save share**.
 4. The user you shared the document with should now receive an email invitation to edit the file. Alternatively, they can view all files shared with them by clicking on **Shares** in the left panel. They can then access the file through Nextcloud and start editing it in real time.
 
-![image](/img/docs/blueprints/by-use-case/storage/nextcloud/collabora-test.png)
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/collabora-test.png)
 
 ### Verifying Real-time Collaboration
 
