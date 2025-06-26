@@ -19,7 +19,6 @@ This guide walks through deploying a highly available Nextcloud setup on an Open
 2. **Object Storage Service (OBS)**  
    - A bucket created in OBS for Nextcloud primary file storage, see [Creating a Bucket](https://docs.otc.t-systems.com/object-storage-service/umn/obs_console_operation_guide/getting_started/creating_a_bucket.html#obs-03-0306).  
    - OBS credentials (Access Key, Secret Key) with permissions to read/write to the bucket, see [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).  
-   <!-- - Network connectivity: ensure the CCE cluster nodes (or their VPC/subnets) can reach the OBS endpoint (configure vpc endpoints). --> //TODO
     
 3. **Relational Database Service (RDS)**  
    - A MySQL (or PostgreSQL) instance deployed in OTC RDS, ideally in HA mode across multiple AZs, see [Getting Started with RDS for MySQL](https://docs.otc.t-systems.com/relational-database-service/umn/getting_started_with_rds_for_mysql/index.html).  
@@ -35,9 +34,10 @@ This guide walks through deploying a highly available Nextcloud setup on an Open
       - [What Should I Pay Attention to When Using RDS?](https://docs.otc.t-systems.com/relational-database-service/umn/faqs/product_consulting/what_should_i_pay_attention_to_when_using_rds.html)
       - [Which DB Instance Monitoring Metrics Do I Need to Pay Attention To?](https://docs.otc.t-systems.com/relational-database-service/umn/faqs/database_monitoring/which_db_instance_monitoring_metrics_do_i_need_to_pay_attention_to.html)
    :::
-   <!-- - Network connectivity: configure vpc endpoints for RDS --> //TODO
 
 ## Solution Overview
+
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/diagram.png)
 
 - **Nextcloud Application Pods**: Scaled horizontally with HPA. This scales pods based on load to ensure high availability.  
 - **Ingress**: Nginx Ingress routes HTTPS traffic to Nextcloud Service.  
@@ -45,7 +45,6 @@ This guide walks through deploying a highly available Nextcloud setup on an Open
 - **Database**: External MySQL RDS instance for data storage.  
 - **Cache (optional but recommended)**: Use Redis for caching to improve performance. You can deploy Redis on CCE or use a managed cache service like [Distributed Cache Service](https://docs.otc.t-systems.com/distributed-cache-service/index.html) (we will use Redis on top of CCE in this example).
 
-//TODO: Add diagram
 
 ## Creating a Namespace
 
@@ -181,7 +180,6 @@ If you don't want to use HPA, you can omit the `resources` stanza altogether.
 
 The `ingress` field determines how Nextcloud should be exposed externally.
 
-//TODO:    # Keep this in sync with the README.md: ???
 
 ```yaml
 ingress:
@@ -194,7 +192,7 @@ ingress:
    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
    nginx.ingress.kubernetes.io/enable-cors: "true"
    nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
-   # Keep this in sync with the README.md:
+   # Keep this in sync with the README.md file of the Helm Chart (https://github.com/nextcloud/helm/blob/main/charts/nextcloud/README.md):
    nginx.ingress.kubernetes.io/server-snippet: |-
      server_tokens off;
      proxy_hide_header X-Powered-By;
@@ -652,7 +650,6 @@ helm repo update
 
 2. **Prepare values**: Incorporate the sections above, filling in your domain, secret names, storageClass, endpoints, etc. Here is an example of a **values.yaml**`**:
 
-//TODO:     # Keep this in sync with the README.md: ??
 
 ```yaml title="values.yaml"
 image:
@@ -678,7 +675,7 @@ ingress:
     cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
-    # Keep this in sync with the README.md:
+    # Keep this in sync with the README.md file of the Helm Chart (https://github.com/nextcloud/helm/blob/main/charts/nextcloud/README.md):
     nginx.ingress.kubernetes.io/server-snippet: |-
       server_tokens off;
       proxy_hide_header X-Powered-By;
@@ -875,9 +872,10 @@ kubectl -n nextcloud get svc,ingress
 5. **Initial Setup**:
 
 - Access Nextcloud using the URL provided in the Ingress.
-- Log in with the credentials provided in the **nextcloud** secret. Complete admin account setup like installing preferred apps, etc.
+- Log in with the credentials provided in the **nextcloud** secret. Complete the initial setup like installing preferred apps, configuring settings or etc.
 
-   <!-- * (screenshot) of login page. --> //TODO: Screenshot is missing
+
+![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/nextcloud-login.png)
 
 ## Validation & Testing
 
