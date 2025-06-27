@@ -1,10 +1,10 @@
 ---
-id: introduction-to-nextcloud
-title: Introduction to Nextcloud
+id: nextcloud
+title: Nextcloud
 tags: [nextcloud,storage,office,collaboration,sovereignty]
 ---
 
-# Introduction to Nextcloud
+# Nextcloud
 
 [Nextcloud](https://nextcloud.com/) is an open-source collaboration and file-sharing platform that organizations can deploy on-premises or in a private cloud. It combines secure file storage and synchronization with integrated groupware calendar, contacts and email, so teams can manage documents and communications from a single, self-hosted environment. By retaining full control over infrastructure and data location, Nextcloud helps maintain privacy, security and regulatory compliance.
 
