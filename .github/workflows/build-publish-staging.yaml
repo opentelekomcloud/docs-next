@@ -64,6 +64,7 @@ jobs:
             REACT_APP_TYPESENSE_HOST: ${{ vars.TYPESENSE_HOST }}
             REACT_APP_TYPESENSE_PORT: ${{ vars.TYPESENSE_PORT }}
             REACT_APP_TYPESENSE_API_KEY: ${{ secrets.TYPESENSE_SEARCH_KEY }}
+            REACT_APP_YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
             UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
             UMAMI_ANALYTICS_DOMAIN: ${{ vars.UMAMI_ANALYTICS_DOMAIN }}
             UMAMI_DATAHOST_URL: ${{ vars.UMAMI_DATAHOST_URL }}

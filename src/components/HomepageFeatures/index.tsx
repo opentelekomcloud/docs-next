@@ -5,6 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import BestPracticesSvg from '@site/static/img/best-practices.svg';
 import BlueprintsSvg from '@site/static/img/blueprints.svg';
+import TemplatesSvg from '@site/static/img/templates.svg';
 // import CafSvg from '@site/static/img/caf.svg';
 
 type FeatureItem = {
@@ -39,6 +40,17 @@ const FeatureList: FeatureItem[] = [
     ),
     link: '/docs/blueprints'
   },
+   {
+    title: 'Templates',
+    Svg: TemplatesSvg,
+    description: (
+      <>
+        Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on Open Telekom Cloud; 
+        whether with Cloud Create, Resource Formation Service, or directly using Terraform or OpenTofu.
+      </>
+    ),
+    link: '/templates'
+  },
   // {
   //   title: 'Cloud Adoption Framework',
   //   Svg: CafSvg,
@@ -54,7 +66,7 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({ title, Svg, description, link }: FeatureItem) {
   return (
-    <div className={clsx('col col--6')}>
+    <div className={clsx('col col--4')}>
         <scale-card to={useBaseUrl(link)} class="scale-telekom-feature-card">
           <div style={{margin: '-24px'}}>
             <div className="text--center">
