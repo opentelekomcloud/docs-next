@@ -6,9 +6,9 @@ tags: [nextcloud,storage,office,collaboration,communication,talk,sovereignty]
 
 # Real-Time Communication with Nextcloud Talk
 
-Nextcloud Talk is a web-based communication app that provides real-time chat, video, and calls. As a privacy-respecting communication solution, it combines chat messaging, video conferencing, webinars, and screen sharing capabilities while maintaining complete control over your data and communications. By deploying Nextcloud Talk, organizations can establish a secure, GDPR-compliant alternative to other popular commercial platforms while ensuring that conversations, calls, and shared content remain under their direct control.
+[Nextcloud Talk](https://nextcloud.com/talk/) is a web **and** mobile-based communication app that provides real-time chat, video, and calls. As a privacy-respecting communication solution, it combines chat messaging, video conferencing, webinars, and screen sharing capabilities while maintaining complete control over your data and communications. By deploying Nextcloud Talk, organizations can establish a secure, GDPR-compliant alternative to other popular commercial platforms while ensuring that conversations, calls, and shared content remain under their direct control.
 
-Talk serves as the central communication hub within Nextcloud's ecosystem, offering features such as federated chat capabilities that allow communication with users on other Nextcloud servers, end-to-end encrypted calls for maximum security, and AI-powered chat and call summaries for enhanced productivity. The platform supports both one-on-one conversations and group discussions, with advanced moderation tools for managing large-scale webinars and conferences.
+Nextcloud Talk serves as the central communication hub within Nextcloud's ecosystem, offering features such as federated chat capabilities that allow communication with users on other Nextcloud servers, end-to-end encrypted calls for maximum security, and AI-powered chat and call summaries for enhanced productivity. The platform supports both one-on-one conversations and group discussions, with advanced moderation tools for managing large-scale webinars and conferences.
 
 ## Enabling Talk in Nextcloud
 
@@ -27,7 +27,7 @@ Click on your user account and select **Administration settings**. From the left
 
 ### STUN Server
 
-**Talk** comes preconfigured with a STUN server (`stun.nextcloud.com:443`) operated by Nextcloud GmbH, which should handle most basic connectivity scenarios. You can also set up your own STUN server if you have one available.
+Nextcloud Talk comes preconfigured with a STUN server (`stun.nextcloud.com:443`) **operated by Nextcloud GmbH**, which should handle most basic connectivity scenarios. **You can also set up your own STUN server if you have one available**.
 
 :::info
 
@@ -60,7 +60,7 @@ If users experience call drops, one-way audio, or difficulty establishing peer-t
 :::
 
 :::danger
-Using a public TURN server poses security risks regarding data privacy. While the traffic is end-to-end encrypted and a malicious TURN server operator cannot directly decrypt your actual media content, the server owner can still access metadata. 
+**Using a public TURN server poses security risks regarding data privacy**. While the traffic is end-to-end encrypted and a malicious TURN server operator cannot directly decrypt your actual media content, the server owner can still access metadata.
 
 **For maximum security, it's recommended to deploy your own TURN server infrastructure rather than relying on public services, especially for sensitive communications.**
 :::
@@ -80,9 +80,9 @@ Federation permissions should be carefully managed to ensure data privacy and se
 
 When enabling federation for Talk, be aware of the current **limitations**:
 
-- Federated users **cannot** be appointed as conversation moderators.
-- File attachments **cannot** be sent in federated chats.
-- Video calls between federated instances have limited support and may require additional configuration.
+* Federated users **cannot** be appointed as conversation moderators.
+* File attachments **cannot** be sent in federated chats.
+* Video calls between federated instances have limited support and may require additional configuration.
 
 :::
 
@@ -118,14 +118,14 @@ To verify that Talk is functioning correctly, create and test different types of
 
 Verify basic messaging capabilities:
 
-- **Send Text Messages**: Type messages in the conversation interface to test basic chat functionality.
-- **File Sharing**: Use the attachment feature to share files from your Nextcloud Files app or upload from your local device.
-- **User Mentions**: Test the mention functionality by typing `@` followed by a username to notify specific participants.
+* **Send Text Messages**: Type messages in the conversation interface to test basic chat functionality.
+* **File Sharing**: Use the attachment feature to share files from your Nextcloud Files app or upload from your local device.
+* **User Mentions**: Test the mention functionality by typing `@` followed by a username to notify specific participants.
 
 ### Testing Video and Voice Calls
 
 Validate the core calling features:
 
-- **Initiate Video Call**: Start a video call within a conversation and verify that participants can see and hear each other.
-- **Test Audio-Only Calls**: Verify voice-only calling functionality, which reduces bandwidth requirements.
-- **Screen Sharing**: Test screen sharing capabilities to ensure participants can share their desktop or specific applications.
+* **Initiate Video Call**: Start a video call within a conversation and verify that participants can see and hear each other.
+* **Test Audio-Only Calls**: Verify voice-only calling functionality, which reduces bandwidth requirements.
+* **Screen Sharing**: Test screen sharing capabilities to ensure participants can share their desktop or specific applications.

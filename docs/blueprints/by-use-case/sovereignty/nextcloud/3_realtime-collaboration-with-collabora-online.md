@@ -6,7 +6,7 @@ tags: [nextcloud,storage,office,collaboration,sovereignty]
 
 # Real-Time Collaboration with Collabora Online
 
-Collabora Online is a web-based office suite built on LibreOffice technology that integrates seamlessly with Nextcloud to provide real-time collaborative document editing. It enables multiple users to simultaneously edit documents, spreadsheets, and presentations directly within the browser while maintaining full compatibility with Microsoft Office and OpenDocument formats. By deploying Collabora Online as a backend service, Nextcloud transforms from a simple file storage platform into a comprehensive collaborative workspace that rivals commercial solutions like Google Workspace or Microsoft Office 365, all while keeping your data under your complete control.
+[Collabora Online](https://www.collaboraonline.com/) is a web-based office suite built on [LibreOffice](https://www.libreoffice.org/) and integrates seamlessly with Nextcloud to provide real-time collaborative document editing. It enables multiple users to simultaneously edit documents, spreadsheets, and presentations directly within the browser while maintaining full compatibility with Microsoft Office and OpenDocument formats. By deploying Collabora Online as a backend service, Nextcloud transforms from a simple file storage platform into a comprehensive collaborative workspace that rivals commercial solutions like Google Workspace or Microsoft Office 365, all while keeping your data under your complete control.
 
 ## Deploy Collabora Online
 
@@ -71,7 +71,7 @@ collabora:
 ```
 
 1. **enabled**: Determines whether to enable Collabora Online as a backend service for Nextcloud.
-2. **replicaCount**: Specifies the number of replicas (instances) of the Collabora container to run. In this example, it is set to 1.
+2. **replicaCount**: Specifies the number of replicas (instances) of the Collabora container to run. In this example, it is set to `1`.
 3. **image**: `tag: 25.04.2.2.1` specifies the tag or version of the Collabora image to use.
 4. **collabora**:
 
@@ -86,7 +86,7 @@ collabora:
 6. **ingress**:
 
    * `enabled: true`: Enables ingress for Collabora Online.
-   * `className: nginx`: Specifies the class name of the ingress controller (in this case, "nginx").
+   * `className: nginx`: Specifies the class name of the ingress controller (in this case, `nginx`).
    * `annotations`: Provides additional annotations for the ingress resource. These include settings related to upstream hashing, proxy body size, and TLS/SSL certificates managed by cert-manager.
    * `hosts`: Defines a list of hosts for the ingress resource.
    * `tls`: Specifies the secret name for the TLS certificate used by Collabora.
@@ -151,4 +151,3 @@ To verify that real-time collaboration is working, follow these steps:
 3. User B should see the changes made by User A in real time, without needing to reload the page or refresh the browser.
 
 If you see these changes reflected on User B's screen, it means that collaboration is working correctly.
-

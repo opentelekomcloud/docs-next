@@ -6,31 +6,31 @@ tags: [nextcloud,storage,office,collaboration,sovereignty]
 
 # Deploy Nextcloud on CCE
 
-This guide walks through deploying a highly available Nextcloud setup on an Open Telekom Cloud (OTC) CCE (managed Kubernetes cluster), using OTC Object Storage Service (OBS) for file storage and OTC Relational Database Service (RDS) for Nextcloud's database. We will use the [Nextcloud Helm charts](https://github.com/nextcloud/helm/tree/main/charts/nextcloud) for that matter.
+This guide walks through deploying a highly available Nextcloud setup on an Open Telekom Cloud Cloud Container Engine (CCE) cluster, using Object Storage Service (OBS) for file storage and Relational Database Service (RDS) for Nextcloud's database. We will use the [Nextcloud Helm charts](https://github.com/nextcloud/helm/tree/main/charts/nextcloud) for that matter.
 
 ## Prerequisites
 
-1. **CCE Kubernetes Cluster**  
+1. **Cloud Container Engine (CCE) cluster**  
    - A CCE cluster with sufficient resources.  
    - `kubectl` configured to access the cluster.  
-   - An Ingress Controller installed on the cluster (we use Nginx Ingress Controller in this example, see [Installing Nginx Ingress Controller](/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics.md#installing-nginx-ingress-controller)).  
+   - An ingress controller installed on the cluster (we will use Nginx Ingress Controller in this blueprint, see [Installing Nginx Ingress Controller](/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics.md#installing-nginx-ingress-controller)).  
    - DNS entry pointing to the Ingress load balancer and TLS certificate for the Nextcloud domain (e.g., via cert-manager, see [Issue an ACME Certificate](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md)).
 
 2. **Object Storage Service (OBS)**  
    - A bucket created in OBS for Nextcloud primary file storage, see [Creating a Bucket](https://docs.otc.t-systems.com/object-storage-service/umn/obs_console_operation_guide/getting_started/creating_a_bucket.html#obs-03-0306).  
-   - OBS credentials (Access Key, Secret Key) with permissions to read/write to the bucket, see [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).  
-    
+   - OBS credentials (Access Key, Secret Key) with read/write permissions on the bucket, see [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).  
+
 3. **Relational Database Service (RDS)**  
-   - A MySQL (or PostgreSQL) instance deployed in OTC RDS, ideally in HA mode across multiple AZs, see [Getting Started with RDS for MySQL](https://docs.otc.t-systems.com/relational-database-service/umn/getting_started_with_rds_for_mysql/index.html).  
+   - A MySQL (or PostgreSQL) instance deployed in RDS, ideally in HA mode across multiple AZs, see [Getting Started with RDS for MySQL](https://docs.otc.t-systems.com/relational-database-service/umn/getting_started_with_rds_for_mysql/index.html).  
    - Network connectivity: Configure RDS security group to allow access from CCE cluster nodes. If RDS is in a different VPC, ensure CCE cluster can access it (via VPC peering).  
   
     <br/>
 
    :::tip
-      RDS auto-backup is recommended to ensure you can recover from any database corruption or loss.
+      RDS auto-backup is recommended to ensure recovery from any database corruption or data loss.
    :::
    :::important
-      RDS is not scaled via Kubernetes. Ensure that the RDS instance has sufficient storage and CPU resources to handle your workload. For more information read:
+      RDS is **not** scaled via Kubernetes. Ensure that the RDS instance has sufficient storage and CPU resources to handle your workload. For more information read:
       - [What Should I Pay Attention to When Using RDS?](https://docs.otc.t-systems.com/relational-database-service/umn/faqs/product_consulting/what_should_i_pay_attention_to_when_using_rds.html)
       - [Which DB Instance Monitoring Metrics Do I Need to Pay Attention To?](https://docs.otc.t-systems.com/relational-database-service/umn/faqs/database_monitoring/which_db_instance_monitoring_metrics_do_i_need_to_pay_attention_to.html)
    :::
@@ -43,8 +43,7 @@ This guide walks through deploying a highly available Nextcloud setup on an Open
 - **Ingress**: Nginx Ingress routes HTTPS traffic to Nextcloud Service.  
 - **Object Storage**: Nextcloud uses S3-compatible OBS as primary storage for user files.  
 - **Database**: External MySQL RDS instance for data storage.  
-- **Cache (optional but recommended)**: Use Redis for caching to improve performance. You can deploy Redis on CCE or use a managed cache service like [Distributed Cache Service](https://docs.otc.t-systems.com/distributed-cache-service/index.html) (we will use Redis on top of CCE in this example).
-
+- **Cache (optional but recommended)**: Use Redis for caching to improve performance. You can deploy Redis on CCE or use a managed cache service like [Distributed Cache Service](https://docs.otc.t-systems.com/distributed-cache-service/index.html) (we will use Redis on top of CCE in this blueprint).
 
 ## Creating a Namespace
 
@@ -56,7 +55,7 @@ kubectl create namespace nextcloud
 
 ## Creating Kubernetes Secrets
 
-We use **Secrets** to hold credentials and other configurations, so that Nextcloud pods can retrieve them securely at runtime. The Helm chart references these Secrets. By saving configuration in Secrets, we avoid hardcoding sensitive data in Helm values or container images, and ensure the deployment remains secure and maintainable. Now create the following Secrets:
+We use **Secrets** to hold credentials and other configuration, so that Nextcloud pods can retrieve them securely at runtime. The Helm chart references these secrets. By saving configuration in secrets, we avoid hardcoding sensitive data in Helm values or container images, and ensure the deployment remains secure and maintainable. Now create the following secrets:
 
 :::tip
 When creating Secrets, use strong and unique passwords. To generate a random secure password, you can use the `openssl` command. e.g.:
@@ -70,7 +69,7 @@ This will output a **random base64-encoded** string that can be used as a passwo
 
 #### OBS Credentials Secret
 
-This provides external Object Storage credentials and is used in helm chart `values` under `nextcloud.objectStore.s3.existingSecret`. Replace the placeholders with values you obtained in previous steps and run the following command:
+This provides credentials for an external S3-compliant Object Storage (in our case OBS) and is used in helm chart `values` under `nextcloud.objectStore.s3.existingSecret`. Replace the placeholders with values you obtained in previous steps and run the following command:
 
 ```bash
 kubectl -n nextcloud create secret generic nextcloud-obs \
@@ -90,7 +89,7 @@ kubectl -n nextcloud create secret generic nextcloud-obs \
 
 #### Database Credentials Secret
 
-This provides external Relational Database credentials and is used in helm chart `values` under `externalDatabase.existingSecret`. Replace the placeholders with values you obtained in previous steps and run the following command:
+This provides credentials for an external database (in our case RDS) and is used in helm chart `values` under `externalDatabase.existingSecret`. Replace the placeholders with values you obtained in previous steps and run the following command:
 
 ```bash
 kubectl -n nextcloud create secret generic nextcloud-db \
@@ -101,7 +100,7 @@ kubectl -n nextcloud create secret generic nextcloud-db \
 ```
 
 :::info
-You can find the Host and Port of the RDS under the **Basic Information** page of your RDS instance under **Floating IP Address** and **Database Port** fields.
+You can find the host and port of the database under the **Basic Information** page of your RDS instance under **Floating IP Address** and **Database Port** fields.
 :::
 
 #### NextCloud Credentials Secret
@@ -128,7 +127,7 @@ kubectl -n nextcloud create secret generic nextcloud \
 
 #### Redis Credentials Secret
 
-This provides Redis credentials and is used in helm chart `values` under `redis.auth.existingSecret`. Replace the placeholders with your own values and run the following command:
+This provides credentials for Redis and is used in helm chart `values` under `redis.auth.existingSecret`. Replace the placeholders with your own values and run the following command:
 
 ```bash
 kubectl -n nextcloud create secret generic nextcloud-redis \
@@ -179,7 +178,6 @@ If you don't want to use HPA, you can omit the `resources` stanza altogether.
 ### ingress
 
 The `ingress` field determines how Nextcloud should be exposed externally.
-
 
 ```yaml
 ingress:
@@ -253,7 +251,7 @@ Here are some key points to note:
 
    You may need to restart the **nginx-ingress-controller** pod after making these changes for them to take effect.
 
-   Without these settings, the annotations will fail to validate, leading to potential Nextcloud service discovery issues. This is a critical setting that must be configured properly.
+   Without these settings, the annotations validation will fail, leading to potential Nextcloud service discovery issues. This is a critical setting that must be configured properly.
    :::
 
    :::danger User Responsibility
@@ -297,7 +295,7 @@ nextcloud:
     enabled: false 
 ```
 
-1. **host**: Specifies the hostname where Nextcloud will be accessible. For example, `nextcloud.example.com`.
+1. **host**: Specifies the hostname where Nextcloud will be accessible from. e.g.: `nextcloud.example.com`.
 
 2. **existingSecret**:
    - `enabled: true` enables the use of existing secrets for configuration.
@@ -313,7 +311,7 @@ nextcloud:
 
 #### nextcloud.objectStore
 
-The `nextcloud.objectstore.s3` field determines how Nextcloud will interact with an external Object Storage service.
+The `nextcloud.objectstore.s3` field determines how Nextcloud will interact with an external S3-compatible Object Storage service.
 
 ```yaml
 nextcloud:
@@ -340,7 +338,6 @@ nextcloud:
           sse_c_key: "sse_c_key"
 ```
 
-
 - `enabled: true` ensures that S3-compatible Object Storage is enabled for Nextcloud.
 - `legacyAuth: false` disables legacy authentication methods. Typically kept as default.
 - `ssl: true` enables TLS/SSL for secure connections.
@@ -355,7 +352,7 @@ nextcloud:
 - `secretKeys`: contains the key within the secret used to retrieve credentials.
 
 :::note
-Ensure your OBS AK/SK has appropriate permissions and access controls to allow Nextcloud to write data to the bucket.
+Ensure your OBS AK/SK has the appropriate permissions to allow Nextcloud to write data to the bucket.
 :::
 
 #### nextcloud.defaultConfigs
@@ -384,7 +381,7 @@ Imaginary is a service that enhances Nextcloud's ability to process and manage i
 
 #### nextcloud.configs
 
-The `nextcloud.configs` field determines how Nextcloud configures itself. You can add additional configs here, but it's not recommended to do so unless you know what you are doing.
+The `nextcloud.configs` field determines how Nextcloud configures itself. You can add additional configs here, **but it's not recommended to do so unless you know what you are doing.**
 
 ```yaml
 nextcloud:
@@ -452,11 +449,11 @@ Values used in the blueprint for `maxSurge` and `maxUnavailable` are for demonst
 
 ### internal/externalDatabase
 
-In this section, we set up configurations for the database supporting our installation.
+In this section, we will configure the database that supports our installation.
 
 #### Disabling Internal Database
 
-The `internalDatabase.enabled` field determines whether to use the internal database or not. If set to `false`, Nextcloud will not have its own database and will rely on an external database instead. In this example, we will use an external database.
+The `internalDatabase.enabled` field determines whether to use the internal database or not. If set to `false`, Nextcloud will not have its own database and will rely on an external database instead. In this example, we will use an RDS instance as an external database.
 
 ```yaml
 internalDatabase:
@@ -534,9 +531,9 @@ cronjob:
 ```
 
 :::important
-In order to be able to scale the pods with HPA, you need to set `resources`. Configure the **resources** field to match your requirements (provided values are just examples).
+In order to be able to scale the pods with HPA, you need to set `resources`. Configure the `resources` field to match your requirements (provided values are just examples).
 
-If you don't want to use HPA, you can omit the **resources** field.
+If you don't want to use HPA, you can omit the `resources` field.
 :::
 
 ### hpa
@@ -649,7 +646,6 @@ helm repo update
 ```
 
 2. **Prepare values**: Incorporate the sections above, filling in your domain, secret names, storageClass, endpoints, etc. Here is an example of a **values.yaml**`**:
-
 
 ```yaml title="values.yaml"
 image:
@@ -873,7 +869,6 @@ kubectl -n nextcloud get svc,ingress
 
 - Access Nextcloud using the URL provided in the Ingress.
 - Log in with the credentials provided in the **nextcloud** secret. Complete the initial setup like installing preferred apps, configuring settings or etc.
-
 
 ![image](/img/docs/blueprints/by-use-case/sovereignty/nextcloud/nextcloud-login.png)
 
