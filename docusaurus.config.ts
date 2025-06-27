@@ -88,6 +88,16 @@ const config: Config = {
           position: 'left',
           label: 'Blueprints',
         },
+        {
+          to: '/templates', 
+          label: 'Templates',
+          position: 'left',
+        },
+        {
+          to: '/webinars', 
+          label: 'Webinars',
+          position: 'left',
+        },
         // {
         //   type: 'docSidebar',
         //   sidebarId: 'cafSidebar',
@@ -152,11 +162,15 @@ const config: Config = {
           title: 'Community',
           items: [
             {
+              label: 'Marketplace',
+              to: 'https://marketplace.otc.t-systems.com/',
+            },
+            {
               label: 'Community Forums',
               to: 'https://community.open-telekom-cloud.com/',
             },
             {
-              label: 'Webinars',
+              label: 'Webinars in YouTube',
               href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
             // {
@@ -263,6 +277,7 @@ const config: Config = {
 
   customFields: {
     version: process.env.REACT_APP_VERSION,
+    youtube_api_key: process.env.REACT_APP_YOUTUBE_API_KEY
   },
 
   plugins: [
