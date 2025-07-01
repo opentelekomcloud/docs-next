@@ -75,7 +75,7 @@ function Feature({ title, Svg, description, link }: FeatureItem) {
             <div className="text--center padding-horiz--md" style={{margin: '0 0 16px 0'}}> 
               {/* <h4 style={{margin: '0px 0 16px 0', font: 'var(--telekom-text-style-heading-4)'}}>{title} </h4> */}
               <Heading as="h3" style={{margin: '8px'}}>{title}</Heading>
-              <span>
+              <span  className={clsx(styles.hideOnTouch)}>
                 {description}              
               </span>
               {/* <scale-button style={{margin: '16px'}} icon-position="after">
