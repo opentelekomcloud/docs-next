@@ -211,7 +211,4 @@ Guide](https://docs.otc.t-systems.com/elastic-load-balancing/umn/).
 :::info See Also
 
 - [Application Scenarios](https://docs.otc.t-systems.com/virtual-private-cloud/umn/service_overview/application_scenarios.html)
-- [Private Network Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0007.html)
-- [Public Network Access](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/bestpractice_0004.html)
-
 :::

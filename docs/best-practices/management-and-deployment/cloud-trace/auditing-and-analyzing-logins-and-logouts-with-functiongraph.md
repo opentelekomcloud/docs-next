@@ -105,8 +105,9 @@ def handler(event, context):
 
     body = {"message" :"Illegal operation["+logInfo+"]", "subject":"CTSTrigger"}
     headers = {'X-Auth-Token': context.getToken(),  "accept": "application/json"}
-    url= "https://smn."+regionName+".myhuaweicloud.com/v2/"+projectId+"/notifications/topics/urn:smn:"+regionName+":"+projectId+":"+SMN_Topic+"/publish"
+    url= "https://smn."+regionName+".otc.t-systems.com/v2/"+projectId+"/notifications/topics/urn:smn:"+regionName+":"+projectId+":"+SMN_Topic+"/publish"
 
+	
     response = requests.post(url,headers=headers,data=json.dumps(body))
     if response.status_code != 200:
         print (response.status_code)
@@ -233,7 +234,7 @@ def handler(event, context):
     projectId = context.getProjectID()
     body = {"message" :"Get warning message.The content of message is:"+json.dumps(alarmLogs).replace('\\',''), "subject":"TimeTrigger"}
     headers = {'X-Auth-Token': context.getToken(),  "accept": "application/json"}
-    url= "https://smn." + region + ".myhuaweicloud.com/v2/"+projectId+"/notifications/topics/urn:smn:" + region + ":"+projectId+":"+SMN_Topic+"/publish"
+    url= "https://smn." + region + ".otc.t-systems.com/v2/"+projectId+"/notifications/topics/urn:smn:" + region + ":"+projectId+":"+SMN_Topic+"/publish"
     response = requests.post(url,headers=headers,data=json.dumps(body))
     if response.status_code != 200:
         print ("*** send SMN message failed. resp statusCode:"+str(response.status_code))
@@ -311,7 +312,7 @@ When a user performs login or logout using an account, the subscription service 
 
 <a id="figure-4"></a>
 
-![](https://support.huaweicloud.com/intl/en-us/bestpractice-cts/en-us_image_0000001312598869.png)
+![](/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000002133767412.png)
 
 **Figure 4** Alarm notification sent by email  
 
@@ -322,4 +323,4 @@ On the *Monitoring* tab page of the function, check the number of invocations, a
 <a id="figure-"></a>
 
 **Figure 5** Function metrics  
-![](https://support.huaweicloud.com/intl/en-us/bestpractice-cts/en-us_image_0000001312357985.png)
+![](/img/docs/best-practices/management-and-deployment/cloud-trace/auditing-and-analyzing-logins-and-logouts-with-functiongraph/en-us_image_0000002169007081.png)

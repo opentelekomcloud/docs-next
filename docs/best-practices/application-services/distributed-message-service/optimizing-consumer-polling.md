@@ -12,7 +12,7 @@ As shown in [Figure 1](#kafka-bp-190605001__fig6820724153018), the topic contain
 
 <center>
 **Figure 1** Multi-thread consumption of Kafka consumers  
-![](https://support.huaweicloud.com/intl/en-us/bestpractice-kafka/en-us_image_0000001643241046.png "Click to enlarge")
+![](/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001643241046.png "Click to enlarge")
 </center>
 
 ## Solution
@@ -23,7 +23,7 @@ This solution is applicable to scenarios with low requirements on real-time mess
 
 <center>
 **Figure 2** Optimized multi-thread consumption solution  
-![](https://support.huaweicloud.com/intl/en-us/bestpractice-kafka/en-us_image_0000001691560433.png "Click to enlarge")
+![](/img/docs/best-practices/application-services/distributed-message-service/en-us_image_0000001691560433.png "Click to enlarge")
 </center>
 
 :::note

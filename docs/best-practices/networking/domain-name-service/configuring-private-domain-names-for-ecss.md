@@ -156,9 +156,6 @@ zones](/img/docs/best-practices/networking/domain-name-service/en-us_image_01739
     those provided by the DNS service so that the domain names can be
     resolved.
 
-    For details, see [How Do I Change Default DNS Servers of an ECS to
-    Huawei Cloud Private DNS
-    Servers?](https://support.huaweicloud.com/intl/en-us/dns_faq/dns_faq_005.html)
 
 5. Switch to the backup ECS.
 
