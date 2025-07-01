@@ -15,35 +15,50 @@ Formbricks includes a no-code survey editor, real-time response tracking and ana
 1. a **Cloud Container Engine (CCE) cluster**  
 2. a Redis instance in **Distributed Cache Service (DCS)**  
 3. a PostgreSQL instance in **Relational Database Service (RDS)**  
-
-<!-- ### Installing ORAS -->
+4. a bastion host in **Elastic Cloud Service (ECS)**  
 
 ## Creating a PostgreSQL Database
 
 Formbricks requires persistent storage to retain data and configuration across pod restarts. While it's technically feasible to deploy a PostgreSQL instance directly within the CCE cluster, this approach introduces operational complexity and shifts responsibility for database management to the application team. A more efficient solution is to leverage Open Telekom Cloud's Relational Database Service (RDS). It provides a scalable, fully managed PostgreSQL backend that integrates seamlessly with other managed services on the platform, significantly reducing administrative overhead and ensuring high availability and operational resilience.
 
-### Creating Security Groups
-
-Two distinct Security Groups will be required for this setup. The first will be assigned to the RDS instance/nodes and must allow inbound traffic on port `5432`, which is the default PostgreSQL port. If both the RDS and CCE nodes are deployed within the same Subnet, this rule can be restricted to that Subnet’s IP range for tighter control. This ensures that only internal workloads—such as Formbricks running on CCE—can initiate connections to the database, minimizing exposure and adhering to the principle of least privilege.
-
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-fh3.png)
-
-The second Security Group will be assigned to the client nodes—in this case, the CCE worker nodes where Formbricks will be running. This group must allow outbound traffic on port `5432` to reach the RDS instance. By explicitly controlling egress rules, you can enforce that only authorized services within your Kubernetes environment can initiate connections to the database, maintaining a secure and auditable network flow between components.
-
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-k2x.png)
-
-### Provisioning a Database
-
-The next step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Formbricks operates reliably under load and can scale as demand increases.
+This step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Formbricks operates reliably under load and can scale as demand increases.
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
 When provisioning the PostgreSQL instance, ensure the following network and security configurations are in place:
 
+- Create two Security Groups, `rds-instances` and `rds-clients`, as described in best practice: [Configure Security Groups for PostgreSQL RDS Instances and Clients](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances.md).
 - Deploy the RDS instance within the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the database.
 - Attach the previously created `rds-instances` Security Group to the RDS instance. This group must allow inbound traffic on port `5432` from the Subnet or Security Group associated with the CCE nodes to enable secure database access.
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ka7.png)
+
+### Installing pgvector Plugin
+
+Navigate to *Open Telekom Cloud Console* -> *Relational Database Service*, choose your instance and then click *Plugins*. Search for the plugin **vector** and click *Install*.
+
+![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_08-47-52.png)
+
+Installing the plugin is instantenous but we need afterwards to enable it. Connect, via SSH, to your bastion host and perform the following steps:
+
+#### Installing PostgreSQL Client
+
+```bash
+sudo apt-get update
+sudo apt-get install postgresql-client
+```
+
+#### Creating a new Database
+
+```bash
+psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d postgres -c "CREATE DATABASE formbricks;"
+```
+
+#### Registering pgvector in the public Schema
+
+```bash
+psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d postgres -c "SELECT control_extension('create','vector','public');"
+```
 
 ## Creating a Redis Instance
 
@@ -88,124 +103,13 @@ Decide on the access method you'll use to interact with the CCE cluster post-dep
 While the first option is quicker to set up, **the recommended approach is to use a bastion host**. This method significantly reduces the attack surface by isolating the cluster from direct Internet exposure. The bastion can be tightly locked down with security groups and monitored more easily, aligning with best practices for secure infrastructure access.
 :::
 
-## Creating an Elastic Load Balancer
-
-The first step in preparing the environment is to provision an Elastic Load Balancer (ELB), which will serve as the external entry point for traffic into the CCE cluster. Setting up an ELB setup is critical for handling external traffic and forwarding requests to services within the cluster, such as the Ingress Controller.
-
-Go to *Open Telekom Cloud Console* -> *Network* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Ensure that the Elastic Load Balancer is provisioned within the same VPC and Subnet as your CCE cluster. This network alignment is essential to allow the load balancer to reach the CCE worker nodes directly using their private IP addresses. Misplacing the ELB in a different network segment would result in unreachable backends and broken ingress routing.
-
-![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_08-06-28.png)
-
-Once the Elastic Load Balancer is provisioned, make sure to **note down the ELB ID**. This identifier will be required during the configuration of the NGINX Ingress Controller, allowing it to bind correctly to the external load balancer and handle incoming traffic. The ELB ID serves as a reference for associating Kubernetes resources with the underlying network infrastructure, ensuring seamless integration between your Ingress layer and the public-facing endpoint.
-
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-i88.png)
-
-## Creating a Public DNS Endpoint
-
-Login to your domain registrar’s control panel and ensure the following:
-
-- **Disable any dynamic DNS features** associated with the domain or subdomains that will be used by Formbricks.
-- **Update the NS records** of your domain to point exclusively to the following OTC name servers:
-  
-  ```
-  ns1.open-telekom-cloud.com
-  ns2.open-telekom-cloud.com
-  ```
-
-Once the nameserver change propagates and OTC has authoritative control over your domain, you’re ready to define DNS zones and records. You have two paths forward, depending on your operational model:
-
-1. **Manual Configuration via the OTC Console**  
-   Create a **Public DNS Zone** in the Open Telekom Cloud DNS service, then define an **A record** that maps your domain (e.g., `formbricks.example.com`) to the **EIP** of the external load balancer.
-
-2. **Automated Configuration with ExternalDNS**  
-   Integrate the [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) controller into your Kubernetes cluster. It monitors Ingress resources and automatically creates and updates DNS records in your OTC DNS zone based on annotations. This option is ideal for dynamic environments or production setups that benefit from infrastructure-as-code and reduced manual intervention.
-
-Choose the approach that best fits your deployment strategy and automation preferences.
-
 ## Preparing the CCE Cluster
 
 Before deploying our workload, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
-### Installing NGINX Ingress Controller
-
-In this step, we’ll deploy the NGINX Ingress Controller, which will act as the interface between the Elastic Load Balancer and the Formbricks service running inside the CCE cluster. The Ingress Controller handles HTTP(S) routing and termination, forwarding external traffic to the appropriate internal services based on host and path rules. For this lab, we’ll expose Formbricks using a custom domain name—`formbricks.example.com`—which should point to the public EIP associated with your ELB. This setup enables secure, domain-based access to Formbricks and forms the foundation for managing ingress traffic across the cluster.
-
-:::important
-Don't forget that the **Fully Qualified Domain Name (FQDN)** you use to expose the Formbricks service—such as `formbricks.example.com`—must correspond to a **real, resolvable domain or subdomain** that you own and control. You’ll need to create a DNS record (typically an A or CNAME record) that points this FQDN to the public **Elastic IP** assigned to your load balancer. Without a valid DNS mapping, certificate issuance and external access to the Formbricks instance will fail, especially if you're using TLS termination via cert-manager.
-:::
-
-We’ll use [Helm](https://helm.sh/) to deploy the NGINX Ingress Controller into the CCE cluster. Helm is the de facto package manager for Kubernetes, streamlining the deployment of complex applications using templated charts. If Helm is not yet installed on your local machine or the bastion host you're using to manage the cluster, you can install it using the following commands:
-
-```shell
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-```
-
-To deploy the NGINX Ingress Controller properly, we need to supply Helm with a custom values file—commonly named **overrides.yaml**—which defines specific configuration parameters for the deployment. One of the most critical values in this file is the internal ID of the Elastic Load Balancer (ELB). This ID ensures that the Ingress Controller binds to the correct load balancer, enabling it to route external traffic to internal Kubernetes services.
-
-The `kubernetes.io/elb.id` attribute will be used to annotate the Service resource created by the Ingress Controller, so that all Ingress resources referencing this ingress class will automatically be linked to the designated load balancer:
-
-```yaml title="overrides.yaml" linenos="" emphasize-lines="6"
-controller:
-  replicaCount: 1
-  service:
-    externalTrafficPolicy: Cluster
-    annotations:
-      kubernetes.io/elb.id: "{ELB_ID}"
-```
-
-:::important
-Make sure to replace `{ELB_ID}` with the actual ID of the Elastic Load Balancer we created earlier.
-:::
-
-With the overrides.yaml file prepared, you can now proceed to install the NGINX Ingress Controller using Helm. This will deploy all required components into a dedicated namespace called `nginx-system`. Run the following commands:
-
-```shell
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-
-helm install nginx-ingress ingress-nginx/ingress-nginx \
-  --namespace nginx-system \
-  --create-namespace \
-  --values overrides.yaml
-
-```
-
-This will set up the Ingress Controller with your custom configuration, including the ELB binding. Once deployed, Kubernetes Ingress resources referencing the nginx class will route traffic through this controller.
-
-### Installing OTC ACME DNS01 Solver
-
-Cert-manager DNS providers are integrations with various DNS (Domain Name System) service providers that allow cert-manager, a Kubernetes add-on, to automate the management of SSL/TLS certificates. DNS providers enable cert-manager to automatically perform challenges to prove domain ownership and obtain certificates from certificate authorities like Let's Encrypt.
-
-By configuring cert-manager with the compatible Open Telekom Cloud DNS provider, we can set up automatic certificate issuance and renewal for our Open Telekom Cloud CCE workloads without manual intervention. This automation is crucial for securing web applications and services deployed on CCE clusters.
-
-To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](../../../../best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md).
+Follow the guidelines in the best practice [Prepare CCE to Expose Workloads](/docs/best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads.md) before proceeding to the next steps.
 
 ## Installing Formbricks using Helm
-
-### Creating Secrets
-
-Create, in your working directory, the following Kubernetes `Secret` for your Redis and Postgres passwords:
-
-```yaml title="formbricks-app-secrets.yaml"
-apiVersion: v1
-kind: Secret
-metadata:
-  name: formbricks-app-secrets
-  namespace: formbricks
-type: Opaque
-stringData:
-  REDIS_PASSWORD: "REDIS_PASSWORD"
-  POSTGRES_ADMIN_PASSWORD: "POSTGRES_ADMIN_PASSWORD"
-```
-
-and then provision along with a new `Namespace` with **kubectl**:
-
-```shell
-kubectl create namespace formbricks
-kubectl apply -f formbricks-app-secrets.yaml
-```
 
 ### Preparing Helm Chart Values
 
@@ -222,11 +126,18 @@ kubectl apply -f formbricks-app-secrets.yaml
             value: "1"
     ```
 
+    :::important
+    **Do not disable email verification in production**! We are setting `EMAIL_VERIFICATION_DISABLED` here to `true` only for demonstration purposes.
+
+    More on the SMTP configuration of Formbricks can be found [here](https://formbricks.com/docs/self-hosting/configuration/smtp#smtp-configuration).
+    :::
+
 3. Under the `ingress` stanza set the variables values as following:
 
     - `ingress.enabled` to `true`
     - `ingressClassName` to `nginx`
-    - `hosts.host` as the FQDN under which you wish to expose this workload
+    - `tls.hosts` and `hosts.host` as the FQDN under which you wish to expose this workload
+    - `annotations.cert-manager.io/cluster-issuer` as the `ClusterIssuer` you created in the previous steps (e.g.: `opentelekomcloud-letsencrypt`).
 
     e.g.:
 
@@ -240,14 +151,19 @@ kubectl apply -f formbricks-app-secrets.yaml
                 - path: /
                 pathType: "Prefix"
                 serviceName: "formbricks"
-        annotations: {
-        
-        }  
+        annotations: 
+            cert-manager.io/cluster-issuer: "opentelekomcloud-letsencrypt"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        tls:
+            - hosts:
+                - <YOUR.(SUB)DOMAIN.ADDRESS>
+            secretName: formbricks-tls
+
     ```
 
 4. Under the `redis` stanza set the variables values as following:
 
-    - `redis.enabled` to `true`
+    - `redis.enabled` to `false`
     - `redis.architecture` to `replication` (as long as you have created a Master/StandBy Redis instance, otherwise set to `standalone`)
     - `redis.externalRedisUrl` to the **Connection Address** we noted down in a previous step
   
@@ -255,41 +171,45 @@ kubectl apply -f formbricks-app-secrets.yaml
 
     ```yaml
     redis:
-        enabled: true  
+        enabled: false  
         externalRedisUrl: <CONNECTION_ADDRESS>
-        fullnameOverride: "formbricks-redis"
         architecture: replication
-        auth:
-            enabled: true
-            existingSecret: "formbricks-app-secrets"
-            existingSecretPasswordKey: "REDIS_PASSWORD"
-        networkPolicy:
-            enabled: false
-        master:
-            persistence:
-            enabled: true
     ```
 
 5. Under the `postgresql` stanza set the variables values as following:
 
-    - `postgresql.enabled` to `true`
-    - `postgresql.externalRedisUrl` to `postgresql://formbricks:<POSTGRES_ADMIN_PASSWORD>@<POSTGRES_FLOATING_IP>/formbricks`
+    - `postgresql.enabled` to `false`
+    - `postgresql.externalRedisUrl` to `postgresql://formbricks:<RDS_ROOT_PASSWORD>@<RDS_FLOATING_IP>:5432/formbricks`
 
    e.g.:
 
     ```yaml
     postgresql:
-        enabled: true  
-        externalDatabaseUrl: "postgresql://formbricks:<POSTGRES_ADMIN_PASSWORD>@<POSTGRES_FLOATING_IP>/formbricks"
-        auth:
-            username: formbricks
-            database: formbricks
-            existingSecret: "formbricks-app-secrets"
-            secretKeys:
-                adminPasswordKey: "POSTGRES_ADMIN_PASSWORD"
-                userPasswordKey: "POSTGRES_USER_PASSWORD"
+        enabled: false  
+        externalDatabaseUrl: "postgresql://formbricks:<RDS_ROOT_PASSWORD>@<RDS_FLOATING_IP>:5432/formbricks"
     ```
+
+:::important
+Setting `redis.enabled` and `postgresql.enabled` to `false` instructs the Helm Chart to connect to external services and to not deploy dedicated ones for the Formbricks workload in the cluster.
+:::
 
 ### Installing Helm Chart
 
+```bash
+helm upgrade --install formbricks oci://ghcr.io/formbricks/helm-charts/formbricks \ 
+-n formbricks \ 
+--create-namespace \
+-f values.yaml
+```
 
+:::note
+Assuming you saved the default values in the previous step as **values.yaml**
+:::
+
+### Troubleshooting
+
+## Verification
+
+### Creating the Administrator Account
+
+### Creating an Organization and Project

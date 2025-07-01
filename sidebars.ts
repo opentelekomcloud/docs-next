@@ -308,6 +308,10 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads',
+            },
+            {
+              type: 'doc',
               id: 'best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce',
             },
             {
@@ -481,6 +485,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'Relational Database Service',
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/databases/relational-database-service/configure-sg-for-rds-instances',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
