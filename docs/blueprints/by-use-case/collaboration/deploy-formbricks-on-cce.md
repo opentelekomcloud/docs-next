@@ -206,10 +206,74 @@ helm upgrade --install formbricks oci://ghcr.io/formbricks/helm-charts/formbrick
 Assuming you saved the default values in the previous step as **values.yaml**
 :::
 
-### Troubleshooting
-
 ## Verification
 
-### Creating the Administrator Account
+1. Open a browser and navigate to https://`hosts.host` where you will be prompted to create the root account of your installation:
 
-### Creating an Organization and Project
+![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_11-01-19.png)
+
+2. Inspect the certificate, and proceed entering your desired credentials and click *Continue with Email*.
+
+3. You will be redirected to the login page. Click *Login with Email* and enter the admin credentials you just provisioned:
+
+![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_11-01-28.png)
+
+4. Setup your first organization and project and click *Continue* through the wizard:
+
+![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_11-01-48.png)
+
+![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_11-02-19.png)
+
+## Troubleshooting
+
+If **formbricks** `Pod` doesn't manage to enter in `Running` status, and the reason is a migration error, you need either to clean
+the pending migrations table or drop the formbricks database in its entirety and start over. Regardsless which course of action you choose, you then need to terminate the `Pod` and let the `Deployment` recreate it.
+
+:::important
+If there are pending migrations, even if you correct the source of the problem, the installation process will refuse to continue. For that reason
+we need to perform one of these two clean up actions before trying again.
+:::
+
+### Clean Pending Migrations
+
+In your bastion host execute the following commands:
+
+```bash
+psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d formbricks 
+```
+
+and then at the **psql** prompt run:
+
+```sql
+DELETE FROM public."_prisma_migrations"
+ WHERE migration_name = '20241017124431_add_documents_and_insights';
+```
+
+:::note
+Replace `20241017124431_add_documents_and_insights` with the actual value you will encounter in the formbricks `Pod` logs.
+:::
+
+
+### Drop Database
+
+In your bastion host execute the following commands:
+
+```bash
+psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d postgres 
+```
+
+and then at the **psql** prompt run:
+
+```sql
+-- terminate any open connections to formbricks
+SELECT pg_terminate_backend(pid)
+  FROM pg_stat_activity
+ WHERE datname = 'formbricks';
+
+-- drop the database
+DROP DATABASE IF EXISTS formbricks;
+
+-- drop the application role (optional)
+DROP ROLE IF EXISTS formbricks;
+
+```
