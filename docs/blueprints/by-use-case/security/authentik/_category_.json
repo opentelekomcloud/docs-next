@@ -3,5 +3,6 @@
   "link": {
     "type": "doc",
     "id": "authentik"
-  }
+  },
+  "position": 1
 }
