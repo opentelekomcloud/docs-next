@@ -2,6 +2,7 @@
 id: cce-vault
 title: Secrets management with CCE and Hashicorp Vault
 tags: [cce, vault, hashicorp, secrets]
+sidebar_position: 10
 ---
 
 # Secrets management with CCE and Hashicorp Vault

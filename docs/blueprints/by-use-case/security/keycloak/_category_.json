@@ -3,5 +3,6 @@
   "link": {
     "type": "doc",
     "id": "keycloak"
-  }
+  },
+  "position": 2
 }
