@@ -48,7 +48,7 @@ const YouTubeWebinars: React.FC = () => {
     const response = await fetch(url.toString());
     const data: ApiResponse = await response.json();
 
-    setVideos(prev => [...prev, ...data.items]);
+    setVideos(prev => [...prev, ...(Array.isArray(data.items) ? data.items : [])]);
     setNextPageToken(data.nextPageToken || null);
     setLoading(false);
   };
@@ -80,26 +80,38 @@ const YouTubeWebinars: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.grid}>
-        {videos.map((video) => (
-          <div key={video.snippet.resourceId.videoId} className={styles.card}>
-            <iframe
-              width="100%"
-              height="200"
-              src={`https://www.youtube.com/embed/${video.snippet.resourceId.videoId}`}
-              frameBorder="0"
-              allowFullScreen
-              title={video.snippet.title}
-            />
-            <div className={styles.cardContent}>
-              <p className={styles.title}>
-                {video.snippet.title.replace(/\s*\| Open Telekom Cloud \| T-Systems\s*$/, '')}
-              </p>
-              {/* <p className={styles.description}>
+        {videos.length > 0 ? (
+          videos.map((video) => (
+            <div key={video.snippet.resourceId.videoId} className={styles.card}>
+              <iframe
+                width="100%"
+                height="200"
+                src={`https://www.youtube.com/embed/${video.snippet.resourceId.videoId}`}
+                frameBorder="0"
+                allowFullScreen
+                title={video.snippet.title}
+              />
+              <div className={styles.cardContent}>
+                <p className={styles.title}>
+                  {video.snippet.title.replace(/\s*\| Open Telekom Cloud \| T-Systems\s*$/, '')}
+                </p>
+                {/* <p className={styles.description}>
                 {video.snippet.description.slice(0, 250)}...
               </p> */}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          !loading && (
+            <div>
+              <br />               <br />
+
+              <h3 style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+                Sorry, we don’t have any videos available right now.
+              </h3>
+            </div>
+          )
+        )}
       </div>
       <div ref={loaderRef} className={styles.loader}>
         {loading && <scale-loading-spinner text="Loading ..."></scale-loading-spinner>}
