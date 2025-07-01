@@ -57,7 +57,7 @@ psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d postgres -c "CREATE DATABASE formb
 #### Registering pgvector in the public Schema
 
 ```bash
-psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d postgres -c "SELECT control_extension('create','vector','public');"
+psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d formbricks -c "SELECT control_extension('create','vector','public');"
 ```
 
 ## Creating a Redis Instance
