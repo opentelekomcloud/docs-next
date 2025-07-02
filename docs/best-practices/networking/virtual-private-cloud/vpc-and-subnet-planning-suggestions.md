@@ -64,11 +64,9 @@ block:
 A subnet is a unique CIDR block with a range of IP addresses in a VPC.
 All resources in a VPC must be deployed on subnets.
 
-- By default, all instances in different subnets of the same VPC can
-    communicate with each other and the subnets can be located in
-    different AZs. For example, VPC-A has subnet A01 in AZ A and subnet
-    A02 in AZ B. Subnet A01 and subnet B01 can communicate with each
-    other by default.
+- By default, all instances in different subnets of the same VPC can communicate with each other.
+
+- Subnets are not restricted to a single Availability Zone (AZ). They span over all AZs within the region by default. This means that when you create a subnet, it is available across all AZs, and resources in the same subnet can be deployed in any AZ within the region.
 
 - After a subnet is created, its CIDR block cannot be modified.
     Subnets in the same VPC cannot overlap.
