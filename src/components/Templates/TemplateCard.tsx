@@ -20,32 +20,43 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
     }
     : {};
 
-  return (
-  <Wrapper {...wrapperProps} className={styles.card}>
-    <div className={styles.header}>
-      <div className={styles.logo}>
-        <img
-          src={logo}
-          alt={`${title} logo`}
-          className={styles.logoImg}
-        />
-      </div>
-      {partner && (
-        <span className={styles.partnerLabel}>
-          Partner Template
-        </span>
-      )}
-    </div>
+  const tags = type
+    .split(',')
+    .map(t => t.trim())
+    .filter(Boolean)
 
-    <div className={styles.content}>
-      <div className={styles.text}>
-        <div className={styles.title}>{title}</div>
-        <div className={styles.description}>{description}</div>
+  return (
+    <Wrapper {...wrapperProps} className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.logo}>
+          <img
+            src={logo}
+            alt={`${title} logo`}
+            className={styles.logoImg}
+          />
+        </div>
+        {partner && (
+          <span className={styles.partnerLabel}>
+            Partner Template
+          </span>
+        )}
       </div>
-      <span className={styles.type}>{type}</span>
-    </div>
-  </Wrapper>
-);
+
+      <div className={styles.content}>
+        <div className={styles.text}>
+          <div className={styles.title}>{title}</div>
+          <div className={styles.description}>{description}</div>
+        </div>
+        <div className={styles.tagsContainer}>
+          {tags.map((tag, i) => (
+            <scale-tag color="teal" key={i}>
+              <span className={styles.type}>{tag}</span>
+            </scale-tag>
+          ))}
+        </div>
+      </div>
+    </Wrapper>
+  );
 
 };
 
