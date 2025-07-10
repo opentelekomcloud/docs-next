@@ -125,14 +125,14 @@ function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
 
 
 function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
-  const link = isInternalUrl(item.href)
-  const icon = link ? <File /> : '';
+  const article = isInternalUrl(item.href)
+  const icon = article ? <File /> : '';
   const doc = useDocById(item.docId ?? undefined);
 
   // temporarily suppress all sidebar links from being rendered 
-  // if (!link) {
-  //   return null;
-  // }
+  if (!article) {
+    item.description = "For more information consult the Service & API Reference manuals in Open Telekom Cloud Help Center."
+  }
 
   return (
     <CardLayout

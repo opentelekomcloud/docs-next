@@ -31,6 +31,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Application Operations Management',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/application-services/application-operations-management',
+            keywords: ['application-operations-management'],
+          },
           items: [
             {
               type: 'link',
@@ -63,6 +68,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Application Performance Management',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/application-services/application-performance-management',
+            keywords: ['application-performance-management'],
+          },
           items: [
             {
               type: 'link',
@@ -107,6 +117,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Simple Message Notification',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/application-services/simple-message-notification',
+            keywords: ['simple-message-notification'],
+          },
           items: [
             {
               type: 'link',
@@ -124,6 +139,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Search Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/cloud-search-service',
+            keywords: ['cloud-search-service'],
+          },
           items: [
             {
               type: 'link',
@@ -135,6 +155,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'DataArts Studio',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/data-arts-studio',
+            keywords: ['data-arts-studio'],
+          },
           items: [
             {
               type: 'link',
@@ -146,6 +171,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Data Ingestion Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/data-ingestion-service',
+            keywords: ['data-ingestion-service'],
+          },
           items: [
             {
               type: 'link',
@@ -157,6 +187,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Data Lake Insight',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/data-lake-insight',
+            keywords: ['data-lake-insight'],
+          },
           items: [
             {
               type: 'link',
@@ -168,6 +203,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Data Warehouse Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/data-warehouse-service',
+            keywords: ['data-warehouse-service'],
+          },
           items: [
             {
               type: 'link',
@@ -179,6 +219,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'ModelArts',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/modelarts',
+            keywords: ['modelarts'],
+          },
           items: [
             {
               type: 'link',
@@ -190,6 +235,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'MapReduce Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/mapreduce-service',
+            keywords: ['mapreduce-service'],
+          },
           items: [
             {
               type: 'link',
@@ -201,6 +251,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Optical Character Recognition',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/big-data-and-data-analysis/optical-character-recognition',
+            keywords: ['optical-character-recognition'],
+          },
           items: [
             {
               type: 'link',
@@ -218,6 +273,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Auto Scaling',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/computing/auto-scaling',
+            keywords: ['auto-scaling'],
+          },
           items: [
             {
               type: 'link',
@@ -229,6 +289,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Bare Metal',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/computing/bare-metal-server',
+            keywords: ['bare-metal-server'],
+          },
           items: [
             {
               type: 'link',
@@ -240,6 +305,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Dedicated Host',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/computing/dedicated-host',
+            keywords: ['dedicated-host'],
+          },
           items: [
             {
               type: 'link',
@@ -272,6 +342,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'FunctionGraph',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/computing/function-graph',
+            keywords: ['function-graph'],
+          },
           items: [
             {
               type: 'link',
@@ -318,6 +393,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Application Service Mesh',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/containers/application-service-mesh',
+            keywords: ['application-service-mesh'],
+          },
           items: [
             {
               type: 'link',
@@ -384,6 +464,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Container Instance',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/containers/cloud-container-instance',
+            keywords: ['cloud-container-instance'],
+          },
           items: [
             {
               type: 'link',
@@ -455,6 +540,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Distributed Database Middleware',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Cache Service',
+            slug: '/best-practices/databases/distributed-database-middleware',
+            keywords: ['distributed-database-middleware'],
+          },
           items: [
             {
               type: 'link',
@@ -499,6 +590,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Data Replication Service',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Cache Service',
+            slug: '/best-practices/databases/data-replication-service',
+            keywords: ['data-replication-service'],
+          },
           items: [
             {
               type: 'link',
@@ -510,6 +607,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'GaussDB (for MySQL)',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Cache Service',
+            slug: '/best-practices/databases/gaussdb-mysql',
+            keywords: ['gaussdb-mysql'],
+          },
           items: [
             {
               type: 'link',
@@ -521,6 +624,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'GeminiDB',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Cache Service',
+            slug: '/best-practices/databases/geminidb',
+            keywords: ['geminidb'],
+          },
           items: [
             {
               type: 'link',
@@ -631,6 +740,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Config',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/management-and-deployment/config',
+            keywords: ['config'],
+          },
           items: [
             {
               type: 'link',
@@ -663,6 +777,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Log Tank Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/management-and-deployment/log-tank-service',
+            keywords: ['log-tank-service'],
+          },
           items: [
             {
               type: 'link',
@@ -685,6 +804,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Resource Formation Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/management-and-deployment/resource-formation-service',
+            keywords: ['resource-formation-service'],
+          },
           items: [
             {
               type: 'link',
@@ -696,6 +820,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Tag Management Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/management-and-deployment/tag-management-service',
+            keywords: ['tag-management-service'],
+          },
           items: [
             {
               type: 'link',
@@ -713,6 +842,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Direct Connect',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/direct-connect',
+            keywords: ['direct-connect'],
+          },
           items: [
             {
               type: 'link',
@@ -745,6 +879,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Elastic IP',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/elastic-ip',
+            keywords: ['elastic-ip'],
+          },
           items: [
             {
               type: 'link',
@@ -785,6 +924,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Enterprise Router',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/enterprise-router',
+            keywords: ['enterprise-router'],
+          },
           items: [
             {
               type: 'link',
@@ -818,6 +962,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Private Link Access Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/private-link-access-service',
+            keywords: ['private-link-access-service'],
+          },
           items: [
             {
               type: 'link',
@@ -829,6 +978,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Secure Mail Gateway',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/secure-mail-gateway',
+            keywords: ['secure-mail-gateway'],
+          },
           items: [
             {
               type: 'link',
@@ -869,6 +1023,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'VPC Endpoint',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/vpc-endpoint',
+            keywords: ['vpc-endpoint'],
+          },
           items: [
             {
               type: 'link',
@@ -907,6 +1066,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Anti DDoS',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/security-services/anti-ddos',
+            keywords: ['anti-ddos'],
+          },
           items: [
             {
               type: 'link',
@@ -918,6 +1082,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Firewall',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/security-services/cloud-firewall',
+            keywords: ['cloud-firewall'],
+          },
           items: [
             {
               type: 'link',
@@ -929,6 +1098,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Database Security Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/security-services/database-security-service',
+            keywords: ['database-security-service'],
+          },
           items: [
             {
               type: 'link',
@@ -1010,6 +1184,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Key Management Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/security-services/key-management-service',
+            keywords: ['key-management-service'],
+          },
           items: [
             {
               type: 'link',
@@ -1050,6 +1229,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Dedicated Web Application Firewall',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/security-services/web-application-firewall-dedicated',
+            keywords: ['web-application-firewall-dedicated'],
+          },
           items: [
             {
               type: 'link',
@@ -1067,6 +1251,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Backup and Recovery',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/storage/cloud-backup-recovery',
+            keywords: ['cloud-backup-recovery'],
+          },
           items: [
             {
               type: 'link',
@@ -1078,6 +1267,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Server Backup Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/storage/cloud-server-backup-service',
+            keywords: ['cloud-server-backup-service'],
+          },
           items: [
             {
               type: 'link',
@@ -1092,7 +1286,7 @@ const sidebars: SidebarsConfig = {
           link: {
             type: 'generated-index',
             title: 'Elastic Volume Service',
-            slug: '/best-practices/security-services/elastic-volume-service',
+            slug: '/best-practices/storage/elastic-volume-service',
             keywords: ['elastic-volume-service'],
           },
           items: [
@@ -1113,7 +1307,7 @@ const sidebars: SidebarsConfig = {
           link: {
             type: 'generated-index',
             title: 'Object Storage Service',
-            slug: '/best-practices/security-services/object-storage-service',
+            slug: '/best-practices/storage/object-storage-service',
             keywords: ['object-storage-service'],
           },
           items: [
@@ -1135,6 +1329,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Storage Disaster Recovery Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/storage/storage-disaster-recovery-service',
+            keywords: ['storage-disaster-recovery-service'],
+          },
           items: [
             {
               type: 'link',
@@ -1146,6 +1345,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Scalable File Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/storage/scalable-file-service',
+            keywords: ['scalable-file-service'],
+          },
           items: [
             {
               type: 'link',
@@ -1157,6 +1361,11 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Volume Backup Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/storage/volume-backup-service',
+            keywords: ['volume-backup-service'],
+          },
           items: [
             {
               type: 'link',
