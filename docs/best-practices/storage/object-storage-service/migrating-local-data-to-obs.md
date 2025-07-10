@@ -6,8 +6,6 @@ tags: [storage, obs]
 
 # Migrating Local Data to OBS
 
-## Background
-
 Conventional on-premises storage servers cannot meet the storage demands for massive amounts of data. The main reasons are as follows:
 - Storage capacity is subject to hardware devices. If the storage capacity becomes insufficient, you need to purchase disks and expand the capacity manually.
 - The initial deployment requires high investments and a long construction period, but it quickly lags behind as enterprise services change so fast.

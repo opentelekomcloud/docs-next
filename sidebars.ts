@@ -42,6 +42,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'API Gateway (APIG)',
+          link: {
+            type: 'generated-index',
+            title: 'API Gateway (APIG)',
+            slug: '/best-practices/application-services/api-gateway',
+            keywords: ['api-gateway'],
+          },
           items: [
             {
               type: 'doc',
@@ -68,6 +74,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Distributed Message Service',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Message Service',
+            slug: '/best-practices/application-services/distributed-message-service',
+            keywords: ['distributed-message-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -239,6 +251,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Elastic Cloud Server',
+          link: {
+            type: 'generated-index',
+            title: 'Elastic Cloud Server',
+            slug: '/best-practices/computing/elastic-cloud-server',
+            keywords: ['elastic-cloud-server'],
+          },
           items: [
             {
               type: 'doc',
@@ -265,6 +283,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Image Management Service',
+          link: {
+            type: 'generated-index',
+            title: 'Image Management Service',
+            slug: '/best-practices/computing/image-management-service',
+            keywords: ['image-management-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -308,10 +332,8 @@ const sidebars: SidebarsConfig = {
           link: {
             type: 'generated-index',
             title: 'Cloud Container Engine',
-            // description: 'Cloud Container Engine Best Practices Catalog',
             slug: '/best-practices/containers/cloud-container-engine',
             keywords: ['cloud-container-engine'],
-            image: '/img/docusaurus.png',
           },
           items: [
             {
@@ -373,6 +395,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Software Repository for Container',
+          link: {
+            type: 'generated-index',
+            title: 'Software Repository for Container',
+            slug: '/best-practices/containers/software-repository',
+            keywords: ['software-repository'],
+          },
           items: [
             {
               type: 'doc',
@@ -394,6 +422,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Distributed Cache Service',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Cache Service',
+            slug: '/best-practices/databases/distributed-cache-service',
+            keywords: ['distributed-cache-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -432,6 +466,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Document Database Service',
+          link: {
+            type: 'generated-index',
+            title: 'Document Database Service',
+            slug: '/best-practices/databases/document-database-service',
+            keywords: ['document-database-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -492,6 +532,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Relational Database Service',
+          link: {
+            type: 'generated-index',
+            title: 'Relational Database Service',
+            slug: '/best-practices/databases/relational-database-service',
+            keywords: ['relational-database-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -518,42 +564,42 @@ const sidebars: SidebarsConfig = {
             id: 'best-practices/management-and-deployment/cloud-create/cloud-create'
           },
           items: [
-            {
-              type: 'category',
-              label: 'Google Cloud',
-              link: {
-                type: 'doc',
-                id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google-deploy',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-create/google-cloud/multi-region',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-create/google-cloud/application-dynamic-subnets',
-                },
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Service catalogs',
-              link: {
-                type: 'doc',
-                id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/openshift-template',
-                },
-              ],
-            },
+            // {
+            //   type: 'category',
+            //   label: 'Google Cloud',
+            //   link: {
+            //     type: 'doc',
+            //     id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google',
+            //   },
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'best-practices/management-and-deployment/cloud-create/google-cloud/google-deploy',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'best-practices/management-and-deployment/cloud-create/google-cloud/multi-region',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'best-practices/management-and-deployment/cloud-create/google-cloud/application-dynamic-subnets',
+            //     },
+            //   ],
+            // },
+            // {
+            //   type: 'category',
+            //   label: 'Service catalogs',
+            //   link: {
+            //     type: 'doc',
+            //     id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/service-catalogs'
+            //   },
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'best-practices/management-and-deployment/cloud-create/service-catalogs/openshift-template',
+            //     },
+            //   ],
+            // },
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -564,6 +610,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Eye',
+          link: {
+            type: 'generated-index',
+            title: 'Cloud Eye',
+            slug: '/best-practices/management-and-deployment/cloud-eye',
+            keywords: ['cloud-eye'],
+          },
           items: [
             {
               type: 'doc',
@@ -590,6 +642,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Trace Service',
+          link: {
+            type: 'generated-index',
+            title: 'Cloud Trace Service',
+            slug: '/best-practices/management-and-deployment/cloud-trace',
+            keywords: ['cloud-trace'],
+          },
           items: [
             {
               type: 'doc',
@@ -666,6 +724,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Domain Name Service',
+          link: {
+            type: 'generated-index',
+            title: 'Domain Name Service',
+            slug: '/best-practices/networking/domain-name-service',
+            keywords: ['domain-name-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -692,6 +756,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Elastic Load Balancing',
+          link: {
+            type: 'generated-index',
+            title: 'Elastic Load Balancing',
+            slug: '/best-practices/networking/elastic-load-balancing',
+            keywords: ['elastic-load-balancing'],
+          },
           items: [
             {
               type: 'doc',
@@ -726,6 +796,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'NAT Gateway',
+          link: {
+            type: 'generated-index',
+            title: 'NAT Gateway',
+            slug: '/best-practices/networking/nat-gateway',
+            keywords: ['nat-gateway'],
+          },
           items: [
             {
               type: 'doc',
@@ -764,6 +840,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Virtual Private Cloud',
+          link: {
+            type: 'generated-index',
+            title: 'Virtual Private Cloud',
+            slug: '/best-practices/networking/virtual-private-cloud',
+            keywords: ['virtual-private-cloud'],
+          },
           items: [
             {
               type: 'doc',
@@ -798,6 +880,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Virtual Private Network',
+          link: {
+            type: 'generated-index',
+            title: 'Virtual Private Network',
+            slug: '/best-practices/networking/virtual-private-network',
+            keywords: ['virtual-private-network'],
+          },
           items: [
             {
               type: 'doc',
@@ -852,12 +940,18 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Host Security Service',
+          link: {
+            type: 'generated-index',
+            title: 'Host Security Service',
+            slug: '/best-practices/security-services/host-security-service',
+            keywords: ['host-security-service'],
+          },
           items: [
-              {
+            {
               type: 'category',
               label: 'Using HSS and CBR to Defend Against Ransomware',
               items: [
-                 {
+                {
                   type: 'doc',
                   id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/overview',
                 },
@@ -866,25 +960,25 @@ const sidebars: SidebarsConfig = {
                   id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/resources-and-costs',
                 },
                 {
-              type: 'category',
-              label: 'Defense Measures',
-              items: [
-                 {
-                  type: 'doc',
-                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/identifying-and-fixing-ransomware',
+                  type: 'category',
+                  label: 'Defense Measures',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/identifying-and-fixing-ransomware',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/enabling-ransomware-prevention-and-backup',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/restoring-backup-data',
+                    }
+                  ],
                 },
-                {
-                  type: 'doc',
-                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/enabling-ransomware-prevention-and-backup',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/security-services/host-security-service/using-hss-and-cbr-to-defend-against-ransomware/defense-measures/restoring-backup-data',
-                }
               ],
             },
-              ],
-            }, 
             {
               type: 'link',
               label: '📚 Go to Help Center',
@@ -895,6 +989,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Identity and Access Management',
+          link: {
+            type: 'generated-index',
+            title: 'Identity and Access Management',
+            slug: '/best-practices/security-services/iam',
+            keywords: ['iam'],
+          },
           items: [
             {
               type: 'doc',
@@ -921,6 +1021,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Web Application Firewall',
+          link: {
+            type: 'generated-index',
+            title: 'Web Application Firewall',
+            slug: '/best-practices/security-services/web-application-firewall',
+            keywords: ['web-application-firewall'],
+          },
           items: [
             {
               type: 'doc',
@@ -983,6 +1089,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Elastic Volume Service',
+          link: {
+            type: 'generated-index',
+            title: 'Elastic Volume Service',
+            slug: '/best-practices/security-services/elastic-volume-service',
+            keywords: ['elastic-volume-service'],
+          },
           items: [
             {
               type: 'doc',
@@ -998,6 +1110,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Object Storage Service',
+          link: {
+            type: 'generated-index',
+            title: 'Object Storage Service',
+            slug: '/best-practices/security-services/object-storage-service',
+            keywords: ['object-storage-service'],
+          },
           items: [
             {
               type: 'doc',
