@@ -56,4 +56,11 @@ html[data-theme='dark'] .cardContainer:hover {
 
 .cardDescription {
   font-size: 0.85rem;
+  line-height: 1.3rem;                 /* match your theme’s line-height */
+  min-height: calc(1.3rem * 3);        /* force exactly three lines’ height */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
 }

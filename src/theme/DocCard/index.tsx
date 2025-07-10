@@ -37,52 +37,64 @@ function useCategoryItemsPlural() {
     );
 }
 
+/**
+ * Props for a single card:
+ * - href:      link URL
+ * - icon:      a ReactNode (e.g. a Lucide icon)
+ * - title:     heading text
+ * - description?: optional description string
+ */
+export type CardLayoutProps = {
+  href: string;
+  icon: ReactNode;
+  title: string;
+  description?: string;
+};
+
+/**
+ * CardContainer wraps the content in Docusaurus’s <Link> styled as a card.
+ * We add our flex‐column class so children stack top‐down.
+ */
 function CardContainer({
   href,
   children,
 }: {
   href: string;
   children: ReactNode;
-}): ReactNode {
+}): JSX.Element {
   return (
     <Link
       href={href}
-      className={clsx('card padding--lg', styles.cardContainer)}>
+      className={clsx('card padding--lg', styles.cardContainer)}
+    >
       {children}
     </Link>
   );
 }
 
-
-function CardLayout({
+/**
+ * CardLayout: renders icon + title + multi-line description.
+ * Description is always clamped to 3 lines (and forced to occupy 3 lines’ height),
+ * which makes every card exactly the same height when placed in a grid or flex
+ * parent using align-items: stretch (the default for CSS Grid rows).
+ */
+export function CardLayout({
   href,
   icon,
   title,
   description,
-}: {
-  href: string;
-  icon: ReactNode;
-  title: string;
-  description?: string;
-}): ReactNode {
+}: CardLayoutProps): JSX.Element {
   return (
     <CardContainer href={href}>
-      <Heading
-        as="h2"
-        className={styles.cardTitle}
-        title={title}
-      >
-        {/* icon never shrinks */}
+      {/* Icon + one-line‐truncated title */}
+      <Heading as="h2" className={styles.cardTitle} title={title}>
         <span className={styles.cardIcon}>{icon}</span>
-        {/* only this text gets the ellipsis */}
         <span className={styles.cardText}>{title}</span>
       </Heading>
 
+      {/* Description clamped to 3 lines (always 3 lines tall) */}
       {description && (
-        <p
-          className={clsx('text--truncate', styles.cardDescription)}
-          title={description}
-        >
+        <p className={styles.cardDescription}>
           {description}
         </p>
       )}
