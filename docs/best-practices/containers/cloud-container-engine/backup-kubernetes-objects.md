@@ -6,8 +6,7 @@ tags: [cce, migration, velero, obs]
 
 # Backing Up Kubernetes Objects of other Clusters
 
-1.  To back up a WordPress application with PV data, add an `annotation`
-    to the corresponding pod. If you do not need to back up the PV data, skip this step.
+1.  To back up a WordPress application with PV data, add an `annotation` to the corresponding pod. If you do not need to back up the PV data, skip this step.
     
     ```
     # kubectl -n YOUR_POD_NAMESPACE annotate pod/YOUR_POD_NAME backup.velero.io/backup-volumes=YOUR_VOLUME_NAME_1,YOUR_VOLUME_NAME_2,...

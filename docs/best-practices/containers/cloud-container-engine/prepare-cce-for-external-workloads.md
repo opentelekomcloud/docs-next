@@ -1,7 +1,7 @@
 ---
 id: prepare-cce-for-external-workloads
 title: Prepare CCE to Expose Workloads
-tags: [cce, elb, externaldns, dns, nginx, acme]
+tags: [cce, elb, externaldns, dns, nginx, acme, ingress, cert-manager]
 ---
 
 # Prepare CCE to Expose Workloads

@@ -1,50 +1,64 @@
+/* styles.module.css */
 
-.item {
-  /* box-shadow: 0 1px 3px gray;
-  background-color: var(--ifm-background-color);
-  border-radius: 0.5rem;
-  color: black;
-  overflow: hidden; */
+.article {
+  /* border-bottom: 1px solid #e0e0e0; */
+  padding: 16px 0;
 }
 
-html[data-theme='dark'] .item {
-  /* box-shadow: 0px 1px 3px var(--ifm-color-primary);
-  background-color: var(--ifm-background-color);
-  border-radius: 0.5rem;
-  color: white;
-  overflow: hidden; */
-}
-
-.item__inner {
-  align-items: center;
+.itemRow {
   display: flex;
+  align-items: flex-start;
 }
 
-.item__inner div {
-  /* padding: 1.5rem; */
-  /* padding-top: 5px; */
-  /* padding-left: -25px; */
+.icon {
+  margin-right: 16px;
+  margin-top: 6px
 }
 
-.item__title {
-  display: block;
-  font-size: 1.25rem;
+.content {
+  flex: 1;
 }
 
-.item__image {
-  width: 100%;
-  max-width: 80px; /* Adjust as needed */
-  height: auto;
-  border-radius: 8px; /* Optional: Rounded corners */
+.title {
+  font-size: 1.20rem;
+  font-weight: 600;
+  color: var(--text-base, var(--ifm-font-color-base));
+  text-decoration: none;
 }
 
-.item__description {
+.title:hover {
+    color: #e20074;
+}
+
+html[data-theme='dark'] .title:hover {
+  color: #e20074;
+}
+
+html[data-theme='dark'] .title {
+  color: var(--ifm-font-color-base);
+}
+
+.description {
+  margin-top: 0px;
+  font-size: 0.8rem;
+  line-height: 1.3rem;                 /* match your theme’s line-height */
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical;
-  line-clamp: 3;
+  -webkit-line-clamp: 3;
   overflow: hidden;
-  text-overflow: ellipsis; /* Add '...' at the end */
-  max-height: 4.5em; /* Adjust based on your line height */
-  line-height: 1.5em; /* Ensures proper line spacing */
+  word-break: break-word;
+}
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.viewAll {
+
 }
