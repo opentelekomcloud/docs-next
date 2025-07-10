@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
@@ -16,7 +16,7 @@ import type {
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 
-import { File, FileStack, SquareArrowOutUpRight } from 'lucide-react';
+import { File, FileStack } from 'lucide-react';
 
 import styles from './styles.module.css';
 
