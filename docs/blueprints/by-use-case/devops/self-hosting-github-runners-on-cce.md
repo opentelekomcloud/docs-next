@@ -42,11 +42,12 @@ For a quick overview of  the architecture, please watch this video:
 
 Before implementing self-hosted GitHub runners on CCE, ensure you have:
 
-1. **CCE Cluster**: Version 1.16 or higher is recommended
-2. **Helm**: Installed and configured for package management
-3. **cert-manager**: Required for SSL certificate management
-4. **kubectl**: Command-line access to your Kubernetes cluster
-5. **GitHub Organization**: Access for configuring GitHub Apps and webhooks in your Github Organization
+1. **CCE Cluster**: Version 1.16 or higher is recommended.
+2. **Helm**: Installed and configured for package management.
+3. **cert-manager**: Required for SSL certificate management.
+4. **kubectl**: Command-line access to your Kubernetes cluster.
+5. **GitHub Organization**: Access for configuring GitHub Apps and webhooks in your GitHub Organization.
+
 
 
 
@@ -54,12 +55,12 @@ Before implementing self-hosted GitHub runners on CCE, ensure you have:
 
 ARC supports multiple authentication methods. The recommended approach uses GitHub Apps for enhanced security and functionality.
 
-### Creating a GitHub App for ARC to Authenticate With 
+### Creating a GitHub App for ARC Authentication
 
-1. Navigate to your **GitHub organization settings**
-2. On the left sidebar, under **Developer settings** click on **GitHub Apps**
+1. Navigate to your **GitHub organization settings**.
+2. On the left sidebar, under **Developer settings**, click on **GitHub Apps**.
 ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/organization-settings.png)
-3. Click on **New GitHub app** to create a new App that is owned by an organization with the following details:
+3. Click **New GitHub app** to create a new app owned by your organization, and provide the following details:
 ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/new-app.png)
 
   - **GitHub App name:** Choose a name for the app. 
