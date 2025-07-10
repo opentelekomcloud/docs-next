@@ -63,17 +63,17 @@ ARC supports multiple authentication methods. The recommended approach uses GitH
 3. Click **New GitHub app** to create a new app owned by your organization, and provide the following details:
 ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/new-app.png)
 
-  - **GitHub App name:** Choose a name for the app. 
-  - **Description:** Briefly describe what your app does (Github runners on CCE).
-  - **Homepage URL:** Enter the URL for ARC `https://github.com/actions/actions-runner-controller`
-  - **Webhook URL:** Should be disabled. Later we create Repository or Organization wide webhook for autoscaling of the runners.
-  - **Permissions:** Select the fallowing required permissions for the app to work properly.
-    - Under **Repository permissions**, select the following permissions:
-      - **Administration**: Read and write
-      - **Metadata**: Read-only
-    - Under **Organization permissions**, select the following permissions:
-      - **Self-hosted runners**: Read and write
-  - **Where can this GitHub App be installed?:** Should be set to **Only on this account**.
+   - **GitHub App name:** Choose a name for the app.
+   - **Description:** Briefly describe what your app does (e.g., GitHub runners on CCE).
+   - **Homepage URL:** Enter the ARC URL: `https://github.com/actions/actions-runner-controller`
+   - **Webhook URL:** Should be disabled. Later, you will create a repository or organization-wide webhook for autoscaling the runners.
+   - **Permissions:** Select the following required permissions for the app to work properly:
+     - Under **Repository permissions**:
+       - **Administration:** Read and write
+       - **Metadata:** Read-only
+     - Under **Organization permissions**:
+       - **Self-hosted runners:** Read and write
+   - **Where can this GitHub App be installed?:** Set to **Only on this account**.
 
 4. Click **Create GitHub App** to create the app.
 
@@ -84,34 +84,34 @@ ARC supports multiple authentication methods. The recommended approach uses GitH
 
 After creating your GitHub App, you need to generate a **private key** to enable secure authentication for API requests. Follow these steps:
 
-1. Navigate to your **Github App** page (Go to **Organization settings** on the left panel under **Developer settings** select **GitHub Apps** and click on your newly created **GitHub App**).
-2. Scroll down and under **Private keys** click on **Generate a private key**.
-3. The private key is generated and downloaded to your local machine.
+1. Navigate to your **GitHub App** page (Go to **Organization settings**, then under **Developer settings** select **GitHub Apps**, and click on your newly created app).
+2. Scroll down and under **Private keys**, click **Generate a private key**.
+3. The private key will be generated and downloaded to your local machine.
 
-### Installing the GitHub App 
+### Installing the GitHub App
 
 Once your app and private key are ready, install the app to your organization:
 
-1. Navigate to your **Github App** page (Go to **Organization settings** on the left panel under **Developer settings** select **GitHub Apps** and click on your newly created **GitHub App**).
-2. On the left panel select **Install App** and click on **Install** button to install the app either for all repositories or specific ones baseon your needs.
+1. Navigate to your **GitHub App** page (Go to **Organization settings**, then under **Developer settings** select **GitHub Apps**, and click on your newly created app).
+2. On the left panel, select **Install App** and click the **Install** button to install the app for all repositories or specific ones based on your needs.
   ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/Install-app.png)
-3. After confirming the installation permissions on your organization, save the app **installation ID**. You will use it later. You can find the app **installation ID** on the app installation page, which has the following URL format:  `https://HOSTNAME/organizations/ORGANIZATION/settings/installations/`**`INSTALLATION_ID`**
-
+3. After confirming the installation permissions for your organization, save the app **installation ID**. You will use it later. You can find the app **installation ID** on the app installation page, which has the following URL format:  
+   `https://HOSTNAME/organizations/ORGANIZATION/settings/installations/`**`INSTALLATION_ID`**
 
 ### Store GitHub App Credentials
 
 :::info Namespace
-Create a Namespace for GitHub ARC, if you don't have one already:
+Create a namespace for GitHub ARC if you don't have one already:
 ```
 kubectl create namespace github-actions
 ```
 :::
 
 Create a Kubernetes secret with your GitHub App credentials:
-   - **GitHub App ID**: The app's unique identifier. You can find it under **General** section on the [GitHub App page](#installing-the-github-app).
-   - **Installation ID**: The installation ID of your organization. You collected it in the [previous step](#installing-the-github-app).
-   - **Private Key**: The private key of your GitHub App. You downloaded it in [earlier steps](#generating-a-private-key).
-  
+- **GitHub App ID:** The app's unique identifier. You can find it under the **General** section on the [GitHub App page](#installing-the-github-app).
+- **Installation ID:** The installation ID of your organization, collected in the [previous step](#installing-the-github-app).
+- **Private Key:** The private key of your GitHub App, downloaded in [earlier steps](#generating-a-private-key).
+
 ```bash
 kubectl create secret generic controller-manager \
   --namespace github-actions \
@@ -122,10 +122,10 @@ kubectl create secret generic controller-manager \
 
 
 
+
 ## Install Actions Runner Controller
 
-
-Create a `values.yaml` file in your project directory and add the values provided below. Replace `example.com` domain with your domain.
+Create a `values.yaml` file in your project directory and add the values provided below. Replace the `example.com` domain with your own domain.
 
 ```yaml
 # values.yaml
@@ -161,13 +161,13 @@ githubWebhookServer:
   ingress:
     enabled: true
     annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"      
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
     ingressClassName: nginx
     tls:
      - secretName: github-webhook-tls
-       hosts: 
+       hosts:
          - github-webhook.example.com
     hosts:
       - host: github-webhook.example.com
@@ -175,12 +175,13 @@ githubWebhookServer:
         - path: /
           pathType: Prefix
 ```
-:::info
-In order to have **Runner Autoscaling** feature, **githubWebhookServer** must be enabled.
+
+:::important
+To enable the **Runner Autoscaling** feature, **githubWebhookServer** must be enabled.
 :::
 
 :::warning caution
-Provided annotations for **nginx** and **cert-manager** are required to get a TLS certificate for your provided webhook domain (eg., **github-webhook.example.com**).
+The provided annotations for **nginx** and **cert-manager** are required to obtain a TLS certificate for your webhook domain (e.g., **github-webhook.example.com**).
 ```
 kubernetes.io/tls-acme: "true"
 cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
@@ -200,11 +201,14 @@ helm upgrade --install actions-runner-controller \
   -f values.yaml
 ```
 
-After installing the controller, you can verify that it is running by checking the status of the pods:
+After installing the controller, verify that it is running by checking the status of the pods:
+
 ```bash
 kubectl get pods --namespace github-actions
 ```
-You should see similar output:
+
+You should see output similar to:
+
 ```bash
 NAME                                                              READY   STATUS    RESTARTS   AGE
 actions-runner-controller-699df99f7-96h96                         2/2     Running   0          40s
@@ -216,7 +220,7 @@ actions-runner-controller-github-webhook-server-8649f6764fsxq49   2/2     Runnin
 
 ## Configure Runner Deployments
 
-A **RunnerDeployment** is a Kubernetes custom resource that automates the management of GitHub Actions runners. An important part of this configuration is defining the runner's **scope**, which dictates which workflows are permitted to use it. This ensures that runners are available exactly where they are needed. **Organization-level runners** create a centralized, shared pool of runners available to all repositories within your GitHub organization. In contrast, **repository-level runners** are dedicated to a single, specific repository. This provides strong isolation and is the ideal choice for projects with specialized needs, such as unique software requirements or access to sensitive credentials, providing a secure and controlled environment for specific jobs.
+A **RunnerDeployment** is a Kubernetes custom resource that automates the management of GitHub Actions runners. An important part of this configuration is defining the runner's **scope**, which dictates which workflows are permitted to use it. This ensures that runners are available exactly where they are needed. **Organization-level runners** create a centralized, shared pool of runners available to all repositories within your GitHub organization. In contrast, **Repository-level runners** are dedicated to a single, specific repository. This provides strong isolation and is the ideal choice for projects with specialized needs, such as unique software requirements or access to sensitive credentials, providing a secure and controlled environment for specific jobs.
 
 Create a YAML file to declare a **RunnerDeployment** for your desired scope (repository or organization).
 
@@ -253,15 +257,16 @@ spec:
         - cce-runner
       repository: your-org/your-repo
 ```
+
 :::tip
-You can further customize your **RunnerDeployment** by specifying additional fields such as **resource requests/limit**s, a custom **runner image**, or binding **Persistent Volume Claims** (PVCs) for data persistence. You can also provide specific environment variables for various use cases such as allowing your runner to access internal resources or services securely.
+You can further customize your **RunnerDeployment** by specifying additional fields such as **resource requests/limits**, a custom **runner image**, or binding **Persistent Volume Claims** (PVCs) for data persistence. You can also provide specific environment variables for various use cases, such as allowing your runner to access internal resources or services securely.
 :::
 
 :::warning Important
-Make sure the **labels** assigned to your runner exactly match the labels specified in your workflow’s **runs-on** field. If they don’t match, your workflow jobs won’t run on the intended runner!
+Make sure the **labels** assigned to your runner exactly match the labels specified in your workflow’s **runs-on** field. If they do not match, your workflow jobs will not run on the intended runner!
 :::
 
-At last apply the **RunnerDeployment** using the following command:
+Finally, apply the **RunnerDeployment** using the following command:
 
 ```bash
 kubectl apply -f runner-deployment.yaml
@@ -272,7 +277,7 @@ kubectl apply -f runner-deployment.yaml
 
 To ensure efficient resource utilization and responsive scaling of GitHub Actions runners, implement webhook-driven autoscaling. This enables your runners to scale up rapidly in response to workflow demand and scale down when idle, optimizing both performance and cost.
 
-### 1. Register Webhook in GitHubs
+### 1. Register Webhook in GitHub
 
 - Go to your GitHub organization’s **Settings**.
 - Select **Webhooks** from the sidebar.
@@ -297,7 +302,7 @@ kubectl create secret generic github-webhook-token \
   --from-literal=GITHUB_WEBHOOK_SECRET_TOKEN=WEBHOOK_SECRET
 ```
 
-Replace `WEBHOOK_SECRET` with the exact secret set in the [previous step](#1-register-webhook-in-githubs).
+Replace `WEBHOOK_SECRET` with the exact secret set in the [previous step](#1-register-webhook-in-github).
 
 ### 3. Configure HorizontalRunnerAutoscaler
 
@@ -328,7 +333,7 @@ spec:
 - `scaleUpTriggers` listens for incoming `workflow_job` events and scales up runners based on the specified duration after an event is received.
 
 :::danger Cold Start Issues
-Runners may experience **cold start** periods when **minimum replicas** is set to 0. If that's problematic for your setup consider setting `minReplicas: 1` for critical workflows.
+Runners may experience **cold start** periods when **minimum replicas** is set to 0. If that's problematic for your setup, consider setting `minReplicas: 1` for critical workflows.
 :::
 
 Apply the **HorizontalRunnerAutoscaler** using the following command:
@@ -337,7 +342,7 @@ Apply the **HorizontalRunnerAutoscaler** using the following command:
 kubectl apply -f horizontal-runner-autoscaler.yaml
 ```
 
-## Verifying 
+## Verifying
 
 To ensure your self-hosted runners are properly configured and executing workflows as expected, follow these verification steps to monitor and validate runner behavior.
 
@@ -351,18 +356,19 @@ First, verify that your runners are successfully registered with GitHub:
 - Note the runner labels (e.g., `self-hosted`, `linux`, `cce-runner`)
 
 :::warning Important
-If the **HorizontalRunnerAutoscaler** is resizing the runners replicas to 0, the runners will be removed from the pool and are not visible here. Make sure that you have at least one runner pod running on your cluster by changing the **minReplicas** of the **HorizontalPodAutoscaler**.
+If the **HorizontalRunnerAutoscaler** is resizing the runner replicas to 0, the runners will be removed from the pool and are not visible here. Make sure that you have at least one runner pod running on your cluster by changing the **minReplicas** of the **HorizontalPodAutoscaler**.
 :::
 
 ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/runners.png)
 
 
 :::danger Important
-Note that tags like **Linux** and **X64** here are generated by GitHub and are not associated with the runners, if you didn't explicitly set them in the **RunnerDeployment** manifest. If a workflow is using labels which are not set in the **RunnerDeployment** manifest, their jobs will be not picked up by the runners or the **HorizontalRunnerAutoscaler** hence no runner scaling will happen. 
+Note that tags like **Linux** and **X64** here are generated by GitHub and are not associated with the runners unless you explicitly set them in the **RunnerDeployment** manifest. If a workflow uses labels that are not set in the **RunnerDeployment** manifest, their jobs will not be picked up by the runners or the **HorizontalRunnerAutoscaler**, and no runner scaling will happen.
 :::
 
 ### 2. Create a Test Workflow
-Create a workflow file in your repository(eg., `.github/workflows/self-hosted-test.yml`) to validate your self-hosted runners. This workflow tests basic functionality, system information, and network connectivity.
+
+Create a workflow file in your repository (e.g., `.github/workflows/self-hosted-test.yml`) to validate your self-hosted runners. This workflow tests basic functionality, system information, and network connectivity.
 
 ```yaml
 name: Self-Hosted Runner Test
@@ -410,19 +416,22 @@ jobs:
           curl -I https://api.github.com
 ```
 
-Run the workflow by navigating to the **Actions -> Self-Hosted Runner Test** of your repository and clicking on the **Run workflow** button. Then monitor runners in real-time during workflow execution.
+Run the workflow by navigating to **Actions -> Self-Hosted Runner Test** in your repository and clicking on the **Run workflow** button. Then monitor runners in real-time during workflow execution:
+
 ```bash
 kubectl get pods -n github-actions -w
 ```
 
-Also you can check the **Jobs** under the **Actions -> Self-Hosted Runner Test** of your repository.
+You can also check the **Jobs** under **Actions -> Self-Hosted Runner Test** in your repository.
 
 ![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/test-workflow.png)
 
-### 4. Validate Autoscaling Behavior
+### 3. Validate Autoscaling Behavior
+
 Test autoscaling by creating multiple concurrent workflow runs. This tests if your HorizontalRunnerAutoscaler responds correctly to increased demand.
 
 Check HorizontalRunnerAutoscaler status by running:
+
 ```bash
 kubectl get hra -n github-actions
 
@@ -430,18 +439,22 @@ kubectl get hra -n github-actions
 # NAME                     MIN   MAX   DESIRED   SCHEDULE
 # org-runners-autoscaler   0     30    3
 ```
+
 You should see the number of pods increase as the number of concurrent workflows increases.
 
 ## Security Best Practices
 
 ### Network Security
-- **Isolate Runners**: Deploy runners in dedicated namespaces with network policies
-- **Egress Controls**: Configure allow-list policies for outbound connections
+
+- **Isolate Runners**: Deploy runners in dedicated namespaces with network policies.
+- **Egress Controls**: Configure allow-list policies for outbound connections.
 
 ### Access Control
-- **Repository Restrictions**: Limit self-hosted runners to specific repositories
+
+- **Repository Restrictions**: Limit self-hosted runners to specific repositories.
 
 ### Runtime Security
+
 - **Ephemeral Runners**: Use ephemeral runners that are destroyed after each job.
 
 ## Troubleshooting Common Issues
@@ -449,26 +462,25 @@ You should see the number of pods increase as the number of concurrent workflows
 When runners aren't receiving jobs, check registration tokens, labels, and webhook configuration.
 
 **Runner Not Picking Up Jobs:**
-  - Check runner registration credentials are correct: 
-  ```bash
+  - Check runner registration credentials are correct:
+    ```bash
     kubectl get secret controller-manager -n github-actions -o json | jq '.data | map_values(@base64d)'
-  ```
-  - Verify runner labels match workflow requirements: 
-  ```bash
+    ```
+  - Verify runner labels match workflow requirements:
+    ```bash
     kubectl describe runnerdeployment org-runners -n github-actions
-  ```
+    ```
   - Check webhook delivery in **Organization Settings -> Webhooks**
 
-
 **Scaling Issues:**
-  - Check webhook secret is correct: 
-  ```bash
+  - Check webhook secret is correct:
+    ```bash
     kubectl get secret github-webhook-token -n github-actions -o json | jq '.data | map_values(@base64d)'
-  ```
-  - Verify webhook server is running: 
-  ```bash
+    ```
+  - Verify webhook server is running:
+    ```bash
     curl https://github-webhook.example.com/health
-  ``` 
+    ```
 
 
 
