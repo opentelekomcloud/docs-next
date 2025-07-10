@@ -1,0 +1,66 @@
+.cardContainer {
+  --ifm-link-color: var(--ifm-color-emphasis-800);
+  /* --ifm-link-hover-color: var(--ifm-color-emphasis-700); */
+  --ifm-link-hover-decoration: none;
+
+  color: var(--text-base, var(--ifm-font-color-base));
+  border: 1px solid var(--card-border, var(--ifm-color-emphasis-200));
+  transition: all var(--ifm-transition-fast) ease;
+  transition-property: border, box-shadow;
+}
+
+html[data-theme='dark'] .cardContainer {
+  background-color: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-font-color-base);
+}
+
+.cardContainer:hover {
+  color: var(--text-base, var(--ifm-font-color-base));
+  box-shadow:
+    0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
+    0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover))
+}
+
+html[data-theme='dark'] .cardContainer:hover {
+  /* your Telekom-pink shadow */
+  box-shadow: 
+    0px 16px 64px 0px #e20074, 
+    0px 8px 16px 0px #e20074;
+}
+
+.cardContainer *:last-child {
+  margin-bottom: 0;
+}
+
+/* styles.module.css */
+.cardTitle {
+  font-size: 1.0rem;
+  display: flex;
+  align-items: center;
+}
+
+/* keep icon at its intrinsic size */
+.cardIcon {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+}
+
+/* allow text to shrink & truncate */
+.cardText {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardDescription {
+  font-size: 0.85rem;
+  line-height: 1.3rem;                 /* match your theme’s line-height */
+  min-height: calc(1.3rem * 3);        /* force exactly three lines’ height */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
+}

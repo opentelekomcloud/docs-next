@@ -6,9 +6,7 @@ tags: [vpc]
 
 # VPC and Subnet Planning Suggestions
 
-Before creating your VPCs, determine how many VPCs, the number of
-subnets, and what IP address ranges or connectivity options you will
-need.
+Before creating your VPCs, determine how many VPCs, the number of subnets, and what IP address ranges or connectivity options you will need.
 
 ## How Do I Determine How Many VPCs I Need?
 
