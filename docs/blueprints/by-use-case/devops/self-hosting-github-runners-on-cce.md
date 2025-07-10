@@ -8,33 +8,33 @@ tags: [devops, ci,cd,ci/cd, github, github-actions, github-runner, cce]
 
 ## Overview
 
-[Self-hosted GitHub runners](https://docs.github.com/en/actions/concepts/runners/about-self-hosted-runners) provide a powerful solution for organizations looking to optimize their CI/CD pipelines while maintaining control over their infrastructure. This blueprint outlines how to self host and manage GitHub Actions runners using the [Actions Runner Controller (ARC)](https://docs.github.com/en/actions/concepts/runners/about-actions-runner-controller) on CCE.
+[Self-hosted GitHub runners](https://docs.github.com/en/actions/concepts/runners/about-self-hosted-runners) provide a powerful solution for organizations looking to optimize their CI/CD pipelines while maintaining control over their infrastructure. This blueprint outlines how to self-host and manage GitHub Actions runners using the [Actions Runner Controller (ARC)](https://docs.github.com/en/actions/concepts/runners/about-actions-runner-controller) on CCE.
 
 ## Why Self-Host GitHub Runners on Kubernetes?
 
 ### Cost Optimization
-GitHub-hosted runners can become costly for high-volume workflows. By comparison, running similar workloads on self-hosted runners with equivalent specifications can result in a substantial cost reduction. Organizations with significant CI/CD workloads often see major savings by switching to self-hosted options.
+GitHub-hosted runners can become costly for high-volume workflows. Organizations with significant CI/CD workloads often see major savings by switching to self-hosted options.
 
 ### Enhanced Security and Compliance
 Self-hosted runners provide several security advantages:
-- **Network Isolation**: Runners can access private databases, Redis instances, and other internal resources during CI processes
-- **Compliance Requirements**: Organizations in regulated industries can maintain strict data protection and access controls
-- **Zero-Trust Architecture**: Implement security policies that minimize access to broader internal networks
+- **Network Isolation**: Runners can access private databases and other internal resources during CI processes.
+- **Compliance Requirements**: Organizations in regulated industries can maintain strict data protection and access controls.
 
 ### Custom Hardware Requirements
 Self-hosted runners support specialized hardware needs such as:
-- Dedicated GPU instances for machine learning workloads
-- Specific CPU architectures
+- **Dedicated GPU** instances for machine learning workloads
+- Specific **CPU architectures**
 - Custom memory configurations
 - Specialized development tools and environments
 
+
+
 ## Architecture Overview
-The Actions Runner Controller (ARC) is a Kubernetes operator that orchestrates and scales self-hosted runners for GitHub Actions. ARC creates several custom resource definitions (CRDs).
 
-![img](/img/docs/blueprints/by-use-case/devops/self-hosting-github-runners-on-cce/arc-diagram.png)
+The Actions Runner Controller (ARC) is a Kubernetes operator that orchestrates and scales self-hosted runners for GitHub Actions. ARC creates several custom resource definitions (CRDs) to manage and monitor runners.
 
 
-For a deep dive into the architecture, please watch this video:
+For a quick overview of  the architecture, please watch this video:
 
 <iframe width="100%" height="400" src="https://www.youtube-nocookie.com/embed/wQ0k5k6KW5Y?si=6p7_I0bHvYt0fBYk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
