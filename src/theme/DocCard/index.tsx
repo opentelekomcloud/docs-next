@@ -126,13 +126,13 @@ function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
 
 function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
   const link = isInternalUrl(item.href)
-  const icon = link ? <File /> : <SquareArrowOutUpRight />;
+  const icon = link ? <File /> : '';
   const doc = useDocById(item.docId ?? undefined);
 
   // temporarily suppress all sidebar links from being rendered 
-  if (!link) {
-    return null;
-  }
+  // if (!link) {
+  //   return null;
+  // }
 
   return (
     <CardLayout
