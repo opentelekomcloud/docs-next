@@ -305,6 +305,14 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Cloud Container Engine',
+          link: {
+            type: 'generated-index',
+            title: 'Cloud Container Engine',
+            // description: 'Cloud Container Engine Best Practices Catalog',
+            slug: '/best-practices/containers/cloud-container-engine',
+            keywords: ['cloud-container-engine'],
+            image: '/img/docusaurus.png',
+          },
           items: [
             {
               type: 'doc',
