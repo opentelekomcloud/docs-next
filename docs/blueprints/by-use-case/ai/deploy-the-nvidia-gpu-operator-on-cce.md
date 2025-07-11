@@ -55,8 +55,30 @@ From sidebar select *Add-ons* and install the **CCE AI Suite (NVIDIA GPU)**.
     </center>
 
 ### Plugin Configuration
+When configuring the CCE AI Suite, you must provide a download link for the NVIDIA driver. 
 
-For more information see [CCE AI Suite (NVIDIA GPU)](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
+:::caution
+The selected driver must be compatible with both the GPU nodes and the NVIDIA GPU Operator; otherwise, the cluster will not be able to allocate GPU resources. It is crucial to **check for the most compatible driver version on the [NVIDIA GPU Operator Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html)**. You can find and download drivers from the **[NVIDIA Driver](https://www.nvidia.com/download/index.aspx)**.
+:::
+
+
+Follow these steps to find and provide the correct driver download link:
+
+1. **Find a Compatible Driver Version**:
+   - Navigate to the [NVIDIA GPU Operator Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html)
+   - Scroll down to [GPU Operator Component Matrix](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html#gpu-operator-component-matrix). This table lists the specific component versions, including the **recommended NVIDIA driver versions**, that are tested and supported. For example for the NVIDIA GPU Operator **v25.3.1**, the recommended driver version is **570.158.01**.
+  
+![imag](/img/docs/blueprints/by-use-case/ai/nvidia-operator/driver-version.png)
+
+2. **Get the Driver Download Link**:
+   - Go to the official **[NVIDIA Driver](https://www.nvidia.com/download/index.aspx)** page.
+   - Manually search for the driver by entering your GPU's specifications, such as Product Type (e.g., Tesla), Product Series, Operating System (Linux) based on the node flavor that you are using and click **Find** to search for drivers.
+  ![img](/img/docs/blueprints/by-use-case/ai/nvidia-operator/driver-finding.png)
+   - On the next page search for the **driver version** you identified in the previous step. Once you find the correct driver, click the view button to view the download page. Then right-click the **Download** button and copy the link address. This is the direct download link you will provide to the plugin.
+   ![img](/img/docs/blueprints/by-use-case/ai/nvidia-operator/driver-download.png)
+
+1. **Configure the Plugin**: Paste the driver download link you obtained in previous step into the **Path to custom driver** field of the plugin and click **Install**.
+  
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
   :::caution
