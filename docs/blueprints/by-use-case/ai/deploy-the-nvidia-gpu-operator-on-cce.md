@@ -4,6 +4,9 @@ title: Deploy the NVIDIA GPU Operator on CCE
 tags: [nvidia,nvidia-operator,gpu, ai]
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Deploy the NVIDIA GPU Operator on CCE
 
 The [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator) is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA GPU Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
@@ -44,7 +47,13 @@ Wait for some minutes until the nodes get provisioned and check if they have suc
 New GPU nodes should contain a label with `accelerator` as key and `nvidia*` as value (e.g.  **accelerator=nvidia-t4**).
 :::
 
-## Installing the NVIDIA GPU Plugin
+## Installing the Driver with NVIDIA GPU Plugin
+
+:::important Alternative Driver Installation Method
+If your GPU nodes use **Ubuntu** or other **major Linux distribution**, you can bypass installing the **CCE AI Suite** plugin and install the NVIDIA driver directly on the nodes through the **Nvidia GPU Operator** (skip to [Deploying the NVIDIA GPU Operator via Helm](#deploying-the-nvidia-gpu-operator-via-helm)). 
+
+This method is recommended if none of your GPU nodes are using specialized distributions like **HCE** or **openEuler**, as it allows the operator to manage the entire driver lifecycle for a more streamlined setup.
+:::
 
 ### Installation
 
@@ -81,15 +90,23 @@ Follow these steps to find and provide the correct driver download link:
   
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
-  :::caution
-  The selected driver must be compatible with the GPU nodes and supported by NVIDIA GPU Operator, otherwise the cluster will not be able to allocate GPU resources. Check supported drivers at [Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html).
-  :::
 
-## Deploying the NVIDIA GPU Operator via Helm
+:::info
+For more information about the **CCE AI Suite (NVIDIA GPU)** plugin, see [CCE AI Suite (NVIDIA GPU)](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
+:::
 
-  Create a `values.yaml` file to include the required Helm Chart configuration values:
+## NVIDIA GPU Operator
 
-```yaml title="values.yaml"
+### Deploying via Helm
+
+Create a `values.yaml` file to include the required Helm Chart configuration values based on your setup: 
+- If you installed the NVIDIA driver using the **CCE AI Suite** (typically for HCE or openEuler nodes), use the configuration under **Driver managed by CCE AI Suite**. This setup informs the GPU Operator that the driver and toolkit are already present on the node.
+
+- If you are using **Ubuntu** or other major Linux distribution and want the GPU Operator to manage the driver installation, use configurations under **Driver managed by GPU Operator**. This is the recommended approach for a streamlined setup on non-specialized operating systems.
+
+<Tabs>
+  <TabItem value="plugin" label="Driver managed by CCE AI Suite" default>
+  ```yaml title="values.yaml"
   hostPaths:
     driverInstallDir: "/usr/local/nvidia/"
 
@@ -100,13 +117,29 @@ Follow these steps to find and provide the correct driver download link:
     enabled: false
 ```
 
-:::important
+  :::important
+  - `hostPaths.driverInstallDir`: The driver installation directory when managed by CCE AI Suite is different than default. **Do not change this value!**
+  - `driver.enabled`: Driver installation is disabled because it's already installed via CCE AI Suite.
+  - `toolkit.enabled`: The container toolkit installation is disabled because it's already installed via CCE AI Suite.
+  :::
 
-- `hostPaths.driverInstallDir`: The driver installation directory on CCE is different. *Do not change* this value!
-- `driver.enabled`: Driver installation is disabled because it's already installed via CCE AI Suite.
-- `toolkit.enabled`: The container toolkit installation is disabled because it's already installed via CCE AI Suite.
+  </TabItem>
+  <TabItem value="gpu-operator" label="Driver managed by GPU Operator">
+  ```yaml title="values.yaml"
+  driver:
+    enabled: true
 
-:::
+  toolkit:
+    enabled: true
+  ```
+  :::important
+  - `driver.enabled: true`: Allows the operator to download and install the appropriate NVIDIA driver on the nodes.
+  - `toolkit.enabled: true`: Allows the operator to install the NVIDIA container toolkit, which is required for GPU-aware containers.
+  :::
+  </TabItem>
+</Tabs>
+
+
 
 Now deploy the operator via helm:
 
