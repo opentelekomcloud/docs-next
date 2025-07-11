@@ -115,7 +115,7 @@ Create a `values.yaml` file to include the required Helm Chart configuration val
 
   toolkit:
     enabled: false
-```
+  ```
 
   :::important
   - `hostPaths.driverInstallDir`: The driver installation directory when managed by CCE AI Suite is different than default. **Do not change this value!**
@@ -147,12 +147,54 @@ Now deploy the operator via helm:
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 
-helm install --wait gpu-operator \
+helm install gpu-operator \
   -n gpu-operator --create-namespace \
   nvidia/gpu-operator \
   -f values.yaml \
-  --version=v24.9.2
+  --version=v25.3.1
 ```
+
+Of course. Here is the updated section for your article with instructions on how to check for Multi-Instance GPU (MIG) support online.
+
+### Multi-Instance GPU (MIG)
+
+[Multi-Instance GPU (MIG)](https://www.nvidia.com/en-us/technologies/multi-instance-gpu/) allows a single physical GPU to be partitioned into multiple smaller, fully isolated GPU instances. Each instance has its own dedicated resources, including memory, cache, and compute cores, making it ideal for running multiple workloads in parallel without interference.
+
+#### Verify MIG Support
+
+You must first confirm that your GPU hardware supports the feature. MIG is available on GPUs from the **NVIDIA Ampere architecture and newer**.
+
+To verify if your specific GPU model is compatible, you should consult [MIG User Guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html#supported-gpus). This contains an up-to-date list of all supported GPUs.
+
+#### Configure and Deploy with MIG
+
+Set the `mig.strategy` value in your Helm `values.yaml` file. There are two strategies available:
+
+- **single**: This strategy partitions the GPU into homogenous slices. All GPU instances will be of the same size.
+- **mixed**: This strategy allows for a mix of different-sized GPU instances on the same physical GPU, providing more flexibility for varied workloads.
+
+Update your Helm configuration and add the `mig` configuration to your existing `values.yaml`.
+
+```yaml title="values.yaml"
+# ... other fields ...
+mig:
+  strategy: "single" # or "mixed"
+```
+
+After applying the changes, upgrade the GPU Operator with the MIG-enabled configuration.
+
+```bash
+helm upgrade --install gpu-operator \
+  -n gpu-operator --create-namespace \
+  nvidia/gpu-operator \
+  -f values.yaml \
+  --version=v25.3.1
+```
+
+:::info
+For more information about configuring **MIG**, refer to [GPU Operator with MIG](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html).
+:::
+
 
 ## Deploying an application with GPU Support
 
