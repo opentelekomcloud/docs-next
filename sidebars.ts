@@ -626,23 +626,6 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'GaussDB (for MySQL)',
-          link: {
-            type: 'generated-index',
-            slug: '/best-practices/databases/gaussdb-mysql',
-            keywords: ['gaussdb-mysql'],
-            description: 'GaussDB(for MySQL) is the latest generation enterprise-class distributed database. It is fully compatible with MySQL and provides high scalability and massive storage capacity. It uses a decoupled compute and storage architecture and supports up to 128 TB of storage. With GaussDB(for MySQL), there is no need to deal with sharding, and no need to worry about data loss. It combines the performance and availability of commercial databases with the cost-effectiveness of open source databases.'
-          },
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/gaussdb-mysql/index.html',
-            },
-          ],
-        },
-        {
-          type: 'category',
           label: 'GeminiDB',
           link: {
             type: 'generated-index',
@@ -676,6 +659,23 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/relational-database-service/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'TaurusDB',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/databases/taurusdb',
+            keywords: ['taurusdb'],
+            description: 'TaurusDB is the latest generation enterprise-class distributed database. It is fully compatible with MySQL and provides high scalability and massive storage capacity. It uses a decoupled compute and storage architecture and supports up to 128 TB of storage. With TaurusDB, there is no need to deal with sharding, and no need to worry about data loss. It combines the performance and availability of commercial databases with the cost-effectiveness of open source databases.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/taurusdb/index.html',
             },
           ],
         },
