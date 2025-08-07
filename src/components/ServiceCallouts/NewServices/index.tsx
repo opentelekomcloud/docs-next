@@ -2,10 +2,8 @@ import ServiceCallouts, { Callout } from '../callout';
 
 import AsmSvg from '@site/static/img/services/asm.svg'
 import CciSvg from '@site/static/img/services/cci.svg'
-// import ConfigSvg from '@site/static/img/services/rms.svg'
 import OcrSvg from '@site/static/img/services/ocr.svg'
 import FgSvg from '@site/static/img/services/fg.svg'
-// import GeminidbSvg from '@site/static/img/services/RDS .svg'
 import RfsSvg from '@site/static/img/services/rfs.svg'
 import CfwSvg from '@site/static/img/services/cfw.svg'
 

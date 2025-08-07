@@ -35,18 +35,6 @@ import GeminidbSvg from '@site/static/img/services/RDS .svg'
       icon: DrsSvg
     },
     {
-      title: "GaussDB for MySQL",
-      text: "Enterprise-Class Distributed Database",
-      link: "/docs/tags/gaussdb-mysql",
-      icon: GaussdbmysqlSvg
-    },
-    // {
-    //   title: "GaussDB NoSQL",
-    //   text: "Distributed NoSQL Database Service ",
-    //   link: "/docs/tags/gaussdb-nosql",
-    //   icon: GaussdbnosqlSvg
-    // },
-    {
       title: "GeminiDB",
       text: "Distributed, Multi-Model NoSQL Database Service",
       link: "/docs/tags/gemini-db",
@@ -57,6 +45,12 @@ import GeminidbSvg from '@site/static/img/services/RDS .svg'
       text: "Relational Database Service",
       link: "/docs/tags/rds",
       icon: RdsSvg
+    },
+    {
+      title: "TaurusDB",
+      text: "Enterprise-Class Distributed Database",
+      link: "/docs/tags/gaussdb-mysql",
+      icon: GaussdbmysqlSvg
     },
   ];
 
