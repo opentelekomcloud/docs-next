@@ -1,52 +1,51 @@
 ---
 id: host-bluesky-pds-on-cce
-title: Host Bluesky Personal Data Server on CCE
+title: Host a Bluesky Personal Data Server on CCE
 tags: [social,bluesky,bluesky-pds, twitter, cce]
 ---
 
-# Host Bluesky Personal Data Server on CCE
-
-## Solution Overview
+# Host a Bluesky Personal Data Server on CCE
 
 The [Bluesky Personal Data Server (PDS)](https://github.com/bluesky-social/pds) provides solution for users looking to take control of their social media data while participating in the decentralized AT Protocol network. This blueprint outlines how to host and manage a Bluesky PDS using Helm charts on CCE, giving you complete ownership and control over your social media presence.
 
 The [AT Protocol](https://atproto.com/) is architected with a federated network design, featuring Personal Data Servers (PDS), Relays, and App Views as core components. A PDS acts as your agent in the network, hosting your data, managing your identity, and handling authentication while maintaining full interoperability with the broader Bluesky ecosystem.
 
-:::tip
-For a quick overview of the architecture, explore the [AT Protocol documentation](https://atproto.com/guides/overview) and [Bluesky's federation architecture](https://docs.bsky.app/docs/advanced-guides/federation-architecture).
+:::info See also
+For a more detailed overview of the architecture, explore the [AT Protocol documentation](https://atproto.com/guides/overview) and [Bluesky's federation architecture](https://docs.bsky.app/docs/advanced-guides/federation-architecture).
 :::
 
 ## Benefits of Self-Hosting Bluesky PDS
 
 ### Data Ownership and Control
 
-Self-hosting a PDS ensures complete ownership of your social media data. Unlike traditional platforms where your content is stored on company servers, your PDS gives you full control over your posts, likes, follows, and other social interactions. This fundamental shift means no single company can delete your account or restrict access to your data.
+Self-hosting a PDS ensures complete ownership of your social media data. Unlike traditional social media platforms where your content is stored on their servers, your PDS gives you **full control** over your posts, identities, likes, follows, and other social interactions. This fundamental shift means no single social media company can delete your account or restrict access to your data.
 
 ### Enhanced Privacy and Portability
 
-With a self-hosted PDS, you maintain strict control over data privacy and can easily migrate between different services within the AT Protocol network. Your identity and content remain portable, allowing seamless transitions between hosting providers without losing your social connections or historical data.
+With a self-hosted PDS, you maintain strict control over data privacy and can easily migrate between different platforms within the AT Protocol network. Your identity and content remain portable, allowing seamless transitions between hosting providers without losing your social connections or historical data.
 
 ## Prerequisites
 
 Before implementing Bluesky PDS on CCE, ensure you have:
-1. **CCE Cluster**: Version 1.16 or higher is recommended.
+
+1. **CCE Cluster**: Kubernetes v1.16 or higher is recommended.
 2. **Helm**: Installed and configured for package management.
 3. **cert-manager**: Required for SSL certificate management.
 4. **kubectl**: Command-line access to your Kubernetes cluster.
 5. **Domain Name**: A valid domain name you control for DNS configuration. 
 6. **SMTP Service**: Email relay service (e.g., [Resend](https://resend.com/), [SendGrid](https://sendgrid.com/)) for account verification. 
 
+//TODO: Show how he can configure it with Resend (note that is not meant for production)
 
-
-## Deploying the Bluesky PDS 
+## Deploying the Bluesky PDS
 
 ### Creating Namespace
+
 Create a namespace for Bluesky PDS, if you don't have one already:
 
 ```bash
 kubectl create namespace bluesky-pds
 ```
-
 
 ### Creating Kubernetes Secrets
 
@@ -67,14 +66,18 @@ kubectl create secret generic pds -n bluesky-pds \
 ```
 
 ### Adding the Helm Repository
-<!-- TODO not official repo -->
-Add the Nerkho Helm repository which contains the Bluesky PDS chart:
+Add the following Helm repository which contains an *unofficial* Bluesky PDS chart:
+
+:::warning Disclaimer
+This Helm Chart is a community contribution. Bluesky has not released an official chart as of this writing. Use it at your own risk, and as with every open source code snippet or product be sure to review its internals and license thoroughly before deploying it in your environment.
+
+Using this chart for the Blueprint does not imply endorsement by T-Systems International GmbH or Open Telekom Cloud. We are not involved in its development or maintenance.
+:::
 
 ```bash
 helm repo add nerkho https://charts.nerkho.ch
 helm repo update
 ```
-
 
 ### Configuring the Helm Values
 
@@ -117,25 +120,20 @@ ingress:
        - "*.pds.example.com"
 ```
 
-:::caution
-
-Notice that two hosts are provided under ingress. One for the PDS reachability and a wildcard for each user. This is required as on the AT Protocol, each user has its own subdomain.
-
-If this is not desirable in your scenario, you could just list each subdomain for each user of your PDS instead of using a wildcard.
-:::
-
 :::important
-The provided annotations for **ingress** are required to obtain a TLS certificate for your PDS domain (e.g., **pds.example.com** and ***.pds.example.com**).
 
-```yaml
-kubernetes.io/tls-acme: "true"
-cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
-```
+* Notice that two hosts are provided under `ingress`. One for the PDS reachability and a wildcard for each user. This is required as on the AT Protocol, each user has its own subdomain. Alternatively, you could just list each subdomain for each user of your PDS manually instead of using a wildcard. **The wildcard record is required when allowing users to create new accounts on your PDS**.
 
-Follow the instructions from Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md), to prepare your cluster properly.
+* The provided annotations for `ingress` are required to obtain a TLS certificate for your PDS domain (e.g., `pds.example.com` and `*.pds.example.com`).
+
+  ```yaml
+  kubernetes.io/tls-acme: "true"
+  cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
+  ```
+
+  Follow the instructions from Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md), to prepare your cluster properly.
+
 :::
-
-
 
 ### Deploying the PDS
 
@@ -165,6 +163,8 @@ curl https://pds.example.com/xrpc/_health
 # Expected output: {"version":"0.4.x"}
 ```
 
+//TODO: What about configuring DNS and _atproto.pds.example.com? 
+//TODO: What about creating a request for a crawl? 
 
 ## Creating User Accounts
 
@@ -183,7 +183,6 @@ curl --silent --show-error --request POST \
   "https://${PDS_HOSTNAME}/xrpc/com.atproto.server.createInviteCode" | \
   jq --raw-output '.code'
 ```
-
 
 ### Create User Account
 
@@ -243,6 +242,9 @@ When successful you should get a JSON response structured as follows:
 }
 
 ```
+
+//TODO: Its not clear where this commands should be executed?
+//TODO: Show alternatively using pdsadmin 
 
 
 ## Connecting to Bluesky
