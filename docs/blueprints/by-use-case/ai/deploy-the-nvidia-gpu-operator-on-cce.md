@@ -49,10 +49,12 @@ New GPU nodes should contain a label with `accelerator` as key and `nvidia*` as 
 
 ## Installing the Driver with NVIDIA GPU Plugin
 
-:::important Alternative Driver Installation Method
-If your GPU nodes use **Ubuntu** or other **major Linux distribution**, you can bypass installing the **CCE AI Suite** plugin and install the NVIDIA driver directly on the nodes through the **Nvidia GPU Operator** (skip to [Deploying the NVIDIA GPU Operator via Helm](#deploying-the-nvidia-gpu-operator-via-helm)). 
+:::important Different Driver Installation Methods - Read Carefully
+
+If your GPU nodes use **Ubuntu** or other **major Linux distribution**, you can bypass installing the **CCE AI Suite** plugin and install the NVIDIA driver directly on the nodes through the **Nvidia GPU Operator** (skip to [Deploying via Helm](#deploying-via-helm)) and the follow the instructions in the tab **Driver managed by GPU Operator**.
 
 This method is recommended if none of your GPU nodes are using specialized distributions like **HCE** or **openEuler**, as it allows the operator to manage the entire driver lifecycle for a more streamlined setup.
+
 :::
 
 ### Installation
@@ -64,12 +66,12 @@ From sidebar select *Add-ons* and install the **CCE AI Suite (NVIDIA GPU)**.
     </center>
 
 ### Plugin Configuration
-When configuring the CCE AI Suite, you must provide a download link for the NVIDIA driver. 
+
+When configuring the CCE AI Suite, you must provide a download link for the NVIDIA driver.
 
 :::caution
 The selected driver must be compatible with both the GPU nodes and the NVIDIA GPU Operator; otherwise, the cluster will not be able to allocate GPU resources. It is crucial to **check for the most compatible driver version on the [NVIDIA GPU Operator Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html)**. You can find and download drivers from the **[NVIDIA Driver](https://www.nvidia.com/download/index.aspx)**.
 :::
-
 
 Follow these steps to find and provide the correct driver download link:
 
@@ -90,7 +92,6 @@ Follow these steps to find and provide the correct driver download link:
   
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/configure-plugin.png)
 
-
 :::info
 For more information about the **CCE AI Suite (NVIDIA GPU)** plugin, see [CCE AI Suite (NVIDIA GPU)](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/cce_ai_suite_nvidia_gpu.html).
 :::
@@ -99,7 +100,8 @@ For more information about the **CCE AI Suite (NVIDIA GPU)** plugin, see [CCE AI
 
 ### Deploying via Helm
 
-Create a `values.yaml` file to include the required Helm Chart configuration values based on your setup: 
+Create a `values.yaml` file to include the required Helm Chart configuration values based on your setup:
+
 - If you installed the NVIDIA driver using the **CCE AI Suite** (typically for HCE or openEuler nodes), use the configuration under **Driver managed by CCE AI Suite**. This setup informs the GPU Operator that the driver and toolkit are already present on the node.
 
 - If you are using **Ubuntu** or other major Linux distribution and want the GPU Operator to manage the driver installation, use configurations under **Driver managed by GPU Operator**. This is the recommended approach for a streamlined setup on non-specialized operating systems.
@@ -115,6 +117,7 @@ Create a `values.yaml` file to include the required Helm Chart configuration val
 
   toolkit:
     enabled: false
+
   ```
 
   :::important
@@ -132,14 +135,15 @@ Create a `values.yaml` file to include the required Helm Chart configuration val
   toolkit:
     enabled: true
   ```
+
   :::important
-  - `driver.enabled: true`: Allows the operator to download and install the appropriate NVIDIA driver on the nodes.
-  - `toolkit.enabled: true`: Allows the operator to install the NVIDIA container toolkit, which is required for GPU-aware containers.
+
+- `driver.enabled: true`: Allows the operator to download and install the appropriate NVIDIA driver on the nodes.
+- `toolkit.enabled: true`: Allows the operator to install the NVIDIA container toolkit, which is required for GPU-aware containers.
+
   :::
   </TabItem>
 </Tabs>
-
-
 
 Now deploy the operator via helm:
 
@@ -156,13 +160,15 @@ helm install gpu-operator \
 
 Of course. Here is the updated section for your article with instructions on how to check for Multi-Instance GPU (MIG) support online.
 
-### Multi-Instance GPU (MIG)
+### Multi-Instance GPU (MIG) - Optional
 
 [Multi-Instance GPU (MIG)](https://www.nvidia.com/en-us/technologies/multi-instance-gpu/) allows a single physical GPU to be partitioned into multiple smaller, fully isolated GPU instances. Each instance has its own dedicated resources, including memory, cache, and compute cores, making it ideal for running multiple workloads in parallel without interference.
 
 #### Verify MIG Support
 
-You must first confirm that your GPU hardware supports the feature. MIG is available on GPUs from the **NVIDIA Ampere architecture and newer**.
+:::important
+Before configuring MIG, you must first ensure that the chosen GPU hardware supports this feature. MIG is available on GPUs from the **NVIDIA Ampere architecture and newer**.
+:::
 
 To verify if your specific GPU model is compatible, you should consult [MIG User Guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html#supported-gpus). This contains an up-to-date list of all supported GPUs.
 
@@ -194,7 +200,6 @@ helm upgrade --install gpu-operator \
 :::info
 For more information about configuring **MIG**, refer to [GPU Operator with MIG](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html).
 :::
-
 
 ## Deploying an application with GPU Support
 
@@ -308,7 +313,7 @@ docker logs Container ID
 
 ### Validating Pod Resource Requests
 
-Make sure the nodes that have GPUs are properly decorated with the following, that instructs Kubernetes to schedule the pods only on 
+Make sure the nodes that have GPUs are properly decorated with the following, that instructs Kubernetes to schedule the pods only on
 nodes that have available GPUs.
 
 ```yaml
