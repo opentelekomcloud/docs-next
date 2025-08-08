@@ -14,6 +14,7 @@ To enable federated access, [Active Directory Federation Services](https://learn
 
 :::info Next Steps
 
+* [Azure Entra ID as Identity Provider for IAM](azure-entraid-as-identity-provider-iam.md)
 * [Active Directory as Identity Provider for IAM](active-directory-as-identity-provider-iam.md)
 
 :::
