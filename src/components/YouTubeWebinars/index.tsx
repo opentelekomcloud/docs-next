@@ -93,7 +93,7 @@ const YouTubeWebinars: React.FC = () => {
               />
               <div className={styles.cardContent}>
                 <p className={styles.title}>
-                  {video.snippet.title.replace(/\s*\| Open Telekom Cloud \| T-Systems\s*$/, '')}
+                  {video.snippet.title.replace(/\s*\| Open Telekom Cloud \| T-Systems\s*$/, '').replace(/\s*by\s*T-Systems\s*$/i, '')}
                 </p>
                 {/* <p className={styles.description}>
                 {video.snippet.description.slice(0, 250)}...
@@ -104,8 +104,7 @@ const YouTubeWebinars: React.FC = () => {
         ) : (
           !loading && (
             <div>
-              <br />               <br />
-
+              <br /><br />
               <h3 style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
                 Sorry, we don’t have any videos available right now.
               </h3>
