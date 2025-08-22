@@ -75,7 +75,7 @@ body{color:var(--ink)}
 .cat{text-transform:uppercase;font-size:10px;letter-spacing:.06em;opacity:.7}
 .symbol{flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px}
 .tileBottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
-.name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ext{opacity:.6}
 .badge{background:var(--badge);color:var(--badge-ink);padding:2px 8px;border-radius:999px;font-size:11px;border:1px solid #e0e7ff}
 
@@ -91,11 +91,15 @@ body{color:var(--ink)}
 }
 
 /* category colors (tile accent + column stripe) */
-.tile[data-cat="Compute"], .col[data-cat="Compute"] { --accent:#ef4444; --stripe:linear-gradient(180deg, rgba(239,68,68,.08), rgba(239,68,68,.03)); }
-.tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#f59e0b; --stripe:linear-gradient(180deg, rgba(245,158,11,.08), rgba(245,158,11,.03)); }
-.tile[data-cat="Networking"], .col[data-cat="Networking"] { --accent:#38bdf8; --stripe:linear-gradient(180deg, rgba(56,189,248,.08), rgba(56,189,248,.03)); }
-.tile[data-cat="Database"], .col[data-cat="Database"] { --accent:#22c55e; --stripe:linear-gradient(180deg, rgba(34,197,94,.08), rgba(34,197,94,.03)); }
-.tile[data-cat="AI & Big Data"], .col[data-cat="AI & Big Data"] { --accent:#a78bfa; --stripe:linear-gradient(180deg, rgba(167,139,250,.08), rgba(167,139,250,.03)); }
-.tile[data-cat="Security"], .col[data-cat="Security"] { --accent:#f87171; --stripe:linear-gradient(180deg, rgba(248,113,113,.08), rgba(248,113,113,.03)); }
+.tile[data-cat="Computing"], .col[data-cat="Computing"] { --accent:#794ae9; --stripe:linear-gradient(180deg, rgba(121,74,233,.08), rgba(121,74,233,.03)); }
+.tile[data-cat="Containers"], .col[data-cat="Containers"] { --accent:#2238df; --stripe:linear-gradient(180deg, rgba(34,56,223,.08), rgba(34,56,223,.03)); }
+.tile[data-cat="Data Analysis"], .col[data-cat="Data Analysis"] { --accent:#8eb83a; --stripe:linear-gradient(180deg, rgba(142,184,58,.08), rgba(142,184,58,.03)); }
+.tile[data-cat="Databases"], .col[data-cat="Databases"] { --accent:#3ab89f; --stripe:linear-gradient(180deg, rgba(58,184,159,.08), rgba(58,184,159,.03)); }
+.tile[data-cat="Application"], .col[data-cat="Application"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
+.tile[data-cat="Security Services"], .col[data-cat="Security Services"] { --accent:#b17f38; --stripe:linear-gradient(180deg, rgba(177,127,56,.08), rgba(177,127,56,.03)); }
 .tile[data-cat="Containers & DevOps"], .col[data-cat="Containers & DevOps"] { --accent:#818cf8; --stripe:linear-gradient(180deg, rgba(129,140,248,.08), rgba(129,140,248,.03)); }
-.tile[data-cat="Management"], .col[data-cat="Management"] { --accent:#94a3b8; --stripe:linear-gradient(180deg, rgba(148,163,184,.08), rgba(148,163,184,.03)); }
+.tile[data-cat="Management & Deployment"], .col[data-cat="Management & Deployment"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
+.tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
+
+
+
