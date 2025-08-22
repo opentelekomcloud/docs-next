@@ -100,6 +100,7 @@ body{color:var(--ink)}
 .tile[data-cat="Containers & DevOps"], .col[data-cat="Containers & DevOps"] { --accent:#818cf8; --stripe:linear-gradient(180deg, rgba(129,140,248,.08), rgba(129,140,248,.03)); }
 .tile[data-cat="Management & Deployment"], .col[data-cat="Management & Deployment"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
 .tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
+.tile[data-cat="Network"], .col[data-cat="Network"] { --accent:#f97012; --stripe:linear-gradient(180deg, rgba(249,112,18,.08), rgba(249,112,18,.03)); }
 
 
 
