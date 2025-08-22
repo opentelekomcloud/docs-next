@@ -22,11 +22,11 @@ export type OtcService = {
   category: OtcCategory;
   description: string;
   url?: string;
-  chips: Chip[];          // ← existing “chips”
-  regions: Region[];      // ← NEW: one or many, or ["global"] exclusive
+  chips: Chip[];     // capabilities this service belongs to
+  regions: Region[]; // regions available (["global"] is exclusive)
 };
 
-/* ---------- Sample data (add/adjust freely) ---------- */
+/* ---------- Sample data (adjust/extend freely) ---------- */
 const SERVICES: OtcService[] = [
   // Compute (IaaS)
   { id: "ecs", symbol: "ECS", name: "Elastic Cloud Server", category: "Compute", description: "Virtual machines for general compute workloads.", url: "https://open-telekom-cloud.com/en/products-services/compute/elastic-cloud-server", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
@@ -93,10 +93,14 @@ const regionEmoji: Record<Exclude<Region, "global">, string> = {
   "eu-ch": "🇨🇭",
 };
 
+// helper to render the chips text (fallback to category)
+const chipLabel = (chips: Chip[], fallback = "") =>
+  chips && chips.length ? chips.join(" · ") : fallback;
+
 export default function OtcServicesColumns() {
   const [query, setQuery] = useState("");
-  const [chips, setChips] = useState<Set<Chip>>(new Set());            // IaaS/PaaS/Security/Management (OR)
-  const [regionsSel, setRegionsSel] = useState<Set<Region>>(new Set()); // Regions (OR)
+  const [chips, setChips] = useState<Set<Chip>>(new Set());            // OR
+  const [regionsSel, setRegionsSel] = useState<Set<Region>>(new Set()); // OR
 
   const toggleChip = (c: Chip) =>
     setChips((prev) => {
@@ -112,11 +116,10 @@ export default function OtcServicesColumns() {
       return next;
     });
 
-  // Text + chips(OR) + regions(OR). Columns remain fixed.
+  // text + chips(OR) + regions(OR)
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return SERVICES.filter((s) => {
-      // text
       const mq =
         !q ||
         s.name.toLowerCase().includes(q) ||
@@ -124,18 +127,14 @@ export default function OtcServicesColumns() {
         s.category.toLowerCase().includes(q);
       if (!mq) return false;
 
-      // chips OR
       if (chips.size > 0 && !s.chips.some((c) => chips.has(c))) return false;
-
-      // regions OR
-      if (regionsSel.size > 0 && !s.regions.some((r) => regionsSel.has(r)))
-        return false;
+      if (regionsSel.size > 0 && !s.regions.some((r) => regionsSel.has(r))) return false;
 
       return true;
     });
   }, [query, chips, regionsSel]);
 
-  // Seed all columns so empty ones show a placeholder
+  // seed all columns to keep empty columns visible
   const byCategory = useMemo(() => {
     const map = new Map<OtcCategory, OtcService[]>();
     ALL_CATS.forEach((c) => map.set(c, []));
@@ -163,7 +162,6 @@ export default function OtcServicesColumns() {
     if (regions.includes("global")) {
       return <span className={styles.badge}>GLOBAL</span>;
     }
-    // keep a stable order for multi-flags
     const ordered = REGION_ORDER.filter(
       (r) => r !== "global" && regions.includes(r)
     ) as Exclude<Region, "global">[];
@@ -199,7 +197,7 @@ export default function OtcServicesColumns() {
           </div>
         </div>
 
-        {/* Chips */}
+        {/* Capability chips */}
         <div className={styles.buckets}>
           <button
             className={styles.chip}
@@ -221,7 +219,7 @@ export default function OtcServicesColumns() {
           ))}
         </div>
 
-        {/* Regions */}
+        {/* Region chips */}
         <div className={styles.buckets}>
           <button
             className={styles.chip}
@@ -250,7 +248,7 @@ export default function OtcServicesColumns() {
           ))}
         </div>
 
-        {/* Columns (fixed width; wrap; never removed) */}
+        {/* Columns (fixed width; wrap) */}
         <div className={styles.columns}>
           {ALL_CATS.map((cat) => {
             const items = byCategory.get(cat) || [];
@@ -276,7 +274,9 @@ export default function OtcServicesColumns() {
                         aria-label={`${s.name} (${s.symbol}) — ${s.description}`}
                       >
                         <div className={styles.tileTop}>
-                          <div className={styles.cat}>{s.category}</div>
+                          {/* LEFT: chips instead of category */}
+                          <div className={styles.cat}>{chipLabel(s.chips, s.category)}</div>
+                          {/* RIGHT: region badge(s) */}
                           {renderRegionBadge(s.regions)}
                         </div>
                         <div className={styles.symbol}>{s.symbol}</div>
