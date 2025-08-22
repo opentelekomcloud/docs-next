@@ -14,7 +14,7 @@ export type OtcCategory =
   | "Storage";
 
 
-export type Chip = "IaaS" | "PaaS" | "Security" | "Management";
+export type Chip = "IaaS" | "PaaS" | "Sec" | "Mgmt";
 export type Region = "eu-de" | "eu-nl" | "eu-ch" | "global";
 
 export type OtcService = {
@@ -71,14 +71,14 @@ const SERVICES: OtcService[] = [
   { id: "TaurusDB",  symbol: "TaurusDB",  name: "Enterprise-Class Distributed Database", category: "Databases", description: "", url: "/docs/tags/taurussb", chips: ["PaaS"], regions: ["eu-de"] },
 
   // Management & Deployment
-  { id: "CloudCreate",  symbol: "Cloud Create",  name: "Multi-Cloud Management Platform", category: "Management & Deployment", description: "", url: "/docs/tags/cloud-create", chips: ["PaaS"], regions: ["eu-de", "eu-ch"] },
-  { id: "CloudEye",  symbol: "Cloud Eye",  name: "Multi-Dimensional Monitoring Platform", category: "Management & Deployment", description: "", url: "/docs/tags/CloudEye", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] }, 
-  { id: "Config",  symbol: "Config",  name: "Continuously Evaluate Resource Configuration", category: "Management & Deployment", description: "", url: "/docs/tags/Config", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "CTS",  symbol: "CTS",  name: "Cloud Trace Service", category: "Management & Deployment", description: "", url: "/docs/tags/CTS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "LTS",  symbol: "LTS",  name: "Log Tank Service", category: "Management & Deployment", description: "", url: "/docs/tags/LTS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "RMS",  symbol: "RMS",  name: "Resource Management Service", category: "Management & Deployment", description: "", url: "/docs/tags/RMS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "RFS",  symbol: "RFS",  name: "Resource Formation Service", category: "Management & Deployment", description: "", url: "/docs/tags/RFS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "TMS",  symbol: "TMS",  name: "Tag Management Service", category: "Management & Deployment", description: "", url: "/docs/tags/TMS", chips: ["PaaS"], regions: ["eu-de", "eu-ch"] },
+  { id: "CloudCreate",  symbol: "Cloud Create",  name: "Multi-Cloud Management Platform", category: "Management & Deployment", description: "", url: "/docs/tags/cloud-create", chips: ["Mgmt"], regions: ["eu-de", "eu-ch"] },
+  { id: "CloudEye",  symbol: "Cloud Eye",  name: "Multi-Dimensional Monitoring Platform", category: "Management & Deployment", description: "", url: "/docs/tags/CloudEye", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] }, 
+  { id: "Config",  symbol: "Config",  name: "Continuously Evaluate Resource Configuration", category: "Management & Deployment", description: "", url: "/docs/tags/Config", chips: ["Mgmt"], regions: ["eu-de"] },
+  { id: "CTS",  symbol: "CTS",  name: "Cloud Trace Service", category: "Management & Deployment", description: "", url: "/docs/tags/CTS", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "LTS",  symbol: "LTS",  name: "Log Tank Service", category: "Management & Deployment", description: "", url: "/docs/tags/LTS", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "RMS",  symbol: "RMS",  name: "Resource Management Service", category: "Management & Deployment", description: "", url: "/docs/tags/RMS", chips: ["Mgmt"], regions: ["eu-de"] },
+  { id: "RFS",  symbol: "RFS",  name: "Resource Formation Service", category: "Management & Deployment", description: "", url: "/docs/tags/RFS", chips: ["Mgmt"], regions: ["eu-de"] },
+  { id: "TMS",  symbol: "TMS",  name: "Tag Management Service", category: "Management & Deployment", description: "", url: "/docs/tags/TMS", chips: ["Mgmt"], regions: ["eu-de", "eu-ch"] },
 
   // Network
   { id: "DirectConnect",  symbol: "Direct Connect",  name: "Dedicated Network Connection", category: "Network", description: "", url: "/docs/tags/direct-connect", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -94,23 +94,23 @@ const SERVICES: OtcService[] = [
   { id: "VPN",  symbol: "VPN",  name: "Virtual Private Network", category: "Network", description: "", url: "/docs/tags/VPN", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
   // Security Services
-  { id: "Anti-DDoS",  symbol: "Anti-DDoS",  name: "Anti-DDoS Traffic Cleaning Service", category: "Security Services", description: "", url: "/docs/tags/Anti-DDoS", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
-  { id: "CFW",  symbol: "CFW",  name: "Cloud Firewall", category: "Security Services", description: "", url: "/docs/tags/CFW", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "DDS",  symbol: "DDS",  name: "Database Security Service", category: "Security Services", description: "", url: "/docs/tags/DDS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "HSS",  symbol: "HSS",  name: "Host Security Service", category: "Security Services", description: "", url: "/docs/tags/HSS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "IAM",  symbol: "IAM",  name: "Identity & Access Management", category: "Security Services", description: "", url: "/docs/tags/IAM", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "KMS",  symbol: "KMS",  name: "Key Management Service", category: "Security Services", description: "", url: "/docs/tags/KMS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "WAF",  symbol: "WAF",  name: "Web Application Firewall", category: "Security Services", description: "", url: "/docs/tags/WAF", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
-  { id: "DedicatedWAF",  symbol: "Dedicated WAF",  name: "Dedicated Web Application Firewall", category: "Security Services", description: "", url: "/docs/tags/dedicated-waf", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "Anti-DDoS",  symbol: "Anti-DDoS",  name: "Anti-DDoS Traffic Cleaning Service", category: "Security Services", description: "", url: "/docs/tags/Anti-DDoS", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
+  { id: "CFW",  symbol: "CFW",  name: "Cloud Firewall", category: "Security Services", description: "", url: "/docs/tags/CFW", chips: ["Sec"], regions: ["eu-de"] },
+  { id: "DDS",  symbol: "DDS",  name: "Database Security Service", category: "Security Services", description: "", url: "/docs/tags/DDS", chips: ["Sec"], regions: ["eu-de"] },
+  { id: "HSS",  symbol: "HSS",  name: "Host Security Service", category: "Security Services", description: "", url: "/docs/tags/HSS", chips: ["Sec"], regions: ["eu-de"] },
+  { id: "IAM",  symbol: "IAM",  name: "Identity & Access Management", category: "Security Services", description: "", url: "/docs/tags/IAM", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "KMS",  symbol: "KMS",  name: "Key Management Service", category: "Security Services", description: "", url: "/docs/tags/KMS", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "WAF",  symbol: "WAF",  name: "Web Application Firewall", category: "Security Services", description: "", url: "/docs/tags/WAF", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
+  { id: "DedicatedWAF",  symbol: "Dedicated WAF",  name: "Dedicated Web Application Firewall", category: "Security Services", description: "", url: "/docs/tags/dedicated-waf", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
   // Storage
-  { id: "CBR",  symbol: "CBR",  name: "Cloud Backup & Recovery", category: "Storage", description: "", url: "/docs/tags/CBR", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "CSBS",  symbol: "CSBS",  name: "Cloud Server Backup Service", category: "Storage", description: "", url: "/docs/tags/CSBS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "EVS",  symbol: "EVS",  name: "Elastic Volume Service", category: "Storage", description: "", url: "/docs/tags/EVS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "OBS",  symbol: "OBS",  name: "Object Storage Service", category: "Storage", description: "", url: "/docs/tags/OBS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "SDRS",  symbol: "SDRS",  name: "Storage Disaster Recovery Service", category: "Storage", description: "", url: "/docs/tags/SDRS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "SFS",  symbol: "SFS",  name: "Scalable File Service", category: "Storage", description: "", url: "/docs/tags/SFS", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
-  { id: "VBS",  symbol: "VBS",  name: "Volume Backup Service", category: "Storage", description: "", url: "/docs/tags/VBS", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "CBR",  symbol: "CBR",  name: "Cloud Backup & Recovery", category: "Storage", description: "", url: "/docs/tags/CBR", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "CSBS",  symbol: "CSBS",  name: "Cloud Server Backup Service", category: "Storage", description: "", url: "/docs/tags/CSBS", chips: ["IaaS"], regions: ["eu-de"] },
+  { id: "EVS",  symbol: "EVS",  name: "Elastic Volume Service", category: "Storage", description: "", url: "/docs/tags/EVS", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "OBS",  symbol: "OBS",  name: "Object Storage Service", category: "Storage", description: "", url: "/docs/tags/OBS", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "SDRS",  symbol: "SDRS",  name: "Storage Disaster Recovery Service", category: "Storage", description: "", url: "/docs/tags/SDRS", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "SFS",  symbol: "SFS",  name: "Scalable File Service", category: "Storage", description: "", url: "/docs/tags/SFS", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
+  { id: "VBS",  symbol: "VBS",  name: "Volume Backup Service", category: "Storage", description: "", url: "/docs/tags/VBS", chips: ["IaaS"], regions: ["eu-de"] },
 
 ];
 
@@ -212,7 +212,7 @@ export default function OtcServicesColumns() {
       (r) => r !== "global" && regions.includes(r)
     ) as Exclude<Region, "global">[];
     return (
-      <span className={styles.badge}>
+      <span className={styles.flags}>
         {ordered.map((r) => regionEmoji[r]).join(" ")}
       </span>
     );
@@ -253,7 +253,7 @@ export default function OtcServicesColumns() {
           >
             All
           </button>
-          {(["IaaS", "PaaS", "Security", "Management"] as Chip[]).map((c) => (
+          {(["IaaS", "PaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
             <button
               key={c}
               className={cx(styles.chip, isChipActive(c) && styles.chipActive)}
@@ -305,7 +305,7 @@ export default function OtcServicesColumns() {
                 </header>
                 <div className={styles.colBody}>
                   {items.length === 0 ? (
-                    <div className={styles.empty}>No matches</div>
+                    <div className={styles.empty}>N/A</div>
                   ) : (
                     items.map((s) => (
                       <div
