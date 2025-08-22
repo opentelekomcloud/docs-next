@@ -21,6 +21,7 @@
     "@docusaurus/preset-classic": "^3.7.0",
     "@mdx-js/react": "^3.1.0",
     "@telekom/scale-components": "^3.0.0-beta.151",
+    "@telekom/scale-components-react": "^3.0.0-beta.56",
     "clsx": "^2.1.1",
     "docusaurus-plugin-zooming": "^1.0.0",
     "docusaurus-theme-search-typesense": "^0.23.0",

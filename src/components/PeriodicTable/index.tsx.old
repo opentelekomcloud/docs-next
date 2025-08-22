@@ -1,0 +1,453 @@
+// src/components/OtcPeriodicTableCSS.tsx
+import React, { useMemo, useState, KeyboardEvent } from "react";
+import { Search, Grid3x3, LayoutGrid, ExternalLink } from "lucide-react";
+
+/**
+ * Open Telekom Cloud — Services Periodic (Pure CSS + lucide-react)
+ * - No UI libraries. Only semantic HTML + CSS in this file.
+ * - Two views: Auto Grid and Periodic mock
+ * - Search + category filters
+ * - CSS-only tooltip via [data-tooltip]
+ * - Category accent colors via data attributes and CSS variables
+ */
+
+// --- Types ---
+export type OtcCategory =
+  | "Compute"
+  | "Storage"
+  | "Networking"
+  | "Database"
+  | "AI & Big Data"
+  | "Security"
+  | "Containers & DevOps"
+  | "Management";
+
+export type OtcService = {
+  id: string;
+  symbol: string; // like ECS, EVS, OBS
+  name: string;
+  category: OtcCategory;
+  description: string;
+  status?: "GA" | "Beta" | "Preview";
+  url?: string;
+  // Optional coordinates for a true "periodic" mock layout
+  period?: number; // row
+  group?: number; // column
+};
+
+// --- Mock Data (curated sample; adjust freely) ---
+const SERVICES: OtcService[] = [
+  // Compute
+  { id: "ecs", symbol: "ECS", name: "Elastic Cloud Server", category: "Compute", description: "Virtual machines for general compute workloads.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/compute/elastic-cloud-server", period: 1, group: 1 },
+  { id: "bms", symbol: "BMS", name: "Bare Metal Server", category: "Compute", description: "Dedicated, single-tenant physical servers.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/compute/bare-metal-server", period: 1, group: 18 },
+  { id: "as", symbol: "AS", name: "Auto Scaling", category: "Compute", description: "Automatic capacity right-sizing for ECS fleets.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/compute/auto-scaling", period: 2, group: 1 },
+
+  // Storage
+  { id: "obs", symbol: "OBS", name: "Object Storage Service", category: "Storage", description: "S3-compatible object storage for any scale.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/storage/object-storage-service", period: 2, group: 13 },
+  { id: "evs", symbol: "EVS", name: "Elastic Volume Service", category: "Storage", description: "Block storage volumes for ECS and BMS.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/storage/elastic-volume-service", period: 3, group: 14 },
+  { id: "efs", symbol: "SFS", name: "Scalable File Service", category: "Storage", description: "Managed, elastic file shares (NFS).", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/storage/scalable-file-service", period: 3, group: 15 },
+
+  // Networking
+  { id: "vpc", symbol: "VPC", name: "Virtual Private Cloud", category: "Networking", description: "Private networks, subnets, routing, and security groups.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/networking/virtual-private-cloud", period: 4, group: 1 },
+  { id: "elb", symbol: "ELB", name: "Elastic Load Balancer", category: "Networking", description: "Distribute traffic across instances.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/networking/elastic-load-balancer", period: 4, group: 17 },
+  { id: "nat", symbol: "NAT", name: "NAT Gateway", category: "Networking", description: "Outbound internet for private subnets.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/networking/nat-gateway", period: 4, group: 18 },
+  { id: "dns", symbol: "DNS", name: "Domain Name Service", category: "Networking", description: "Authoritative and private DNS zones.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/networking/dns-service", period: 4, group: 16 },
+
+  // Database
+  { id: "rds", symbol: "RDS", name: "Relational Database Service", category: "Database", description: "Managed MySQL, PostgreSQL, and more.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/database/relational-database-service", period: 5, group: 2 },
+  { id: "dws", symbol: "DWS", name: "Data Warehouse Service", category: "Database", description: "Massively parallel, petabyte-scale analytics.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/database/data-warehouse-service", period: 5, group: 3 },
+  { id: "dds", symbol: "DDS", name: "Distributed Database Service", category: "Database", description: "Managed document databases.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/database/distributed-database-service", period: 5, group: 4 },
+
+  // AI & Big Data
+  { id: "ma", symbol: "MA", name: "ModelArts", category: "AI & Big Data", description: "End-to-end ML platform for training and deployment.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/ai/modelarts", period: 6, group: 2 },
+  { id: "mrs", symbol: "MRS", name: "MapReduce Service", category: "AI & Big Data", description: "Managed Hadoop/Spark clusters for big data.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/big-data/mapreduce-service", period: 6, group: 3 },
+
+  // Security
+  { id: "kms", symbol: "KMS", name: "Key Management Service", category: "Security", description: "Customer-managed encryption keys (HSM-backed).", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/security/key-management-service", period: 7, group: 17 },
+  { id: "waf", symbol: "WAF", name: "Web Application Firewall", category: "Security", description: "Protect web apps from common exploits.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/security/web-application-firewall", period: 7, group: 16 },
+  { id: "antiddos", symbol: "AD", name: "Anti-DDoS", category: "Security", description: "DDoS detection and mitigation.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/security/anti-ddos", period: 7, group: 18 },
+
+  // Containers & DevOps
+  { id: "cce", symbol: "CCE", name: "Cloud Container Engine", category: "Containers & DevOps", description: "Managed Kubernetes clusters.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/containers/cloud-container-engine", period: 2, group: 6 },
+  { id: "cci", symbol: "CCI", name: "Cloud Container Instance", category: "Containers & DevOps", description: "Serverless containers.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/containers/cloud-container-instance", period: 2, group: 7 },
+  { id: "sst", symbol: "SST", name: "ServiceStage", category: "Containers & DevOps", description: "App platform & CI/CD for microservices.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/devtools/servicestage", period: 2, group: 8 },
+
+  // Management
+  { id: "ces", symbol: "CES", name: "Cloud Eye", category: "Management", description: "Monitoring, metrics, and alarms.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/management/ces", period: 3, group: 6 },
+  { id: "cts", symbol: "CTS", name: "Cloud Trace Service", category: "Management", description: "Audit trails for API operations.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/management/cloud-trace-service", period: 3, group: 7 },
+  { id: "smn", symbol: "SMN", name: "Simple Message Notification", category: "Management", description: "Pub/Sub style notifications.", status: "GA", url: "https://open-telekom-cloud.com/en/products-services/application/smn", period: 3, group: 8 },
+];
+
+// grid dimensions for the periodic mock
+const MAX_PERIOD = 7;
+const MAX_GROUP = 18;
+
+function cx(...arr: (string | false | null | undefined)[]) {
+  return arr.filter(Boolean).join(" ");
+}
+
+export default function OtcPeriodicTableCSS() {
+  const [query, setQuery] = useState("");
+  const [view, setView] = useState<"auto-grid" | "periodic">("auto-grid");
+  const [activeCats, setActiveCats] = useState<OtcCategory[]>([]);
+
+  const categories = useMemo(
+    () =>
+      ([
+        "Compute",
+        "Storage",
+        "Networking",
+        "Database",
+        "AI & Big Data",
+        "Security",
+        "Containers & DevOps",
+        "Management",
+      ] as OtcCategory[]),
+    []
+  );
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return SERVICES.filter((s) => {
+      const matchesQuery =
+        !q ||
+        s.name.toLowerCase().includes(q) ||
+        s.symbol.toLowerCase().includes(q) ||
+        s.category.toLowerCase().includes(q);
+      const matchesCat =
+        activeCats.length === 0 || activeCats.includes(s.category);
+      return matchesQuery && matchesCat;
+    });
+  }, [query, activeCats]);
+
+  function toggleCat(cat: OtcCategory) {
+    setActiveCats((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }
+
+  function onTileKey(e: KeyboardEvent<HTMLDivElement>, url?: string) {
+    if (!url) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      window.open(url, "_blank");
+    }
+  }
+
+  return (
+    <div className="otc-wrap">
+      {/* Inline CSS so this file is self-contained */}
+      <style>{globalStyles}</style>
+
+      <div className="otc-max">
+        {/* Header */}
+        <div className="otc-header">
+          <div>
+            {/* <h1>Open Telekom Cloud — Services Periodic</h1>
+            <p>A periodic-table inspired catalogue with pure CSS components.</p> */}
+          </div>
+
+          <div className="otc-header-ctrls">
+            <div className="otc-search">
+              <Search className="otc-search-icon" size={16} aria-hidden />
+              <input
+                aria-label="Search services"
+                placeholder="Search by name, symbol, or category"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="otc-btn-row">
+              <button
+                className={cx("otc-btn", view === "auto-grid" && "is-primary")}
+                onClick={() => setView("auto-grid")}
+              >
+                <Grid3x3 size={16} className="otc-btn-icon" /> Grid
+              </button>
+              <button
+                className={cx("otc-btn", view === "periodic" && "is-primary")}
+                onClick={() => setView("periodic")}
+              >
+                <LayoutGrid size={16} className="otc-btn-icon" /> Periodic
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className="otc-tags">
+          <button
+            className={cx("otc-tag", activeCats.length === 0 && "is-active")}
+            onClick={() => setActiveCats([])}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={cx("otc-tag", activeCats.includes(cat) && "is-active")}
+              onClick={() => toggleCat(cat)}
+              title={cat}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Legend */}
+        <div className="otc-legend">
+          <div>
+            <div className="otc-legend-title">Tile anatomy</div>
+            <div className="otc-legend-row">
+              <div className="otc-symbol-demo">ECS</div>
+              <div>
+                <div className="otc-legend-sub">Symbol</div>
+                <div>Short code for quick scanning</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="otc-legend-title">Interactions</div>
+            <ul>
+              <li>Hover: quick summary tooltip</li>
+              <li>Click: open product page</li>
+              <li>Filter + search can be combined</li>
+            </ul>
+          </div>
+          <div>
+            <div className="otc-legend-title">Status</div>
+            <div className="otc-badge">GA</div>
+          </div>
+        </div>
+
+        {/* Views */}
+        {view === "auto-grid" ? (
+          <AutoGrid services={filtered} onTileKey={onTileKey} />
+        ) : (
+          <PeriodicGrid services={filtered} onTileKey={onTileKey} />
+        )}
+
+        {/* Pitch notes */}
+        <div className="otc-card">
+          <div className="otc-card-title">Pitch ideas</div>
+          <ul className="otc-list">
+            <li>
+              <b>Hero transition:</b> animate Grid ⇄ Periodic via CSS transform
+              classes.
+            </li>
+            <li>
+              <b>Booth mode:</b> full-screen, auto-cycling spotlight across
+              categories.
+            </li>
+            <li>
+              <b>Export:</b> render the current view into SVG/PNG for print
+              assets.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- Subcomponents ---
+function AutoGrid({
+  services,
+  onTileKey,
+}: {
+  services: OtcService[];
+  onTileKey: (e: KeyboardEvent<HTMLDivElement>, url?: string) => void;
+}) {
+  return (
+    <div className="otc-grid">
+      {services.map((s) => (
+        <ServiceTile key={s.id} service={s} onTileKey={onTileKey} />
+      ))}
+    </div>
+  );
+}
+
+function PeriodicGrid({
+  services,
+  onTileKey,
+}: {
+  services: OtcService[];
+  onTileKey: (e: KeyboardEvent<HTMLDivElement>, url?: string) => void;
+}) {
+  const grid: (OtcService | null)[][] = Array.from({ length: MAX_PERIOD }, () =>
+    Array.from({ length: MAX_GROUP }, () => null)
+  );
+  services.forEach((s) => {
+    if (s.period && s.group) {
+      const r = s.period - 1;
+      const c = s.group - 1;
+      if (grid[r] && grid[r][c] === null) grid[r][c] = s;
+    }
+  });
+
+  return (
+    <div className="otc-periodic-wrap">
+      <div
+        className="otc-periodic"
+        style={{ gridTemplateColumns: `repeat(${MAX_GROUP}, minmax(52px, 1fr))` }}
+      >
+        {grid.map((row, rIdx) => (
+          <React.Fragment key={rIdx}>
+            {row.map((cell, cIdx) => (
+              <div key={`${rIdx}-${cIdx}`} className="otc-periodic-cell">
+                {cell ? (
+                  <ServiceTile service={cell} compact onTileKey={onTileKey} />
+                ) : (
+                  <div className="otc-cell-empty" />
+                )}
+              </div>
+            ))}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="otc-note">
+        Conceptual layout. Add coordinates per service for precise placement.
+      </div>
+    </div>
+  );
+}
+
+function ServiceTile({
+  service,
+  compact = false,
+  onTileKey,
+}: {
+  service: OtcService;
+  compact?: boolean;
+  onTileKey: (e: KeyboardEvent<HTMLDivElement>, url?: string) => void;
+}) {
+  return (
+    <div
+      className={cx("otc-tile", compact && "is-compact")}
+      onClick={() => service.url && window.open(service.url, "_blank")}
+      onKeyDown={(e) => onTileKey(e, service.url)}
+      role="button"
+      tabIndex={0}
+      data-tooltip={service.description}
+      data-cat={service.category}
+      aria-label={`${service.name} (${service.symbol}) — ${service.description}`}
+    >
+      <div className="otc-tile-top">
+        <div className="otc-cat">{service.category}</div>
+        {service.status && <span className="otc-badge">{service.status}</span>}
+      </div>
+      <div className="otc-symbol">{service.symbol}</div>
+      {!compact && (
+        <div className="otc-tile-bottom">
+          <div className="otc-name" title={service.name}>
+            {service.name}
+          </div>
+          <ExternalLink size={16} className="otc-ext" aria-hidden />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --- CSS (scoped via <style>) ---
+const globalStyles = `
+:root{
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --tag: #f1f5f9;
+  --tag-active: #111827;
+  --tag-active-ink: #fff;
+  --badge: #eef2ff;
+  --badge-ink: #3730a3;
+  --tile-radius: 14px;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{color:var(--ink)}
+
+.otc-wrap{min-height:100vh;background:linear-gradient(#fff, var(--bg));padding:24px}
+.otc-max{max-width:1120px;margin:0 auto}
+
+.otc-header{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}
+.otc-header h1{margin:0;font-weight:700;font-size:clamp(24px,3vw,34px)}
+.otc-header p{margin:.25rem 0 0;color:var(--muted)}
+
+.otc-header-ctrls{display:flex;gap:10px;align-items:center}
+.otc-search{position:relative}
+.otc-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.55}
+.otc-search input{width:280px; max-width:58vw; padding:10px 12px 10px 30px;border:1px solid var(--line);border-radius:10px;outline:none;box-shadow:none}
+.otc-search input:focus{border-color:#818cf8; box-shadow:0 0 0 3px rgba(129,140,248,.25)}
+
+.otc-btn-row{display:flex;gap:8px}
+.otc-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:10px;cursor:pointer;transition:transform .15s ease}
+.otc-btn.is-primary{background:#111827;color:#fff;border-color:#111827}
+.otc-btn:hover{transform:translateY(-1px)}
+.otc-btn-icon{margin-right:2px}
+
+.otc-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.otc-tag{background:var(--tag);border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:13px;cursor:pointer}
+.otc-tag.is-active{background:var(--tag-active);color:var(--tag-active-ink);border-color:var(--tag-active)}
+
+.otc-legend{margin-top:16px;border:1px dashed var(--line);border-radius:14px;padding:16px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));color:var(--muted)}
+.otc-legend-title{font-weight:600;color:var(--ink);margin-bottom:6px}
+.otc-legend-row{display:flex;align-items:center;gap:12px}
+.otc-symbol-demo{width:48px;height:48px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.otc-badge{background:var(--badge);color:var(--badge-ink);padding:2px 8px;border-radius:999px;font-size:11px;border:1px solid #e0e7ff}
+
+/* Grid view */
+.otc-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));margin-top:12px}
+
+/* Periodic view */
+.otc-periodic-wrap{overflow:auto;margin-top:12px}
+.otc-periodic{display:grid;gap:10px;min-width:780px}
+.otc-periodic-cell{min-width:52px}
+.otc-cell-empty{aspect-ratio:1/1;border:1px dashed var(--line);border-radius:12px}
+.otc-note{margin-top:6px;font-size:12px;color:var(--muted)}
+
+/* Tile */
+.otc-tile{
+  --accent: #e2e8f0; /* default */
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--tile-radius);
+  padding:10px;display:flex;flex-direction:column;box-shadow:var(--shadow);
+  cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow: var(--shadow), inset 0 4px 0 var(--accent);
+}
+.otc-tile:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10), inset 0 4px 0 var(--accent)}
+.otc-tile.is-compact{padding:6px}
+.otc-tile-top{display:flex;align-items:center;justify-content:space-between}
+.otc-cat{text-transform:uppercase;font-size:10px;letter-spacing:.06em;opacity:.7}
+.otc-symbol{flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px}
+.otc-tile.is-compact .otc-symbol{font-size:16px}
+.otc-tile-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.otc-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.otc-ext{opacity:.6}
+
+/* Category accent colors (mapped via data-cat attribute) */
+.otc-tile[data-cat="Compute"]{ --accent:#fca5a5; }        /* rose-300 */
+.otc-tile[data-cat="Storage"]{ --accent:#fcd34d; }        /* amber-300 */
+.otc-tile[data-cat="Networking"]{ --accent:#7dd3fc; }     /* sky-300 */
+.otc-tile[data-cat="Database"]{ --accent:#86efac; }       /* green-300 */
+.otc-tile[data-cat="AI & Big Data"]{ --accent:#c4b5fd; }  /* violet-300 */
+.otc-tile[data-cat="Security"]{ --accent:#fca5a5; }       /* soft red */
+.otc-tile[data-cat="Containers & DevOps"]{ --accent:#a5b4fc; } /* indigo-300 */
+.otc-tile[data-cat="Management"]{ --accent:#cbd5e1; }     /* slate-300 */
+
+/* CSS-only tooltip */
+.otc-tile[data-tooltip]:hover:after{
+  content:attr(data-tooltip);position:absolute;left:8px;right:8px;bottom:100%;
+  transform:translateY(-6px);background:#0f172a;color:#fff;padding:8px 10px;
+  border-radius:10px;white-space:normal;font-size:12px;box-shadow:var(--shadow);
+}
+.otc-tile[data-tooltip]:hover:before{
+  content:"";position:absolute;left:20px;bottom:100%;transform:translateY(2px);
+  border:6px solid transparent;border-top-color:#0f172a
+}
+
+.otc-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px;box-shadow:var(--shadow)}
+.otc-card-title{font-weight:700;margin-bottom:8px}
+.otc-list{margin:0;padding-left:18px}
+`;
