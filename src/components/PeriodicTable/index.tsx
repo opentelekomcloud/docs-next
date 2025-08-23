@@ -13,7 +13,6 @@ export type OtcCategory =
   | "Security Services"
   | "Storage";
 
-
 export type Chip = "IaaS" | "PaaS" | "SaaS" | "Sec" | "Mgmt";
 export type Region = "eu-de" | "eu-nl" | "eu-ch" | "global";
 
@@ -24,11 +23,10 @@ export type OtcService = {
   category: OtcCategory;
   description: string;
   url?: string;
-  chips: Chip[];     // capabilities this service belongs to
-  regions: Region[]; // regions available (["global"] is exclusive)
+  chips: Chip[];
+  regions: Region[];
 };
 
-/* ---------- Sample data (adjust/extend freely) ---------- */
 const SERVICES: OtcService[] = [
   // Application
   { id: "AOM", symbol: "AOM", name: "Application Operations Management", category: "Application", description: "Application Operations Management (AOM) is a one-stop, three-dimensional O&M management platform for cloud applications. It monitors your applications and related cloud resources in real time, collects and associates the data of resource metrics, logs, and events to analyze application health statuses, and provides flexible alarms and abundant data visualization functions. This helps you detect faults timely and master the real-time running statuses of applications, resources, and services.", url: "/docs/tags/aom", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -66,7 +64,7 @@ const SERVICES: OtcService[] = [
   { id: "DDM",  symbol: "DDM",  name: "Distributed Database Middleware", category: "Databases", description: "", url: "/docs/tags/DDM", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "DDS",  symbol: "DDS",  name: "Document Database Service", category: "Databases", description: "", url: "/docs/tags/DDS", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "DRS",  symbol: "DRS",  name: "Data Replication Service", category: "Databases", description: "", url: "/docs/tags/DRS", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "GeminiDB",  symbol: "GeminiDB",  name: "Distributed, Multi-Model NoSQL Database Service", category: "Databases", description: "", url: "/docs/tags/gemini-db", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "GeminiDB",  symbol: "GeminiDB",  name: "Distributed NoSQL Database", category: "Databases", description: "", url: "/docs/tags/gemini-db", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "RDS",  symbol: "RDS",  name: "Relational Database Service", category: "Databases", description: "", url: "/docs/tags/RDS", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "TaurusDB",  symbol: "TaurusDB",  name: "Enterprise-Class Distributed Database", category: "Databases", description: "", url: "/docs/tags/taurussb", chips: ["PaaS"], regions: ["eu-de"] },
 
@@ -147,6 +145,7 @@ export default function OtcServicesColumns() {
   const [query, setQuery] = useState("");
   const [chips, setChips] = useState<Set<Chip>>(new Set());            // OR
   const [regionsSel, setRegionsSel] = useState<Set<Region>>(new Set()); // OR
+  const [open, setOpen] = useState<OtcService | null>(null);            // ← sleeve
 
   const toggleChip = (c: Chip) =>
     setChips((prev) => {
@@ -193,14 +192,6 @@ export default function OtcServicesColumns() {
     return map;
   }, [filtered]);
 
-  function onTileKey(e: KeyboardEvent<HTMLDivElement>, url?: string) {
-    if (!url) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      window.open(url, "_blank");
-    }
-  }
-
   const isChipActive = (c: Chip) => chips.has(c);
   const isRegionActive = (r: Region) => regionsSel.has(r);
 
@@ -218,14 +209,19 @@ export default function OtcServicesColumns() {
     );
   };
 
+  // open sleeve on Enter/Space as well
+  function onTileKey(e: KeyboardEvent<HTMLDivElement>, s: OtcService) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setOpen(s);
+    }
+  }
+
   return (
     <div className={styles.otcWrap}>
       <div className={styles.otcMax}>
         <div className={styles.header}>
-          <div className={styles.titleBlock}>
-            {/* <h1>Open Telekom Cloud — Services</h1>
-            <p>Columns view (fixed width, no horizontal scroll). Empty columns stay visible.</p> */}
-          </div>
+          <div className={styles.titleBlock}>{/* heading removed intentionally */}</div>
 
           <div className={styles.ctrls}>
             <div className={styles.search}>
@@ -294,7 +290,7 @@ export default function OtcServicesColumns() {
           ))}
         </div>
 
-        {/* Columns (fixed width; wrap) */}
+        {/* Columns */}
         <div className={styles.columns}>
           {ALL_CATS.map((cat) => {
             const items = byCategory.get(cat) || [];
@@ -311,18 +307,15 @@ export default function OtcServicesColumns() {
                       <div
                         key={s.id}
                         className={styles.tile}
-                        onClick={() => s.url && window.open(s.url, "_blank")}
-                        onKeyDown={(e) => onTileKey(e, s.url)}
+                        onClick={() => setOpen(s)}                 // ← open sleeve
+                        onKeyDown={(e) => onTileKey(e, s)}         // ← keyboard
                         role="button"
                         tabIndex={0}
-                        // data-tooltip={s.description}
                         data-cat={s.category}
                         aria-label={`${s.name} (${s.symbol}) — ${s.description}`}
                       >
                         <div className={styles.tileTop}>
-                          {/* LEFT: chips instead of category */}
                           <div className={styles.cat}>{chipLabel(s.chips, s.category)}</div>
-                          {/* RIGHT: region badge(s) */}
                           {renderRegionBadge(s.regions)}
                         </div>
                         <div className={styles.symbol}>{s.symbol}</div>
@@ -341,6 +334,44 @@ export default function OtcServicesColumns() {
           })}
         </div>
       </div>
+
+      {/* Sleeve */}
+      {open && (
+        <div className={styles.sleeveBackdrop} onClick={() => setOpen(null)} role="dialog" aria-modal="true">
+          <div className={styles.sleeve} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.sleeveClose} aria-label="Close" onClick={() => setOpen(null)}>×</button>
+
+            <br/> <br/>
+            <div className={styles.sleeveHeader}>
+              <div className={styles.sleeveSymbol}>{open.symbol}:</div>
+              <div className={styles.sleeveTitle}>{open.name}</div>
+            </div>
+
+            <div className={styles.sleeveBody}>
+              {open.description?.trim() ? open.description : "No description available."}
+            </div>
+
+            <div className={styles.sleeveFooter}>
+              <a
+                className={cx(styles.sleeveBtn, styles.sleeveBtnGhost)}
+                href={`/best-practices?service=${encodeURIComponent(open.symbol)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Best Practices & Blueprints
+              </a>
+                            <a
+                className={styles.sleeveBtn}
+                href={open.url || "#"}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Manuals
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
