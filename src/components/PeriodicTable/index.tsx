@@ -14,7 +14,7 @@ export type OtcCategory =
   | "Storage";
 
 
-export type Chip = "IaaS" | "PaaS" | "Sec" | "Mgmt";
+export type Chip = "IaaS" | "PaaS" | "SaaS" | "Sec" | "Mgmt";
 export type Region = "eu-de" | "eu-nl" | "eu-ch" | "global";
 
 export type OtcService = {
@@ -31,9 +31,9 @@ export type OtcService = {
 /* ---------- Sample data (adjust/extend freely) ---------- */
 const SERVICES: OtcService[] = [
   // Application
-  { id: "AOM", symbol: "AOM", name: "Application Operations Management", category: "Application", description: "Application Operations Management (AOM) is a one-stop, three-dimensional O&M management platform for cloud applications. It monitors your applications and related cloud resources in real time, collects and associates the data of resource metrics, logs, and events to analyze application health statuses, and provides flexible alarms and abundant data visualization functions. This helps you detect faults timely and master the real-time running statuses of applications, resources, and services.", url: "/docs/tags/aom", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "AOM", symbol: "AOM", name: "Application Operations Management", category: "Application", description: "Application Operations Management (AOM) is a one-stop, three-dimensional O&M management platform for cloud applications. It monitors your applications and related cloud resources in real time, collects and associates the data of resource metrics, logs, and events to analyze application health statuses, and provides flexible alarms and abundant data visualization functions. This helps you detect faults timely and master the real-time running statuses of applications, resources, and services.", url: "/docs/tags/aom", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "APIG", symbol: "APIG", name: "API Gateway (APIG)", category: "Application", description: "API Gateway (APIG) is a high-performance, high-availability, and high-security API hosting service that helps you build, manage, and deploy APIs at any scale. With just a few clicks, you can integrate internal systems, and selectively expose capabilities with minimal costs and risks.", url: "/docs/tags/apig", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "APM",  symbol: "APM",  name: "Application Performance Management", category: "Application", description: "The Application Performance Management (APM) monitors and manages the performance of cloud applications in real time. APM provides performance analysis of distributed applications, helping O&M personnel quickly locate and resolve faults and performance bottlenecks.", url: "/docs/tags/apm", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
+  { id: "APM",  symbol: "APM",  name: "Application Performance Management", category: "Application", description: "The Application Performance Management (APM) monitors and manages the performance of cloud applications in real time. APM provides performance analysis of distributed applications, helping O&M personnel quickly locate and resolve faults and performance bottlenecks.", url: "/docs/tags/apm", chips: ["Mgmt"], regions: ["eu-de", "eu-nl"] },
   { id: "DMS",  symbol: "DMS",  name: "Distributed Message Service", category: "Application", description: "Distributed Message Service (DMS) is a message middleware service based on distributed, high-availability clustering technology. It provides reliable, scalable, and fully managed queues for storing messages.", url: "/docs/tags/dms", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "SMN",  symbol: "SMN",  name: "Simple Message Notification", category: "Application", description: "Simple Message Notification (SMN) is a hosted simple message notification service that is flexible and large-scale. SMN allows you to send messages to email addresses, and HTTP/HTTPS applications in an efficient and inexpensive way.", url: "/docs/tags/smn", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
@@ -71,7 +71,7 @@ const SERVICES: OtcService[] = [
   { id: "TaurusDB",  symbol: "TaurusDB",  name: "Enterprise-Class Distributed Database", category: "Databases", description: "", url: "/docs/tags/taurussb", chips: ["PaaS"], regions: ["eu-de"] },
 
   // Management & Deployment
-  { id: "CloudCreate",  symbol: "Cloud Create",  name: "Multi-Cloud Management Platform", category: "Management & Deployment", description: "", url: "/docs/tags/cloud-create", chips: ["Mgmt"], regions: ["eu-de", "eu-ch"] },
+  { id: "CloudCreate",  symbol: "Cloud Create",  name: "Multi-Cloud Management Platform", category: "Management & Deployment", description: "", url: "/docs/tags/cloud-create", chips: ["SaaS"], regions: ["eu-de", "eu-ch"] },
   { id: "CloudEye",  symbol: "Cloud Eye",  name: "Multi-Dimensional Monitoring Platform", category: "Management & Deployment", description: "", url: "/docs/tags/CloudEye", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] }, 
   { id: "Config",  symbol: "Config",  name: "Continuously Evaluate Resource Configuration", category: "Management & Deployment", description: "", url: "/docs/tags/Config", chips: ["Mgmt"], regions: ["eu-de"] },
   { id: "CTS",  symbol: "CTS",  name: "Cloud Trace Service", category: "Management & Deployment", description: "", url: "/docs/tags/CTS", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -85,10 +85,10 @@ const SERVICES: OtcService[] = [
   { id: "DNS",  symbol: "DNS",  name: "Domain Name Service", category: "Network", description: "", url: "/docs/tags/DNS", chips: ["IaaS"], regions: ["eu-de", "eu-ch"] },
   { id: "EIP",  symbol: "EIP",  name: "Elastic IP", category: "Network", description: "", url: "/docs/tags/EIP", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "ELB",  symbol: "ELB",  name: "Elastic Load Balancing", category: "Network", description: "", url: "/docs/tags/ELB", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "EnterpriseRouter",  symbol: "Enterprise Router",  name: "Cloud Router Service", category: "Network", description: "", url: "/docs/tags/enterprise-router", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
+  { id: "ER",  symbol: "ER",  name: "Enterprise Router", category: "Network", description: "", url: "/docs/tags/enterprise-router", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "NATGW",  symbol: "NATGW",  name: "NAT Gateway", category: "Network", description: "", url: "/docs/tags/NATGW", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "PLAS",  symbol: "PLAS",  name: "Private Link Access Service", category: "Network", description: "", url: "/docs/tags/PLAS", chips: ["IaaS"], regions: ["eu-de"] },
-  { id: "smg",  symbol: "SMG",  name: "Secure Mail Gateway", category: "Network", description: "", url: "/docs/tags/smg", chips: ["IaaS"], regions: ["eu-de"] },
+  { id: "smg",  symbol: "SMG",  name: "Secure Mail Gateway", category: "Network", description: "", url: "/docs/tags/smg", chips: ["Sec"], regions: ["eu-de"] },
   { id: "VPC",  symbol: "VPC",  name: "Virtual Private Cloud", category: "Network", description: "", url: "/docs/tags/VPC", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "VPCEP",  symbol: "VPCEP",  name: "Virtual Private Cloud Endpoint", category: "Network", description: "", url: "/docs/tags/VPCEP", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "VPN",  symbol: "VPN",  name: "Virtual Private Network", category: "Network", description: "", url: "/docs/tags/VPN", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -96,7 +96,7 @@ const SERVICES: OtcService[] = [
   // Security Services
   { id: "Anti-DDoS",  symbol: "Anti-DDoS",  name: "Anti-DDoS Traffic Cleaning Service", category: "Security Services", description: "", url: "/docs/tags/Anti-DDoS", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
   { id: "CFW",  symbol: "CFW",  name: "Cloud Firewall", category: "Security Services", description: "", url: "/docs/tags/CFW", chips: ["Sec"], regions: ["eu-de"] },
-  { id: "DDS",  symbol: "DDS",  name: "Database Security Service", category: "Security Services", description: "", url: "/docs/tags/DDS", chips: ["Sec"], regions: ["eu-de"] },
+  { id: "DSS",  symbol: "DSS",  name: "Database Security Service", category: "Security Services", description: "", url: "/docs/tags/DSS", chips: ["Sec"], regions: ["eu-de"] },
   { id: "HSS",  symbol: "HSS",  name: "Host Security Service", category: "Security Services", description: "", url: "/docs/tags/HSS", chips: ["Sec"], regions: ["eu-de"] },
   { id: "IAM",  symbol: "IAM",  name: "Identity & Access Management", category: "Security Services", description: "", url: "/docs/tags/IAM", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "KMS",  symbol: "KMS",  name: "Key Management Service", category: "Security Services", description: "", url: "/docs/tags/KMS", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -253,7 +253,7 @@ export default function OtcServicesColumns() {
           >
             All
           </button>
-          {(["IaaS", "PaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
+          {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
             <button
               key={c}
               className={cx(styles.chip, isChipActive(c) && styles.chipActive)}
