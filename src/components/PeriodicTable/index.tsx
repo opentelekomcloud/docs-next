@@ -323,7 +323,7 @@ export default function OtcServicesColumns() {
                           <div className={styles.name} title={s.name}>
                             {s.name}
                           </div>
-                          <ExternalLink size={16} className={styles.ext} aria-hidden />
+                          {/* <ExternalLink size={16} className={styles.ext} aria-hidden /> */}
                         </div>
                       </div>
                     ))
