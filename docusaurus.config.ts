@@ -149,6 +149,10 @@ const config: Config = {
               to: 'https://docs.otc.t-systems.com/',
             },
             {
+              label: 'Portfolio Navigator',
+              to: '/portfolio',
+            },
+            {
               label: 'Portfolio Roadmap',
               to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
             },
