@@ -93,6 +93,11 @@ body{color:var(--ink)}
   text-align:center; color:var(--muted); background:#fbfcfe;
 }
 
+html[data-theme='dark'] .empty{
+  border:1px dashed var(--ifm-color-emphasis-200); border-radius:12px; padding:14px;
+  text-align:center; color:var(--ifm-color-emphasis-400); background:var(--ifm-background-surface-color);
+}
+
 /* tile */
 .tile{
   --accent: #e2e8f0;
@@ -101,14 +106,33 @@ body{color:var(--ink)}
   cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
   box-shadow: var(--shadow), inset 0 2px 0 var(--accent);
 }
+
+html[data-theme='dark'] .tile{
+  --accent: #e2e8f0;
+  background:var(--ifm-background-surface-color);border:1px solid var(--ifm-color-emphasis-200);border-radius:10px;
+  padding:8px;display:flex;flex-direction:column;box-shadow:var(--shadow);
+  cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow: var(--shadow), inset 0 2px 0 var(--accent);
+}
+
 .tile:hover{transform:translateY(-2px);box-shadow:0 4px 4px rgba(0,0,0,.10), inset 0 4px 0 var(--accent)}
+html[data-theme='dark'] .tile:hover{transform:translateY(-2px);box-shadow:0 4px 4px #e20074, inset 0 4px 0 var(--accent)}
+
 .tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+html[data-theme='dark'] .tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+
 .cat{text-transform:uppercase;font-size:11px;letter-spacing:.05em;opacity:.7} /* ↑ was 9px */
 .symbol{flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;line-height:1.1} /* ↑ was 12px */
+
 .tileBottom{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px}
+html[data-theme='dark'] .tileBottom{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px}
+
+
 .name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} /* ↑ was 9px */
 /* .ext{opacity:.5} */
 .badge{background:var(--badge);color:var(--badge-ink);padding:1px 6px;border-radius:999px;font-size:12px;border:1px solid #e0e7ff} /* ↑ was 10px */
+
+
 
 /* External link icon — fixed, uniform size everywhere */
 .ext {
@@ -155,6 +179,18 @@ body{color:var(--ink)}
 .tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
 .tile[data-cat="Network"], .col[data-cat="Network"] { --accent:#f97012; --stripe:linear-gradient(180deg, rgba(249,112,18,.08), rgba(249,112,18,.03)); }
 
+html[data-theme='dark'] .tile[data-cat="Computing"], .col[data-cat="Computing"] { --accent:#794ae9; --stripe:linear-gradient(180deg, rgba(121,74,233,.08), rgba(121,74,233,.03)); }
+html[data-theme='dark'] .tile[data-cat="Containers"], .col[data-cat="Containers"] { --accent:#2238df; --stripe:linear-gradient(180deg, rgba(34,56,223,.08), rgba(34,56,223,.03)); }
+html[data-theme='dark'] .tile[data-cat="Data Analysis"], .col[data-cat="Data Analysis"] { --accent:#8eb83a; --stripe:linear-gradient(180deg, rgba(142,184,58,.08), rgba(142,184,58,.03)); }
+html[data-theme='dark'] .tile[data-cat="Databases"], .col[data-cat="Databases"] { --accent:#3ab89f; --stripe:linear-gradient(180deg, rgba(58,184,159,.08), rgba(58,184,159,.03)); }
+html[data-theme='dark'] .tile[data-cat="Application"], .col[data-cat="Application"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
+html[data-theme='dark'] .tile[data-cat="Security Services"], .col[data-cat="Security Services"] { --accent:#b17f38; --stripe:linear-gradient(180deg, rgba(177,127,56,.08), rgba(177,127,56,.03)); }
+html[data-theme='dark'] .tile[data-cat="Containers & DevOps"], .col[data-cat="Containers & DevOps"] { --accent:#818cf8; --stripe:linear-gradient(180deg, rgba(129,140,248,.08), rgba(129,140,248,.03)); }
+html[data-theme='dark'] .tile[data-cat="Management & Deployment"], .col[data-cat="Management & Deployment"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
+html[data-theme='dark'] .tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
+html[data-theme='dark'] .tile[data-cat="Network"], .col[data-cat="Network"] { --accent:#f97012; --stripe:linear-gradient(180deg, rgba(249,112,18,.08), rgba(249,112,18,.03)); }
+
+
 /* ===== Sleeve (drawer) ===== */
 .sleeveBackdrop{
   position: fixed;
@@ -176,6 +212,18 @@ body{color:var(--ink)}
   background: #fff;
   border-left: 1px solid var(--line);
   box-shadow: -8px 0 24px rgba(0,0,0,.15);
+  display: flex; flex-direction: column;
+  transform: translateX(8px);
+  animation: otcSlideIn .16s ease-out forwards;
+}
+
+html[data-theme='dark'] .sleeve{
+  margin-left: auto;              /* stick to right */
+  width: min(420px, 96vw);
+  height: 100%;
+  background: var(--ifm-background-surface-color);
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+  box-shadow: -8px 0 24px var(--ifm-background-surface-color);
   display: flex; flex-direction: column;
   transform: translateX(8px);
   animation: otcSlideIn .16s ease-out forwards;
@@ -203,6 +251,16 @@ body{color:var(--ink)}
   align-items: end;
   gap: 10px;
 }
+
+html[data-theme='dark'] .sleeveHeader{
+  padding: 20px 18px 10px 18px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
 .sleeveSymbol{
   font-weight: 800;
   font-size: 20px;
@@ -222,6 +280,14 @@ body{color:var(--ink)}
   flex: 1;
 }
 
+html[data-theme='dark'] .sleeveBody{
+  padding: 16px 18px;
+  color: white;
+  line-height: 1.5;
+  overflow: auto;
+  flex: 1;
+}
+
 /* 2 equal tracks */
 .sleeveFooter {
   display: grid;
@@ -229,6 +295,17 @@ body{color:var(--ink)}
   gap: 10px;
   padding: 14px 18px 18px 18px;
   border-top: 1px solid var(--line);
+
+  /* safety: if an old rule set justify-content, kill it */
+  justify-content: initial;
+}
+
+html[data-theme='dark'] .sleeveFooter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
+  gap: 10px;
+  padding: 14px 18px 18px 18px;
+  border-top: 1px solid 1px solid var(--ifm-color-emphasis-200);
 
   /* safety: if an old rule set justify-content, kill it */
   justify-content: initial;
@@ -391,6 +468,4 @@ body{color:var(--ink)}
   --z-index-label: var(--scl-z-index-10);
   --transition-label: var(--transition);
 }
-
-
 
