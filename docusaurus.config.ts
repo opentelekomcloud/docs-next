@@ -36,13 +36,13 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl:'https://github.com/opentelekomcloud/docs-next/tree/main/',
+          editUrl: 'https://github.com/opentelekomcloud/docs-next/tree/main/',
           // showLastUpdateAuthor: true,  
           // showLastUpdateTime: true,
           breadcrumbs: true,
           exclude: ['**/by-use-case/computing/**', '**/by-use-case/hybrid/**', '**/by-use-case/migration/**']
         },
-        
+
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -89,12 +89,12 @@ const config: Config = {
           label: 'Blueprints',
         },
         {
-          to: '/templates', 
+          to: '/templates',
           label: 'Templates',
           position: 'left',
         },
         {
-          to: '/webinars', 
+          to: '/webinars',
           label: 'Webinars',
           position: 'left',
         },
@@ -105,14 +105,14 @@ const config: Config = {
         //   label: 'Cloud Adoption Framework 🚧',
         // },
         // { to: '/blog', label: 'Blog', position: 'right' },
-        { 
-          href: 'https://auth.otc.t-systems.com/', 
+        {
+          href: 'https://auth.otc.t-systems.com/',
           position: 'right',
           className: 'navbar--terminal-link',
           "aria-label": 'Open Telekom Cloud Console',
         },
-        { 
-          href: 'https://github.com/opentelekomcloud/docs-next', 
+        {
+          href: 'https://github.com/opentelekomcloud/docs-next',
           position: 'right',
           className: 'navbar--github-link',
           "aria-label": 'GitHub',
@@ -155,6 +155,10 @@ const config: Config = {
             {
               label: 'Portfolio Roadmap',
               to: 'https://www.open-telekom-cloud.com/en/products-services/roadmap',
+            },
+            {
+              label: 'Release Notes',
+              to: 'https://www.open-telekom-cloud.com/en/support/release-notes',
             },
             {
               label: 'Core Services Certifications',
