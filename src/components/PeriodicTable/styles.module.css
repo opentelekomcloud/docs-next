@@ -291,3 +291,106 @@ body{color:var(--ink)}
 .filtersRow .buckets { font-size: 8px; }
 /* fallback */
 .buckets scale-chip { font-size: 8px; }
+
+/* the row you already have */
+.filtersRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:16px 0 10px;
+}
+
+/* keeps the text field on the right and sized neatly */
+.filtersSearchWrap{
+  padding-top: 10px;
+  margin-left:auto;        /* pushes it to the right */
+  min-width: 220px;
+  max-width: 340px;
+  flex: 1 1 220px;         /* lets it grow a bit when there’s room */
+}
+
+.filtersSearchWrap scale-text-field{
+  display:block;
+  width:100%;
+  --transition: all var(--telekom-motion-duration-transition) var(
+      --telekom-motion-easing-standard
+    );
+  --radius: var(--telekom-radius-standard);
+  --border: var(--telekom-spacing-composition-space-01) solid var(
+      --telekom-color-ui-border-standard
+    );
+  --border-error: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-danger-standard
+    );
+  --border-success: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-success-standard
+    );
+  --border-warning: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-warning-standard
+    );
+  --border-color-hover: var(--telekom-color-ui-border-hovered);
+  --border-color-focus: var(--telekom-color-ui-border-hovered);
+  --border-color-disabled: var(--telekom-color-ui-border-disabled);
+  --background-color-hover: var(--telekom-color-ui-state-fill-hovered);
+  --background-color-disabled: none;
+  --focus-outline: var(--telekom-line-weight-highlight) solid var(
+      --telekom-color-functional-focus-standard
+    );
+  --height: 44px;
+  --spacing-x: var(--telekom-spacing-composition-space-05);
+  --color-disabled: var(--telekom-color-text-and-icon-disabled);
+  --background-disabled: none;
+  --border-color-readonly: var(--telekom-color-ui-border-disabled);
+  --background-readonly: var(--telekom-color-ui-disabled);
+
+  /* meta */
+  --font-weight-meta: var(--telekom-line-weight-bold);
+  --font-size-meta: var(--telekom-typography-font-size-small);
+  --line-height-meta: var(--telekom-typography-line-spacing-standard);
+  --spacing-y-meta: var(--telekom-spacing-composition-space-03);
+  --color-meta: var(--telekom-color-text-and-icon-standard);
+  --color-meta-error: var(--telekom-color-text-and-icon-functional-danger);
+
+  /* control */
+  --spacing-control: 1.125rem calc(
+      2rem - var(--telekom-spacing-composition-space-01)
+    ) 0.25rem calc(0.75rem - var(--telekom-spacing-composition-space-01));
+  --transition-control: var(--transition);
+  --background-control: var(--telekom-color-ui-state-fill-standard);
+  --margin-bottom-control: var(--telekom-spacing-composition-space-03);
+
+  /* counter */
+  --transition-counter: var(--transition);
+  --color-counter-error: var(--color-meta-error);
+
+  /* helper-text */
+  --font-size-helper-text: var(--telekom-typography-font-size-small);
+  --line-height-helper-text: 0.8;
+  --font-weight-helper-text: var(--telekom-typography-font-weight-bold);
+  --color-helper-text: var(
+    --telekom-color-text-and-icon-functional-informational
+  );
+  --color-helper-text-error: var(--color-meta-error);
+  --color-helper-text-success: var(
+    --telekom-color-text-and-icon-functional-success
+  );
+  --color-helper-text-warning: var(
+    --telekom-color-text-and-icon-functional-warning
+  );
+  --color-helper-text-neutral: var(--telekom-color-text-and-icon-additional);
+  --helper-text-icon-size: 8px;
+
+  /* placeholder */
+  --transition-placeholder: var(--transition);
+  --color-placeholder: var(--telekom-color-text-and-icon-additional);
+
+  /* label */
+  --color-label: var(--telekom-color-text-and-icon-additional);
+  --color-label-readonly: var(--telekom-color-text-and-icon-standard);
+  --z-index-label: var(--scl-z-index-10);
+  --transition-label: var(--transition);
+}
+
+
+

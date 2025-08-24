@@ -243,64 +243,58 @@ export default function OtcServicesColumns() {
       <div className={styles.otcMax}>
         <div className={styles.header}>
           <div className={styles.titleBlock}>{/* heading removed intentionally */}</div>
-
-          <div className={styles.ctrls}>
-            <div className={styles.search}>
-              <Search className={styles.searchIcon} size={16} aria-hidden />
-              <input
-                aria-label="Search services"
-                placeholder="Search by name, symbol, or category"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </div>
-            <div className={styles.viewchip}>
-              <Columns3 size={16} /> Columns
-            </div>
-          </div>
         </div>
+        {/* Filters: chips | regions (single line) */}
+        <div className={styles.filtersRow}>
+          {/* Capability chips (SCALE) */}
+          <div className={styles.buckets} onClickCapture={onChipRowClickCapture}>
+            {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
+              // @ts-ignore custom element
+              <scale-chip
+                key={c}
+                data-chip={c}
+                size="small"
+                selected={isChipActive(c) ? true : undefined}
+              >
+                {c}
+              </scale-chip>
+            ))}
+          </div>
 
-   {/* Filters: chips | regions (single line) */}
-<div className={styles.filtersRow}>
-  {/* Capability chips (SCALE) */}
-  <div className={styles.buckets} onClickCapture={onChipRowClickCapture}>
-    {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
-      // @ts-ignore custom element
-      <scale-chip
-        key={c}
-        data-chip={c}
-        size="small"
-        selected={isChipActive(c) ? true : undefined}
-      >
-        {c}
-      </scale-chip>
-    ))}
-  </div>
+          <span className={styles.filtersSep} aria-hidden="true"></span>
 
-  <span className={styles.filtersSep} aria-hidden="true"></span>
+          {/* Region chips (SCALE) */}
+          <div className={styles.buckets} onClickCapture={onRegionRowClickCapture}>
+            {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
+              // @ts-ignore custom element
+              <scale-chip
+                key={r}
+                data-region={r}
+                size="small"
+                selected={isRegionActive(r) ? true : undefined}
+                title={r.toUpperCase()}
+              >
+                {r === "global"
+                  ? "GLOBAL"
+                  : r === "eu-de"
+                    ? "🇩🇪 EU-DE"
+                    : r === "eu-nl"
+                      ? "🇳🇱 EU-NL"
+                      : "🇨🇭 EU-CH"}
+              </scale-chip>
+            ))}
+          </div>
 
-  {/* Region chips (SCALE) */}
-  <div className={styles.buckets} onClickCapture={onRegionRowClickCapture}>
-    {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
-      // @ts-ignore custom element
-      <scale-chip
-        key={r}
-        data-region={r}
-        size="small"
-        selected={isRegionActive(r) ? true : undefined}
-        title={r.toUpperCase()}
-      >
-        {r === "global"
-          ? "GLOBAL"
-          : r === "eu-de"
-            ? "🇩🇪 EU-DE"
-            : r === "eu-nl"
-              ? "🇳🇱 EU-NL"
-              : "🇨🇭 EU-CH"}
-      </scale-chip>
-    ))}
-  </div>
-</div>
+          <span className={styles.filtersSep} aria-hidden="true"></span>
+
+          {/* Right-aligned SCALE text field (native web component) */}
+          {/* <div className={styles.filtersSearchWrap}>
+            <scale-text-field
+              label="Filter services by name or symbol"
+              onInput={(e) => setQuery((e.target as any).value)}
+            ></scale-text-field>
+          </div> */}
+        </div>
 
 
         {/* Columns */}
@@ -365,17 +359,7 @@ export default function OtcServicesColumns() {
             </div>
 
             <div className={styles.sleeveFooter}>
-              <scale-button
-                href={open.url || "#"}
-                target="_blank"
-                rel="noreferrer"
-                variant="secondary"
-                size="small"
-              >
-                Go to Help Center
-                <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab"></scale-icon-navigation-external-link>
-              </scale-button>
-
+              
               <scale-button
                 href={`/best-practices?service=${encodeURIComponent(open.symbol)}`}
                 target="_blank"
@@ -385,6 +369,17 @@ export default function OtcServicesColumns() {
               >
                 Discover Blueprints
                 <scale-icon-navigation-right></scale-icon-navigation-right>
+              </scale-button>
+
+              <scale-button
+                href={open.url || "#"}
+                target="_blank"
+                rel="noreferrer"
+                variant="secondary"
+                size="small"
+              >
+                Go to Help Center
+                <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab"></scale-icon-navigation-external-link>
               </scale-button>
             </div>
           </div>
