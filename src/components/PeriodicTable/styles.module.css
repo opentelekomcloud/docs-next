@@ -279,3 +279,15 @@ body{color:var(--ink)}
   text-decoration: none;         /* no underline on any state */
   justify-content: center;       /* keep label centered */
 }
+
+/* … your existing styles unchanged … */
+
+/* enable pointer + inline layout for SCALE chips */
+.buckets scale-chip{display:inline-flex;cursor:pointer}
+
+.filtersRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 10px}
+.filtersSep{opacity:.5;padding:0 6px;user-select:none}
+/* Smaller font for filter chips only (pipe stays the same size) */
+.filtersRow .buckets { font-size: 8px; }
+/* fallback */
+.buckets scale-chip { font-size: 8px; }

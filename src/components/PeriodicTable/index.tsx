@@ -161,7 +161,31 @@ export default function OtcServicesColumns() {
       return next;
     });
 
-  // text + chips(OR) + regions(OR)
+  const isChipActive = (c: Chip) => chips.has(c);
+  const isRegionActive = (r: Region) => regionsSel.has(r);
+
+  // React ONLY to chip toggles via capture; block the component's own handler to avoid double-toggles
+  const onChipRowClickCapture = (e: React.MouseEvent) => {
+    const host = (e.target as HTMLElement)?.closest("scale-chip") as HTMLElement | null;
+    if (!host) return;
+    const id = host.getAttribute("data-chip") as Chip | null;
+    if (!id) return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggleChip(id);
+  };
+
+  const onRegionRowClickCapture = (e: React.MouseEvent) => {
+    const host = (e.target as HTMLElement)?.closest("scale-chip") as HTMLElement | null;
+    if (!host) return;
+    const id = host.getAttribute("data-region") as Region | null;
+    if (!id) return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggleRegion(id);
+  };
+
+  // text + chips(OR) + regions(OR). If none selected -> show all.
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return SERVICES.filter((s) => {
@@ -191,9 +215,6 @@ export default function OtcServicesColumns() {
     );
     return map;
   }, [filtered]);
-
-  const isChipActive = (c: Chip) => chips.has(c);
-  const isRegionActive = (r: Region) => regionsSel.has(r);
 
   const renderRegionBadge = (regions: Region[]) => {
     if (regions.includes("global")) {
@@ -239,56 +260,48 @@ export default function OtcServicesColumns() {
           </div>
         </div>
 
-        {/* Capability chips */}
-        <div className={styles.buckets}>
-          <button
-            className={styles.chip}
-            onClick={() => setChips(new Set())}
-            aria-pressed={chips.size === 0}
-            title="Clear capability filters"
-          >
-            All
-          </button>
-          {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
-            <button
-              key={c}
-              className={cx(styles.chip, isChipActive(c) && styles.chipActive)}
-              onClick={() => toggleChip(c)}
-              aria-pressed={isChipActive(c)}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
+   {/* Filters: chips | regions (single line) */}
+<div className={styles.filtersRow}>
+  {/* Capability chips (SCALE) */}
+  <div className={styles.buckets} onClickCapture={onChipRowClickCapture}>
+    {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
+      // @ts-ignore custom element
+      <scale-chip
+        key={c}
+        data-chip={c}
+        size="small"
+        selected={isChipActive(c) ? true : undefined}
+      >
+        {c}
+      </scale-chip>
+    ))}
+  </div>
 
-        {/* Region chips */}
-        <div className={styles.buckets}>
-          <button
-            className={styles.chip}
-            onClick={() => setRegionsSel(new Set())}
-            aria-pressed={regionsSel.size === 0}
-            title="Clear region filters"
-          >
-            Regions: All
-          </button>
-          {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
-            <button
-              key={r}
-              className={cx(styles.chip, isRegionActive(r) && styles.chipActive)}
-              onClick={() => toggleRegion(r)}
-              aria-pressed={isRegionActive(r)}
-              title={r.toUpperCase()}
-            >
-              {r === "global"
-                ? "GLOBAL"
-                : r === "eu-de"
-                  ? "🇩🇪 EU-DE"
-                  : r === "eu-nl"
-                    ? "🇳🇱 EU-NL"
-                    : "🇨🇭 EU-CH"}
-            </button>
-          ))}
-        </div>
+  <span className={styles.filtersSep} aria-hidden="true"></span>
+
+  {/* Region chips (SCALE) */}
+  <div className={styles.buckets} onClickCapture={onRegionRowClickCapture}>
+    {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
+      // @ts-ignore custom element
+      <scale-chip
+        key={r}
+        data-region={r}
+        size="small"
+        selected={isRegionActive(r) ? true : undefined}
+        title={r.toUpperCase()}
+      >
+        {r === "global"
+          ? "GLOBAL"
+          : r === "eu-de"
+            ? "🇩🇪 EU-DE"
+            : r === "eu-nl"
+              ? "🇳🇱 EU-NL"
+              : "🇨🇭 EU-CH"}
+      </scale-chip>
+    ))}
+  </div>
+</div>
+
 
         {/* Columns */}
         <div className={styles.columns}>
@@ -352,29 +365,27 @@ export default function OtcServicesColumns() {
             </div>
 
             <div className={styles.sleeveFooter}>
-                <scale-button
-                  href={open.url || '#'}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="secondary"
-                  size="small"              // ↓ smaller font & height
-                >
-                  Go to Help Center
-                  <scale-icon-navigation-external-link
-    accesibility-title="External link, opens in new tab"
-  ></scale-icon-navigation-external-link>
-                </scale-button>
+              <scale-button
+                href={open.url || "#"}
+                target="_blank"
+                rel="noreferrer"
+                variant="secondary"
+                size="small"
+              >
+                Go to Help Center
+                <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab"></scale-icon-navigation-external-link>
+              </scale-button>
 
-                <scale-button
-                  href={`/best-practices?service=${encodeURIComponent(open.symbol)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="primary"
-                  size="small"              // ↓ smaller font & height
-                >
-                  Discover Blueprints
-                  <scale-icon-navigation-right></scale-icon-navigation-right>
-                </scale-button>
+              <scale-button
+                href={`/best-practices?service=${encodeURIComponent(open.symbol)}`}
+                target="_blank"
+                rel="noreferrer"
+                variant="primary"
+                size="small"
+              >
+                Discover Blueprints
+                <scale-icon-navigation-right></scale-icon-navigation-right>
+              </scale-button>
             </div>
           </div>
         </div>
