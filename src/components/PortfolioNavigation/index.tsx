@@ -360,8 +360,8 @@ export default function OtcServicesColumns() {
             <div className={styles.sleeveFooter}>
               
               <scale-button
-                href={`/best-practices?service=${encodeURIComponent(open.symbol)}`}
-                target="_blank"
+                href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
+                // target="_blank"
                 rel="noreferrer"
                 variant="primary"
                 size="small"
@@ -373,7 +373,7 @@ export default function OtcServicesColumns() {
               <scale-button
                 href={open.url || "#"}
                 target="_blank"
-                rel="noreferrer"
+                // rel="noreferrer"
                 variant="secondary"
                 size="small"
               >
