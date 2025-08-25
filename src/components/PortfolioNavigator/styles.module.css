@@ -50,7 +50,7 @@ body{color:var(--ink)}
   border: 0;
   padding: 0;
   box-shadow: none;
-  font-size: 14px;   /* ↑ was 12px */
+  font-size: 11px;   /* ↑ was 12px */
   line-height: 1;
 }
 
@@ -118,7 +118,7 @@ html[data-theme='dark'] .tile{
 .tile:hover{transform:translateY(-2px);box-shadow:0 4px 4px rgba(0,0,0,.10), inset 0 4px 0 var(--accent)}
 html[data-theme='dark'] .tile:hover{transform:translateY(-2px);box-shadow:0 4px 4px #e20074, inset 0 4px 0 var(--accent)}
 
-.tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom: 6px;}
 html[data-theme='dark'] .tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
 
 .cat{text-transform:uppercase;font-size:11px;letter-spacing:.05em;opacity:.7} /* ↑ was 9px */
