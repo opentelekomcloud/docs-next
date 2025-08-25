@@ -62,3 +62,6 @@ html[data-theme='dark'] .title {
 .viewAll {
 
 }
+
+.filtersSep{opacity:.5;padding:0 6px;user-select:none}
+
