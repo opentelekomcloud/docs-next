@@ -1,4 +1,4 @@
-import React, { useMemo, useState, KeyboardEvent } from "react";
+import React, { useMemo, useState, useRef, useEffect, KeyboardEvent } from "react";
 import { Search, Columns3, ExternalLink } from "lucide-react";
 import styles from "./styles.module.css";
 
@@ -37,17 +37,17 @@ const SERVICES: OtcService[] = [
 
   // "Data Analysis"
   { id: "CSS", symbol: "CSS", name: "Cloud Search Service", category: "Data Analysis", description: "Cloud Search Service is a fully hosted distributed search service powered on Elasticsearch. It is fully compatible with Elasticsearch APIs and provides users with structured and unstructured data search, statistics, and report capabilities.", hc_url: "https://docs.otc.t-systems.com/cloud-search-service/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
-  { id: "data-arts", symbol: "DataArts Studio", name: "Data Operations Platform", category: "Data Analysis", description: "DataArts Studio is a one-stop data operations platform that drives digital transformation. It allows you to perform many operations, such as integrating and developing data, designing data architecture, controlling data quality, managing data assets, creating data services, and ensuring data security. Incorporating big data storage, computing and analytical engines, it can also construct industry knowledge bases and help your enterprise build an intelligent end-to-end data system. This system can eliminate data silos, unify data standards, accelerate data monetization, and accelerate your enterprise's digital transformation.", hc_url: "https://docs.otc.t-systems.com/data-arts-studio/index.html", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "data-arts", symbol: "DataArts Studio", name: "DataArts Studio", category: "Data Analysis", description: "DataArts Studio is a one-stop data operations platform that drives digital transformation. It allows you to perform many operations, such as integrating and developing data, designing data architecture, controlling data quality, managing data assets, creating data services, and ensuring data security. Incorporating big data storage, computing and analytical engines, it can also construct industry knowledge bases and help your enterprise build an intelligent end-to-end data system. This system can eliminate data silos, unify data standards, accelerate data monetization, and accelerate your enterprise's digital transformation.", hc_url: "https://docs.otc.t-systems.com/data-arts-studio/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "DLI", symbol: "DLI", name: "Data Lake Insight", category: "Data Analysis", description: "Data Lake Insight (DLI) is a serverless data processing and analysis service fully compatible with Apache Spark and Apache Flink ecosystems. It frees you from managing any servers.", hc_url: "https://docs.otc.t-systems.com/data-lake-insight/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "DWS", symbol: "DWS", name: "Data Warehouse Service", category: "Data Analysis", description: "Data Warehouse Service (DWS) provides a scalable, fully hosted, and out-of-the-box data warehouse. It is compatible with the PostgreSQL ecosystem and supports standard SQL statements and BI tools to help you economically and efficiently mine and analyze massive volumes of data, greatly reducing your cost.", hc_url: "https://docs.otc.t-systems.com/data-warehouse-service/index.html", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "ModelArts", symbol: "ModelArts", name: "Development Platform for AI", category: "Data Analysis", description: "ModelArts is a one-stop development platform for AI developers. With distributed training, automated model building, and model deployment, ModelArts helps AI developers build models quickly and manage the AI development lifecycle.", hc_url: "https://docs.otc.t-systems.com/modelarts/index.html", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "ModelArts", symbol: "ModelArts", name: "ModelArts", category: "Data Analysis", description: "ModelArts is a one-stop development platform for AI developers. With distributed training, automated model building, and model deployment, ModelArts helps AI developers build models quickly and manage the AI development lifecycle.", hc_url: "https://docs.otc.t-systems.com/modelarts/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "MRS", symbol: "MRS", name: "MapReduce Service", category: "Data Analysis", description: "MapReduce Service (MRS) provides enterprise-level big data clusters on the cloud, which are fully controlled by tenants and support the Hadoop, Spark, HBase, Kafka, and Storm components.", hc_url: "https://docs.otc.t-systems.com/mapreduce-service/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "OCR", symbol: "OCR", name: "Optical Character Recognition", category: "Data Analysis", description: "Optical Character Recognition (OCR) detects and extracts text from images and converts the recognition results into an editable JSON format.", hc_url: "https://docs.otc.t-systems.com/optical-character-recognition/index.html", chips: ["PaaS"], regions: ["eu-de"] },
 
   // Computing
   { id: "AS", symbol: "AS", name: "Auto Scaling", category: "Computing", description: "Auto Scaling (AS) is a service that automatically adjusts service resources based on your service requirements and configured AS policies. You can specify scaling configurations and policies based on service requirements. These configurations and policies free you from having to repeatedly adjust resources to keep up with service changes and demand spikes, helping you reduce resources required and manpower costs.", hc_url: "https://docs.otc.t-systems.com/auto-scaling/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "BMS", symbol: "BMS", name: "Bare Metal Services", category: "Computing", description: "A Bare Metal Server (BMS) is a physical server dedicated to individual tenants. It provides remarkable computing performance and stability for running key applications. The BMS service can be used in conjunction with other cloud services so that you can enjoy a consistent and stable performance of server hosting and the high scalability of cloud resources together that offer the computing performance and data security required by core databases, key application systems, high-performance computing (HPC), and Big Data.", hc_url: "https://docs.otc.t-systems.com/bare-metal-server/index.html", chips: ["IaaS"], regions: ["eu-de"] },
-  { id: "DHS", symbol: "DHS", name: "Dedicated Host", category: "Computing", description: "Dedicated Host (DeH) is a service that provides dedicated physical hosts. You can create Elastic Cloud Servers (ECSs) on a DeH to enhance the isolation, security, and performance of your ECSs. When you migrate services to a DeH, you can continue to use your server software licenses used before the migration. That is, you can use the Bring Your License (BYOL) feature on the DeH to reduce costs and independently manage your ECSs.", hc_url: "https://docs.otc.t-systems.com/dedicated-host/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "DeH", symbol: "DeH", name: "Dedicated Host", category: "Computing", description: "Dedicated Host (DeH) is a service that provides dedicated physical hosts. You can create Elastic Cloud Servers (ECSs) on a DeH to enhance the isolation, security, and performance of your ECSs. When you migrate services to a DeH, you can continue to use your server software licenses used before the migration. That is, you can use the Bring Your License (BYOL) feature on the DeH to reduce costs and independently manage your ECSs.", hc_url: "https://docs.otc.t-systems.com/dedicated-host/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "ECS", symbol: "ECS", name: "Elastic Cloud Server", category: "Computing", description: "An ECS is a computing server consisting of CPUs, memory, images, and Elastic Volume Service (EVS) disks that allow on-demand allocation and elastic scaling. ECSs integrate virtual private cloud (VPC), virtual firewalls, and multi-data-copy capabilities to create an efficient, reliable, and secure computing environment. This ensures stable and uninterrupted operation of services.", hc_url: "https://docs.otc.t-systems.com/elastic-cloud-server/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "FGS", symbol: "FGS", name: "FunctionGraph", category: "Computing", description: "FunctionGraph allows to run a code without provisioning or managing servers, while ensuring high availability and scalability. All you need to do is to upload your code and set execution conditions. FunctionGraph will take care of the rest. In addition, you pay only for what you use and you are not charged when your code is not running.", hc_url: "https://docs.otc.t-systems.com/function-graph/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "IMS", symbol: "IMS", name: "Image Management Service", category: "Computing", description: "Image Management Service (IMS) provides flexible self-service and comprehensive image management capabilities. You can use a public image or create a private image to apply for an Elastic Cloud Server (ECS) or multiple ECSs in batches.", hc_url: "https://docs.otc.t-systems.com/image-management-service/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -63,14 +63,14 @@ const SERVICES: OtcService[] = [
   { id: "DDM", symbol: "DDM", name: "Distributed Database Middleware", category: "Databases", description: "Distributed Database Middleware (DDM) removes database capacity and performance bottlenecks and resolves distributed expansion issues. It provides database and table sharding, read/write splitting, and elastic scaling, helping you handle highly concurrent access to massive volumes of data and improving database read/write performance.", hc_url: "https://docs.otc.t-systems.com/distributed-database-middleware/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "DDS", symbol: "DDS", name: "Document Database Service", category: "Databases", description: "Document Database Service (DDS) is a cloud computing-based NoSQL database featuring high performance storage, high availability architecture, and disaster recovery failover, along with online scaling, backup, and restoration capabilities. It has a mature performance monitoring system, a multi-level security protection mechanism, and a professional database management platform.", hc_url: "https://docs.otc.t-systems.com/document-database-service/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "DRS", symbol: "DRS", name: "Data Replication Service", category: "Databases", description: "Data Replication Service (DRS) is a stable, efficient, and easy-to-use cloud service for database online migration and synchronization. It simplifies data migration processes and reduces migration costs. You can use DRS to quickly transmit data between databases in various scenarios.", hc_url: "https://docs.otc.t-systems.com/data-replication-service/index.html", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "GeminiDB", symbol: "GeminiDB", name: "Distributed NoSQL Database", category: "Databases", description: "GeminiDB is a distributed, multi-model NoSQL database service with decoupled compute and storage architecture. This high availability database is secure and scalable, can be deployed, backed up, or restored quickly, and includes monitoring and alarm management.", hc_url: "https://docs.otc.t-systems.com/geminidb/index.html", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "GeminiDB", symbol: "GeminiDB", name: "GeminiDB", category: "Databases", description: "GeminiDB is a distributed, multi-model NoSQL database service with decoupled compute and storage architecture. This high availability database is secure and scalable, can be deployed, backed up, or restored quickly, and includes monitoring and alarm management.", hc_url: "https://docs.otc.t-systems.com/geminidb/index.html", chips: ["PaaS"], regions: ["eu-de"] },
   { id: "RDS", symbol: "RDS", name: "Relational Database Service", category: "Databases", description: "Relational Database Service (RDS) is an online relational database service based on the cloud computing platform. The RDS is reliable, scalable, secure, and easy to manage, allowing you to deploy a database within minutes.", hc_url: "https://docs.otc.t-systems.com/relational-database-service/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "TaurusDB", symbol: "TaurusDB", name: "Enterprise-Class Distributed Database", category: "Databases", description: "TaurusDB is the latest generation enterprise-class distributed database. It is fully compatible with MySQL and provides high scalability and massive storage capacity. It uses a decoupled compute and storage architecture and supports up to 128 TB of storage. With TaurusDB, there is no need to deal with sharding, and no need to worry about data loss. It combines the performance and availability of commercial databases with the cost-effectiveness of open source databases.", hc_url: "https://docs.otc.t-systems.com/taurusdb/index.html", chips: ["PaaS"], regions: ["eu-de"] },
+  { id: "TaurusDB", symbol: "TaurusDB", name: "TaurusDB", category: "Databases", description: "TaurusDB is the latest generation enterprise-class distributed database. It is fully compatible with MySQL and provides high scalability and massive storage capacity. It uses a decoupled compute and storage architecture and supports up to 128 TB of storage. With TaurusDB, there is no need to deal with sharding, and no need to worry about data loss. It combines the performance and availability of commercial databases with the cost-effectiveness of open source databases.", hc_url: "https://docs.otc.t-systems.com/taurusdb/index.html", chips: ["PaaS"], regions: ["eu-de"] },
 
   // Management & Deployment
-  { id: "CloudCreate", symbol: "Cloud Create", name: "Multi-Cloud Management Platform", category: "Management & Deployment", description: "Cloud Create is a free-to-use Development and Management Platform, which enables cloud developers to create applications on Open Telekom Cloud fast.", hc_url: "https://docs.otc.t-systems.com/cloud-create/index.html", chips: ["SaaS"], regions: ["eu-de", "eu-ch"] },
-  { id: "CloudEye", symbol: "Cloud Eye", name: "Multi-Dimensional Monitoring Platform", category: "Management & Deployment", description: "Cloud Eye is a multi-dimensional monitoring platform that monitors your resources such as ECS and bandwidth. With Cloud Eye, users can fully understand the resource usage and running status of services running on the cloud platform, receive alarm notifications in a timely manner, and make response to ensure smooth running of services.", hc_url: "https://docs.otc.t-systems.com/cloud-eye/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "Config", symbol: "Config", name: "Continuously Evaluate Resource Configuration", category: "Management & Deployment", description: "With Config, you can search for, record, and continuously evaluate your resource configuration to make sure that your expectations are met.", hc_url: "https://docs.otc.t-systems.com/config/index.html", chips: ["Mgmt"], regions: ["eu-de"] },
+  { id: "CloudCreate", symbol: "Cloud Create", name: "Cloud Create", category: "Management & Deployment", description: "Cloud Create is a free-to-use Development and Management Platform, which enables cloud developers to create applications on Open Telekom Cloud fast.", hc_url: "https://docs.otc.t-systems.com/cloud-create/index.html", chips: ["SaaS"], regions: ["eu-de", "eu-ch"] },
+  { id: "CloudEye", symbol: "Cloud Eye", name: "Cloud Eye", category: "Management & Deployment", description: "Cloud Eye is a multi-dimensional monitoring platform that monitors your resources such as ECS and bandwidth. With Cloud Eye, users can fully understand the resource usage and running status of services running on the cloud platform, receive alarm notifications in a timely manner, and make response to ensure smooth running of services.", hc_url: "https://docs.otc.t-systems.com/cloud-eye/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "Config", symbol: "Config", name: "Config", category: "Management & Deployment", description: "With Config, you can search for, record, and continuously evaluate your resource configuration to make sure that your expectations are met.", hc_url: "https://docs.otc.t-systems.com/config/index.html", chips: ["Mgmt"], regions: ["eu-de"] },
   { id: "CTS", symbol: "CTS", name: "Cloud Trace Service", category: "Management & Deployment", description: "Cloud Trace Service (CTS) provides operation records for cloud service resources. The operation records include resource operation requests initiated from the public cloud management console or open APIs and responses to the requests. You can query, audit, and backtrack the operation records. In addition, you can use the Object Storage Service (OBS) to synchronize operation records to the OBS buckets.", hc_url: "https://docs.otc.t-systems.com/cloud-trace-service/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "LTS", symbol: "LTS", name: "Log Tank Service", category: "Management & Deployment", description: "Log Tank Service (LTS) stores logs, allowing you to query and transfer them in real time. It simplifies real-time analysis for decision making and improves log processing efficiency.", hc_url: "https://docs.otc.t-systems.com/log-tank-service/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "RFS", symbol: "RFS", name: "Resource Formation Service", category: "Management & Deployment", description: "With Resource Formation Service, you can manage system and service resources (all physical or logical entities that can be located and described, such as databases, VPCs, pipelines, and IAM roles). You can automatically deploy specified cloud service resources based on the template which uses the HCL (an open ecosystem) syntax.", hc_url: "https://docs.otc.t-systems.com/resource-formation-service/index.html", chips: ["Mgmt"], regions: ["eu-de"] },
@@ -90,7 +90,7 @@ const SERVICES: OtcService[] = [
   { id: "VPN", symbol: "VPN", name: "Virtual Private Network", category: "Network", description: "A virtual private network (VPN) establishes an encrypted communication tunnel between a remote user and a Virtual Private Cloud (VPC). With VPN, you can connect to a VPC and access service resources in it.", hc_url: "https://docs.otc.t-systems.com/virtual-private-network/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
   // Security Services
-  { id: "Anti-DDoS", symbol: "Anti-DDoS", name: "Anti-DDoS Traffic Cleaning Service", category: "Security Services", description: "The Anti-DDoS traffic cleaning service (Anti-DDoS for short) is a network security service that defends IP addresses against distributed denial of service (DDoS) attacks.", hc_url: "https://docs.otc.t-systems.com/anti-ddos/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
+  { id: "Anti-DDoS", symbol: "Anti-DDoS", name: "Anti-DDoS Service", category: "Security Services", description: "The Anti-DDoS traffic cleaning service (Anti-DDoS for short) is a network security service that defends IP addresses against distributed denial of service (DDoS) attacks.", hc_url: "https://docs.otc.t-systems.com/anti-ddos/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
   { id: "CFW", symbol: "CFW", name: "Cloud Firewall", category: "Security Services", description: "Cloud Firewall (CFW) is a next-generation cloud-native firewall. It protects Internet and VPC borders on the cloud by real-time intrusion detection and prevention, global unified access control, full traffic analysis, log audit, and tracing. It employs AI for intelligent defense, and can be elastically scaled to meet changing business needs, helping you easily handle security threats. CFW is a basic service that provides network security protection for user services on the cloud.", hc_url: "https://docs.otc.t-systems.com/cloud-firewall/index.html", chips: ["Sec"], regions: ["eu-de"] },
   { id: "DSS", symbol: "DSS", name: "Database Security Service", category: "Security Services", description: "Database Security Service (DBSS) uses machine learning and big data technologies to protect your databases on the cloud, intelligently auditing them and detecting risky behaviors like SQL injection.", hc_url: "https://docs.otc.t-systems.com/database-security-service/index.html", chips: ["Sec"], regions: ["eu-de"] },
   { id: "HSS", symbol: "HSS", name: "Host Security Service", category: "Security Services", description: "Host Security Service (HSS) defends your Linux and Windows cloud servers from the inside out, with a suite of advanced security features including powerful brute-force protection, intrusion detection monitoring, and vulnerability fixes.", hc_url: "https://docs.otc.t-systems.com/host-security-service/index.html", chips: ["Sec"], regions: ["eu-de"] },
@@ -144,6 +144,10 @@ export default function OtcServicesColumns() {
   const [chips, setChips] = useState<Set<Chip>>(new Set());            // OR
   const [regionsSel, setRegionsSel] = useState<Set<Region>>(new Set()); // OR
   const [open, setOpen] = useState<OtcService | null>(null);            // ← sleeve
+  // NEW: category filter state + options
+  const ALL_CATS = Array.from(new Set(SERVICES.map(s => s.category))).sort();
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const OTC_CATEGORY_OPTIONS: string[] = ["all", ...ALL_CATS];
 
   const toggleChip = (c: Chip) =>
     setChips((prev) => {
@@ -158,6 +162,28 @@ export default function OtcServicesColumns() {
       next.has(r) ? next.delete(r) : next.add(r);
       return next;
     });
+
+  const categorySelectRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = categorySelectRef.current;
+    if (!el) return;
+
+    const onChange = (e: Event) => {
+      // SCALE emits CustomEvent with { detail: { value } }
+      const value = (e as CustomEvent).detail?.value ?? "all";
+      setCategoryFilter(value);
+    };
+
+    el.addEventListener("scale-change", onChange);
+    // Some builds also dispatch a native 'change' — safe to listen to both:
+    el.addEventListener("change", onChange);
+
+    return () => {
+      el.removeEventListener("scale-change", onChange);
+      el.removeEventListener("change", onChange);
+    };
+  }, []);
 
   const isChipActive = (c: Chip) => chips.has(c);
   const isRegionActive = (r: Region) => regionsSel.has(r);
@@ -197,9 +223,16 @@ export default function OtcServicesColumns() {
       if (chips.size > 0 && !s.chips.some((c) => chips.has(c))) return false;
       if (regionsSel.size > 0 && !s.regions.some((r) => regionsSel.has(r))) return false;
 
+      if (
+        categoryFilter !== "all" &&
+        s.category !== categoryFilter
+      ) {
+        return false;
+      }
+
       return true;
     });
-  }, [query, chips, regionsSel]);
+  }, [query, chips, regionsSel, categoryFilter]);
 
   // seed all columns to keep empty columns visible
   const byCategory = useMemo(() => {
@@ -245,7 +278,7 @@ export default function OtcServicesColumns() {
         {/* Filters: chips | regions (single line) */}
         <div className={styles.filtersRow}>
           {/* Capability chips (SCALE) */}
-          <div className={styles.buckets} onClickCapture={onChipRowClickCapture}>
+          <div className={styles.bucketsChips} onClickCapture={onChipRowClickCapture}>
             {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
               // @ts-ignore custom element
               <scale-chip
@@ -262,7 +295,7 @@ export default function OtcServicesColumns() {
           <span className={styles.filtersSep} aria-hidden="true"></span>
 
           {/* Region chips (SCALE) */}
-          <div className={styles.buckets} onClickCapture={onRegionRowClickCapture}>
+          <div className={styles.bucketsRegions} onClickCapture={onRegionRowClickCapture}>
             {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
               // @ts-ignore custom element
               <scale-chip
@@ -292,51 +325,104 @@ export default function OtcServicesColumns() {
               onInput={(e) => setQuery((e.target as any).value)}
             ></scale-text-field>
           </div> */}
+          <div className={styles.filtersRow}>
+            {/* existing chips + region chips + (optional) search go here */}
+
+            {/* NEW: Category dropdown on the right
+            <div className={styles.filterBarRight}>
+              <label className={styles.categoryLabel}>
+                <select
+                  className={styles.categorySelect}
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  aria-label="Filter by category"
+                >
+                  {OTC_CATEGORY_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt === "all" ? "All" : opt}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div> */}
+
+            {/* Update the Scale dropdown implementation with correct event handling */}
+            <div className={styles.filterBarRight}>
+              {/* @ts-ignore custom element */}
+              <scale-dropdown-select
+                ref={categorySelectRef}
+                label="Filter by category"
+                value={categoryFilter}
+              >
+                {OTC_CATEGORY_OPTIONS.map((opt) => (
+                  // @ts-ignore custom element
+                  <scale-dropdown-select-item
+                    key={opt}
+                    value={opt}
+                    selected={categoryFilter === opt}
+                  >
+                    {opt === "all" ? "All Categories" : opt}
+                  </scale-dropdown-select-item>
+                ))}
+              </scale-dropdown-select>
+            </div>
+
+          </div>
         </div>
 
 
-        {/* Columns */}
-        <div className={styles.columns}>
-          {ALL_CATS.map((cat) => {
-            const items = byCategory.get(cat) || [];
-            return (
-              <section key={cat} className={styles.col} data-cat={cat}>
-                <header className={styles.colHead}>
-                  <div className={styles.colTitle}>{cat}</div>
-                </header>
-                <div className={styles.colBody}>
-                  {items.length === 0 ? (
-                    <div className={styles.empty}>N/A</div>
-                  ) : (
-                    items.map((s) => (
-                      <div
-                        key={s.id}
-                        className={styles.tile}
-                        onClick={() => setOpen(s)}                 // ← open sleeve
-                        onKeyDown={(e) => onTileKey(e, s)}         // ← keyboard
-                        role="button"
-                        tabIndex={0}
-                        data-cat={s.category}
-                        aria-label={`${s.name} (${s.symbol}) — ${s.description}`}
-                      >
-                        <div className={styles.tileTop}>
-                          <div className={styles.cat}>{chipLabel(s.chips, s.category)}</div>
-                          {renderRegionBadge(s.regions)}
-                        </div>
-                        <div className={styles.symbol}>{s.symbol}</div>
-                        <div className={styles.tileBottom}>
-                          <div className={styles.name} title={s.name}>
-                            {s.name}
-                          </div>
-                          {/* <ExternalLink size={16} className={styles.ext} aria-hidden /> */}
-                        </div>
-                      </div>
-                    ))
-                  )}
+
+
+        {/* Grid */}
+        <div className={styles.tileGrid}>
+          {filtered.length === 0 ? (
+            <div className={styles.empty}>No results match your filters.</div>
+          ) : (
+            filtered.map((s) => (
+              <div
+                key={s.id}
+                className={styles.tile}
+                onClick={() => setOpen(s)}
+                onKeyDown={(e) => onTileKey(e, s)}
+                role="button"
+                tabIndex={0}
+              >
+                <div className={styles.tileTop}>
+                  <span className={styles.cat}>{s.category}</span>
+                  <span className={styles.cat}>{s.chips}</span>
                 </div>
-              </section>
-            );
-          })}
+                <div className={styles.name}>{s.name}</div>
+                <div className={styles.tileBottom}>
+                  <div className={styles.flags}>
+                    {s.regions.map((r) => (
+                      <span className={styles.flag} key={r}>
+                        {r === "global"
+                          ? "🌐"
+                          : r === "eu-de"
+                            ? "🇩🇪"
+                            : r === "eu-nl"
+                              ? "🇳🇱"
+                              : r === "eu-ch"
+                                ? "🇨🇭"
+                                : r}
+                      </span>
+                    ))}
+                  </div>
+                  {/* {s.hc_url && (
+                    <a
+                      className={styles.badge}
+                      href={s.hc_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Open service docs"
+                    >
+                      <ExternalLink size={14} className={styles.ext} /> Docs
+                    </a>
+                  )} */}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -357,7 +443,7 @@ export default function OtcServicesColumns() {
             </div>
 
             <div className={styles.sleeveFooter}>
-              
+
               <scale-button
                 href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
                 // target="_blank"
