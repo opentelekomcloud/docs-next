@@ -299,6 +299,20 @@ html[data-theme='dark'] .sleeveBody{
   justify-content: initial;
 }
 
+.sleeveFooterSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.sleeveFooterSingle scale-button {
+  --width: 100%;        /* <- this is the key */
+  display: block;       /* optional, makes the host behave like a block */
+  justify-self: stretch;
+}
+
 html[data-theme='dark'] .sleeveFooter {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
@@ -308,6 +322,14 @@ html[data-theme='dark'] .sleeveFooter {
 
   /* safety: if an old rule set justify-content, kill it */
   justify-content: initial;
+}
+
+html[data-theme='dark'] .sleeveFooterSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid 1px solid var(--ifm-color-emphasis-200);
 }
 
 /* make the SCALE button host fill its grid cell */

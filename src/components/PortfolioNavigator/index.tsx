@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useRef, useEffect, KeyboardEvent } from "react";
-import { Search, Columns3, ExternalLink } from "lucide-react";
 import styles from "./styles.module.css";
 
 export type OtcCategory =
@@ -11,9 +10,11 @@ export type OtcCategory =
   | "Management & Deployment"
   | "Network"
   | "Security Services"
-  | "Storage";
+  | "Storage"
+  | "Finance Services"
+  | "Sites";
 
-export type Chip = "IaaS" | "PaaS" | "SaaS" | "Security" | "Management";
+export type Chip = "IaaS" | "PaaS" | "SaaS" | "Security" | "Management" | "Docs" | "Product" | "Community";
 export type Region = "eu-de" | "eu-nl" | "eu-ch" | "global";
 
 export type OtcService = {
@@ -108,6 +109,18 @@ const SERVICES: OtcService[] = [
   { id: "SFS", symbol: "SFS", name: "Scalable File Service", category: "Storage", description: "Scalable File Service (SFS) provides high-performance file storage that is scalable on demand. It can be shared with multiple Elastic Cloud Servers (ECS).", hc_url: "https://docs.otc.t-systems.com/scalable-file-service/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "VBS", symbol: "VBS", name: "Volume Backup Service", category: "Storage", description: "Volume Backup Service (VBS) provides snapshot-based data protection service for Elastic Volume Service (EVS) disks. You can perform one-click backup and restoration for the EVS disks on Elastic Cloud Servers (ECSs) all through the online platform.", hc_url: "https://docs.otc.t-systems.com/volume-backup-service/index.html", chips: ["IaaS"], regions: ["eu-de"] },
 
+  // Finance Services
+  { id: "FD", symbol: "FD", name: "Financial Dashboard", category: "Finance Services", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Management"], regions: ["global"] },
+  { id: "INV", symbol: "INV", name: "Invoicing", category: "Finance Services", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Management"], regions: ["global"] },
+
+  // Sites Services
+  { id: "AC", symbol: "AC", name: "Architecture Center", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Docs"], regions: ["global"] },
+  { id: "HC", symbol: "HC", name: "Help Center", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Docs"], regions: ["global"] },
+  { id: "OTC", symbol: "OTC", name: "Open Telekom Cloud", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Product"], regions: ["global"] },
+  { id: "CP", symbol: "CP", name: "Community Portal", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Community"], regions: ["global"] },
+  { id: "Console", symbol: "Console", name: "Open Telekom Cloud Console", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Management"], regions: ["global"] },
+  { id: "SD", symbol: "SD", name: "Status Dashboard", category: "Sites", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["Management"], regions: ["global"] },
+
 ];
 
 /* fixed columns — always render all of them */
@@ -121,6 +134,8 @@ const ALL_CATS: OtcCategory[] = [
   "Network",
   "Security Services",
   "Storage",
+  "Finance Services",
+  "Sites"
 ];
 
 const REGION_ORDER: Region[] = ["eu-de", "eu-nl", "eu-ch", "global"];
@@ -432,33 +447,47 @@ export default function OtcServicesColumns() {
               {open.description?.trim() ? open.description : "No description available."}
             </div>
 
-            <div className={styles.sleeveFooter}>
+            {open.category === "Finance Services" || open.category === "Sites" ? (
+              <div className={styles.sleeveFooterSingle}>
+                <scale-button
+                  href={open.hc_url || "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="primary"
+                  size="small"
+                >
+                  Go to {open.name}
+                  <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab" />
+                </scale-button>
+              </div>
+            ) : (
+              <div className={styles.sleeveFooter}>
+                <scale-button
+                  href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
+                  rel="noreferrer"
+                  variant="primary"
+                  size="small"
+                >
+                  Discover Blueprints
+                  <scale-icon-navigation-right />
+                </scale-button>
 
-              <scale-button
-                href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
-                // target="_blank"
-                rel="noreferrer"
-                variant="primary"
-                size="small"
-              >
-                Discover Blueprints
-                <scale-icon-navigation-right></scale-icon-navigation-right>
-              </scale-button>
-
-              <scale-button
-                href={open.hc_url || "#"}
-                target="_blank"
-                // rel="noreferrer"
-                variant="secondary"
-                size="small"
-              >
-                Go to Help Center
-                <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab"></scale-icon-navigation-external-link>
-              </scale-button>
-            </div>
+                <scale-button
+                  href={open.hc_url || "#"}
+                  target="_blank"
+                  variant="secondary"
+                  size="small"
+                >
+                  Go to Help Center
+                  <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab" />
+                </scale-button>
+              </div>
+            )}
           </div>
+
         </div>
-      )}
-    </div>
+  )
+}
+    </div >
   );
 }
