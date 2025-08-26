@@ -511,26 +511,20 @@ html[data-theme='dark'] .sleeveFooter {
   .tileGrid { grid-template-columns: 1fr; }
 }
 
-/* (If you don’t already have these, they’re minimal and neutral) */
-.filterBarRight { margin-left: auto; display:flex; align-items:center; gap:10px; }
-/* .categoryLabel { display:flex; flex-direction:column; gap:4px; font-size:12px; }
-.categorySelect { height:32px; border:1px solid var(--line); border-radius:8px; padding:0 8px; } */
-
 .filterBarRight {
-  display: flex;
-  align-items: center;
-  margin-left: auto; /* Push to right */
+  width: 100%;
+  gap:10px;
+  display: block; /* ensures the custom element honors width */
   min-width: 300px;
 }
 
 /* Style container for Scale dropdown */
 .filterBarRight scale-dropdown-select {
-  width: 100%;
   --background-hover: var(--telekom-color-ui-state-fill-hovered);
   --color-hover: var(--telekom-color-text-and-icon-standard);
   --background: var(--telekom-color-ui-state-fill-standard);
   --color: var(--telekom-color-text-and-icon-standard);
   --radius: var(--telekom-radius-standard);
   --spacing: var(--telekom-spacing-composition-space-04);
-  --min-width: 200px;
+  /* --min-width: 200px; */
 }

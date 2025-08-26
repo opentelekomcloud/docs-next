@@ -13,7 +13,7 @@ export type OtcCategory =
   | "Security Services"
   | "Storage";
 
-export type Chip = "IaaS" | "PaaS" | "SaaS" | "Sec" | "Mgmt";
+export type Chip = "IaaS" | "PaaS" | "SaaS" | "Security" | "Management";
 export type Region = "eu-de" | "eu-nl" | "eu-ch" | "global";
 
 export type OtcService = {
@@ -29,9 +29,9 @@ export type OtcService = {
 
 const SERVICES: OtcService[] = [
   // Application
-  { id: "AOM", symbol: "AOM", name: "Application Operations Management", category: "Application", description: "Application Operations Management (AOM) is a one-stop, three-dimensional O&M management platform for cloud applications. It monitors your applications and related cloud resources in real time, collects and associates the data of resource metrics, logs, and events to analyze application health statuses, and provides flexible alarms and abundant data visualization functions. This helps you detect faults timely and master the real-time running statuses of applications, resources, and services.", hc_url: "https://docs.otc.t-systems.com/application-operations-management/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "AOM", symbol: "AOM", name: "Application Operations Management", category: "Application", description: "Application Operations Management (AOM) is a one-stop, three-dimensional O&M management platform for cloud applications. It monitors your applications and related cloud resources in real time, collects and associates the data of resource metrics, logs, and events to analyze application health statuses, and provides flexible alarms and abundant data visualization functions. This helps you detect faults timely and master the real-time running statuses of applications, resources, and services.", hc_url: "https://docs.otc.t-systems.com/application-operations-management/index.html", chips: ["Management"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "APIG", symbol: "APIG", name: "API Gateway (APIG)", category: "Application", description: "API Gateway (APIG) is a high-performance, high-availability, and high-security API hosting service that helps you build, manage, and deploy APIs at any scale. With just a few clicks, you can integrate internal systems, and selectively expose capabilities with minimal costs and risks.", hc_url: "https://docs.otc.t-systems.com/api-gateway/index.html", chips: ["PaaS"], regions: ["eu-de"] },
-  { id: "APM", symbol: "APM", name: "Application Performance Management", category: "Application", description: "The Application Performance Management (APM) monitors and manages the performance of cloud applications in real time. APM provides performance analysis of distributed applications, helping O&M personnel quickly locate and resolve faults and performance bottlenecks.", hc_url: "https://docs.otc.t-systems.com/application-performance-management/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl"] },
+  { id: "APM", symbol: "APM", name: "Application Performance Management", category: "Application", description: "The Application Performance Management (APM) monitors and manages the performance of cloud applications in real time. APM provides performance analysis of distributed applications, helping O&M personnel quickly locate and resolve faults and performance bottlenecks.", hc_url: "https://docs.otc.t-systems.com/application-performance-management/index.html", chips: ["Management"], regions: ["eu-de", "eu-nl"] },
   { id: "DMS", symbol: "DMS", name: "Distributed Message Service", category: "Application", description: "Distributed Message Service (DMS) is a message middleware service based on distributed, high-availability clustering technology. It provides reliable, scalable, and fully managed queues for storing messages.", hc_url: "https://docs.otc.t-systems.com/distributed-message-service/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "SMN", symbol: "SMN", name: "Simple Message Notification", category: "Application", description: "Simple Message Notification (SMN) is a hosted simple message notification service that is flexible and large-scale. SMN allows you to send messages to email addresses, and HTTP/HTTPS applications in an efficient and inexpensive way.", hc_url: "https://docs.otc.t-systems.com/simple-message-notification/index.html", chips: ["PaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
@@ -69,12 +69,12 @@ const SERVICES: OtcService[] = [
 
   // Management & Deployment
   { id: "CloudCreate", symbol: "Cloud Create", name: "Cloud Create", category: "Management & Deployment", description: "Cloud Create is a free-to-use Development and Management Platform, which enables cloud developers to create applications on Open Telekom Cloud fast.", hc_url: "https://docs.otc.t-systems.com/cloud-create/index.html", chips: ["SaaS"], regions: ["eu-de", "eu-ch"] },
-  { id: "CloudEye", symbol: "Cloud Eye", name: "Cloud Eye", category: "Management & Deployment", description: "Cloud Eye is a multi-dimensional monitoring platform that monitors your resources such as ECS and bandwidth. With Cloud Eye, users can fully understand the resource usage and running status of services running on the cloud platform, receive alarm notifications in a timely manner, and make response to ensure smooth running of services.", hc_url: "https://docs.otc.t-systems.com/cloud-eye/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "Config", symbol: "Config", name: "Config", category: "Management & Deployment", description: "With Config, you can search for, record, and continuously evaluate your resource configuration to make sure that your expectations are met.", hc_url: "https://docs.otc.t-systems.com/config/index.html", chips: ["Mgmt"], regions: ["eu-de"] },
-  { id: "CTS", symbol: "CTS", name: "Cloud Trace Service", category: "Management & Deployment", description: "Cloud Trace Service (CTS) provides operation records for cloud service resources. The operation records include resource operation requests initiated from the public cloud management console or open APIs and responses to the requests. You can query, audit, and backtrack the operation records. In addition, you can use the Object Storage Service (OBS) to synchronize operation records to the OBS buckets.", hc_url: "https://docs.otc.t-systems.com/cloud-trace-service/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "LTS", symbol: "LTS", name: "Log Tank Service", category: "Management & Deployment", description: "Log Tank Service (LTS) stores logs, allowing you to query and transfer them in real time. It simplifies real-time analysis for decision making and improves log processing efficiency.", hc_url: "https://docs.otc.t-systems.com/log-tank-service/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "RFS", symbol: "RFS", name: "Resource Formation Service", category: "Management & Deployment", description: "With Resource Formation Service, you can manage system and service resources (all physical or logical entities that can be located and described, such as databases, VPCs, pipelines, and IAM roles). You can automatically deploy specified cloud service resources based on the template which uses the HCL (an open ecosystem) syntax.", hc_url: "https://docs.otc.t-systems.com/resource-formation-service/index.html", chips: ["Mgmt"], regions: ["eu-de"] },
-  { id: "TMS", symbol: "TMS", name: "Tag Management Service", category: "Management & Deployment", description: "Tag Management Service (TMS) is a visualized service for fast, unified tag management that enables you to control your resource permissions and billing more efficiently. It allows you to tag and categorize cloud services across regions, and it can be accessed through the TMS console or using APIs.", hc_url: "https://docs.otc.t-systems.com/tag-management-service/index.html", chips: ["Mgmt"], regions: ["eu-de", "eu-ch"] },
+  { id: "CloudEye", symbol: "Cloud Eye", name: "Cloud Eye", category: "Management & Deployment", description: "Cloud Eye is a multi-dimensional monitoring platform that monitors your resources such as ECS and bandwidth. With Cloud Eye, users can fully understand the resource usage and running status of services running on the cloud platform, receive alarm notifications in a timely manner, and make response to ensure smooth running of services.", hc_url: "https://docs.otc.t-systems.com/cloud-eye/index.html", chips: ["Management"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "Config", symbol: "Config", name: "Config", category: "Management & Deployment", description: "With Config, you can search for, record, and continuously evaluate your resource configuration to make sure that your expectations are met.", hc_url: "https://docs.otc.t-systems.com/config/index.html", chips: ["Management"], regions: ["eu-de"] },
+  { id: "CTS", symbol: "CTS", name: "Cloud Trace Service", category: "Management & Deployment", description: "Cloud Trace Service (CTS) provides operation records for cloud service resources. The operation records include resource operation requests initiated from the public cloud management console or open APIs and responses to the requests. You can query, audit, and backtrack the operation records. In addition, you can use the Object Storage Service (OBS) to synchronize operation records to the OBS buckets.", hc_url: "https://docs.otc.t-systems.com/cloud-trace-service/index.html", chips: ["Management"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "LTS", symbol: "LTS", name: "Log Tank Service", category: "Management & Deployment", description: "Log Tank Service (LTS) stores logs, allowing you to query and transfer them in real time. It simplifies real-time analysis for decision making and improves log processing efficiency.", hc_url: "https://docs.otc.t-systems.com/log-tank-service/index.html", chips: ["Management"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "RFS", symbol: "RFS", name: "Resource Formation Service", category: "Management & Deployment", description: "With Resource Formation Service, you can manage system and service resources (all physical or logical entities that can be located and described, such as databases, VPCs, pipelines, and IAM roles). You can automatically deploy specified cloud service resources based on the template which uses the HCL (an open ecosystem) syntax.", hc_url: "https://docs.otc.t-systems.com/resource-formation-service/index.html", chips: ["Management"], regions: ["eu-de"] },
+  { id: "TMS", symbol: "TMS", name: "Tag Management Service", category: "Management & Deployment", description: "Tag Management Service (TMS) is a visualized service for fast, unified tag management that enables you to control your resource permissions and billing more efficiently. It allows you to tag and categorize cloud services across regions, and it can be accessed through the TMS console or using APIs.", hc_url: "https://docs.otc.t-systems.com/tag-management-service/index.html", chips: ["Management"], regions: ["eu-de", "eu-ch"] },
 
   // Network
   { id: "DirectConnect", symbol: "Direct Connect", name: "Dedicated Network Connection", category: "Network", description: "A Direct Connect is a service that allows you to establish a dedicated network connection from your data center to the public cloud platform. You can establish a private connection between the public cloud platform and your data center, office, or collocation environment, which can reduce your network latency and provide a more consistent network experience than Internet-based connections.", hc_url: "https://docs.otc.t-systems.com/direct-connect/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -84,20 +84,20 @@ const SERVICES: OtcService[] = [
   { id: "ER", symbol: "ER", name: "Enterprise Router", category: "Network", description: "An Enterprise Router is a cloud router service that connects your VPCs and on-premises networks.", hc_url: "https://docs.otc.t-systems.com/enterprise-router/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl"] },
   { id: "NATGW", symbol: "NATGW", name: "NAT Gateway", category: "Network", description: "The NAT Gateway service offers the Network Address Translation (NAT) function for computing instances, such as Elastic Cloud Servers (ECSs), in a Virtual Private Cloud (VPC), allowing these computing instances to access the Internet using elastic IP addresses (EIPs).", hc_url: "https://docs.otc.t-systems.com/nat-gateway/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "PLAS", symbol: "PLAS", name: "Private Link Access Service", category: "Network", description: "Private Link Access Service (PLAS) enables public cloud platform users to establish exclusive connections from their on-premise networks to VPCs on the public cloud platform.PLAS connections are established between carrier networks and Direct Connect gateways, reducing network latency. These connections outperform Internet connections in stability and security.", hc_url: "https://docs.otc.t-systems.com/private-link-access-service/index.html", chips: ["IaaS"], regions: ["eu-de"] },
-  { id: "smg", symbol: "SMG", name: "Secure Mail Gateway", category: "Network", description: "The Secure Mail Gateway service provides anti-spam and anti-junk functions for outgoing email traffic and prevents EIPs from being blacklisted or abused.", hc_url: "https://docs.otc.t-systems.com/secure-mail-gateway/index.html", chips: ["Sec"], regions: ["eu-de"] },
+  { id: "smg", symbol: "SMG", name: "Secure Mail Gateway", category: "Network", description: "The Secure Mail Gateway service provides anti-spam and anti-junk functions for outgoing email traffic and prevents EIPs from being blacklisted or abused.", hc_url: "https://docs.otc.t-systems.com/secure-mail-gateway/index.html", chips: ["Security"], regions: ["eu-de"] },
   { id: "VPC", symbol: "VPC", name: "Virtual Private Cloud", category: "Network", description: "The Virtual Private Cloud (VPC) service enables you to provision logically isolated, configurable, and manageable virtual networks for Elastic Cloud Servers (ECSs), improving the security of resources in the cloud system and simplifying network deployment.", hc_url: "https://docs.otc.t-systems.com/virtual-private-cloud/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "VPCEP", symbol: "VPCEP", name: "Virtual Private Cloud Endpoint", category: "Network", description: "The VPC Endpoint (VPCEP) service provides secure and private channels to connect your VPC to VPC endpoint services (cloud services on the current platform or your private services), providing flexible networking without having to use EIPs.", hc_url: "https://docs.otc.t-systems.com/vpc-endpoint/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
   { id: "VPN", symbol: "VPN", name: "Virtual Private Network", category: "Network", description: "A virtual private network (VPN) establishes an encrypted communication tunnel between a remote user and a Virtual Private Cloud (VPC). With VPN, you can connect to a VPC and access service resources in it.", hc_url: "https://docs.otc.t-systems.com/virtual-private-network/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
   // Security Services
-  { id: "Anti-DDoS", symbol: "Anti-DDoS", name: "Anti-DDoS Service", category: "Security Services", description: "The Anti-DDoS traffic cleaning service (Anti-DDoS for short) is a network security service that defends IP addresses against distributed denial of service (DDoS) attacks.", hc_url: "https://docs.otc.t-systems.com/anti-ddos/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
-  { id: "CFW", symbol: "CFW", name: "Cloud Firewall", category: "Security Services", description: "Cloud Firewall (CFW) is a next-generation cloud-native firewall. It protects Internet and VPC borders on the cloud by real-time intrusion detection and prevention, global unified access control, full traffic analysis, log audit, and tracing. It employs AI for intelligent defense, and can be elastically scaled to meet changing business needs, helping you easily handle security threats. CFW is a basic service that provides network security protection for user services on the cloud.", hc_url: "https://docs.otc.t-systems.com/cloud-firewall/index.html", chips: ["Sec"], regions: ["eu-de"] },
-  { id: "DSS", symbol: "DSS", name: "Database Security Service", category: "Security Services", description: "Database Security Service (DBSS) uses machine learning and big data technologies to protect your databases on the cloud, intelligently auditing them and detecting risky behaviors like SQL injection.", hc_url: "https://docs.otc.t-systems.com/database-security-service/index.html", chips: ["Sec"], regions: ["eu-de"] },
-  { id: "HSS", symbol: "HSS", name: "Host Security Service", category: "Security Services", description: "Host Security Service (HSS) defends your Linux and Windows cloud servers from the inside out, with a suite of advanced security features including powerful brute-force protection, intrusion detection monitoring, and vulnerability fixes.", hc_url: "https://docs.otc.t-systems.com/host-security-service/index.html", chips: ["Sec"], regions: ["eu-de"] },
-  { id: "IAM", symbol: "IAM", name: "Identity & Access Management", category: "Security Services", description: "Identity and Access Management (IAM) provides a public cloud system (Open Telekom Cloud) with user identity management and access control.You can use IAM to manage user accounts (such as employee, system or application program accounts) and control the operation permissions of these user accounts on your resources (such as computing, storage, and network resources). In this way, IAM prevents these accounts from sharing your password or access key with other users. IAM also ensures user account security and reduces security risks for your enterprise information by allowing you to set login verification policies, password policies, and an access control list (ACL).", hc_url: "https://docs.otc.t-systems.com/identity-access-management/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "KMS", symbol: "KMS", name: "Key Management Service", category: "Security Services", description: "Key Management Service (KMS) is a secure, reliable, and easy-to-use service that helps users centrally manage and safeguard their Customer Master Keys (CMKs).", hc_url: "https://docs.otc.t-systems.com/key-management-service/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
-  { id: "WAF", symbol: "WAF", name: "Web Application Firewall", category: "Security Services", description: "Web Application Firewall (WAF) keeps web services stable and secure. It examines all HTTP and HTTPS requests to detect and block the following attacks: Structured Query Language (SQL) injection, cross-site scripting (XSS), webshells, command and code injections, file inclusion, sensitive file access, third-party vulnerability exploits, Challenge Collapsar (CC) attacks, malicious crawlers, and cross-site request forgery (CSRF).", hc_url: "https://docs.otc.t-systems.com/web-application-firewall/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl"] },
-  { id: "DWAF", symbol: "DWAF", name: "Dedicated Web Application Firewall", category: "Security Services", description: "Web Application Firewall (WAF) keeps web services stable and secure. It examines all HTTP and HTTPS requests to detect and block the following attacks: Structured Query Language (SQL) injection, cross-site scripting (XSS), webshells, command and code injections, file inclusion, sensitive file access, third-party vulnerability exploits, Challenge Collapsar (CC) attacks, malicious crawlers, and cross-site request forgery (CSRF).", hc_url: "https://docs.otc.t-systems.com/web-application-firewall-dedicated/index.html", chips: ["Sec"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "Anti-DDoS", symbol: "Anti-DDoS", name: "Anti-DDoS Service", category: "Security Services", description: "The Anti-DDoS traffic cleaning service (Anti-DDoS for short) is a network security service that defends IP addresses against distributed denial of service (DDoS) attacks.", hc_url: "https://docs.otc.t-systems.com/anti-ddos/index.html", chips: ["Security"], regions: ["eu-de", "eu-nl"] },
+  { id: "CFW", symbol: "CFW", name: "Cloud Firewall", category: "Security Services", description: "Cloud Firewall (CFW) is a next-generation cloud-native firewall. It protects Internet and VPC borders on the cloud by real-time intrusion detection and prevention, global unified access control, full traffic analysis, log audit, and tracing. It employs AI for intelligent defense, and can be elastically scaled to meet changing business needs, helping you easily handle security threats. CFW is a basic service that provides network security protection for user services on the cloud.", hc_url: "https://docs.otc.t-systems.com/cloud-firewall/index.html", chips: ["Security"], regions: ["eu-de"] },
+  { id: "DSS", symbol: "DSS", name: "Database Security Service", category: "Security Services", description: "Database Security Service (DBSS) uses machine learning and big data technologies to protect your databases on the cloud, intelligently auditing them and detecting risky behaviors like SQL injection.", hc_url: "https://docs.otc.t-systems.com/database-security-service/index.html", chips: ["Security"], regions: ["eu-de"] },
+  { id: "HSS", symbol: "HSS", name: "Host Security Service", category: "Security Services", description: "Host Security Service (HSS) defends your Linux and Windows cloud servers from the inside out, with a suite of advanced security features including powerful brute-force protection, intrusion detection monitoring, and vulnerability fixes.", hc_url: "https://docs.otc.t-systems.com/host-security-service/index.html", chips: ["Security"], regions: ["eu-de"] },
+  { id: "IAM", symbol: "IAM", name: "Identity & Access Management", category: "Security Services", description: "Identity and Access Management (IAM) provides a public cloud system (Open Telekom Cloud) with user identity management and access control.You can use IAM to manage user accounts (such as employee, system or application program accounts) and control the operation permissions of these user accounts on your resources (such as computing, storage, and network resources). In this way, IAM prevents these accounts from sharing your password or access key with other users. IAM also ensures user account security and reduces security risks for your enterprise information by allowing you to set login verification policies, password policies, and an access control list (ACL).", hc_url: "https://docs.otc.t-systems.com/identity-access-management/index.html", chips: ["Security"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "KMS", symbol: "KMS", name: "Key Management Service", category: "Security Services", description: "Key Management Service (KMS) is a secure, reliable, and easy-to-use service that helps users centrally manage and safeguard their Customer Master Keys (CMKs).", hc_url: "https://docs.otc.t-systems.com/key-management-service/index.html", chips: ["Security"], regions: ["eu-de", "eu-nl", "eu-ch"] },
+  { id: "WAF", symbol: "WAF", name: "Web Application Firewall", category: "Security Services", description: "Web Application Firewall (WAF) keeps web services stable and secure. It examines all HTTP and HTTPS requests to detect and block the following attacks: Structured Query Language (SQL) injection, cross-site scripting (XSS), webshells, command and code injections, file inclusion, sensitive file access, third-party vulnerability exploits, Challenge Collapsar (CC) attacks, malicious crawlers, and cross-site request forgery (CSRF).", hc_url: "https://docs.otc.t-systems.com/web-application-firewall/index.html", chips: ["Security"], regions: ["eu-de", "eu-nl"] },
+  { id: "DWAF", symbol: "DWAF", name: "Dedicated Web Application Firewall", category: "Security Services", description: "Web Application Firewall (WAF) keeps web services stable and secure. It examines all HTTP and HTTPS requests to detect and block the following attacks: Structured Query Language (SQL) injection, cross-site scripting (XSS), webshells, command and code injections, file inclusion, sensitive file access, third-party vulnerability exploits, Challenge Collapsar (CC) attacks, malicious crawlers, and cross-site request forgery (CSRF).", hc_url: "https://docs.otc.t-systems.com/web-application-firewall-dedicated/index.html", chips: ["Security"], regions: ["eu-de", "eu-nl", "eu-ch"] },
 
   // Storage
   { id: "CBR", symbol: "CBR", name: "Cloud Backup & Recovery", category: "Storage", description: "Cloud Backup and Recovery (CBR) allows you to back up cloud disks, elastic cloud servers, and bare metal servers, protecting the security and accuracy of your data to the greatest extent for service security.", hc_url: "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html", chips: ["IaaS"], regions: ["eu-de", "eu-nl", "eu-ch"] },
@@ -184,6 +184,17 @@ export default function OtcServicesColumns() {
       el.removeEventListener("change", onChange);
     };
   }, []);
+
+  const resetFilters = () => {
+  // 1) category -> "all"
+  setCategoryFilter("all");
+
+  // 2) chips + regions -> unchecked
+  // Use your existing setters for those two pieces of state.
+  // (If your state uses arrays, set [] instead of new Set().)
+  setChips?.(new Set());   // existing chips state
+  setRegionsSel?.(new Set());   // existing regions state
+};
 
   const isChipActive = (c: Chip) => chips.has(c);
   const isRegionActive = (r: Region) => regionsSel.has(r);
@@ -275,11 +286,37 @@ export default function OtcServicesColumns() {
         <div className={styles.header}>
           <div className={styles.titleBlock}>{/* heading removed intentionally */}</div>
         </div>
+        {/* Filters: categories (single line) */}
+        <div className={styles.filtersRow}>
+          <div className={styles.filterBarRight}>
+            {/* @ts-ignore custom element */}
+            <scale-dropdown-select
+              ref={categorySelectRef}
+              label="Filter by category"
+              value={categoryFilter}
+            >
+              {OTC_CATEGORY_OPTIONS.map((opt) => (
+                // @ts-ignore custom element
+                <scale-dropdown-select-item
+                  key={opt}
+                  value={opt}
+                  selected={categoryFilter === opt}
+                >
+                  {opt === "all" ? "All Categories" : opt}
+                </scale-dropdown-select-item>
+              ))}
+            </scale-dropdown-select>
+          </div>
+          <scale-button variant="secondary" onClick={resetFilters}>
+            <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
+          </scale-button>
+        </div>
+
         {/* Filters: chips | regions (single line) */}
         <div className={styles.filtersRow}>
           {/* Capability chips (SCALE) */}
           <div className={styles.bucketsChips} onClickCapture={onChipRowClickCapture}>
-            {(["IaaS", "PaaS", "SaaS", "Sec", "Mgmt"] as Chip[]).map((c) => (
+            {(["IaaS", "PaaS", "SaaS", "Security", "Management"] as Chip[]).map((c) => (
               // @ts-ignore custom element
               <scale-chip
                 key={c}
@@ -315,64 +352,9 @@ export default function OtcServicesColumns() {
               </scale-chip>
             ))}
           </div>
-
-          <span className={styles.filtersSep} aria-hidden="true"></span>
-
-          {/* Right-aligned SCALE text field (native web component) */}
-          {/* <div className={styles.filtersSearchWrap}>
-            <scale-text-field
-              label="Filter services by name or symbol"
-              onInput={(e) => setQuery((e.target as any).value)}
-            ></scale-text-field>
-          </div> */}
-          <div className={styles.filtersRow}>
-            {/* existing chips + region chips + (optional) search go here */}
-
-            {/* NEW: Category dropdown on the right
-            <div className={styles.filterBarRight}>
-              <label className={styles.categoryLabel}>
-                <select
-                  className={styles.categorySelect}
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  aria-label="Filter by category"
-                >
-                  {OTC_CATEGORY_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt === "all" ? "All" : opt}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div> */}
-
-            {/* Update the Scale dropdown implementation with correct event handling */}
-            <div className={styles.filterBarRight}>
-              {/* @ts-ignore custom element */}
-              <scale-dropdown-select
-                ref={categorySelectRef}
-                label="Filter by category"
-                value={categoryFilter}
-              >
-                {OTC_CATEGORY_OPTIONS.map((opt) => (
-                  // @ts-ignore custom element
-                  <scale-dropdown-select-item
-                    key={opt}
-                    value={opt}
-                    selected={categoryFilter === opt}
-                  >
-                    {opt === "all" ? "All Categories" : opt}
-                  </scale-dropdown-select-item>
-                ))}
-              </scale-dropdown-select>
-            </div>
-
-          </div>
         </div>
 
-
-
-
+        <scale-divider></scale-divider>
         {/* Grid */}
         <div className={styles.tileGrid}>
           {filtered.length === 0 ? (
