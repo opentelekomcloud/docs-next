@@ -186,15 +186,15 @@ export default function OtcServicesColumns() {
   }, []);
 
   const resetFilters = () => {
-  // 1) category -> "all"
-  setCategoryFilter("all");
+    // 1) category -> "all"
+    setCategoryFilter("all");
 
-  // 2) chips + regions -> unchecked
-  // Use your existing setters for those two pieces of state.
-  // (If your state uses arrays, set [] instead of new Set().)
-  setChips?.(new Set());   // existing chips state
-  setRegionsSel?.(new Set());   // existing regions state
-};
+    // 2) chips + regions -> unchecked
+    // Use your existing setters for those two pieces of state.
+    // (If your state uses arrays, set [] instead of new Set().)
+    setChips?.(new Set());   // existing chips state
+    setRegionsSel?.(new Set());   // existing regions state
+  };
 
   const isChipActive = (c: Chip) => chips.has(c);
   const isRegionActive = (r: Region) => regionsSel.has(r);
@@ -294,7 +294,7 @@ export default function OtcServicesColumns() {
               ref={categorySelectRef}
               label="Filter by category"
               value={categoryFilter}
-                  className={styles.fullWidthDropdown}
+              className={styles.fullWidthDropdown}
             >
               {OTC_CATEGORY_OPTIONS.map((opt) => (
                 // @ts-ignore custom element
@@ -308,10 +308,10 @@ export default function OtcServicesColumns() {
               ))}
             </scale-dropdown-select>
             <scale-button variant="secondary" className={styles.resetBtn} onClick={resetFilters}>
-            <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
-          </scale-button>
+              <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
+            </scale-button>
           </div>
-          
+
         </div>
 
         {/* Filters: chips | regions (single line) */}
@@ -360,7 +360,13 @@ export default function OtcServicesColumns() {
         {/* Grid */}
         <div className={styles.tileGrid}>
           {filtered.length === 0 ? (
-            <div className={styles.empty}>No results match your filters.</div>
+            <div className={styles.emptyFill}>
+              <div className={styles.emptyState}>
+                <img src="/img/undraw_no-data_ig65.svg" alt="No results" />
+                <h3>No results match your filters.</h3>
+              </div>
+            </div>
+
           ) : (
             filtered.map((s) => (
               <div

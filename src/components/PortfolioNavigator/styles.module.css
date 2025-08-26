@@ -525,3 +525,27 @@ html[data-theme='dark'] .sleeveFooter {
   width: 100%;
   height: 44px; /* match your input height if needed */
 }
+
+/* Span the full results grid and center content */
+.emptyFill {
+  grid-column: 1 / -1;     /* <-- key: occupy all grid columns */
+  width: 100%;
+
+  display: grid;           /* center both axes */
+  place-items: center;
+  min-height: 50vh;        /* or 100vh if you want true viewport centering */
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyState img {
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 10px;
+}
