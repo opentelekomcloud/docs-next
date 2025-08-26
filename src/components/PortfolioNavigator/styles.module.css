@@ -190,30 +190,6 @@ html[data-theme='dark'] .tileBottom{display:flex;align-items:center;justify-cont
   border:6px solid transparent;border-top-color:#0f172a
 }
 
-/* category colors (tile accent + column stripe) */
-/* .tile[data-cat="Computing"], .col[data-cat="Computing"] { --accent:#794ae9; --stripe:linear-gradient(180deg, rgba(121,74,233,.08), rgba(121,74,233,.03)); }
-.tile[data-cat="Containers"], .col[data-cat="Containers"] { --accent:#2238df; --stripe:linear-gradient(180deg, rgba(34,56,223,.08), rgba(34,56,223,.03)); }
-.tile[data-cat="Data Analysis"], .col[data-cat="Data Analysis"] { --accent:#8eb83a; --stripe:linear-gradient(180deg, rgba(142,184,58,.08), rgba(142,184,58,.03)); }
-.tile[data-cat="Databases"], .col[data-cat="Databases"] { --accent:#3ab89f; --stripe:linear-gradient(180deg, rgba(58,184,159,.08), rgba(58,184,159,.03)); }
-.tile[data-cat="Application"], .col[data-cat="Application"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
-.tile[data-cat="Security Services"], .col[data-cat="Security Services"] { --accent:#b17f38; --stripe:linear-gradient(180deg, rgba(177,127,56,.08), rgba(177,127,56,.03)); }
-.tile[data-cat="Containers & DevOps"], .col[data-cat="Containers & DevOps"] { --accent:#818cf8; --stripe:linear-gradient(180deg, rgba(129,140,248,.08), rgba(129,140,248,.03)); }
-.tile[data-cat="Management & Deployment"], .col[data-cat="Management & Deployment"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
-.tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
-.tile[data-cat="Network"], .col[data-cat="Network"] { --accent:#f97012; --stripe:linear-gradient(180deg, rgba(249,112,18,.08), rgba(249,112,18,.03)); }
-
-html[data-theme='dark'] .tile[data-cat="Computing"], .col[data-cat="Computing"] { --accent:#794ae9; --stripe:linear-gradient(180deg, rgba(121,74,233,.08), rgba(121,74,233,.03)); }
-html[data-theme='dark'] .tile[data-cat="Containers"], .col[data-cat="Containers"] { --accent:#2238df; --stripe:linear-gradient(180deg, rgba(34,56,223,.08), rgba(34,56,223,.03)); }
-html[data-theme='dark'] .tile[data-cat="Data Analysis"], .col[data-cat="Data Analysis"] { --accent:#8eb83a; --stripe:linear-gradient(180deg, rgba(142,184,58,.08), rgba(142,184,58,.03)); }
-html[data-theme='dark'] .tile[data-cat="Databases"], .col[data-cat="Databases"] { --accent:#3ab89f; --stripe:linear-gradient(180deg, rgba(58,184,159,.08), rgba(58,184,159,.03)); }
-html[data-theme='dark'] .tile[data-cat="Application"], .col[data-cat="Application"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
-html[data-theme='dark'] .tile[data-cat="Security Services"], .col[data-cat="Security Services"] { --accent:#b17f38; --stripe:linear-gradient(180deg, rgba(177,127,56,.08), rgba(177,127,56,.03)); }
-html[data-theme='dark'] .tile[data-cat="Containers & DevOps"], .col[data-cat="Containers & DevOps"] { --accent:#818cf8; --stripe:linear-gradient(180deg, rgba(129,140,248,.08), rgba(129,140,248,.03)); }
-html[data-theme='dark'] .tile[data-cat="Management & Deployment"], .col[data-cat="Management & Deployment"] { --accent:#00b367; --stripe:linear-gradient(180deg, rgba(0,179,103,.08), rgba(0,179,103,.03)); }
-html[data-theme='dark'] .tile[data-cat="Storage"], .col[data-cat="Storage"] { --accent:#1eadc6; --stripe:linear-gradient(180deg, rgba(30,173,198,.08), rgba(30,173,198,.03)); }
-html[data-theme='dark'] .tile[data-cat="Network"], .col[data-cat="Network"] { --accent:#f97012; --stripe:linear-gradient(180deg, rgba(249,112,18,.08), rgba(249,112,18,.03)); }
- */
-
 /* ===== Sleeve (drawer) ===== */
 .sleeveBackdrop{
   position: fixed;
@@ -527,4 +503,25 @@ html[data-theme='dark'] .sleeveFooter {
   --radius: var(--telekom-radius-standard);
   --spacing: var(--telekom-spacing-composition-space-04);
   /* --min-width: 200px; */
+}
+
+/* one-row layout with a 90/10 split */
+.filterRow {
+  display: grid;
+  grid-template-columns: 8.5fr 1.5fr; /* 90% / 10% */
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ensure the custom element stretches */
+.fullWidthDropdown {
+  width: 100%;
+  display: block;
+}
+
+/* make the reset button fill its 10% column */
+.resetBtn {
+  width: 100%;
+  height: 44px; /* match your input height if needed */
 }

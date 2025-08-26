@@ -288,12 +288,13 @@ export default function OtcServicesColumns() {
         </div>
         {/* Filters: categories (single line) */}
         <div className={styles.filtersRow}>
-          <div className={styles.filterBarRight}>
+          <div className={styles.filterRow}>
             {/* @ts-ignore custom element */}
             <scale-dropdown-select
               ref={categorySelectRef}
               label="Filter by category"
               value={categoryFilter}
+                  className={styles.fullWidthDropdown}
             >
               {OTC_CATEGORY_OPTIONS.map((opt) => (
                 // @ts-ignore custom element
@@ -306,10 +307,11 @@ export default function OtcServicesColumns() {
                 </scale-dropdown-select-item>
               ))}
             </scale-dropdown-select>
-          </div>
-          <scale-button variant="secondary" onClick={resetFilters}>
+            <scale-button variant="secondary" className={styles.resetBtn} onClick={resetFilters}>
             <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
           </scale-button>
+          </div>
+          
         </div>
 
         {/* Filters: chips | regions (single line) */}
