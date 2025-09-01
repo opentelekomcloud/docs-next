@@ -123,26 +123,7 @@ const SERVICES: OtcService[] = [
 
 ];
 
-/* fixed columns — always render all of them */
-const ALL_CATS: OtcCategory[] = [
-  "Application",
-  "Data Analysis",
-  "Computing",
-  "Containers",
-  "Databases",
-  "Management & Deployment",
-  "Network",
-  "Security Services",
-  "Storage",
-  "Finance Services",
-  "Sites"
-];
-
 const REGION_ORDER: Region[] = ["eu-de", "eu-nl", "eu-ch", "global"];
-
-function cx(...arr: (string | false | null | undefined)[]) {
-  return arr.filter(Boolean).join(" ");
-}
 
 const regionEmoji: Record<Exclude<Region, "global">, string> = {
   "eu-de": "🇩🇪",
@@ -150,12 +131,8 @@ const regionEmoji: Record<Exclude<Region, "global">, string> = {
   "eu-ch": "🇨🇭",
 };
 
-// helper to render the chips text (fallback to category)
-const chipLabel = (chips: Chip[], fallback = "") =>
-  chips && chips.length ? chips.join(" · ") : fallback;
-
 export default function OtcServicesColumns() {
-  const [query, setQuery] = useState("");
+  const [query] = useState("");
   const [chips, setChips] = useState<Set<Chip>>(new Set());            // OR
   const [regionsSel, setRegionsSel] = useState<Set<Region>>(new Set()); // OR
   const [open, setOpen] = useState<OtcService | null>(null);            // ← sleeve
@@ -273,20 +250,6 @@ export default function OtcServicesColumns() {
     return map;
   }, [filtered]);
 
-  const renderRegionBadge = (regions: Region[]) => {
-    if (regions.includes("global")) {
-      return <span className={styles.badge}>GLOBAL</span>;
-    }
-    const ordered = REGION_ORDER.filter(
-      (r) => r !== "global" && regions.includes(r)
-    ) as Exclude<Region, "global">[];
-    return (
-      <span className={styles.flags}>
-        {ordered.map((r) => regionEmoji[r]).join(" ")}
-      </span>
-    );
-  };
-
   // open sleeve on Enter/Space as well
   function onTileKey(e: KeyboardEvent<HTMLDivElement>, s: OtcService) {
     if (e.key === "Enter" || e.key === " ") {
@@ -334,7 +297,6 @@ export default function OtcServicesColumns() {
           {/* Capability chips (SCALE) */}
           <div className={styles.bucketsChips} onClickCapture={onChipRowClickCapture}>
             {(["IaaS", "PaaS", "SaaS", "Security", "Management"] as Chip[]).map((c) => (
-              // @ts-ignore custom element
               <scale-chip
                 key={c}
                 data-chip={c}
