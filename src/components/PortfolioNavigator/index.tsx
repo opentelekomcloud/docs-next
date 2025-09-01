@@ -136,14 +136,22 @@ export default function OtcServicesColumns() {
   const toggleChip = (c: Chip) =>
     setChips((prev) => {
       const next = new Set(prev);
-      next.has(c) ? next.delete(c) : next.add(c);
+      if (next.has(c)) {
+        next.delete(c);
+      } else {
+        next.add(c);
+      }
       return next;
     });
 
   const toggleRegion = (r: Region) =>
     setRegionsSel((prev) => {
       const next = new Set(prev);
-      next.has(r) ? next.delete(r) : next.add(r);
+      if (next.has(r)) {
+        next.delete(r);
+      } else {
+        next.add(r);
+      }
       return next;
     });
 
@@ -424,8 +432,8 @@ export default function OtcServicesColumns() {
           </div>
 
         </div>
-  )
-}
+      )
+      }
     </div >
   );
 }
