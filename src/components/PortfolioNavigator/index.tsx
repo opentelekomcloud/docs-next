@@ -123,14 +123,6 @@ const SERVICES: OtcService[] = [
 
 ];
 
-const REGION_ORDER: Region[] = ["eu-de", "eu-nl", "eu-ch", "global"];
-
-const regionEmoji: Record<Exclude<Region, "global">, string> = {
-  "eu-de": "🇩🇪",
-  "eu-nl": "🇳🇱",
-  "eu-ch": "🇨🇭",
-};
-
 export default function OtcServicesColumns() {
   const [query] = useState("");
   const [chips, setChips] = useState<Set<Chip>>(new Set());            // OR
@@ -237,19 +229,6 @@ export default function OtcServicesColumns() {
     });
   }, [query, chips, regionsSel, categoryFilter]);
 
-  // seed all columns to keep empty columns visible
-  const byCategory = useMemo(() => {
-    const map = new Map<OtcCategory, OtcService[]>();
-    ALL_CATS.forEach((c) => map.set(c, []));
-    filtered.forEach((s) =>
-      map.set(s.category, [...(map.get(s.category) || []), s])
-    );
-    map.forEach((list, c) =>
-      map.set(c, [...list].sort((a, b) => a.name.localeCompare(b.name)))
-    );
-    return map;
-  }, [filtered]);
-
   // open sleeve on Enter/Space as well
   function onTileKey(e: KeyboardEvent<HTMLDivElement>, s: OtcService) {
     if (e.key === "Enter" || e.key === " ") {
@@ -267,7 +246,6 @@ export default function OtcServicesColumns() {
         {/* Filters: categories (single line) */}
         <div className={styles.filtersRow}>
           <div className={styles.filterRow}>
-            {/* @ts-ignore custom element */}
             <scale-dropdown-select
               ref={categorySelectRef}
               label="Filter by category"
@@ -275,7 +253,6 @@ export default function OtcServicesColumns() {
               className={styles.fullWidthDropdown}
             >
               {OTC_CATEGORY_OPTIONS.map((opt) => (
-                // @ts-ignore custom element
                 <scale-dropdown-select-item
                   key={opt}
                   value={opt}
@@ -313,7 +290,6 @@ export default function OtcServicesColumns() {
           {/* Region chips (SCALE) */}
           <div className={styles.bucketsRegions} onClickCapture={onRegionRowClickCapture}>
             {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
-              // @ts-ignore custom element
               <scale-chip
                 key={r}
                 data-region={r}
