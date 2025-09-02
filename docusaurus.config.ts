@@ -174,7 +174,7 @@ const config: Config = {
               to: 'https://marketplace.otc.t-systems.com/',
             },
             {
-              label: 'Community Forums',
+              label: 'Community Portal',
               to: 'https://community.open-telekom-cloud.com/',
             },
             {
