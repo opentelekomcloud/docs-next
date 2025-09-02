@@ -206,7 +206,7 @@ html[data-theme='dark'] .tileBottom{display:flex;align-items:center;justify-cont
 
 .sleeve{
   margin-left: auto;              /* stick to right */
-  width: min(420px, 96vw);
+  width: min(420px, 90vw);
   height: 100%;
   background: #fff;
   border-left: 1px solid var(--line);

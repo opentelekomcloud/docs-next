@@ -1,5 +1,7 @@
 import React, { useMemo, useState, useRef, useEffect, KeyboardEvent } from "react";
 import styles from "./styles.module.css";
+import 'flag-icons/css/flag-icons.min.css';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export type OtcCategory =
   | "Application"
@@ -132,6 +134,7 @@ export default function OtcServicesColumns() {
   const ALL_CATS = Array.from(new Set(SERVICES.map(s => s.category))).sort();
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const OTC_CATEGORY_OPTIONS: string[] = ["all", ...ALL_CATS];
+  const noDataImg = useBaseUrl('/img/undraw_no-data_ig65.svg');
 
   const toggleChip = (c: Chip) =>
     setChips((prev) => {
@@ -245,6 +248,41 @@ export default function OtcServicesColumns() {
     }
   }
 
+  const renderRegionChip = (region: Region) => {
+    if (region === "global") return null;
+
+    const cls =
+      region === "eu-de" ? "fi fi-de" :
+        region === "eu-nl" ? "fi fi-nl" :
+          region === "eu-ch" ? "fi fi-ch fis" : "";
+
+    return (
+      <span
+        className={`${styles.flag} ${cls}`}
+        key={region}
+        title={region}
+      ></span>
+    );
+  };
+
+  const renderRegionFooter = (region: Region) => {
+    if (region === "global") {
+      return <span key={region}>GLOBAL</span>;
+    }
+
+    const cls =
+      region === "eu-de" ? "fi fi-de" :
+        region === "eu-nl" ? "fi fi-nl" :
+          region === "eu-ch" ? "fi fi-ch fis" : "";
+
+    return (
+      <span
+        className={`${styles.flag} ${cls}`}
+        key={region}
+      ></span>
+    );
+  };
+
   return (
     <div className={styles.otcWrap}>
       <div className={styles.otcMax}>
@@ -305,13 +343,8 @@ export default function OtcServicesColumns() {
                 selected={isRegionActive(r) ? true : undefined}
                 title={r.toUpperCase()}
               >
-                {r === "global"
-                  ? "GLOBAL"
-                  : r === "eu-de"
-                    ? "🇩🇪 EU-DE"
-                    : r === "eu-nl"
-                      ? "🇳🇱 EU-NL"
-                      : "🇨🇭 EU-CH"}
+                {renderRegionChip(r)}
+                {` ${r.toUpperCase()}`}
               </scale-chip>
             ))}
           </div>
@@ -323,7 +356,7 @@ export default function OtcServicesColumns() {
           {filtered.length === 0 ? (
             <div className={styles.emptyFill}>
               <div className={styles.emptyState}>
-                <img src="/img/undraw_no-data_ig65.svg" alt="No results" />
+                <img src={noDataImg} />
                 <h3>No results match your filters.</h3>
               </div>
             </div>
@@ -347,15 +380,7 @@ export default function OtcServicesColumns() {
                   <div className={styles.flags}>
                     {s.regions.map((r) => (
                       <span className={styles.flag} key={r}>
-                        {r === "global"
-                          ? "🌐"
-                          : r === "eu-de"
-                            ? "🇩🇪"
-                            : r === "eu-nl"
-                              ? "🇳🇱"
-                              : r === "eu-ch"
-                                ? "🇨🇭"
-                                : r}
+                        {renderRegionFooter(r)}
                       </span>
                     ))}
                   </div>
