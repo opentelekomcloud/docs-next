@@ -1,0 +1,573 @@
+:root{
+  /* --bg: #f8fafc; */
+  /* --panel: #ffffff; */
+  /* --ink: #0f172a; */
+  --muted: #475569;
+  --line: #e2e8f0;
+  --chip: #f1f5f9;
+  --chip-ink: #0f172a;
+  --chip-active: #111827;
+  --chip-active-ink: #fff;
+  --badge: #eef2ff;
+  --badge-ink: #3730a3;
+  --tile-radius: 4px;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 2px 4px rgba(0,0,0,.06);
+  --colW: 280px; /* base column width for smaller screens */
+  --card-bg: #fff;
+  --card-border: #ddd;
+  --text-base: #000;
+  --text-muted: #444;
+  --text-weak: #999;
+  --shadow-hover: rgba(0, 0, 0, 0.1);
+}
+
+*{box-sizing:border-box}
+body{color:var(--ink)}
+
+.otcWrap{min-height:100vh;background:linear-gradient(#fff, var(--bg));padding:24px}
+.otcMax{max-width:1280px;margin:0 auto}
+
+/* header */
+.header{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}
+.titleBlock h1{margin:0;font-weight:700;font-size:clamp(24px,3vw,34px)}
+.titleBlock p{margin:.25rem 0 0;color:var(--muted)}
+.ctrls{display:flex;gap:12px;align-items:center}
+
+/* search */
+.search{position:relative}
+.searchIcon{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.45}
+.search input{
+  height:36px;                           /* ↑ was 34 */
+  width:260px;max-width:58vw;padding:8px 10px 8px 28px;
+  border:1px solid var(--line);border-radius:10px;outline:none;font-size:15px; /* ↑ was 14px */
+}
+.search input:focus{border-color:#818cf8; box-shadow:0 0 0 3px rgba(129,140,248,.25)}
+
+.viewchip{display:inline-flex;align-items:center;gap:6px;background:#eef2ff;border:1px solid #e0e7ff;color:#3730a3;padding:6px 10px;border-radius:999px;font-size:13px}
+
+/* chips */
+.bucketsChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.bucketsRegions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px }
+
+.chip{background:var(--chip);color:var(--chip-ink);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px;cursor:pointer} /* ↑ was 12px */
+.chipActive{background:var(--chip-active);color:var(--chip-active-ink);border-color:var(--chip-active)}
+
+.flags {
+  background: transparent;
+  border: 0;
+  padding: 7px 0 3px 0;
+  box-shadow: none;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.flags span {
+  padding: 0 4px 0 0; /* Changed from left padding to right padding */
+}
+
+/* Remove the .flag class since it's not being used */
+
+/* columns (wrap on small screens; fixed 3 even columns on desktop) */
+.columns{
+  display:grid; gap:10px; margin-top:10px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--colW), 1fr));
+  justify-content:stretch;
+}
+
+/* Desktop: exactly 9 columns per row (your current setting) */
+@media (min-width: 1200px) {
+  .columns {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap:10px;
+  }
+}
+
+/* Column container — borderless & compact */
+.col{
+  position:relative;
+  background:transparent;           /* remove panel */
+  border:none;                      /* remove frame */
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:none;
+}
+.col::before{content:""; position:absolute; inset:0; background:var(--stripe, transparent); opacity:0; pointer-events:none} /* hide stripe */
+.colHead{
+  position:sticky; top:0;
+  background:transparent;           /* lighter header */
+  border-bottom:1px solid var(--line);
+  padding:6px 8px; font-weight:700; letter-spacing:.2px; color:var(--ink); z-index:1;
+  font-size:16px;                   /* ↑ was 15px */
+}
+.colTitle{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.colBody{display:flex; flex-direction:column; gap:8px; padding:8px 2px; min-height:100px}
+.empty{
+  border:1px dashed var(--line); border-radius:12px; padding:14px;
+  text-align:center; color:var(--muted); background:#fbfcfe;
+}
+
+html[data-theme='dark'] .empty{
+  border:1px dashed var(--ifm-color-emphasis-200); border-radius:12px; padding:14px;
+  text-align:center; color:var(--ifm-color-emphasis-400); background:var(--ifm-background-surface-color);
+}
+
+/* tile */
+.tile{
+  /* --accent: #e2e8f0; */
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  border: 1px solid var(--card-border, var(--ifm-color-emphasis-200));
+  padding:8px;display:flex;flex-direction:column;box-shadow:var(--shadow);
+  cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow: var(--shadow), inset 0 2px 0 var(--accent);
+}
+
+html[data-theme='dark'] .tile{
+  /* --accent: #e2e8f0; */
+  background:var(--ifm-background-surface-color);border:1px solid var(--ifm-color-emphasis-200);border-radius:10px;
+  padding:8px;display:flex;flex-direction:column;box-shadow:var(--shadow);
+  cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow: var(--shadow), inset 0 2px 0 var(--accent);
+}
+.tile:hover {
+  text-decoration: none;           
+  box-shadow: 
+    0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
+    0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover))
+}
+/* .tile:hover{transform:translateY(-2px);box-shadow:0 4px 4px rgba(0,0,0,.10), inset 0 4px 0 var(--accent)} */
+html[data-theme='dark'] .tile:hover{
+  box-shadow: 
+    0px 16px 64px 0px #e20074, 
+    0px 8px 16px 0px #e20074;
+}
+
+.tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom: 6px;}
+html[data-theme='dark'] .tileTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+
+.cat{text-transform:uppercase;font-size:11px;letter-spacing:.05em;opacity:.7} /* ↑ was 9px */
+.symbol{flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;line-height:1.1} /* ↑ was 12px */
+
+.tileBottom{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px}
+html[data-theme='dark'] .tileBottom{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px}
+
+
+.name{font-size:18px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align: center;} /* ↑ was 9px */
+/* .ext{opacity:.5} */
+.badge{background:var(--badge);color:var(--badge-ink);padding:1px 6px;border-radius:999px;font-size:12px;border:1px solid #e0e7ff} /* ↑ was 10px */
+
+
+
+/* External link icon — fixed, uniform size everywhere */
+.ext {
+  opacity: .6;                 /* keep your style */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* fixed box so text size/line-height can’t affect it */
+  width: 12px;
+  height: 12px;
+  flex: 0 0 16px;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.ext svg {
+  width: 12px !important;      /* defeat global svg width/height */
+  height: 12px !important;
+  flex: 0 0 16px;
+  stroke-width: 2;             /* optional: consistent weight */
+}
+
+/* tooltip */
+.tile[data-tooltip]:hover::after{
+  content:attr(data-tooltip);position:absolute;left:8px;right:8px;bottom:100%;
+  transform:translateY(-6px);background:#0f172a;color:#fff;padding:8px 10px;
+  border-radius:10px;white-space:normal;font-size:12px;box-shadow:var(--shadow);
+}
+.tile[data-tooltip]:hover::before{
+  content:"";position:absolute;left:20px;bottom:100%;transform:translateY(2px);
+  border:6px solid transparent;border-top-color:#0f172a
+}
+
+/* ===== Sleeve (drawer) ===== */
+.sleeveBackdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,.35);
+  display: grid;
+  place-items: stretch;
+  z-index: 60;
+  /* click-through animation */
+  animation: otcFadeIn .12s ease-out;
+}
+
+@keyframes otcFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.sleeve{
+  margin-left: auto;              /* stick to right */
+  width: min(420px, 90vw);
+  height: 100%;
+  background: #fff;
+  border-left: 1px solid var(--line);
+  box-shadow: -8px 0 24px rgba(0,0,0,.15);
+  display: flex; flex-direction: column;
+  transform: translateX(8px);
+  animation: otcSlideIn .16s ease-out forwards;
+}
+
+html[data-theme='dark'] .sleeve{
+  margin-left: auto;              /* stick to right */
+  width: min(420px, 96vw);
+  height: 100%;
+  background: var(--ifm-background-surface-color);
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+  box-shadow: -8px 0 24px var(--ifm-background-surface-color);
+  display: flex; flex-direction: column;
+  transform: translateX(8px);
+  animation: otcSlideIn .16s ease-out forwards;
+}
+
+@keyframes otcSlideIn { from { transform: translateX(24px); opacity: .8 } to { transform: translateX(0); opacity: 1 } }
+
+.sleeveClose{
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.sleeveHeader{
+  padding: 20px 18px 10px 18px;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
+html[data-theme='dark'] .sleeveHeader{
+  padding: 20px 18px 10px 18px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
+.sleeveSymbol{
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: .02em;
+}
+.sleeveTitle{
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.sleeveBody{
+  padding: 16px 18px;
+  color: var(--muted);
+  line-height: 1.5;
+  overflow: auto;
+  flex: 1;
+}
+
+html[data-theme='dark'] .sleeveBody{
+  padding: 16px 18px;
+  color: white;
+  line-height: 1.5;
+  overflow: auto;
+  flex: 1;
+}
+
+/* 2 equal tracks */
+.sleeveFooter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
+  gap: 10px;
+  padding: 14px 18px 18px 18px;
+  border-top: 1px solid var(--line);
+
+  /* safety: if an old rule set justify-content, kill it */
+  justify-content: initial;
+}
+
+.sleeveFooterSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.sleeveFooterSingle scale-button {
+  --width: 100%;        /* <- this is the key */
+  display: block;       /* optional, makes the host behave like a block */
+  justify-self: stretch;
+}
+
+html[data-theme='dark'] .sleeveFooter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
+  gap: 10px;
+  padding: 14px 18px 18px 18px;
+  border-top: 1px solid 1px solid var(--ifm-color-emphasis-200);
+
+  /* safety: if an old rule set justify-content, kill it */
+  justify-content: initial;
+}
+
+html[data-theme='dark'] .sleeveFooterSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* make the SCALE button host fill its grid cell */
+.sleeveFooter scale-button {
+  display: block;   /* not inline-block */
+  width: 100%;
+}
+
+.sleeveBtn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #111827;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+.sleeveBtn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+
+.sleeveBtnGhost{
+  background: #fff;
+  color: #111827;
+  border-color: var(--line);
+}
+.sleeveBtnGhost:hover{
+  background: #f8fafc;
+}
+
+.sleeveBtn,
+.sleeveBtn:hover,
+.sleeveBtn:focus,
+.sleeveBtn:active,
+.sleeveBtn:visited,
+.sleeveBtnGhost,
+.sleeveBtnGhost:hover,
+.sleeveBtnGhost:focus,
+.sleeveBtnGhost:active,
+.sleeveBtnGhost:visited{
+  width: 100%;                   /* fill each 1fr cell */
+  text-decoration: none;         /* no underline on any state */
+  justify-content: center;       /* keep label centered */
+}
+
+/* … your existing styles unchanged … */
+
+/* enable pointer + inline layout for SCALE chips */
+.buckets scale-chip{display:inline-flex;cursor:pointer}
+
+.filtersRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 10px}
+.filtersSep{opacity:.5;padding:0 6px;user-select:none}
+/* Smaller font for filter chips only (pipe stays the same size) */
+.filtersRow .buckets { font-size: 8px; }
+/* fallback */
+.buckets scale-chip { font-size: 8px; }
+
+/* the row you already have */
+.filtersRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:16px 0 10px;
+}
+
+/* keeps the text field on the right and sized neatly */
+.filtersSearchWrap{
+  padding-top: 10px;
+  margin-left:auto;        /* pushes it to the right */
+  min-width: 220px;
+  max-width: 340px;
+  flex: 1 1 220px;         /* lets it grow a bit when there’s room */
+}
+
+.filtersSearchWrap scale-text-field{
+  display:block;
+  width:100%;
+  --transition: all var(--telekom-motion-duration-transition) var(
+      --telekom-motion-easing-standard
+    );
+  --radius: var(--telekom-radius-standard);
+  --border: var(--telekom-spacing-composition-space-01) solid var(
+      --telekom-color-ui-border-standard
+    );
+  --border-error: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-danger-standard
+    );
+  --border-success: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-success-standard
+    );
+  --border-warning: var(--telekom-spacing-composition-space-02) solid var(
+      --telekom-color-functional-warning-standard
+    );
+  --border-color-hover: var(--telekom-color-ui-border-hovered);
+  --border-color-focus: var(--telekom-color-ui-border-hovered);
+  --border-color-disabled: var(--telekom-color-ui-border-disabled);
+  --background-color-hover: var(--telekom-color-ui-state-fill-hovered);
+  --background-color-disabled: none;
+  --focus-outline: var(--telekom-line-weight-highlight) solid var(
+      --telekom-color-functional-focus-standard
+    );
+  --height: 44px;
+  --spacing-x: var(--telekom-spacing-composition-space-05);
+  --color-disabled: var(--telekom-color-text-and-icon-disabled);
+  --background-disabled: none;
+  --border-color-readonly: var(--telekom-color-ui-border-disabled);
+  --background-readonly: var(--telekom-color-ui-disabled);
+
+  /* meta */
+  --font-weight-meta: var(--telekom-line-weight-bold);
+  --font-size-meta: var(--telekom-typography-font-size-small);
+  --line-height-meta: var(--telekom-typography-line-spacing-standard);
+  --spacing-y-meta: var(--telekom-spacing-composition-space-03);
+  --color-meta: var(--telekom-color-text-and-icon-standard);
+  --color-meta-error: var(--telekom-color-text-and-icon-functional-danger);
+
+  /* control */
+  --spacing-control: 1.125rem calc(
+      2rem - var(--telekom-spacing-composition-space-01)
+    ) 0.25rem calc(0.75rem - var(--telekom-spacing-composition-space-01));
+  --transition-control: var(--transition);
+  --background-control: var(--telekom-color-ui-state-fill-standard);
+  --margin-bottom-control: var(--telekom-spacing-composition-space-03);
+
+  /* counter */
+  --transition-counter: var(--transition);
+  --color-counter-error: var(--color-meta-error);
+
+  /* helper-text */
+  --font-size-helper-text: var(--telekom-typography-font-size-small);
+  --line-height-helper-text: 0.8;
+  --font-weight-helper-text: var(--telekom-typography-font-weight-bold);
+  --color-helper-text: var(
+    --telekom-color-text-and-icon-functional-informational
+  );
+  --color-helper-text-error: var(--color-meta-error);
+  --color-helper-text-success: var(
+    --telekom-color-text-and-icon-functional-success
+  );
+  --color-helper-text-warning: var(
+    --telekom-color-text-and-icon-functional-warning
+  );
+  --color-helper-text-neutral: var(--telekom-color-text-and-icon-additional);
+  --helper-text-icon-size: 8px;
+
+  /* placeholder */
+  --transition-placeholder: var(--transition);
+  --color-placeholder: var(--telekom-color-text-and-icon-additional);
+
+  /* label */
+  --color-label: var(--telekom-color-text-and-icon-additional);
+  --color-label-readonly: var(--telekom-color-text-and-icon-standard);
+  --z-index-label: var(--scl-z-index-10);
+  --transition-label: var(--transition);
+}
+
+/* Single grid for tiles — 4 per row on desktop */
+.tileGrid{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+}
+
+/* Tweak columns responsively so it doesn’t overflow on smaller screens */
+@media (max-width: 1200px){
+  .tileGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px){
+  .tileGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 540px){
+  .tileGrid { grid-template-columns: 1fr; }
+}
+
+.filterBarRight {
+  width: 100%;
+  gap:10px;
+  display: block; /* ensures the custom element honors width */
+  min-width: 300px;
+}
+
+/* Style container for Scale dropdown */
+.filterBarRight scale-dropdown-select {
+  --background-hover: var(--telekom-color-ui-state-fill-hovered);
+  --color-hover: var(--telekom-color-text-and-icon-standard);
+  --background: var(--telekom-color-ui-state-fill-standard);
+  --color: var(--telekom-color-text-and-icon-standard);
+  --radius: var(--telekom-radius-standard);
+  --spacing: var(--telekom-spacing-composition-space-04);
+  /* --min-width: 200px; */
+}
+
+/* one-row layout with a 90/10 split */
+.filterRow {
+  display: grid;
+  grid-template-columns: 8.5fr 1.5fr; /* 90% / 10% */
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ensure the custom element stretches */
+.fullWidthDropdown {
+  width: 100%;
+  display: block;
+}
+
+/* make the reset button fill its 10% column */
+.resetBtn {
+  width: 100%;
+  height: 44px; /* match your input height if needed */
+}
+
+/* Span the full results grid and center content */
+.emptyFill {
+  grid-column: 1 / -1;     /* <-- key: occupy all grid columns */
+  width: 100%;
+
+  display: grid;           /* center both axes */
+  place-items: center;
+  min-height: 50vh;        /* or 100vh if you want true viewport centering */
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyState img {
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 10px;
+}

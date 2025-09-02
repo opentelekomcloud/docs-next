@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import type {Props} from '@theme/NotFound/Content';
+import type { Props } from '@theme/NotFound/Content';
 import Heading from '@theme/Heading';
+import styles from './styles.module.css';
 
-export default function NotFoundContent({className}: Props): JSX.Element {
+export default function NotFoundContent({ className }: Props): JSX.Element {
   return (
     <main className={clsx('container margin-vert--xl', className)}>
       <div className="row">
@@ -30,6 +31,33 @@ export default function NotFoundContent({className}: Props): JSX.Element {
               original URL and let them know their link is broken.
             </Translate>
           </p> */}
+          <scale-button size="small" variant="primary" href="/portfolio">
+            <scale-icon-navigation-map></scale-icon-navigation-map>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the portfolio navigator page">
+              Go to Portfolio Navigator
+            </Translate>
+          </scale-button>
+          <span className={styles.filtersSep} aria-hidden="true"></span>
+          <scale-button size="small" variant="secondary" href="/docs/tags">
+            <scale-icon-content-available-keychain></scale-icon-content-available-keychain>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the tag list page">
+              View All Tags
+            </Translate>
+          </scale-button>
+
+          <span className={styles.filtersSep} aria-hidden="true"></span>
+          <scale-button size="small" variant="secondary" href="/">
+            <scale-icon-home-home></scale-icon-home-home>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the portfolio navigator page">
+              Return Home
+            </Translate>
+          </scale-button>
         </div>
       </div>
     </main>

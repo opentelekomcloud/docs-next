@@ -7,16 +7,16 @@ import {
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
-import Translate, {translate} from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
-import type {Props} from '@theme/DocTagDocListPage';
+import type { Props } from '@theme/DocTagDocListPage';
 import Heading from '@theme/Heading';
-import {File, FlaskConical, Factory, FileCheck} from 'lucide-react';
+import { File, FlaskConical, Factory, FileCheck } from 'lucide-react';
 import styles from './styles.module.css';
 
 // Custom pluralization hook
 function useNDocsTaggedPlural() {
-  const {selectMessage} = usePluralForm();
+  const { selectMessage } = usePluralForm();
   return (count: number) =>
     selectMessage(
       count,
@@ -26,7 +26,7 @@ function useNDocsTaggedPlural() {
           description: 'Pluralized label for "{count} docs tagged"',
           message: 'We found one article tagged|We found {count} articles tagged',
         },
-        {count},
+        { count },
       ),
     );
 }
@@ -40,20 +40,20 @@ function usePageTitle(props: Props): string {
       description: 'Title of the docs tag list page',
       message: '{nDocsTagged} with "{tagName}"',
     },
-    {nDocsTagged, tagName: props.tag.label},
+    { nDocsTagged, tagName: props.tag.label },
   );
 }
 
 // Single document item
-function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
+function DocItem({ doc }: { doc: Props['tag']['items'][number] }): JSX.Element {
   const url = doc.permalink;
   const IconComponent = url.includes('best-practices')
     ? FileCheck
     : url.includes('by-industry')
-    ? Factory
-    : url.includes('blueprints')
-    ? FlaskConical
-    : File;
+      ? Factory
+      : url.includes('blueprints')
+        ? FlaskConical
+        : File;
 
   return (
     <article className={styles.article}>
@@ -78,7 +78,7 @@ function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
 function DocTagDocListPageMetadata({
   title,
   tag,
-}: Props & {title: string}): JSX.Element {
+}: Props & { title: string }): JSX.Element {
   return (
     <>
       <PageMetadata title={title} description={tag.description} />
@@ -91,7 +91,7 @@ function DocTagDocListPageMetadata({
 function DocTagDocListPageContent({
   tag,
   title,
-}: Props & {title: string}): JSX.Element {
+}: Props & { title: string }): JSX.Element {
   return (
     <HtmlClassNameProvider
       className={ThemeClassNames.page.docsTagDocListPage}
@@ -101,15 +101,23 @@ function DocTagDocListPageContent({
         <header className={styles.header}>
           <Heading as="h1">{title}</Heading>
           {tag.description && <p>{tag.description}</p>}
-          <scale-button size="small" variant="secondary" href={tag.allTagsPath}>
-                <scale-icon-action-backward></scale-icon-action-backward> 
-                  <Translate
-                    id="theme.tags.tagsPageLink"
-                    description="The label of the link targeting the tag list page">
-                    View All Tags
-                  </Translate>
-              </scale-button>
-
+          <scale-button size="small" variant="primary" href={tag.allTagsPath}>
+            <scale-icon-content-available-keychain></scale-icon-content-available-keychain>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the tag list page">
+              View All Tags
+            </Translate>
+          </scale-button>
+          <span className={styles.filtersSep} aria-hidden="true"></span>
+          <scale-button size="small" variant="secondary" href="/portfolio">
+            <scale-icon-navigation-map></scale-icon-navigation-map>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the portfolio navigator page">
+              Go to Portfolio Navigator
+            </Translate>
+          </scale-button>
         </header>
         <section>
           {tag.items.map((doc) => (

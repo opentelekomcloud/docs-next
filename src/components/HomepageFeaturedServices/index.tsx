@@ -16,8 +16,8 @@ export default function HomepageFeaturedServices(): JSX.Element {
             <p className="margin-bottom--md">
               Check out our collection of technical solutions, best practices and cool tips for the most popular services of Open Telekom Cloud.
             </p>
-            <a className="button button--secondary" href={useBaseUrl("/docs/best-practices")}>
-              Explore our Best Practices
+            <a className="button button--secondary" href={useBaseUrl("/portfolio")}>
+              Open Portfolio Navigator
             </a>
           </div>
         </div>
