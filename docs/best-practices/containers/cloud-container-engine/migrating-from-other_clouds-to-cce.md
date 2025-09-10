@@ -1,7 +1,7 @@
 ---
 id: migrating-from-other_clouds-to-cce
 title: Migrating Clusters from Other Clouds to CCE
-tags: [cce, migration, minio, velero, obs]
+tags: [cce, migration, minio, velero, obs, wordpress, kubernetes]
 ---
 
 # Migrating Clusters from Other Clouds to CCE
@@ -360,6 +360,240 @@ migration based on the migration result. -->
 :::danger caution
 If a backup task involves storage of the `HostPath` type, t**he storage volumes of this type will be automatically skipped** and a warning message will be generated. This will not cause a backup failure.
 :::
+
+## Deploying a Demo Workload on AWS EKS
+
+We will deploy [WordPress](https://wordpress.com/) on an AWS EKS cluster as a demonstration workload to provide a realistic scenario for the migration examples that follow. This deployment serves as a practical workload to showcase how a live application, including its database and persistent data, can be backed up and migrated from AWS EKS to Open Telekom Cloud’s Cloud Container Engine (CCE) using Velero. By using WordPress, we can illustrate key migration concepts such as persistent volume handling, database replication, and service continuity in a controlled lab environment, allowing users to test backup, restore, and migration procedures safely before applying them to production workloads.
+
+:::warning
+This deployment is provided solely for use in a lab context to support migration exercises and should not be considered a production-ready setup.
+:::
+
+### Prerequisites on AWS EKS
+
+* Ensure the Amazon EBS CSI driver is installed/enabled as an EKS add-on (needed for dynamic PersistentVolumeClaims).
+* Confirm your worker nodes have IAM roles allowing EBS provisioning (usually handled automatically if the add-on is installed).
+
+Check your available storage classes with:
+
+```shell
+kubectl get storageclass
+```
+
+Typically you’ll see `gp2` or `gp3`. We’ll use gp2.
+
+### Deploying Namespace and Secrets
+
+```yaml title="ns-secrets.yaml"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordpress
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wp-db-secret
+  namespace: wordpress
+type: Opaque
+stringData:
+  mysql-root-password: "<A_SECURE_PASSWORD>"
+  mysql-database: "wordpress"
+  mysql-user: "wpuser"
+  mysql-password: "<A_SECURE_PASSWORD>"
+```
+
+:::important
+Replace the values of `mysql-root-password` and `mysql-password` with a secure, strong, random passwords of your choice. e.g.:
+
+```shell
+openssl rand -base64 32
+```
+
+:::
+
+and apply:
+
+```shell
+kubectl apply -f ns-secrets.yaml
+```
+
+### Deploying MySQL with EBS PVC
+
+```yaml title="deployment-mysql.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: gp2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-root-password
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-database
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-user
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-password
+        ports:
+          - containerPort: 3306
+        volumeMounts:
+          - name: mysql-data
+            mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: wordpress
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+```
+
+and apply:
+
+```shell
+kubectl apply -f deployment-mysql.yaml
+```
+
+### Deploying WordPress with EBS PVC
+
+```yaml title="deployment-wp.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pvc
+  namespace: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:6.2-apache
+        env:
+          - name: WORDPRESS_DB_HOST
+            value: mysql.wordpress.svc.cluster.local:3306
+          - name: WORDPRESS_DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-database
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-user
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wp-db-secret
+                key: mysql-password
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: wp-data
+            mountPath: /var/www/html/wp-content
+      volumes:
+        - name: wp-data
+          persistentVolumeClaim:
+            claimName: wp-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: wordpress
+
+```
+
+and apply:
+
+```shell
+kubectl apply -f deployment-wp.yaml
+```
+
+and the you can access the it via port-forwarding:
+
+```shell
+kubectl port-forward wordpress/wordpress 3001:80 -n wordpress
+```
+
+![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_13-40-55.png)
+
 
 <!-- ### Backing Up an Application in the Source Cluster
 
