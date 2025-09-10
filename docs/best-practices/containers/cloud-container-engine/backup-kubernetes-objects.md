@@ -1,40 +1,76 @@
 ---
 id: backup-kubernetes-objects
 title: Backing Up Kubernetes Objects of other Clusters
-tags: [cce, migration, velero, obs]
+tags: [cce, migration, minio, velero, obs, wordpress, kubernetes]
 ---
 
 # Backing Up Kubernetes Objects of other Clusters
 
-1.  To back up a WordPress application with PV data, add an `annotation` to the corresponding pod. If you do not need to back up the PV data, skip this step.
-    
-    ```
-    # kubectl -n YOUR_POD_NAMESPACE annotate pod/YOUR_POD_NAME backup.velero.io/backup-volumes=YOUR_VOLUME_NAME_1,YOUR_VOLUME_NAME_2,...
+In part of the guide, we are going to demonstrate how we can backup WordPress with Velero (FSB). For WordPress, we need to backup both namespace resources (Deployments, Services, Secrets, ConfigMaps) and persistent volumes (MySQL and WordPress content).
 
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# kubectl get pod -n wordpress
-    NAME   READY   STATUSRESTARTS   AGE
-    wordpress-67796d86b5-f9bfm 1/1 Running   1  39m
-    wordpress-mysql-645b796d8d-6k8wh   1/1 Running   0  38m
+:::important
+The following actions have to be performed on the AWK EKS cluster which is our migration source.
+:::
 
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# kubectl -n wordpress annotate pod/wordpress-67796d86b5-f9bfm backup.velero.io/backup-volumes=wordpress-pvc
-    pod/wordpress-67796d86b5-f9bfm annotated
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# kubectl -n wordpress annotate pod/wordpress-mysql-645b796d8d-6k8wh backup.velero.io/backup-volumes=wordpress-mysql-pvc
-    pod/wordpress-mysql-645b796d8d-6k8wh annotated
-    ```
-2.  Execute the backup task.
+## Option 1: Automatically Back Up All Volumes (FSB)
 
-    ```bash
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# velero backup create  wordpress-backup --include-namespaces wordpress
-    Backup request "wordpress-backup" submitted successfully.
-    Run `velero backup describe wordpress-backup` or `velero backup logs wordpress-backup` for more details.
-    ```
-3.  Check whether the backup task is successful.
-    ```
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# velero backup get
-    NAME   STATUS   CREATED EXPIRES   STORAGE LOCATION   SELECTOR
-    wordpress-backup   InProgress   2020-07-07 20:31:19 +0800 CST   29d   default<none>
-    [root@iZbp1cqobeh1iyyf7qgvvzZ ack2cce]# velero backup get
-    NAME   STATUS  CREATED EXPIRES   STORAGE LOCATION   SELECTOR
-    wordpress-backup   Completed   2020-07-07 20:31:19 +0800 CST   29d   default<none>
-    ```
+We need to enable automatic FSB for all volumes in the namespace:
 
+```shell
+velero backup create wp-backup-auto \
+  --include-namespaces wordpress \
+  --default-volumes-to-fs-backup 
+```
+
+Velero will then automatically detect all PVCs in the namespace and back them up using the Node Agent. In order to verify the status of our backup we could execute the following commands:
+
+```shell
+velero backup get
+velero backup describe wp-backup-auto
+```
+
+or simply follow the progress of the backup directly from the WebUI, we previously installed:
+
+![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_15-55-16.png)
+
+:::note
+When Velero runs a backup using File System Backup (FSB), it creates two types of folders in the object storage bucket: `backups` and `kopia`.
+
+The `backups` folder contains the metadata for Velero backups as details about Kubernetes resources (Deployments, Services, PVCs, etc.), backup status, and instructions for how a restore should be performed. *This information lets Velero reconstruct the cluster state*.
+
+The `kopia` folder is created by the Velero Node Agent (Restic integration). It stores the actual file system snapshots of the persistent volumes, managed by the [Kopia](https://kopia.io/) tool. *These files represent the volume data at backup time and are used during restore to repopulate PVCs with their original content*.
+
+Together, `backups` holds the cluster definitions, while `kopia` holds the persistent data. Both are needed for a full and consistent restore.
+
+:::
+
+## Option 2: Backup Specific Volumes via Annotations (FSB)
+
+In this case we are going to annotate only specific pods, with the volumes we want backed up. Annotate the MySQL pod for Velero FSB:
+
+```shell
+kubectl annotate pod/mysql-846d76b69c-rtgj4 \
+  backup.velero.io/backup-volumes=mysql-data \
+  -n wordpress
+```
+
+and accordingly the WordPress pod:
+
+```shell
+kubectl annotate pod/wordpress-68c77c8464-gc7hr \
+  backup.velero.io/backup-volumes=wp-data \
+  -n wordpress
+```
+
+After annotating, create a Velero backup that will include **only** these annotated volumes:
+
+```shell
+velero backup create wp-backup-annotated-pods \
+  --include-namespaces wordpress
+```
+
+and finally verify as outlined in the previous option.
+
+:::danger REMEMBER
+If you annotate volumes of storage class `HostPath`, **the storage volumes of this type will be automatically skipped** and a warning message will be generated. This will not cause a backup failure.
+:::

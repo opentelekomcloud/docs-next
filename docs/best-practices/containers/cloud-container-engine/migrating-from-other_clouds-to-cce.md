@@ -285,13 +285,13 @@ The installation of Velero has to be performed in both source **and** target clu
     The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3–compatible object storage systems. Since Open Telekom Cloud’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (same counts for MinIO). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
 
     ```bash
-    velero plugin add velero/velero-plugin-for-aws:v1.12.2
+    velero plugin add velero/velero-plugin-for-aws:v1.8.2
     ```
 
-    :::note
+    <!-- :::note
     At the time of writing, the latest plugin version was `v1.12.2`. To check for the most recent release, always refer to their [GitHub releases](https://github.com/vmware-tanzu/velero-plugin-for-aws/releases)
     page.
-    :::
+    ::: -->
 
 5. Verify installation:
    
@@ -358,7 +358,7 @@ migration based on the migration result. -->
 - Velero integrates the Restic tool to back up and restore storage volumes. Currently, the storage volumes of the HostPath type are not supported. For details, see [Restic Restrictions](https://velero.io/docs/v1.7/restic/#limitations). To back up storage volumes of this type, replace the `hostPath` volumes with `local` volumes.
 
 :::danger caution
-If a backup task involves storage of the `HostPath` type, t**he storage volumes of this type will be automatically skipped** and a warning message will be generated. This will not cause a backup failure.
+If a backup task involves storage of the `HostPath` type, **the storage volumes of this type will be automatically skipped** and a warning message will be generated. This will not cause a backup failure.
 :::
 
 ## Deploying a Demo Workload on AWS EKS
