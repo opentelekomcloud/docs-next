@@ -6,261 +6,337 @@ tags: [cce, migration, minio, velero, obs]
 
 # Migrating Clusters from Other Clouds to CCE
 
-Assume that you have deployed the WordPress on 3rd party cloud provider and created your own blog; this document will drive you through how to smoothly migrate an application from a managed Kubernetes cluster on that provider to a Open Telekom Cloud CCE in six easy steps without interrupting the service.
+This article series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/), and optionaly [MinIO](https://www.min.io/), to provide a reliable and structured migration path for Kubernetes workloads.
 
-## Solution Design
-
+<center>
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
-![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png)
+<!-- ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0264642164.png) -->
+</center>
 
-## Migrating Data
+## Prerequisites
 
-### Migrating Databases and Storage
+* The source and target Kubernetes clusters must run version **1.10 or higher**.
+* An **OBS bucket** on Open Telekom Cloud is required and **Access credentials (AK/SK)** with proper permissions. Same count if **MinIO** is used as an alternative S3-compatible object-storage instead of OBS.
+* Both the source and target clusters need network access to the chosen object storage.
+* The **source cluster must be healthy**, with no abnormal pods running.
+* The **target CCE cluster must not contain conflicting resources**, since Velero will not overwrite existing objects.
+* Sufficient **storage capacity** must be ensured for backups and restores.
+* Having [Helm](https://helm.sh/) and [Homebrew](https://brew.sh/) installed on your workstation.
+* Having [kubectl](https://kubernetes.io/docs/reference/kubectl/), and optionally [k9s](https://k9scli.io/), installed on your workstation.
 
-1. Storage Migration: Create a bucket on OBS. For details, see [Creating a Bucket](https://docs.otc.t-systems.com/object-storage-service/umn/obs_console_operation_guide/getting_started/creating_a_bucket.html).
-
-### Migrating Container Images
-
-1. Export the container images used in the other clusters: Pull the images to the client by referring to the operation guide of
-    other Cloud Container Registry.
-
-2. Upload the image files to Open Telekom Cloud SWR: Run the `docker pull` command to push the image to Open Telekom
-    Cloud. For details, see [Uploading an Image Through the Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
-
-## Installing the Migration Tool
-
-[Velero](https://velero.io/) is an open-source backup and migration tool for Kubernetes
-clusters. It integrates the Persistent Volume(PV) data backup
-capability of the Restic tool and can be used to back up Kubernetes
-resource objects (such as Deployments, Jobs, Services, and ConfigMaps)
-in the source cluster. Data in the PV mounted to the Pod are backed up
-and uploaded to the object storage. When a disruption or a major incident occurs or a migration
-is required, the target cluster can use Velero to obtain the
-corresponding backup data from OBS and restore cluster resources as
-required.
-
-You need to prepare temporary object storage to store backup files before the
-migration. Velero supports OBS or [MinIO](https://min.io/) as the object
-storage (For more details about how to deploy MinIO, see [Installing MinIO](#installing-minio)). OBS requires sufficient storage space for storing backup files.You can estimate the storage space based on your cluster scale and data volume. **You are advised to use OBS for backup**. For details about how to
-deploy Velero, see [Installing Velero](#installing-velero)
-
-CCE supports backup and restore using the **e-backup add-on**, which is
-compatible with Velero and uses OBS as the storage backend. You can use
-Velero in on-premises clusters and use e-backup in CCE.
-
-- **Without e-backup**: Install Velero in the source and target and
-    migrate resources by referring to [Migrating Resources in a Cluster (Velero)](#migrating-resources-in-a-cluster)
-- **With e-backup**: Install Velero in the source cluster and use OBS as
-    the storage backend by following the instructions described in [Installing Velero](#installing-velero), and install e-backup in the target CCE cluster and migrate resources by referring to [Migrating Resources in a Cluster (Velero)](#migrating-resources-in-a-cluster)
-
-### Prerequisites
-
-- The Kubernetes version of the source on-premises cluster must be
-    1.10 or later, and the cluster can use DNS and Internet services
-    properly.
-- If you use OBS to store backup files, obtain the AK/SK of a user who
-    has the right to operate OBS. For details, see [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).
-- If you use MinIO to store backup files, bind an EIP to the server
-    where MinIO is installed and enable the API and console port of
-    MinIO in the security group.
-- The target CCE cluster has been created.
-- The source cluster and target cluster must each have at least one
-    idle node. It is recommended that the node specifications be 4 vCPUs
-    and 8 GiB memory or higher.
-
-### Installing MinIO
-
-[MinIO](https://min.io/) is an open-source, high-performance object storage tool compatible
-with the S3 API protocol. If MinIO is used to store backup files for
-cluster migration, you need a temporary server to deploy MinIO and
-provide services for external systems. If you use OBS to store backup
-files, skip this section and go to [Installing Velero](#installing-velero)
-
-MinIO can be installed in any of the following locations:
-
-- Temporary ECS outside a cluster. If the MinIO server is installed outside the cluster, backup files
-    will not be affected when a catastrophic fault occurs in the
-    cluster.
-- Idle nodes in a cluster. You can remotely log in to a node to install the MinIO server or
-    containerize MinIO. For details, see the [official Velero
-    documentation](https://velero.io/docs/v1.7/contributions/minio/#set-up-server).
-
-:::important
-For example, to containerize MinIO, do as follows:
-
-- Change the storage type (`empty dir`) in the YAML file
-    provided by Velero to `HostPath` or `Local`. Otherwise,
-    backup files will be permanently lost after the pod are restarted.
-- Change the Service type to `NodePort` or use other types of
-    Services that support public network access to ensure that MinIO
-    can be accessed by external networks. Otherwise, backup files
-    cannot be downloaded outside the cluster.
+:::tip
+Deploying the necessary tooling (Helm, kubectl, k9s, velero-cli) on your workstation, can be performed **both** in macOS and in Linux via Homebrew. Another tool to add in your arsenal, is [Bold Brew](https://bold-brew.com/), a Homebrew manager that simplifies your Homebrew package management making installations and updates effortless via a TUI interface.
 :::
 
-Regardless of which deployment method is used, the server where MinIO is
-installed must have sufficient storage space, an EIP must be bound to
-the server, and the MinIO service port must be enabled in the security
-group. Otherwise, backup files cannot be uploaded or downloaded.
+### Preparing an OBS Bucket
 
-In this example, MinIO is installed on a temporary ECS outside the
-cluster.
+For more details on creating a bucket on OBS, see [Creating a Bucket](https://docs.otc.t-systems.com/object-storage-service/umn/obs_console_operation_guide/getting_started/creating_a_bucket.html). If you use OBS to store backup files, obtain the AK/SK of a user who has the right to operate OBS. For details, see [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).
 
-1. Download MinIO.
+### Preparing Container Images (Optional)
 
-    ```bash
-    mkdir /opt/minio
-    mkdir /opt/miniodata
-    cd /opt/minio
-    wget https://dl.minio.io/server/minio/release/linux-amd64/minio
-    chmod +x minio
-    ```
+If you are going to use exclusively [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html) as the source of your container images in CCE, you need to upload the image files to the Open Telekom Cloud container registry. For details, see [Uploading an Image Through the Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
 
-2. Configure the username and password of MinIO.
-
-    The username and password set using this method are temporary
-    environment variables and must be reset after the service is
-    restarted. Otherwise, the default root credential will be used to
-    create the service.
-
-    ```bash
-    export MINIO_ROOT_USER=minio
-    export MINIO_ROOT_PASSWORD=minio123
-    ```
-
-3. Create a service. In the command, `/opt/miniodata/` indicates the
-    local disk path for MinIO to store data.
-
-    The default API port of MinIO is `9000`, and the console port is
-    randomly generated. You can use the `\--console-address` parameter
-    to specify a console port.
-
-    ```bash
-    ./minio server /opt/miniodata/ --console-address ":30840" &
-    ```
-
-    :::note
-    Enable the API and console ports in the firewall and security group
-    on the server where MinIO is to be installed. Otherwise, access to
-    the object bucket will fail.
-    :::
-
-4. Use a browser to access `http://<EIP of the node where MinIO resides>:30840`. The MinIO console page is displayed.
-
-### Installing Velero
-
-Go to the OBS or MinIO console and create a bucket named `velero` to
-store backup files. You can custom the bucket name, which must be used
-when installing Velero. Otherwise, the bucket cannot be accessed and the
-backup fails.
-
-:::important
-- Velero instances need to be installed and deployed in both the
-    **source and target clusters**. The installation procedures are the
-    same, which are used for backup and restoration, respectively.
-- The master node of a CCE cluster does not provide a port for remote
-    login. You can install Velero using `kubectl`.
-- If there are a large number of resources to back up, you are advised
-    to adjust the CPU and memory resources of Velero and Restic to 1
-    vCPU and 1 GiB memory or higher.
-- The object storage bucket for storing backup files must be
-    **empty**.
+:::note
+Provisioning the source and target Kubernetes cluster(s) is out of the scope of this best practice article.
 :::
 
-Download the latest, [stable binary file](https://github.com/vmware-tanzu/velero/releases). This article uses
-Velero `1.7.0` as an example. **The installation process in the source cluster is the same as that in the target cluster**:
+## Installing MinIO (Optional)
 
-1. Download the binary file of Velero 1.7.0.
+:::important
+If you have decided to go with Open Telekom Cloud OBS as your object-storage, please **skip this part** and go straight to [Installing Velero](#installing-velero).
+:::
 
-    ```bash
-    wget https://github.com/vmware-tanzu/velero/releases/download/v1.7.0/velero-v1.7.0-linux-amd64.tar.gz
+[MinIO](https://min.io/) is an open-source, high-performance object storage system that is fully compatible with the Amazon S3 API. It is designed to store unstructured data such as backups, logs, and media files, and can run on bare metal, virtual machines, or containerized environments. Because of its S3 compatibility, MinIO is often used as a lightweight alternative to commercial object storage services or as a temporary storage backend for applications like Velero during migrations or testing.
+
+1. Prepare a file named **minio-deployment.yaml**, and save it in your workstation:
+
+    ```yaml title="minio-deployment.yaml"
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+    name: minio
+    namespace: minio
+    spec:
+    replicas: 1
+    selector:
+        matchLabels:
+        app: minio
+    template:
+        metadata:
+        labels:
+            app: minio
+        spec:
+        containers:
+        - name: minio
+            image: minio/minio:RELEASE.2022-12-12T19-27-27Z
+            args:
+            - server
+            - /data
+            - --console-address
+            - ":9001"
+            env:
+            - name: MINIO_ROOT_USER
+                value: "admin"
+            - name: MINIO_ROOT_PASSWORD
+                value: <A_SECURE_PASSWORD>
+            ports:
+            - containerPort: 9000
+            - containerPort: 9001
+            volumeMounts:
+            - name: minio-data
+                mountPath: /data
+        volumes:
+            - name: minio-data
+            persistentVolumeClaim:
+                claimName: minio-pvc
+    ---
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+    name: minio-pvc
+    namespace: minio
+    spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+        storage: 20Gi
+    storageClassName: csi-disk
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+    name: minio
+    namespace: minio
+    spec:
+    type: ClusterIP
+    ports:
+        - port: 9000
+        targetPort: 9000
+        name: api
+        - port: 9001
+        targetPort: 9001
+        name: console
+    selector:
+        app: minio
     ```
 
-2. Install the Velero client.
+    :::important
+    Replace the value of `MINIO_ROOT_PASSWORD` with a secure, strong, random password of your choice. e.g.:
 
-    ```bash
-    tar -xvf velero-v1.7.0-linux-amd64.tar.gz
-    cp ./velero-v1.7.0-linux-amd64/velero /usr/local/bin
+    ```shell
+    openssl rand -base64 32
     ```
 
-3. Create the access key file **credentials-velero** for the backup
-    object storage.
-
-    ```bash 
-    vim credentials-velero
-    ```
-
-    Replace the AK/SK in the file based on the site requirements. When
-    you use OBS, you can obtain the AK/SK by referring to [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).
-    
-    :::note
-    If MinIO is used, create an AK/SK pair in MinIO panel
     :::
 
-    ```shell 
+    :::warning
+    The MinIO image `RELEASE.2022-12-12T19-27-27Z` is intentionally used here because later versions have gradually removed functionality from the WebUI, which makes them less suitable for demonstration and training purposes. This MinIO deployment is provided solely for use in a lab context to support migration exercises and should **not** be considered a production-ready setup. For production environments on Open Telekom Cloud, Object Storage Service (OBS) remains the recommended option, offering durability, scalability, and full integration with Velero and other cloud-native services.
+    :::
+
+2. Deploy it on your **target** cluster, in this case your Open Telekom Cloud CCE cluster:
+
+    ```shell
+    kubectl create namespace minio
+    kubectl apply -f minio-deployment.yaml
+    ```
+
+3. Expose MinIO console following the steps described in [Prepare CCE to Expose Workloads](/docs/best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads.md).
+
+## Installing Velero
+
+[Velero](https://velero.io/) is an open-source tool designed to back up and restore Kubernetes cluster resources **and** persistent volumes. It works by capturing the state of objects such as Deployments, Services, ConfigMaps, and PersistentVolumes data, and storing them in a remote backend, like an object storage. Velero installs as a set of components within the cluster, including a server that runs as a deployment and a client CLI used for triggering operations. During a backup, Velero communicates with the Kubernetes API to collect resource definitions and with cloud provider plug-ins to handle persistent storage snapshots. For a restore, Velero applies the saved resources to the target cluster and re-attaches storage where possible. This makes it a reliable solution for disaster recovery, cluster migration, and maintaining application consistency across environments.
+
+:::note
+Velero offers two modes for handling persistent volume backups: **CSI** and **FSB**:
+
+* **CSI (Container Storage Interface)**: this mode integrates with storage systems that provide a CSI driver and support the Kubernetes snapshot API. In this setup, Velero creates snapshots at the storage layer, which are typically faster and more efficient since they work directly with the underlying block storage. This approach is well-suited for production environments where the storage system offers native snapshot capabilities and consistency guarantees.
+* **FSB (File System Backup)**: this mode, on the other hand, operates at the file level inside the pod. Velero deploys a helper container alongside the application pod, which mounts the same volume and uses a file-copy mechanism to back up or restore data. This method is more flexible because it works even when the storage system does not support snapshots, but it is generally slower and can introduce more load on the pod during the backup process.
+
+In practice, CSI mode is preferred when the underlying infrastructure supports it, while FSB serves as a fallback to ensure Velero can still protect workloads on storage backends without snapshot capabilities.
+
+:::
+
+### Preparing Environmental Variables
+
+1. Prepare a file named **obs.credentials**, and save it in your workstation:
+
+    ```bash title="obs.credentials"
     [default]
-    aws_access_key_id={AK}
-    aws_secret_access_key={SK}
+    aws_access_key_id=<OBS_ACCESS_KEY>
+    aws_secret_access_key=<OBS_SECRET_KEY>
     ```
 
-4. Deploy the Velero server. Change the value of `\--bucket` to the
-    name of the created object storage bucket. In this example, the
-    bucket name is `velero`. For more information about custom
-    installation parameters, see [Customize Velero Install](https://velero.io/docs/v1.7/customize-installation/).
+    :::important
+    Replace **OBS_ACCESS_KEY** and **OBS_SECRET_KEY** with the values you obtained by executing the steps in [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).
+    :::
 
-    ```shell
-    velero install \
-      --provider aws \
-      --plugins velero/velero-plugin-for-aws:v1.2.1 \
-      --bucket velero \
-      --secret-file ./credentials-velero \
-      --use-restic \
-      --use-volume-snapshots=false \
-      --backup-location-config region=eu-de,s3ForcePathStyle="true",s3Url=http://obs.eu-de.otc.t-systems.com
+    :::warning
+    If you have decided to go with MinIO, then open *MinIO Console* -> *Access Keys* -> *Create access key* and copy the autogenerated values:
+
+    ![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_09-32-21.png)
+    :::
+
+2. Prepare a file named **obs.env**, and save it in your workstation:
+
+    ```bash title="obs.env"
+    export VELERO_S3_REGION=<OBS_REGION>
+    export VELERO_S3_URL=<OBS_URL>
+    export VELERO_S3_BUCKET=velero
+    export VELERO_CREDENTIALS=obs.credentials
     ```
 
-    | Parameter                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-    | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-    | --provider               | Vendor who provides the plug-in.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-    | --plugins                | API component compatible with AWS S3. Both OBS and MinIO support the S3 protocol.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-    | --bucket                 | Name of the object storage bucket for storing backup files. The bucket must be created in advance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-    | --secret-file            | Secret file for accessing the object storage, that is, the **credentials-velero** file created before                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-    | --use-restic             | Whether to use **Restic** to support PV data backup. You are advised to enable this function. Otherwise, storage volume resources cannot be backed up.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-    | --use-volume-snapshots   | Whether to create the VolumeSnapshotLocation object for PV snapshot, which requires support from the snapshot program. Set this parameter to false.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-    | --backup-location-config | OBS bucket configurations, including `region`, `s3ForcePathStyle`, and `s3Url`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-    | region                   | Region to which object storage bucket belongs.  If OBS is used, set this parameter according to your region, for example, `eu-nl`. If MinIO is used, set this parameter to minio.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-    | s3ForcePathStyle         | The value true indicates that the S3 file path format is used.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-    | s3Url                    | API access address of the object storage bucket.  If OBS is used, set this parameter to `http://obs.{region}.otc.t-systems.com` (region indicates the region where the object storage bucket is located). For example, if the region is Germany (`eu-de`), the value is `http://obs.eu-de.otc.t-systems.com`. If MinIO is used, set this parameter to `http://{EIP of the node where minio is located}:9000`. The value of this parameter is determined based on the IP address and port of the node where MinIO is installed.   **Note**: The access port in s3Url must be set to the API port of MinIO instead of the console port. The default API port of MinIO is `9000`. To access MinIO installed outside the cluster, enter the public IP address of MinIO. |
+    :::important
+    Replace **VELERO_S3_REGION** with the Open Telekom Cloud region that your bucket lives, and **VELERO_S3_URL** with the OBS address. Example for **eu-de**:  
 
-    **Table 1** Installation parameters of Velero
+    * **VELERO_S3_REGION** should be `eu-de` and
+    * **VELERO_S3_URL** should be `https://obs.eu-de.otc.t-systems.com`.
 
-5. By default, a namespace named `velero` is created for the Velero
-    instance. Run the following command to view the pod status:
+    :::
 
+    :::warning
+    1. If you have decided to go with MinIO, then open *MinIO Dashboard* -> *Settings* -> *Region* and set the value of **Server Location** as **VELERO_S3_REGION**.
+    2. If you followed the instructions of [Installing MinIO](#installing-minio-optional) in this guide, set the **VELERO_S3_URL** either to EIP of the Load Balancer or the URL address exposed by the MinIO Ingress.
+
+    ![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_09-55-40.png)
+    :::
+
+### Creating a Bucket
+
+Go to the OBS or MinIO console and create a bucket named `velero` as a destination for your backup files. You can use **any** bucket name, but make sure you set `VELERO_S3_BUCKET` value in the next steps accordingly.
+
+### Installing Velero CLI
+
+:::important
+The Velero CLI needs to be installed either on your workstation, provided it has access to both clusters, or on **each** bastion host used to connect to the individual clusters.
+:::
+
+You can use Homebrew to install the Velero CLI on macOS or on Linux:
+
+```shell
+brew install velero
+```
+
+or alternatively directly from the [GitHub releases](https://github.com/vmware-tanzu/velero/releases) of the project:
+
+```shell
+tar -xvf velero-v1.16.2-linux-amd64.tar.gz
+```
+
+and then move the extracted binaries to **/usr/local/bin**.
+
+:::note
+At the time of writing, the latest Velero CLI version was `v1.16.2`. To check for the most recent release, always refer to the [GitHub releases](https://github.com/vmware-tanzu/velero/releases)
+page.
+:::
+
+### Installing Velero with Helm Chart
+
+:::important
+The installation of Velero has to be performed in both source **and** target cluster(s), with the identical configuration prepared in the previous step.
+:::
+
+1. Load the environment variables you prepared:
+   
     ```shell
-    $ kubectl get pod -n velero
-    NAME                   READY   STATUS    RESTARTS   AGE
-    restic-rn29c           1/1     Running   0          16s
-    velero-c9ddd56-tkzpk   1/1     Running   0          16s
+    source obs.env
+    ```
+
+2. Create a namespace and provision the necessary access and secret keys as a Kubernetes `Secret`:
+
+    ```bash
+    kubectl create ns velero
+    kubectl -n velero create secret generic velero-cloud-credentials --from-file=cloud=$VELERO_CREDENTIALS
+    ```
+
+3. Deploy Velero using the Helm Chart:
+
+    ```bash
+    helm repo add vmware-tanzu https://vmware-tanzu.github.io/helm-charts
+    helm repo update
+
+    helm upgrade --install velero vmware-tanzu/velero -n velero \
+    --set credentials.existingSecret=velero-cloud-credentials \
+    --set configuration.backupStorageLocation[0].name=default \
+    --set configuration.backupStorageLocation[0].provider=aws \
+    --set configuration.backupStorageLocation[0].bucket=$VELERO_S3_BUCKET \
+    --set configuration.backupStorageLocation[0].config.region=$VELERO_S3_REGION \
+    --set configuration.backupStorageLocation[0].config.s3ForcePathStyle=true \
+    --set configuration.backupStorageLocation[0].config.s3Url=$VELERO_S3_URL \
+    --set deployNodeAgent=true \
+    --set defaultVolumesToFsBackup=true \
+    --set snapshotsEnabled=false
     ```
 
     :::note
-    To prevent memory insufficiency during backup in the actual
-    production environment, change the CPU and memory allocated to
-    Restic and Velero.
+
+    * `--set deployNodeAgent=true`, ensures that the **Velero Node Agent** (formerly known as Restic) is deployed to all cluster nodes. The Node Agent runs as a DaemonSet and enables file system–level backups (FSB mode, check for explanation in the previous chapters) of persistent volumes, which is required when snapshot-based backups are not available or not supported by the storage backend.
+    * `--set defaultVolumesToFsBackup=true`, configures Velero to use file system backups (FSB) as the default method for all persistent volumes. With this setting, volumes are automatically backed up using the Node Agent without requiring explicit annotations on the pods or volumes, simplifying cluster-wide backup management (although you could find tune which volumes are going to be included in the backup, with annotations either in the StatefulSet or Pod specs).
+    * `--set snapshotsEnabled=false`, disables the use of storage-level snapshots through CSI or cloud provider integrations. This is typically done when the target storage does not support snapshot APIs, or when the strategy is to rely solely on file system backups for data protection.
+
+    Together, these settings configure Velero to operate entirely with file system–based backups (FSB) using the Node Agent, making the backup process independent of underlying storage snapshot capabilities.
+
+    For more details on configuring the helm chart values consult the [Velero Helm Chart README](https://github.com/vmware-tanzu/helm-charts/blob/main/charts/velero/README.md).
+
     :::
 
-6. Check the interconnection between Velero and the object storage and
-    ensure that the status is `Available`.
+4. Install Velero Plugin for AWS:
 
-    ```shell
-    $ velero backup-location get
-    NAME      PROVIDER   BUCKET/PREFIX   PHASE       LAST VALIDATED                  ACCESS MODE   DEFAULT
-    default   aws        velero          Available   2021-10-22 15:21:12 +0800 CST   ReadWrite     true
+    The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3–compatible object storage systems. Since Open Telekom Cloud’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (same counts for MinIO). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
+
+    ```bash
+    velero plugin add velero/velero-plugin-for-aws:v1.12.2
     ```
 
-## Migrating Resources in a Cluster 
+    :::note
+    At the time of writing, the latest plugin version was `v1.12.2`. To check for the most recent release, always refer to their [GitHub releases](https://github.com/vmware-tanzu/velero-plugin-for-aws/releases)
+    page.
+    :::
 
-WordPress is used as an example to describe how to migrate an
+5. Verify installation:
+   
+   After completing the Velero installation, the next step is to verify the setup by checking the configured backup locations. This ensures Velero can properly access the object storage backend before running any backups (and, indirectly, the entire installation).
+
+    ```shell
+    velero get backup-locations
+    ```
+
+    and if everything went good you should see something like this:
+
+    ```shell
+    NAME      PROVIDER   BUCKET/PREFIX   PHASE       LAST VALIDATED                   ACCESS MODE   DEFAULT
+    default   aws        velero          Available   2025-09-10 12:35:50 +0200 CEST   ReadWrite     true
+    ```
+
+### Installing a Velero Web UI (Optional)
+
+:::note
+The installation of a Velero Web UI can to be performed in both source **and** target cluster(s). Available open-source options are [Velero UI](https://velero-ui.docs.otwld.com/) and [VUI](https://vui.seriohub.com/). For this guide we will go for the former.
+
+:warning: Both of them are unofficial solutions.
+:::
+
+```shell
+helm repo add otwld https://helm.otwld.com/
+helm repo update
+
+helm install velero-ui otwld/velero-ui --namespace velero-ui --create-namespace
+```
+
+and the you can access the it via port-forwarding:
+
+```shell
+kubectl port-forward service/velero-ui 3000:3000 -n velero-ui
+```
+
+![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_11-44-07.png)
+
+
+For more details consult the project's [documentation](https://velero-ui.docs.otwld.com/category/-getting-started).
+
+## Migration Considerations
+
+<!-- WordPress is used as an example to describe how to migrate an
 application from a Kubernetes cluster to a CCE cluster. The WordPress
 application consists of the WordPress and MySQL components, which are
 containerized. The two components are bound to two local storage volumes
@@ -273,35 +349,19 @@ integrity of PV data after the migration. The article published in
 WordPress will be stored in the `wp_posts` table of the MySQL
 database. If the migration is successful, all contents in the database
 will be migrated to the new cluster. You can verify the PV data
-migration based on the migration result.
+migration based on the migration result. -->
 
-### Prerequisites
+- Before the migration, clear the abnormal pod resources in the source cluster. If the pod is in the abnormal state and has a PVC mounted, the PVC is in the pending state after the cluster is migrated.
+- Ensure that the cluster on the CCE side does not have the same resources as the cluster to be migrated because Velero does not restore the same resources by default.
+- To ensure that container images can be properly pulled after cluster migration, migrate the images to SWR, if that's necessary.
+- CCE **does not** support EVS disks of the `ReadWriteMany` type. If resources of this type exist in the source cluster, change the storage type to `ReadWriteOnce`.
+- Velero integrates the Restic tool to back up and restore storage volumes. Currently, the storage volumes of the HostPath type are not supported. For details, see [Restic Restrictions](https://velero.io/docs/v1.7/restic/#limitations). To back up storage volumes of this type, replace the `hostPath` volumes with `local` volumes.
 
-- Before the migration, clear the abnormal pod resources in the source
-    cluster. If the pod is in the abnormal state and has a PVC mounted,
-    the PVC is in the pending state after the cluster is migrated.
-- Ensure that the cluster on the CCE side does not have the same
-    resources as the cluster to be migrated because Velero does not
-    restore the same resources by default.
-- To ensure that container images can be properly pulled after cluster
-    migration, migrate the images to SWR.
-- CCE **does not** support EVS disks of the `ReadWriteMany` type. If
-    resources of this type exist in the source cluster, change the
-    storage type to `ReadWriteOnce`.
-- Velero integrates the Restic tool to back up and restore storage
-    volumes. Currently, the storage volumes of the HostPath type are not
-    supported. For details, see [Restic Restrictions](https://velero.io/docs/v1.7/restic/#limitations). To
-    back up storage volumes of this type, replace the `hostPath` volumes
-    with `local` volumes. 
-    
-:::important
-If a backup task involves storage of the
-`HostPath` type, the storage volumes of this type will be
-automatically skipped and a warning message will be generated. This
-will not cause a backup failure.
+:::danger caution
+If a backup task involves storage of the `HostPath` type, t**he storage volumes of this type will be automatically skipped** and a warning message will be generated. This will not cause a backup failure.
 :::
 
-### Backing Up an Application in the Source Cluster
+<!-- ### Backing Up an Application in the Source Cluster
 
 1. (Optional) To back up the data of a specified storage volume in the
     pod, add an annotation to the pod. The annotation template is as
@@ -343,16 +403,19 @@ will not cause a backup failure.
         ```bash
         velero backup create <backup-name> --default-volumes-to-restic
         ```
+
     - `\--include-namespaces`: backs up resources in a specified namespace.
 
         ```bash
         velero backup create <backup-name> --include-namespaces <namespace>
         ```
+
     - `\--include-resources`: backs up the specified resources.
 
         ```bash
         velero backup create <backup-name> --include-resources deployments
         ```
+
     - `\--selector`: backs up resources that match the selector.
 
         ```bash
@@ -440,7 +503,7 @@ request storage resources of the corresponding type. For details, see
     `wordpress-backup` to restore the WordPress application to the CCE
     cluster.
 
-    ```bash 
+    ```bash
     velero restore create --from-backup wordpress-backup
     ```
 
@@ -450,86 +513,4 @@ request storage resources of the corresponding type. For details, see
 3. After the restoration is complete, check whether the application is
     running properly. If other adaptation problems may occur, rectify
     the fault by following the procedure described in
-    [Updating Resources Accordingly](./updating-resources).
-
-## Preparing Object Storage and Velero
-
-### Preparing Object Storage MinIO
-
-Prepare the object storage and save its AK/SK.
-
-1. Install the MinIO.
-
-    ```bash
-    # Binary installation
-    mkdir /opt/minio
-    mkdir /opt/miniodata
-    cd /opt/minio
-    wget https://dl.minio.io/server/minio/release/linux-amd64/minio
-    chmod +x minio
-    export MINIO_ACCESS_KEY=minio
-    export MINIO_SECRET_KEY=minio123
-    ./minio server /opt/miniodata/ &
-    ```
-
-    Enter `http://<EIP of the node where MinIO is deployed>:9000` in the address box of a browser. Note that the corresponding ports on the firewall and security group must be enabled.
-
-    To release the MinIO service as a service that can be accessed from outside the cluster, change the service type in `00-minio-deployment.yaml` to `NodePort` or `LoadBalancer`.
-
-    ```
-    kubectl apply -f ./velero-v1.4.0-linux-amd64/examples/minio/00-minio-deployment.yaml
-    ```
-
-2. Create a bucket, which will be used in the migration.
-
-    Open the web page of the MinIO service. Use `MINIO_ACCESS_KEY`/`MINIO_SECRET_KEY` to log in to the MinIO service. In this example, use `minio`/`minio123`. Click *Create bucket*. In this example, create a bucket named `velero`.
-
-### Preparing Velero
-
-Perform the following operations on other cluster and CCE nodes that can run `kubectl` commands:
-
-1. Download the latest stable version of the migration tool from [here](https://github.com/heptio/velero/releases).
-
-    :::note
-    This article uses **velero-v1.4.0-linux-amd64.tar.gz** as an example.
-    :::
-
-2. Install the Velero client.
-
-    ```bash
-    mkdir /opt/ack2cce
-    cd /opt/ack2cce
-    tar -xvf velero-v1.4.0-linux-amd64.tar.gz -C /opt/ack2cce
-    cp /opt/ack2cce/velero-v1.4.0-linux-amd64/velero /usr/local/bin
-    ```
-
-3. Install the Velero server.
-
-    - Prepare the MinIO authentication file:
-
-      ```bash
-      cd /opt/ack2cce
-      vi credentials-velero
-
-      [default]
-      aws_access_key_id = minio
-      aws_secret_access_key = minio123
-      ```
-
-    - Install the Velero server:
-   
-      ```bash
-      velero install \
-       --provider aws \
-       --plugins velero/velero-plugin-for-aws:v1.0.0 \
-       --bucket velero \
-       --secret-file ./credentials-velero \
-       --use-restic \
-       --use-volume-snapshots=false \
-       --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://{EIP of the node where minio runs}:9000
-      ```
-
-      :::note
-      `s3Url` must be set to the actual MinIO address.
-      :::
-
+    [Updating Resources Accordingly](./updating-resources). -->
