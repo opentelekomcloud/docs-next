@@ -463,14 +463,6 @@ const sidebars: SidebarsConfig = {
                   type: 'doc',
                   id: 'best-practices/containers/cloud-container-engine/restore-kubernetes-objects',
                 },
-                {
-                  type: 'doc',
-                  id: 'best-practices/containers/cloud-container-engine/updating-resources',
-                },
-                {
-                  type: 'doc',
-                  id: 'best-practices/containers/cloud-container-engine/debugging-and-starting-the-application',
-                },
               ],
             },
             {
