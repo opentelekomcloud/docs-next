@@ -134,8 +134,8 @@ To modify load balancer resources, apply the required annotations by following t
 
 ```yaml
 annotations:
-kubernetes.io/elb.class: union 
-kubernetes.io/elb.id: 9d06a39d-xxxx-xxxx-xxxx-c204397498a3   
-kubernetes.io/elb.subnet-id: f86ba71c-xxxx-xxxx-xxxx-39c8a7d4bb36    
-kubernetes.io/session-affinity-mode: SOURCE_IP    
+  kubernetes.io/elb.class: union 
+  kubernetes.io/elb.id: 9d06a39d-xxxx-xxxx-xxxx-c204397498a3   
+  kubernetes.io/elb.subnet-id: f86ba71c-xxxx-xxxx-xxxx-39c8a7d4bb36    
+  kubernetes.io/session-affinity-mode: SOURCE_IP    
 ```
