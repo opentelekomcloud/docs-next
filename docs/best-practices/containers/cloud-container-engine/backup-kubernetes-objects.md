@@ -6,7 +6,7 @@ tags: [cce, migration, minio, velero, obs, wordpress, kubernetes, aws, eks]
 
 # Backing Up Kubernetes Objects of other Clusters
 
-In part of the guide, we are going to demonstrate how we can backup WordPress with Velero (FSB). For WordPress, we need to backup both namespace resources (Deployments, Services, Secrets, ConfigMaps) and persistent volumes (MySQL and WordPress content).
+In this part of the guide, we are going to demonstrate how we can backup WordPress with Velero (FSB). For WordPress, we need to backup both namespace resources (Deployments, Services, Secrets, ConfigMaps) and persistent volumes (MySQL and WordPress content).
 
 :::important
 The following actions have to be performed on the AWK EKS cluster which is our migration source.

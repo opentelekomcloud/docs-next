@@ -334,22 +334,7 @@ kubectl port-forward service/velero-ui 3000:3000 -n velero-ui
 
 For more details consult the project's [documentation](https://velero-ui.docs.otwld.com/category/-getting-started).
 
-## Migration Considerations
-
-<!-- WordPress is used as an example to describe how to migrate an
-application from a Kubernetes cluster to a CCE cluster. The WordPress
-application consists of the WordPress and MySQL components, which are
-containerized. The two components are bound to two local storage volumes
-of the Local type respectively and provide external access through the
-NodePort Service.
-
-Before the migration, use a browser to access the WordPress site, create
-a site named **Migrate to CCE**, and publish an article to verify the
-integrity of PV data after the migration. The article published in
-WordPress will be stored in the `wp_posts` table of the MySQL
-database. If the migration is successful, all contents in the database
-will be migrated to the new cluster. You can verify the PV data
-migration based on the migration result. -->
+## Pre-Migration Considerations
 
 - Before the migration, clear the abnormal pod resources in the source cluster. If the pod is in the abnormal state and has a PVC mounted, the PVC is in the pending state after the cluster is migrated.
 - Ensure that the cluster on the CCE side does not have the same resources as the cluster to be migrated because Velero does not restore the same resources by default.
