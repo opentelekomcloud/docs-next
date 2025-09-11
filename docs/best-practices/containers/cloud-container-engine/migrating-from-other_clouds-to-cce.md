@@ -1,12 +1,12 @@
 ---
 id: migrating-from-other_clouds-to-cce
 title: Migrating Clusters from Other Clouds to CCE
-tags: [cce, migration, minio, velero, obs, wordpress, kubernetes]
+tags: [cce, migration, minio, velero, obs, wordpress, kubernetes, aws, eks]
 ---
 
 # Migrating Clusters from Other Clouds to CCE
 
-This article series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/), and optionaly [MinIO](https://www.min.io/), to provide a reliable and structured migration path for Kubernetes workloads.
+This best practices series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/), and optionaly [MinIO](https://www.min.io/), to provide a reliable and structured migration path for Kubernetes workloads.
 
 <center>
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
@@ -311,7 +311,7 @@ The installation of Velero has to be performed in both source **and** target clu
 ### Installing a Velero Web UI (Optional)
 
 :::note
-The installation of a Velero Web UI can to be performed in both source **and** target cluster(s). Available open-source options are [Velero UI](https://velero-ui.docs.otwld.com/) and [VUI](https://vui.seriohub.com/). For this guide we will go for the former.
+The installation of a Velero Web UI can be performed in both source **and** target cluster(s). Available open-source options are [Velero UI](https://velero-ui.docs.otwld.com/) and [VUI](https://vui.seriohub.com/). For this guide we will go for the former.
 
 :warning: Both of them are unofficial solutions.
 :::
@@ -593,158 +593,3 @@ kubectl port-forward wordpress/wordpress 3001:80 -n wordpress
 ```
 
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_13-40-55.png)
-
-
-<!-- ### Backing Up an Application in the Source Cluster
-
-1. (Optional) To back up the data of a specified storage volume in the
-    pod, add an annotation to the pod. The annotation template is as
-    follows:
-
-    ```bash
-    kubectl -n <namespace> annotate <pod/pod_name> backup.velero.io/backup-volumes=<volume_name_1>,<volume_name_2>,...
-    ```
-
-    - `\<namespace\>`: namespace where the pod is located.
-    - `\<pod_name\>`: pod name.
-    - `\<volume_name\>`: name of the persistent volume mounted to
-        the pod. You can run the `describe` statement to query the pod
-        information. The `Volume` field indicates the names of all
-        persistent volumes attached to the pod.
-
-    Add annotations to the pods of WordPress and MySQL. The pod names
-    are something like `wordpress-758fbf6fc7-s7fsr` and
-    `mysql-5ffdfbc498-c45lh`. As long as the pods are in the default namespace
-    `default`, the `-n \<NAMESPACE\>` parameter can be omitted.
-
-    ```bash
-    kubectl annotate pod/wordpress-758fbf6fc7-s7fsr backup.velero.io/backup-volumes=wp-storage
-    kubectl annotate pod/mysql-5ffdfbc498-c45lh backup.velero.io/backup-volumes=mysql-storage
-    ```
-
-2. Back up the application. During the backup, you can specify
-    resources based on parameters. If no parameter is added, the entire
-    cluster resources are backed up by default. For details about the
-    parameters, see [Resource filtering](https://velero.io/docs/v1.7/resource-filtering/).
-
-    - `\--default-volumes-to-restic`: indicates that Restic is used
-        to back up all storage volumes mounted to a pod. `HostPath`
-        volumes are not supported. If this parameter is left blank, the
-        storage volume specified by annotation in
-        cce_bestpractice_0024__en-us_topic_0000001171703796_li686918502812> is backed up by default. This parameter is available
-        only if `\--use-restic` is specified during [Velero Installation](#installing-velero).
-
-        ```bash
-        velero backup create <backup-name> --default-volumes-to-restic
-        ```
-
-    - `\--include-namespaces`: backs up resources in a specified namespace.
-
-        ```bash
-        velero backup create <backup-name> --include-namespaces <namespace>
-        ```
-
-    - `\--include-resources`: backs up the specified resources.
-
-        ```bash
-        velero backup create <backup-name> --include-resources deployments
-        ```
-
-    - `\--selector`: backs up resources that match the selector.
-
-        ```bash
-        velero backup create <backup-name> --selector <key>=<value>
-        ```
-
-    In this section, resources in the namespace `default` are backed
-    up. `wordpress-backup` is the backup name. Specify the same backup
-    name when restoring applications. The following is an example:
-
-    ```bash
-    velero backup create wordpress-backup --include-namespaces default --default-volumes-to-restic
-    ```
-
-    If the following information is displayed, the backup task is **successfully** created:
-
-    ```bash
-    Backup request "wordpress-backup" submitted successfully. Run `velero backup describe wordpress-backup` or `velero backup logs wordpress-backup` for more details.
-    ```
-
-3. Check the backup status.
-
-    ```bash
-    velero backup get
-    ```
-
-    Information similar to the following is displayed:
-
-    ```bash
-    NAME               STATUS      ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION   SELECTOR
-    wordpress-backup   Completed   0        0          2021-10-14 15:32:07 +0800 CST   29d       default            <none>
-    ```
-
-    In addition, you can go to the object bucket to view the backup
-    files. The backups path is the application resource backup path, and
-    the restic path is the PV data backup path.
-
-    ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001480191270.png)
-
-### Restoring Applications in the Target Cluster
-
-The storage infrastructure of an on-premises cluster is different from
-that of a cloud cluster. After the cluster is migrated, PVs cannot be
-mounted to pods. Therefore, during the migration, update the storage
-class of the target cluster to shield the differences of underlying
-storage interfaces between the two clusters when creating a workload and
-request storage resources of the corresponding type. For details, see
-[Updating the Storage Class](./updating-resources#updating-the-storage-class)
-
-1. Create a `ConfigMap` in the CCE cluster and map the storage class used
-    by the source cluster to the default storage class of the CCE
-    cluster.
-
-    In this example, the storage class name of the source cluster is
-    `default` and the storage class name of the target cluster is
-    `csi-disk`.
-
-    :::note
-    - When an application containing PV data is restored in a CCE
-        cluster, the defined storage class dynamically creates and
-        mounts storage resources (such as EVS volumes) based on the PVC.
-    - The storage resources of the cluster can be changed as required,
-        not limited to EVS volumes. To mount other types of storage,
-        such as file storage and object storage, see
-        [Updating the Storage Class](./updating-resources#updating-the-storage-class)
-    :::
-
-    YAML file for the migrated cluster:
-
-    ```yaml
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-    name: change-storageclass-plugin-config
-    namespace: velero
-    labels:
-       app.kubernetes.io/name: velero
-       velero.io/plugin-config: "true"
-       velero.io/change-storage-class: RestoreItemAction
-    data:
-       default:csi-disk
-    ```
-
-2. Use the Velero tool to create a restore and specify a backup named
-    `wordpress-backup` to restore the WordPress application to the CCE
-    cluster.
-
-    ```bash
-    velero restore create --from-backup wordpress-backup
-    ```
-
-    You can run the `velero restore get` statement to view the
-    application restoration status.
-
-3. After the restoration is complete, check whether the application is
-    running properly. If other adaptation problems may occur, rectify
-    the fault by following the procedure described in
-    [Updating Resources Accordingly](./updating-resources). -->

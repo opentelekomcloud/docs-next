@@ -1,27 +1,28 @@
 ---
 id: restore-kubernetes-objects
 title: Restoring Kubernetes Objects in a CCE Cluster
-tags: [cce, migration, azure, velero, obs]
+tags: [cce, migration, minio, velero, obs, wordpress, kubernetes, aws, eks]
 ---
 
 # Restoring Kubernetes Objects in a CCE Cluster
 
-In this example, the WordPress application uses Azure SSD persistent data volumes, which need to be replaced with Open Telekom Cloud SSDs.
+In this part of the guide, we will demonstrate how to restore a WordPress backup created with Velero (FSB) onto a target Open Telekom Cloud CCE cluster. The process includes restoring both the namespace resources (Deployments, Services, Secrets, ConfigMaps) and the persistent volumes for MySQL and WordPress content, effectively migrating the workload into a new cluster.
 
-## Creating a StorageClass
-
-The `StorageClass` used in this example is `azurefile-csi`.
-
-:::caution
-**You must** create a `StorageClass` with the **exact same name** as in the other cloud provider and use it in Open Telekom Cloud. In this case SSDs as backend storage media will be mapped to a new `StorageClass` that has the same name, `azurefile-csi`, as their equivalent in Azure. 
+:::important
+The following actions have to be performed on the Open Telekom Cloud CCE cluster which is our migration target.
 :::
 
-```yaml title="cce-sc-csidisk.yaml"
-allowVolumeExpansion: true
+## Creating a StorageClass Mapping
+
+You need to create a `StorageClass` in Open Telekom Cloud CCE **with the exact same name** as the one used in the source cloud provider, in this case AWS. In this case SSDs, as backend storage media, will be mapped to a new `StorageClass` that has the same name, namely `gp2`, as their equivalent in AWS.
+
+Prepare the manifest for the new `StorageClass`:
+
+```yaml title="cce-storageclass-gp2.yaml"
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: azurefile-csi
+  name: gp2
   selfLink: /apis/storage.k8s.io/v1/storageclasses/csi-disk
 parameters:
   csi.storage.k8s.io/csi-driver-name: disk.csi.everest.io
@@ -31,24 +32,36 @@ parameters:
 provisioner: everest-csi-provisioner
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 ```
 
+and then apply it:
+
 ```bash
-[root@ccenode-roprr hujun]# kubectl create -f cce-sc-csidisk.yaml
+kubectl create -f cce-storageclass-gp2.yaml
 ```
 
 ## Restoring the Application
 
-```
-[root@ccenode-roprr hujun]# velero restore create --from-backup   wordpress-backup
-Restore request "wordpress-backup-20200707212519" submitted successfully.
-Run `velero restore describe wordpress-backup-20200707212519` or `velero restore logs wordpress-backup-20200707212519` for more details
+Then we can proceed restoring the backup:
 
-[root@ccenode-roprr hujun]# velero restore get
-NAME  BACKUP STATUS  WARNINGS   ERRORS   CREATED SELECTOR
-wordpress-backup-20200708112940   wordpress-backup   Completed   0  02020-07-08 11:29:42 +0800 CST   <none>
+```shell
+velero restore create wp-restore \
+  --from-backup wp-backup-auto \
+  --namespace-mappings wordpress:wordpress 
 ```
 
-Check the running status of the WordPress application. Make adaptation
-if issues such as image pulling failures and service access failures
-occur.
+:::tip
+If you want to restore the application into a different namespace, adjust the second value of the `--namespace-mappings`, for example: `--namespace-mappings wordpress:wordpress-restored`.
+:::
+
+In order to verify the status of the restore we could execute the following commands:
+
+```shell
+velero restore get
+velero restore describe wp-restore
+```
+
+or simply follow the progress of the restore directly from the WebUI, we previously installed:
+
+![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_17-06-30.png)
