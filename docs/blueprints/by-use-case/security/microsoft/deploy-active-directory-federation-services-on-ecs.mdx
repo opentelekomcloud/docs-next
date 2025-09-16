@@ -1,8 +1,8 @@
-{/* ---
-id: deploy-adfs-on-ecs
+---
+id: deploy-active-directory-federation-services-on-ecs
 title: Deploy Active Directory Federation Services on ECS
-tags: [security, saml, active-directory, ldap, adfs, microsoft]
---- */}
+tags: [security, active-directory, ldap, adfs, microsoft]
+---
 
 import React from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -354,6 +354,8 @@ And lastly, we need to issue the Certificate:
       - **Key options**::**Make private key exportable**: Make sure this option is enabled
 8. Select the certificate template you just configured and click *Enroll*.
 
+<!-- TOOD think this step in not necessary anymore or should be used only when CA is signed by publicly trusted root CAs -->
+
 <Carousel
  width="100%"
   height="400px"
@@ -429,6 +431,86 @@ By default (in Microsoft Server 2016 and later) the sign-on page is off, so tryi
 ```powershell
 Set-AdfsProperties -EnableIdpInitiatedSignonPage $true
 ```
+
+## Automated Public TLS Certificate Management with WIN-ACME
+
+While an internal Certificate Authority (CA) is excellent for issuing token-signing and other internal-only certificates, your public-facing AD FS endpoint (`adfs.example.com`) requires a TLS certificate that is trusted by all external clients and cloud providers. This section details how to use WIN-ACME and Let's Encrypt to automate the issuance and renewal of a publicly trusted SSL certificate, complementing your internal CA in a hybrid-certificate model.
+
+This approach represents a security best practice:
+
+* **Let's Encrypt Certificate**: Used for the public-facing **SSL Certificate** to secure HTTPS traffic. It is trusted globally.
+* **Internal CA Certificate**: Used for the **Token-Signing** and **Token-Decryption** certificates, which should *not* be publicly trusted.
+
+
+### When to Use WIN-ACME for AD FS
+
+This method is necessary when your internal CA is not trusted by external partners or when client devices do not have your internal root CA certificate installed. It provides a free, automated way to maintain a trusted public endpoint.
+
+### Install WIN-ACME and Prepare for Validation
+
+First, download the latest [WIN-ACME](https://www.win-acme.com/) release and extract it to a permanent location like `C:\win-acme`.
+
+
+
+### Create the Automated Renewal Script
+
+Because AD FS does not use standard IIS bindings, we must use a script to apply the new certificate upon renewal. Create the directory `C:\Scripts` and save the following PowerShell script as `ADFSSSLRenewal.ps1`. This script is specifically designed to update *only* the SSL certificate, leaving your internal token-signing certificates untouched.
+
+
+<!-- TODO add second alternative adfs ssl -->
+```PowerShell
+# C:\Scripts\ADFSSSLRenewal.ps1
+param($CertThumbprint)
+try {
+    # Apply certificate to AD FS SSL binding with warning suppression
+    Set-AdfsSslCertificate -Thumbprint $CertThumbprint -WarningAction SilentlyContinue
+    
+    # For ADFS 2016+ with alternate TLS binding mode, also update the certauth binding
+    try {
+        Set-AdfsAlternateTlsClientBinding -Thumbprint $CertThumbprint -Force $true -Confirm:$false -WarningAction SilentlyContinue
+        Write-Output "Updated alternate TLS client binding for certificate authentication"
+    }
+    catch {
+        Write-Warning "Could not update alternate TLS binding - may not be configured: $($_.Exception.Message)"
+    }
+    
+    # Restart AD FS service without prompting
+    Restart-Service adfssrv -Force -Confirm:$false
+    
+    Write-Output "AD FS certificate updated successfully for both endpoints: $CertThumbprint"
+    exit 0
+}
+catch {
+    Write-Error "Failed to update AD FS certificate: $($_.Exception.Message)"
+    exit 1
+}
+```
+
+
+### Request the Certificate and Configure Renewal
+
+Now, run `wacs.exe` to request the certificate and set up the automated renewal task.
+
+1. Open PowerShell as an Administrator and navigate to your WIN-ACME directory.
+2. Run the following command, replacing the email address with your own:
+
+```PowerShell
+.\wacs.exe --source manual `
+  --host "adfs.example.com","certauth.adfs.example.com" `
+  --validation selfhosting `
+  --store certificatestore `
+  --certificatestore My `
+  --installation script `
+  --script "C:\Scripts\ADFSSSLRenewal.ps1" `
+  --scriptparameters "'{CertThumbprint}'" `
+  --emailaddress "admin@example.com" `
+  --accepttos 
+```
+
+
+This command tells WIN-ACME to get a certificate for `adfs.example.com` and `certauth.adfs.example.com`, validate it using the built-in web server, place it in the local computer's certificate store, and configure the renewal to run the `ADFSSSLRenewal.ps1` script.
+
+
 
 ## Verification
 

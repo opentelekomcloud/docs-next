@@ -12,7 +12,7 @@ In this guide, we'll walk you through extending your on‑premises Microsoft Act
 
 Before initiating the integration process, make sure the following prerequisites are met:
 
-* A fully deployed and accessible ADFS instance, reachable via a valid public domain.
+* A fully deployed and accessible ADFS instance, reachable via a valid public domain. If an instance is not already available, you may create one by following the [Deploy Active Directory Federation Services on ECS](/docs/blueprints/by-use-case/security/microsoft/deploy-active-directory-federation-services-on-ecs.mdx) guide.
 * Administrator-level access to both Microsoft ADFS and Open Telekom Cloud's Identity and Access Management (IAM) console.
 * A working knowledge of SAML 2.0, particularly around concepts such as assertions, metadata exchange, and service provider (SP) vs. identity provider (IdP) roles. If needed, refer to the SAML 2.0 specification for a foundational overview.
 These requirements ensure that you're equipped to configure and validate the trust relationship between the two platforms.
