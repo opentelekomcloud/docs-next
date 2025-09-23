@@ -124,7 +124,7 @@ Needed for inter-container networking across different Docker hosts.
   </TabItem>
 </Tabs>
 
-## Preparing Computing
+## Preparing Compute & Storage
 
 ### Creating an ECS Group
 
@@ -204,6 +204,63 @@ Deploy all seven(7) ECS instances and **carefully verify that each instance is a
 
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-31-08.png)
 
+### Creating an SFS Turbo File System
+
+Go to *Open Telekom Cloud Console* -> *Scalable File System* -> *SFS Turbo* -> *File Systems* and click *Create File System*. 
+Name the instance `sfs-turbo-dokploy` and configure it with the following settings, and click *Create Now* -> *Submit*:
+
+- **Type**: `Standard` (Old Generation)
+- **Capacity**: `500GB`
+- **VPC**: `vpc-dokploy` and **Subnet**: `10.199.11.0/24`
+
+:::note
+You need the [SFS Turbo](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html) share because anything you bind-mount into a Swarm service must exist identically on every node where that task might land, 
+and local Docker volumes are node-scoped. In our design the control-plane services (Traefik, Dokploy, Portainer) run on any manager; 
+during updates or failover Swarm can relocate a replica to a different manager. If a service relies on a host path such as **/etc/traefik/traefik.yml**,
+ **/etc/dokploy**, or persistent UI data, that path must contain the same bytes on every manager or the task will be rejected or start with divergent 
+ configuration. Mounting a single NFSv4 export from SFS Turbo at the same mountpoint on each manager gives you a shared POSIX filesystem with 
+ consistent paths and semantics, so the bind mounts resolve everywhere, the configuration becomes a single source of truth, and rescheduling doesn't 
+ break because bind source path might not exist or because of stale files.
+
+This matters for more than configuration. If you keep Portainer or Dokploy state on a node-local volume, you either have to pin the service to 
+that node forever or accept losing state on failover. With SFS Turbo you move that state onto network storage that all managers can read and write, 
+so you can keep replicas movable and still preserve data. It also gives you a neutral place to store artifacts that multiple containers need at once;
+Traefik dynamic files, bootstrap templates, backup snapshots, build caches without inventing your own replication. Because SFS Turbo is a managed, 
+high-throughput NFS service inside the VPC, you get low latency from every ECS, consistent locking and file permissions, and durability features 
+such as snapshots; operationally it's much simpler and safer than trying to mirror directories across nodes or relying on ad-hoc rsync jobs. 
+In short, the share decouples service scheduling from host persistence: Swarm can freely reschedule managers, and your control-plane services 
+still find their config and data exactly where they expect it.
+:::
+
+### Creating an OBS Bucket
+
+Go to *Open Telekom Cloud Console* -> *Object Storage Service* -> *Object Storage* and click *Create Bucket*. 
+Name the instance `obs-dokploy` and configure it with the following settings, and click *Create Now*:
+
+- **Region**: the same region as you've already chosen to run this lab
+- **Storage Class**: `Standard`
+- **Bucket Policies**: `Private`
+
+:::note
+Dokploy needs an object store because it is not just a control plane; it orchestrates full application lifecycles, including builds, deployments, 
+backups, and artifacts. A relational database and a key-value store are fine for state and coordination, but they are not suitable for 
+storing container images, large build outputs, tarballs, or user-generated assets. Those files have to live in a storage system that can 
+handle unbounded growth, is durable by design, and can be addressed consistently no matter where a container runs.
+
+When Dokploy builds an application from source or exports a backup, it stages artifacts in object storage and later fetches them back for deployment. 
+This indirection allows workloads to be moved between Swarm nodes without having to replicate gigabytes of data across managers. Using an OBS bucket 
+also integrates neatly with Dokploy's workflow for volume backups: instead of keeping snapshots on ephemeral node disks, backups are written once 
+to OBS, where they are durable, versioned if you enable it, and available to restore on any new cluster.
+
+Another important reason is compatibility. Dokploy assumes an S3 endpoint for its storage backend, which means it can treat local deployments and 
+cloud deployments the same way. By giving it an OBS bucket, you satisfy that contract with an API that looks like AWS S3 but lives entirely in Open Telekom Cloud, 
+taking advantage of built-in durability and regional replication. This reduces operational burden compared to stitching together your own distributed file 
+service for large objects (e.g. with [MinIO](https://www.min.io/)). 
+
+In practice the OBS bucket becomes the persistent layer for Dokploy's heavy binary data, while Postgres tracks metadata 
+and Redis accelerates queries. Together, those three backends give Dokploy all the persistence primitives it needs: structured state, ephemeral cache, 
+and durable object storage.
+:::
 
 ## Creating a NAT Gateway
 
@@ -292,72 +349,213 @@ Replace **EIP_ELB** and **EIP_NATGW** with the actual Elastic IP addresses assig
 
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_08-11-44.png)
 
-## Preparing Storage
-
-### Preparing SFS Turbo
-
-Go to *Open Telekom Cloud Console* -> *Scalable File System* -> *SFS Turbo* -> *File Systems* and click *Create File System*. 
-Name the instance `sfs-turbo-dokploy` and configure it with the following settings, and click *Create Now* -> *Submit*:
-
-- **Type**: `Standard` (Old Generation)
-- **Capacity**: `500GB`
-- **VPC**: `vpc-dokploy` and **Subnet**: `10.199.11.0/24`
-
-:::note
-You need the [SFS Turbo](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html) share because anything you bind-mount into a Swarm service must exist identically on every node where that task might land, 
-and local Docker volumes are node-scoped. In our design the control-plane services (Traefik, Dokploy, Portainer) run on any manager; 
-during updates or failover Swarm can relocate a replica to a different manager. If a service relies on a host path such as **/etc/traefik/traefik.yml**,
- **/etc/dokploy**, or persistent UI data, that path must contain the same bytes on every manager or the task will be rejected or start with divergent 
- configuration. Mounting a single NFSv4 export from SFS Turbo at the same mountpoint on each manager gives you a shared POSIX filesystem with 
- consistent paths and semantics, so the bind mounts resolve everywhere, the configuration becomes a single source of truth, and rescheduling doesn't 
- break because bind source path might not exist or because of stale files.
-
-This matters for more than configuration. If you keep Portainer or Dokploy state on a node-local volume, you either have to pin the service to 
-that node forever or accept losing state on failover. With SFS Turbo you move that state onto network storage that all managers can read and write, 
-so you can keep replicas movable and still preserve data. It also gives you a neutral place to store artifacts that multiple containers need at once;
-Traefik dynamic files, bootstrap templates, backup snapshots, build caches without inventing your own replication. Because SFS Turbo is a managed, 
-high-throughput NFS service inside the VPC, you get low latency from every ECS, consistent locking and file permissions, and durability features 
-such as snapshots; operationally it's much simpler and safer than trying to mirror directories across nodes or relying on ad-hoc rsync jobs. 
-In short, the share decouples service scheduling from host persistence: Swarm can freely reschedule managers, and your control-plane services 
-still find their config and data exactly where they expect it.
-:::
-
-### Preparing OBS
-
-Go to *Open Telekom Cloud Console* -> *Object Storage Service* -> *Object Storage* and click *Create Bucket*. 
-Name the instance `obs-dokploy` and configure it with the following settings, and click *Create Now*:
-
-- **Region**: the same region as you've already chosen to run this lab
-- **Storage Class**: `Standard`
-- **Bucket Policies**: `Private`
-
-:::note
-Dokploy needs an object store because it is not just a control plane; it orchestrates full application lifecycles, including builds, deployments, 
-backups, and artifacts. A relational database and a key-value store are fine for state and coordination, but they are not suitable for 
-storing container images, large build outputs, tarballs, or user-generated assets. Those files have to live in a storage system that can 
-handle unbounded growth, is durable by design, and can be addressed consistently no matter where a container runs.
-
-When Dokploy builds an application from source or exports a backup, it stages artifacts in object storage and later fetches them back for deployment. 
-This indirection allows workloads to be moved between Swarm nodes without having to replicate gigabytes of data across managers. Using an OBS bucket 
-also integrates neatly with Dokploy's workflow for volume backups: instead of keeping snapshots on ephemeral node disks, backups are written once 
-to OBS, where they are durable, versioned if you enable it, and available to restore on any new cluster.
-
-Another important reason is compatibility. Dokploy assumes an S3 endpoint for its storage backend, which means it can treat local deployments and 
-cloud deployments the same way. By giving it an OBS bucket, you satisfy that contract with an API that looks like AWS S3 but lives entirely in Open Telekom Cloud, 
-taking advantage of built-in durability and regional replication. This reduces operational burden compared to stitching together your own distributed file 
-service for large objects (e.g. with [MinIO](https://www.min.io/)). 
-
-In practice the OBS bucket becomes the persistent layer for Dokploy's heavy binary data, while Postgres tracks metadata 
-and Redis accelerates queries. Together, those three backends give Dokploy all the persistence primitives it needs: structured state, ephemeral cache, 
-and durable object storage.
-:::
-
 ## Creating the Swarm
 
-### Adding Nodes
+1. Use a tool such as [dig](https://linux.die.net/man/1/dig) or [doggo](https://github.com/mr-karan/doggo) to verify that the bastion host domain resolves to the Elastic IP address of the NAT gateway:
 
-### Creating a wildcard Certificate (Optional)
+    <Tabs>
+        <TabItem value="dig" label="dig">
+        **dig** (Domain Information Groper) is a widely used command-line DNS client included in most Unix-like systems. It is commonly used for 
+        troubleshooting and verifying DNS records, providing detailed output about queries and responses. 
+        **dig** supports multiple query types and 
+        options, making it a standard tool for administrators to inspect domain resolution and DNS server behavior.
 
-### Creating ELB Listeners
+    ```shell
+    sudo apt update
+    sudo apt install dnsutils
+
+    dig +short bastion.dokploy.example.com
+    ```
+        </TabItem>
+        <TabItem value="doggo" label="doggo">
+    **doggo** is a modern command-line DNS client, similar to **dig**, developed in Go. 
+    It provides clear and concise output and supports additional protocols such as DoH, DoT, DoQ, and DNSCrypt.
+
+    ```terminal
+    curl -sS https://raw.githubusercontent.com/mr-karan/doggo/main/install.sh | sh
+
+    doggo bastion.dokplay.example.com
+    ```
+        </TabItem>
+    </Tabs>
+
+2. Copy the KeyPair we created previously to the bastion host:
+    ```bash
+    chmod 400 ~/.ssh/KeyPair-Dokploy.pem
+    scp -i ~/.ssh/KeyPair-Dokploy.pem -P 2200 ~/.ssh/KeyPair-Dokploy.pem ubuntu@bastion.dokploy.example.com:/home/ubuntu/.ssh
+    ```
+3. Connect to the bastion host using SSH:
+    ```bash
+    ssh -i ~/.ssh/KeyPair-Dokploy.pem -p 2200 ubuntu@bastion.dokploy.example.com
+    ```
+
+    and from the bastion host, connect in sequence to **each** manager node, e.g.:
+
+    ```bash
+    ssh -i ~/.ssh/KeyPair-Dokploy.pem 10.199.11.xxx
+    ```
+
+4. Deploy Docker and various utilities on **every** node:
+
+    ```bash
+    # basic packages
+    sudo apt-get update -y && sudo apt-get install -y ca-certificates curl gnupg nfs-common
+
+    # docker
+    curl -sSL https://get.docker.com | sh
+
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    newgrp docker
+    ```
+
+5. From the bastion host, connect to the first manager node using its private IP address:
+    ```bash
+    ssh -i ~/.ssh/KeyPair-Dokploy.pem 10.199.11.141
+    ```
+
+    :::danger critical
+    Replace `10.199.11.141` with the private IP address of the first manager node in your environment.
+    :::
+
+6. Initialize the Docker Swarm:
+    ```bash
+    PRIVATE_IP=$(ip -4 addr show ens3 | awk '/inet /{print $2}' | cut -d/ -f1)
+    docker swarm init --advertise-addr "$PRIVATE_IP"
+    ```
+
+    If the initialization completes successfully, a message similar to the following will appear:
+
+    ```bash
+    Swarm initialized: current node (096mm1ulpf7u0frrme514t99z) is now a manager.
+
+    To add a **worker** to this swarm, run the following command:
+
+        docker swarm join --token SWMTKN-1-6bqpqrh7ztq5u5y465kvvbyjodxzzekrxzyofymt5al4jpx1e7-a0uwmu7mfdrqdne0iyqs65brz 10.199.11.141:2377
+
+    To add a **manager** to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+    ```
+
+    Run the command provided in the response to add a **manager** to the swarm. You should then see a message similar to the following:
+
+    ```bash
+    docker swarm join --token SWMTKN-1-6bqpqrh7ztq5u5y465kvvbyjodxzzekrxzyofymt5al4jpx1e7-0xfr1nmmigpsqo1mowkdxpg6s 10.199.11.141:2377
+    ```
+
+    :::danger critical
+    Note down the two join-token commands that are generated, one for managers and one for workers, and ensure they are not mixed up when 
+    applied to the respective nodes during the next steps.
+    :::
+
+7. Create an overlay network on the first manager:
+    ```bash
+    docker network create --driver overlay --attachable dokploy-network
+    ```
+    :::info
+    You need to create the network once. Swarm then ensures that **any** node which runs a service attached 
+    to that network gets a local dataplane endpoint automatically.
+    :::
+
+8. From the bastion host, connect to **each** node and **run the appropriate join command based on its assigned role in the swarm**.
+
+9. From the bastion host, connect to **each** node and mount the SFS Turbo share (including the bastion):
+    ```bash
+    sudo mkdir -p /mnt/sfs_turbo
+    echo "10.199.11.11:/ /mnt/sfs_turbo nfs vers=3,nolock,noresvport,proto=tcp,rsize=1048576,wsize=1048576,timeo=600,retrans=2,hard,_netdev,x-systemd.automount,bg,nofail 0 0" | sudo tee -a /etc/fstab
+    sudo mount -a
+    ```
+    :::danger critical
+    Replace `10.199.11.11` with the private IP address of the SFS Turbo share in your environment.
+    :::
 
 ### Deploying Traefik
+
+#### Deploying the Service
+
+Create a file named `traefik.yml` in the `/mnt/sfs_turbo` directory: 
+
+```yml
+# Traefik v2.10 static configuration
+# - Only HTTP on :80 (TLS is terminated at the ELB)
+# - Docker Swarm provider
+# - Trust ELB's forwarded headers (includes CGNAT 100.64.0.0/10)
+# - Health endpoint at /ping for ELB checks
+
+entryPoints:
+  web:
+    address: ":80"
+    forwardedHeaders:
+      insecure: false
+      trustedIPs:
+        # Private ranges inside your VPC(s)
+        - 10.199.0.0/16
+        # OTC ELB source addresses often use CGNAT
+        - 100.64.0.0/10
+    transport:
+      respondingTimeouts:
+        # keep generous timeouts for images/build logs, etc.
+        readTimeout: 0
+        writeTimeout: 0
+        idleTimeout: 180s
+      lifeCycle:
+        graceTimeOut: 15s
+
+# Return HTTP 200 on /ping so the ELB can use HTTP checks
+ping:
+  entryPoint: web
+
+# No public dashboard; enable later (and protect) if you really need it
+api:
+  dashboard: false
+
+providers:
+  docker:
+    swarmMode: true
+    watch: true
+    exposedByDefault: false
+    # This must match the overlay network your apps/Traefik share
+    network: dokploy-network
+
+# Logs
+log:
+  level: INFO
+
+# Access logs help when debugging routing
+accessLog:
+  bufferingSize: 100
+  fields:
+    defaultMode: keep
+```
+
+:::info
+Traefik is deployed in Swarm as a **global service**, ensuring one instance runs on every manager node. Because Traefik OSS cannot 
+reliably share ACME certificate state across replicas, TLS termination is handled at the **Open Telekom Cloud Elastic Load Balancer (ELB)** instead. 
+The ELB manages certificates and enforces automatic redirection from `HTTP/80` to `HTTPS/443`, while Traefik itself only receives plain HTTP 
+traffic on port 80. An alternative would be to use **Traefik Enterprise**, which supports distributed certificate storage, but it is not 
+a free open-source product.
+
+Access to Traefik is restricted so that it only accepts requests originating from the VPC subnets and from Open Telekom Cloud infrastructure 
+IP ranges. For health monitoring, Traefik exposes an endpoint at `/ping`. This endpoint will be used in the next step when configuring an 
+ELB listener to track backend health.
+:::
+
+Connect to any manager node via SSH, and deploy traefik as a global service:
+
+```bash
+docker service create \
+    --name traefik \
+    --mode global \
+    --constraint 'node.role==manager' \
+    --network dokploy-network \
+    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+    --mount type=bind,src=/mnt/sfs_turbo/traefik.yml,dst=/etc/traefik/traefik.yml,ro \
+    --publish mode=host,target=80,published=80,protocol=tcp \
+    traefik:v2.10.0 \
+        --configFile=/etc/traefik/traefik.yml
+```
+
+#### Creating ELB Listeners
+
+### Deploying Dokploy
+
+### Deploying Portainer (Optional)
