@@ -296,7 +296,61 @@ Replace **EIP_ELB** and **EIP_NATGW** with the actual Elastic IP addresses assig
 
 ### Preparing SFS Turbo
 
+Go to *Open Telekom Cloud Console* -> *Scalable File System* -> *SFS Turbo* -> *File Systems* and click *Create File System*. 
+Name the instance `sfs-turbo-dokploy` and configure it with the following settings, and click *Create Now* -> *Submit*:
+
+- **Type**: `Standard` (Old Generation)
+- **Capacity**: `500GB`
+- **VPC**: `vpc-dokploy` and **Subnet**: `10.199.11.0/24`
+
+:::note
+You need the [SFS Turbo](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html) share because anything you bind-mount into a Swarm service must exist identically on every node where that task might land, 
+and local Docker volumes are node-scoped. In our design the control-plane services (Traefik, Dokploy, Portainer) run on any manager; 
+during updates or failover Swarm can relocate a replica to a different manager. If a service relies on a host path such as **/etc/traefik/traefik.yml**,
+ **/etc/dokploy**, or persistent UI data, that path must contain the same bytes on every manager or the task will be rejected or start with divergent 
+ configuration. Mounting a single NFSv4 export from SFS Turbo at the same mountpoint on each manager gives you a shared POSIX filesystem with 
+ consistent paths and semantics, so the bind mounts resolve everywhere, the configuration becomes a single source of truth, and rescheduling doesn't 
+ break because bind source path might not exist or because of stale files.
+
+This matters for more than configuration. If you keep Portainer or Dokploy state on a node-local volume, you either have to pin the service to 
+that node forever or accept losing state on failover. With SFS Turbo you move that state onto network storage that all managers can read and write, 
+so you can keep replicas movable and still preserve data. It also gives you a neutral place to store artifacts that multiple containers need at once;
+Traefik dynamic files, bootstrap templates, backup snapshots, build caches without inventing your own replication. Because SFS Turbo is a managed, 
+high-throughput NFS service inside the VPC, you get low latency from every ECS, consistent locking and file permissions, and durability features 
+such as snapshots; operationally it's much simpler and safer than trying to mirror directories across nodes or relying on ad-hoc rsync jobs. 
+In short, the share decouples service scheduling from host persistence: Swarm can freely reschedule managers, and your control-plane services 
+still find their config and data exactly where they expect it.
+:::
+
 ### Preparing OBS
+
+Go to *Open Telekom Cloud Console* -> *Object Storage Service* -> *Object Storage* and click *Create Bucket*. 
+Name the instance `obs-dokploy` and configure it with the following settings, and click *Create Now*:
+
+- **Region**: the same region as you've already chosen to run this lab
+- **Storage Class**: `Standard`
+- **Bucket Policies**: `Private`
+
+:::note
+Dokploy needs an object store because it is not just a control plane; it orchestrates full application lifecycles, including builds, deployments, 
+backups, and artifacts. A relational database and a key-value store are fine for state and coordination, but they are not suitable for 
+storing container images, large build outputs, tarballs, or user-generated assets. Those files have to live in a storage system that can 
+handle unbounded growth, is durable by design, and can be addressed consistently no matter where a container runs.
+
+When Dokploy builds an application from source or exports a backup, it stages artifacts in object storage and later fetches them back for deployment. 
+This indirection allows workloads to be moved between Swarm nodes without having to replicate gigabytes of data across managers. Using an OBS bucket 
+also integrates neatly with Dokploy's workflow for volume backups: instead of keeping snapshots on ephemeral node disks, backups are written once 
+to OBS, where they are durable, versioned if you enable it, and available to restore on any new cluster.
+
+Another important reason is compatibility. Dokploy assumes an S3 endpoint for its storage backend, which means it can treat local deployments and 
+cloud deployments the same way. By giving it an OBS bucket, you satisfy that contract with an API that looks like AWS S3 but lives entirely in Open Telekom Cloud, 
+taking advantage of built-in durability and regional replication. This reduces operational burden compared to stitching together your own distributed file 
+service for large objects (e.g. with [MinIO](https://www.min.io/)). 
+
+In practice the OBS bucket becomes the persistent layer for Dokploy's heavy binary data, while Postgres tracks metadata 
+and Redis accelerates queries. Together, those three backends give Dokploy all the persistence primitives it needs: structured state, ephemeral cache, 
+and durable object storage.
+:::
 
 ## Creating the Swarm
 
