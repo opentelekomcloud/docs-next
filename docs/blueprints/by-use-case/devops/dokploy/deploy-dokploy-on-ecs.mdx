@@ -300,7 +300,8 @@ it with the following settings, and click *Create Now* -> *Submit*:
 
 ## Creating an Elastic Load Balancer
 
-Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Name the instance `elb-dokploy` and configure it with the following settings, and click *Create Now* -> *Submit*:
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Name the instance `elb-dokploy` 
+and configure it with the following settings, and click *Create Now* -> *Submit*:
 
 - **Type**: `Dedicated`
 - **AZ**: select *all* the available options
@@ -554,8 +555,118 @@ docker service create \
         --configFile=/etc/traefik/traefik.yml
 ```
 
+#### Creating Wildcard Certificate
+
+A wildcard certificate is required because the entire platform is designed to expose not just a single control-plane endpoint, 
+but a dynamic and potentially unbounded set of application domains beneath the same base DNS zone. Dokploy provisions new applications 
+on the fly and binds them to subdomains such as `app1.dokploy.example.com`, `api.dokploy.example.com`, or `console.dokploy.example.com`. 
+If you were to use individual certificates for each host, you would have to request, issue, and renew a new certificate every time 
+an application is deployed, which introduces operational complexity and renewal failures under load.
+
+By using a wildcard certificate for `*.dokploy.example.com`, the ELB can terminate TLS for any present or future subdomain without having 
+to be reconfigured. All HTTPS handshakes succeed because the certificate matches the pattern of the hostname, regardless of which application 
+Traefik forwards the traffic to. This design also separates responsibilities cleanly: the ELB is responsible for presenting a valid chain 
+of trust to the client, while Traefik only has to handle HTTP routing inside the cluster. Without the wildcard, you would need either 
+centralized certificate management inside Traefik with distributed ACME storage, which Traefik OSS cannot do safely, or you would be forced 
+to update the ELB configuration for every new app domain. The wildcard makes the system elastic: new services can be deployed and exposed 
+under unique subdomains immediately, with no TLS changes, while still maintaining full encryption and trust at the entry point.
+
+:::important
+If you already have a wildcard certificate for the domain you plan to use, you can skip this step and proceed directly to configuring 
+the ELB listeners.
+:::
+
+Deploy the [certbot](https://github.com/certbot/certbot) on your workstation:
+
+```bash
+sudo apt update
+sudo apt install -y certbot
+```
+
+We are going to use certbot to issue a TLS certificate for both the base domain `dokploy.example.com` and every possible subdomain under it 
+via the wildcard pattern `*.dokploy.example.com`. Execute the command below, and follow the instructions of the certbot to complete the task:
+
+```bash
+sudo certbot certonly --manual --preferred-challenges dns -d "*.dokploy.example.com" -d "dokploy.example.com"
+```
+
+at a certain point the certbot will request from you to add a TXT record in DNS, e.g.:
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_13-27-45.png)
+
+Go to *Open Telekom Cloud Console* -> *Domain Name Service* -> *Public Zones* and select the zone corresponding 
+to the domain through which you will expose Dokploy and the workloads hosted on it. Create a TXT Record by clicking *Add Record Set* and filling as value
+the information expected by certbot. Return to the terminal and press *Enter* to continue.
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_13-35-10.png)
+
+:::note
+We this command we are going to obtain a certificate but not install it. Certbot will fetch the cert and place it under **/etc/letsencrypt/live/dokploy.example.com**, 
+leaving you to configure the load balancer manually.
+
+* `--manual`, instructs Certbot not to use an automated DNS or HTTP plugin, but instead to guide you through the challenge process manually. In this mode it will stop and display TXT records that you must create in your domain’s DNS zone.
+* -`-preferred-challenges`, dns forces certbot to use a *DNS-01* challenge. This is required for issuing a wildcard certificate, because 
+Let's Encrypt only allows wildcards to be validated through proving control of the domain via DNS TXT records.
+* `-d "*.dokploy.example.com"`, requests coverage for all subdomains of **dokploy.example.com**.
+* `-d "dokploy.example.com"`, requests coverage for the apex domain itself, so that both **console.dokploy.example.com** and the bare **dokploy.example.com**
+ resolve with a valid certificate.
+
+Certbot will obtain a Let's Encrypt wildcard certificate valid for ***.dokploy.example.com** and **dokploy.example.com**, by instructing you to place specific
+` _acme-challenge` TXT records in DNS. Once you prove ownership through DNS, certbot downloads the certificate files, which you can then upload in 
+Open Telekom Cloud and use in your ELB to terminate TLS for the entire platform.
+:::
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* -> *Certificates* and click *Add Certificate*. Name it `cert-wildcard-dokploy`
+and configure it with the following settings and click *OK*:
+
+- **Certificate Type**: `Server certificate`
+- **Certificate Content**: upload **/etc/letsencrypt/live/dokploy.example.com/fullchain.pem** (or paste directly the contents)
+- **Private Key**: upload **/etc/letsencrypt/live/dokploy.example.com/privkey.pem** (or paste directly the contents)
+- **Domain Name**: `dkploy.example.com,*.dkploy.example.com`
+
 #### Creating ELB Listeners
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* -> *Load Balancers*, select the ELB we created for this lab and click *Add Listener*. 
+Name it `listener_managers-https` and configure it with the following settings:
+
+- **Frontend Protocol**: `HTTPS`
+- **Frontend Port**: `443`
+- **SSL Authentication**: `One-way authentication`
+- **Server Certificate**: select `cert-wildcard-dokploy` from the list
+
+click *Next: Configure Request Routing Policy*, and configure the following:
+
+- **Backend Server Group**: choose `Create new`
+- **Backend server group name**: `server_group-managers`
+- **Backend Protocol**: `HTTP`
+
+click *Next: Add Backend Server* -> *Add Backend Server*, select **ALL** the manager nodes from the list and set:
+
+- **Backend Port**: `80`
+- **Weight**: `1`
+
+click *Health Check* -> *Advanced Settings* and set:
+
+- **Path**: `/ping`
+
+and finally *Next: Confirm* -> *Submit*.If the configuration above applied correct and Traefik is running in the backgroup as global service, 
+you should see a healthy status for each backend group member after a few seconds:
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_16-27-44.png)
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* -> *Load Balancers*, select the ELB we created for this lab and click *Add Listener*. 
+Name it `listener_managers-http` and configure it with the following settings:
+
+- **Frontend Protocol**: `HTTP`
+- **Frontend Port**: `80`
+- **Redirect**: :white_check_mark:
+- **Redirect**: choose `listener_managers-https` from the list
+
+click *Next: Confirm* -> *Submit*.
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_16-36-11.png)
+
+### Deploying Portainer (Optional)
 
 ### Deploying Dokploy
 
-### Deploying Portainer (Optional)
