@@ -1,0 +1,309 @@
+---
+id: deploy-dokploy-on-ecs
+title: Deploy Dokploy on ECS
+tags: [dokploy, paas, ecs, docker, swarm]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Deploy Dokploy on ECS
+
+This section of the blueprint explains how to deploy a highly available Dokploy platform on a fleet of Elastic Cloud Servers (ECS). It covers the configuration of the required Open Telekom Cloud services, including VPC, NAT Gateway, Elastic Load Balancer, RDS, and DCS, as well as the setup of the core Dokploy components such as the backend, frontend, and the Traefik ingress controller.
+
+## Creating VPC and Subnets
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Virtual Private Cloud* and click *Create VPC*. Create a VPC (let's call it for the rest of this lab `vpc-dokploy`) with the IPv4 CIDR block `10.199.0.0/16`, and define three subnets:
+
+- `10.199.10.0/24`: for connectivity components (NATGW, ELB and bastion host)
+- `10.199.11.0/24`: for Swarm nodes
+- `10.199.12.0/24`: for RDS and DCS instances
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-29-52.png)
+
+:::important
+You may choose any IP address range that fits your environment, provided the VPC is allocated a `/16` network.
+:::
+
+
+## Creating a PostgreSQL Database
+
+1. Go to *Open Telekom Cloud Console* -> *Relational Database Service* and click **Create DB Instance**. Name the instance `rds-dokploy` and configure it with the following settings:
+
+   - **DB Engine**: `PostgreSQL`
+   - **DB Engine Version**: `17`
+   - **DB Instance Type**: `Primary/Standby`
+   - **Primary AZ**: `eu-de-01`
+   - **Standby AZ**: `eu-de-02`
+   - **Instance Class**: `Dedicated`
+   - **Storage Space**: `150GB` (you can scale later according to your needs)
+   - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.12.0/24`
+  
+    Finally provide a password for **root** and click *Create Now* -> *Submit*:
+  
+    :::tip
+    You can create a strong, secure, random password of your choice with, e.g.:
+
+    ```shell
+    openssl rand -base64 32
+    ```
+
+    :::
+
+## Creating a Redis Instance
+
+Go to *Open Telekom Cloud Console* -> *Distributed Cache Service* and click *Create DCS Instance*. Name the instance `dcs-dokploy` and configure it with the following settings:
+
+- **Instance Type**: `Master/Standby`
+- **Replicas**: `2`
+- **Primary AZ**: `eu-de-01`
+- **Standby AZ**: `eu-de-02`
+- **Instance Specification**: `redis.ha.xu1.large.r2.2`
+- **VPC**: `vpc-dokploy` and **Subnet**: `10.199.12.0/24`
+
+ Finally provide a password for **admin** and click *Create Now* -> *Submit*:
+  
+:::tip
+You can create a strong, secure, random password of your choice with, e.g.:
+
+```shell
+openssl rand -base64 32
+```
+
+:::
+
+## Preparing Security Groups
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Access Control* -> *Security Groups* and click *Create Security Group*:
+
+:::warning caution
+You must provision Security Groups for all of the above (RDS, SSH, and Dokploy); all of them are required.
+:::
+
+<Tabs>
+  <TabItem value="rds" label="RDS (Instances/Clients)" default>
+
+Configure the required Security Groups as outlined in
+[Configure Security Groups for PostgreSQL RDS Instances and Clients](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances).
+After the RDS instance has been created, update its configuration to use the **rds-dokploy-instances** Security Group instead of the **default** one.
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-27-00.png)
+
+:::important
+In this setup, ensure the inbound rule for **rds-dokploy-instances** allows traffic from `10.199.11.0/24` (the subnet hosting the Swarm nodes), 
+and the outbound rule of **rds-dokploy-clients** permits traffic to `10.199.12.0/24` (the subnet where the RDS instances reside).
+:::
+
+  </TabItem>
+  <TabItem value="ssh" label="SSH (Bastion)">
+Name the Security Group **ssh-dokploy** and add an *inbound* rule to allow `TCP/22` traffic from `0.0.0.0/0`. 
+For improved security, restrict the source to a defined IP range instead of open access.
+  </TabItem>
+  <TabItem value="dokploy" label="Dokploy (Bundle)">
+Name the Security Group **ecs-dokploy** and add the following *inbound* rules:
+
+| Type | Protocol | Port | Source         | Description                   |
+| ---- | -------- | ---- | -------------- | ----------------------------- |
+| IPv4 | UDP      | 7946 | 10.199.11.0/24 | Allow Docker Swarm UDP Gossip |
+| IPv4 | TCP      | 7946 | 10.199.11.0/24 | Allow Docker Swarm TCP Gossip |
+| IPv4 | UDP      | 4789 | 10.199.11.0/24 | Allow Docker Swarm Overlay    |
+| IPv4 | TCP      | 2377 | 10.199.11.0/24 | Allow Docker Swarm Manager    |
+| IPv4 | TCP      | 80   | 0.0.0.0/0      | Allow Dokploy Traefik HTTP    |
+| IPv4 | TCP      | 443  | 0.0.0.0/0      | Allow Dokploy Traefik HTTPS   |
+| IPv4 | TCP      | 22   | 10.199.10.0/24 | Allow SSH from Bastion Subnet |
+
+:::info
+- `2377/TCP`: Cluster management traffic (Required for Swarm Management). Only needed on manager nodes. 
+Used for `docker swarm init` and `docker swarm join` commands. Without it, worker nodes can't join the swarm.
+- `7946/TCP+UDP`: Node discovery/gossip (Required for Swarm Node Discovery & Gossip). Required on all nodes (manager + worker). 
+Used by the [Serf](https://github.com/hashicorp/serf) gossip protocol for cluster membership and health status.
+- `4789/UDP`: VXLAN overlay networking (Required for Overlay Networks). Required on all nodes (manager + worker) if you use overlay networks. 
+Needed for inter-container networking across different Docker hosts.
+:::
+
+  </TabItem>
+</Tabs>
+
+## Preparing Computing
+
+### Creating an ECS Group
+
+Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* -> *ECS Group*  and click *Create ECS Group*. 
+Name the group `svrgrp-dokploy` and configure it with `Anti-Affinity` policy and click *OK*.
+
+:::note
+An ECS group enables up to 16 ECSs in this group to be created **on different hosts** to improve service reliability.
+:::
+
+### Creating a Key Pair
+
+Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* -> *Network & Security* -> *Key Pair*  and click *Create Key Pair*. 
+Name it **KeyPair-Dokploy** and click *OK*. A file named **Keypair-Dokploy.pem** will be automatically downloaded to your machine. 
+
+:::important
+Save the file in **\~/.ssh** on your workstation and keep it secure, as it will be needed to access both the Swarm nodes and the bastion host later.
+:::
+
+### Creating Nodes
+
+<Tabs>
+    <TabItem value="masters" label="Master Nodes" default>
+        Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server*  and click *Create ECS* and configure it with the following settings:
+
+        - **AZ**: `Random`
+        - **Multi-AZ Deployment**: :white_check_mark:
+        - **Flavor**: `s7n.xlarge.2`
+        - **Image**: `Ubuntu, Standard_Ubuntu_22.04_latest(6 GiB)`
+        - **System Disk**: `General Purpose SSD`, `100GiB`
+        - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.11.0/24`
+        - **Security Groups**: add `rds-dokploy-clients` and `ecs-dokploy` additionally to `default`.
+        - **ECS Name**: `ecs-dokploy-manager`
+        - **Key Pair**: `KeyPair-Dokploy`
+        - **ECS Group**: `srvgrp-dokploy`
+        - **Quantity**: `3`
+
+and click *Confirm* -> *Create Now*.
+    </TabItem>
+    <TabItem value="workers" label="Worker Nodes">
+        Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* and click *Create ECS* and configure it with the following settings:
+
+        - **AZ**: `Random`
+        - **Multi-AZ Deployment**: :white_check_mark:
+        - **Flavor**: `s7n.xlarge.4`
+        - **Image**: `Ubuntu, Standard_Ubuntu_22.04_latest(6 GiB)`
+        - **System Disk**: `General Purpose SSD`, `100GiB`
+        - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.11.0/24`
+        - **Security Groups**: add `rds-dokploy-clients` and `ecs-dokploy` additionally to `default`.
+        - **ECS Name**: `ecs-dokploy-worker`
+        - **Key Pair**: `KeyPair-Dokploy`
+        - **ECS Group**: `srvgrp-dokploy`
+        - **Quantity**: `3`
+
+        and click *Confirm* -> *Create Now*.
+    </TabItem>
+    <TabItem value="bastion" label="Bastion Node">
+        Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* and click *Create ECS* and configure it with the following settings:
+
+        - **AZ**: `Random`
+        - **Flavor**: `s7n.medium.2`
+        - **Image**: `Ubuntu, Standard_Ubuntu_22.04_latest(6 GiB)`
+        - **System Disk**: `General Purpose SSD`, `40GiB`
+        - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.10.0/24`
+        - **Security Groups**: add `ssh-dokploy` additionally to `default`.
+        - **ECS Name**: `ecs-dokploy-bastion`
+        - **Key Pair**: `KeyPair-Dokploy`
+        - **Quantity**: `1`
+
+        and click *Confirm* -> *Create Now*.
+    </TabItem>
+</Tabs>
+
+:::warning caution
+Deploy all seven(7) ECS instances and **carefully verify that each instance is assigned to the correct subnet**.
+:::
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-31-08.png)
+
+
+## Creating a NAT Gateway
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *NAT Gateway* -> *Public NAT Gateways* and click *Create Public NAT Gateway*. Call it `nat-dokploy` and assign 
+it to the `vpc-dokploy` VPC and place it in the subnet `10.199.10.0/24`. Set **Specifications** to `Small` and click *Create Now*. 
+Skip adding rules at this stage; we will configure them later.
+
+### Configurating SNAT & DNAT Rules
+
+1. Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic IP & Bandwidth* -> *EIPs* and click *Assign EIP*. Name it `eip-natgw-dokploy` and configure 
+it with the following settings, and click *Create Now* -> *Submit*:
+
+    - **EIP Type**: `Dynamic BGP`
+    - **Billed By**: `Dedicated`
+    - **Bandwidth (Mbit/s)**: `50` (that is an indicative value, adjust according to your needs)
+
+2. Go to *Open Telekom Cloud Console* -> *Network Console* -> *NAT Gateway* -> *Public NAT Gateways* and select the NAT gateway you created earlier.
+3. Click *SNAT Rules* -> *Add SNAT Rule* select the EIP you created earlier (**eip-natgw-dokploy**) and click *OK*.
+
+    ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_06-29-02.png)
+
+    :::important
+    Repeat this step for each subnet in **vpc-dokploy**.
+    :::
+
+4. Click *DNAT Rules* -> *Add DNAT Rule* and configure it with the following settings:
+
+    - **Scenario**: `VPC`
+    - **Port Type**: `Specific Port`
+    - **Protocol**: `TCP`
+    - **Public IP Address Type**: `EIP` and select from the list the EIP you created earlier.
+    - **Outside Port**: `2200`
+    - **Instance Type**: `Server` and select `ecs-dokploy-bastion` from the list.
+    - **Inside Port**: `22`
+
+    and click *OK*.
+
+## Creating an Elastic Load Balancer
+
+Go to *Open Telekom Cloud Console* -> *Network Console* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Name the instance `elb-dokploy` and configure it with the following settings, and click *Create Now* -> *Submit*:
+
+- **Type**: `Dedicated`
+- **AZ**: select *all* the available options
+- Enable both **Application** and **Network Load Balancing** (choose the specs that fit more to your needs)
+- **VPC**: `vpc-dokploy`
+- **Frontend Subnet**: `10.199.10.0/24`
+- **Backend Subnet**: `10.199.11.0/24`
+- **EIP**: select *New IP*
+- **Bandwidth**: `300Mbit/s`
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-22-46.png)
+
+:::important
+Make a note of the EIP of the load balancer, as it will be required in the next steps when creating the necessary DNS records.
+:::
+
+## Creating DNS Records
+
+:::caution
+You must delegate the management of your domain's NS records to the Open Telekom Cloud Domain Name Service.
+At your domain registrar, configure the following:
+
+* Disable any dynamic DNS service for the domain or for the subdomain you plan to use with Dokploy.
+* Update the NS records of your domain to point to `ns1.open-telekom-cloud.com` and `ns2.open-telekom-cloud.com`.
+
+Once these changes are in place, you can proceed to create a new DNS Public Zone and the required record sets for your domain in Open Telekom Cloud.
+
+If delegating domain management to Open Telekom Cloud DNS **is not an option**, 
+you will need to apply the following steps in your existing DNS service (for example, at your registrar or through Cloudflare).
+:::
+
+Go to *Open Telekom Cloud Console* -> *Domain Name Service* -> *Public Zones* and select the zone corresponding 
+to the domain through which you will expose Dokploy and the workloads hosted on it. Create the following A Records by clicking *Add Record Set*:
+
+| Domain                        | Type | TTL (s) | Value     | Description                                                                                        |
+| ----------------------------- | ---- | ------- | --------- | -------------------------------------------------------------------------------------------------- |
+| *.dokploy.example.com         | A    | 300     | EIP_ELB   | Wildcard record for all applications exposed through Dokploy via the ELB                           |
+| dokploy.example.com           | A    | 300     | EIP_ELB   | Root domain pointing to the ELB, reserved for future use or redirects                              |
+| console.dokploy.example.com   | A    | 300     | EIP_ELB   | Dokploy management console routed through the ELB                                                  |
+| bastion.dokploy.example.com   | A    | 300     | EIP_NATGW | Bastion host used for administrative SSH access to the Swarm cluster                               |
+| portainer.dokploy.example.com | A    | 300     | EIP_ELB   | [Portainer](https://www.portainer.io/) UI for Swarm management, exposed through the ELB (Optional) |
+
+:::important
+Replace **EIP_ELB** and **EIP_NATGW** with the actual Elastic IP addresses assigned to the load balancer and the NAT gateway.
+:::
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_08-11-44.png)
+
+## Preparing Storage
+
+### Preparing SFS Turbo
+
+### Preparing OBS
+
+## Creating the Swarm
+
+### Adding Nodes
+
+### Creating a wildcard Certificate (Optional)
+
+### Creating ELB Listeners
+
+### Deploying Traefik
