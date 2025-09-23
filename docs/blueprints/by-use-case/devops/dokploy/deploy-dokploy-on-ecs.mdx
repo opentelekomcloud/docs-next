@@ -668,5 +668,96 @@ click *Next: Confirm* -> *Submit*.
 
 ### Deploying Portainer (Optional)
 
+Create a file named `portainer-stack.yml` in the `/mnt/sfs_turbo` directory:
+
+```yml title="portainer-stack.yml"
+version: "3.8"
+
+networks:
+  dokploy-network:
+    external: true
+
+volumes:
+  portainer_data:
+
+services:
+  agent:
+    image: portainer/agent:2.21.4
+    environment:
+      - AGENT_CLUSTER_ADDR=tasks.agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - dokploy-network
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.platform.os == linux
+
+  portainer:
+    image: portainer/portainer-ce:2.21.4
+    command: >
+      -H tcp://tasks.agent:9001
+      --tlsskipverify
+    volumes:
+      - portainer_data:/data
+    networks:
+      - dokploy-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        traefik.enable: "true"
+
+        # Router
+        traefik.http.routers.portainer.rule: Host(`portainer.dokploy.example.com`)
+        traefik.http.routers.portainer.entrypoints: web
+        traefik.http.routers.portainer.middlewares: portainer-https-hdr
+
+        # Service (backend)
+        traefik.http.services.portainer.loadbalancer.server.port: "9000"
+        traefik.http.services.portainer.loadbalancer.server.scheme: "http"
+        traefik.http.services.portainer.loadbalancer.passHostHeader: "true"
+
+        # Force headers so Portainer knows TLS was at the ELB
+        traefik.http.middlewares.portainer-https-hdr.headers.customRequestHeaders.X-Forwarded-Proto: "https"
+        traefik.http.middlewares.portainer-https-hdr.headers.customRequestHeaders.X-Forwarded-Port: "443"
+        traefik.http.middlewares.portainer-https-hdr.headers.customRequestHeaders.X-Forwarded-Host: "portainer.dokploy.example.com"
+
+        # Make sure Traefik connects over the right overlay network
+        traefik.docker.network: "dokploy-network"
+```
+
+and then deploy the stack:
+
+```bash
+sudo docker stack deploy -c /mnt/sfs_turbo/portainer-stack.yml portainer
+```
+
+Swarm will:
+
+* start one Portainer server on a manager,
+* start an agent on **every** node,
+* and Traefik will route https://portainer.dokploy.example.com (ELB -> Traefik :80 -> Portainer :9000).
+
+Open the URL and set the admin password on first login.
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_16-55-06.png)
+
+:::note
+Portainer gives a clean, web-based control plane for everything running on Swarm, which dramatically lowers the operational friction of the 
+platform we just built. Instead of hopping between managers and executing `docker` commands, we can get real-time visibility of services, tasks, 
+nodes, networks, volumes, logs, container consoles, and placement/health details when something misbehaves. It integrates with Swarm natively, 
+so we can deploy and update stacks directly from the UI or from Git, inspect configs and secrets without copying them around, roll back a service 
+if an update breaks, and confirm constraints and overlay network changes. 
+
+In the architecture of this blueprint specifically (where ELB is terminating TLS, Traefik on the managers, and an external overlay for ingress) 
+Portainer sits behind the same Traefik reverse proxy. 
+:::
+
 ### Deploying Dokploy
 
