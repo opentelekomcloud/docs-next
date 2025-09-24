@@ -60,17 +60,7 @@ Go to *Open Telekom Cloud Console* -> *Distributed Cache Service* and click *Cre
 - **Standby AZ**: `eu-de-02`
 - **Instance Specification**: `redis.ha.xu1.large.r2.2`
 - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.12.0/24`
-
- Finally provide a password for **admin** and click *Create Now* -> *Submit*:
-  
-:::tip
-You can create a strong, secure, random password of your choice with, e.g.:
-
-```shell
-openssl rand -base64 32
-```
-
-:::
+- **Password Protected**: `No`
 
 ## Preparing Security Groups
 
@@ -780,8 +770,6 @@ RDS_PASSWORD="REPLACE_WITH_VALUE"
 
 REDIS_HOST=REPLACE_WITH_VALUE
 REDIS_PORT=6379
-REDIS_USER=admin
-REDIS_PASSWORD=REPLACE_WITH_VALUE
 
 TRAEFIK_HOST=console.dokploy.example.com
 
@@ -912,10 +900,8 @@ services:
   dokploy:
     image: dokploy/dokploy:latest
     environment:
-      DATABASE_URL: >-
-        postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=require&options=-c%20search_path%3Dpublic
-      REDIS_HOST: >-
-        redis://${REDIS_USER}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=require&options=-c%20search_path%3Dpublic
+      REDIS_HOST: ${REDIS_HOST}
       ADVERTISE_ADDR: "0.0.0.0"
       TRAEFIK_HOST: ${TRAEFIK_HOST}
 
@@ -950,4 +936,16 @@ set -a && source .env && set +a
 docker stack deploy -c dokploy-stack.yml dokploy
 ```
 
-## Troubleshooting
+:::important
+We start with `replicas: 1` to ensure database migrations run safely without conflicts. 
+Once the service is up and stable, scale up to `3` replicas to take advantage of all manager nodes and provide high availability.
+
+```bash
+docker service scale dokploy_dokploy=3
+```
+:::
+
+Next, open the console URL you set in `TRAEFIK_HOST` (for example, `console.dokploy.example.com`) and create the administrative 
+account for your Dokploy instance:
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-24_12-49-52.png)
