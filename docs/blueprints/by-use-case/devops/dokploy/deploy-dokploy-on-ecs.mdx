@@ -90,7 +90,7 @@ After the RDS instance has been created, update its configuration to use the **r
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-23_07-27-00.png)
 
 :::important
-In this setup, ensure the inbound rule for **rds-dokploy-instances** allows traffic from `10.199.11.0/24` (the subnet hosting the Swarm nodes), 
+In this setup, ensure the inbound rule for **rds-dokploy-instances** allows traffic from `10.199.0.0/16` (the whole VPC), 
 and the outbound rule of **rds-dokploy-clients** permits traffic to `10.199.12.0/24` (the subnet where the RDS instances reside).
 :::
 
@@ -189,7 +189,7 @@ and click *Confirm* -> *Create Now*.
         - **Image**: `Ubuntu, Standard_Ubuntu_22.04_latest(6 GiB)`
         - **System Disk**: `General Purpose SSD`, `40GiB`
         - **VPC**: `vpc-dokploy` and **Subnet**: `10.199.10.0/24`
-        - **Security Groups**: add `ssh-dokploy` additionally to `default`.
+        - **Security Groups**: add `rds-dokploy-clients` and `ssh-dokploy` additionally to `default`.
         - **ECS Name**: `ecs-dokploy-bastion`
         - **Key Pair**: `KeyPair-Dokploy`
         - **Quantity**: `1`
@@ -471,17 +471,11 @@ Replace **EIP_ELB** and **EIP_NATGW** with the actual Elastic IP addresses assig
 
 ### Deploying Traefik
 
-#### Deploying the Service
+#### Deploying Traefik as a Global Service
 
-Create a file named `traefik.yml` in the `/mnt/sfs_turbo` directory: 
+Connect to any manager node (preferrably the first) and create a file named `traefik.yml` in the `/mnt/sfs_turbo` directory: 
 
-```yml
-# Traefik v2.10 static configuration
-# - Only HTTP on :80 (TLS is terminated at the ELB)
-# - Docker Swarm provider
-# - Trust ELB's forwarded headers (includes CGNAT 100.64.0.0/10)
-# - Health endpoint at /ping for ELB checks
-
+```yml title="traefik.yml"
 entryPoints:
   web:
     address: ":80"
@@ -668,7 +662,7 @@ click *Next: Confirm* -> *Submit*.
 
 ### Deploying Portainer (Optional)
 
-Create a file named `portainer-stack.yml` in the `/mnt/sfs_turbo` directory:
+Connect to any manager node (preferrably the first) and create a file named `portainer-stack.yml` in the `/mnt/sfs_turbo` directory:
 
 ```yml title="portainer-stack.yml"
 version: "3.8"
@@ -761,3 +755,199 @@ Portainer sits behind the same Traefik reverse proxy.
 
 ### Deploying Dokploy
 
+#### Preparing the Database
+
+Go to *Open Telekom Cloud Console* -> *Relational Database Service*. Choose your database, go to *Plugins*, 
+search the catalog for the **pgcrypto** plugin, and install it:
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-24_07-23-15.png)
+
+Connect to the bastion host using SSH and install the following tools:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y postgresql-client netcat redis-tools
+```
+
+Next we need to initialize our environment variables and create a `.pgpass` file to simplify future access to the database:
+
+```bash
+cat > .env <<'EOF'
+RDS_HOST="REPLACE_WITH_VALUE"
+RDS_PORT="5432"
+RDS_USER="root"
+RDS_PASSWORD="REPLACE_WITH_VALUE"
+
+REDIS_HOST=REPLACE_WITH_VALUE
+REDIS_PORT=6379
+REDIS_USER=admin
+REDIS_PASSWORD=REPLACE_WITH_VALUE
+
+TRAEFIK_HOST=console.dokploy.example.com
+
+POSTGRES_HOST=REPLACE_WITH_VALUE
+POSTGRES_PORT=5432
+POSTGRES_DB=dokploy
+POSTGRES_USER=dokploy
+EOF
+
+set -a && source .env && set +a
+echo "${RDS_HOST}:${RDS_PORT}:*:${RDS_USER}:${RDS_PASSWORD}" > ~/.pgpass && chmod 600 ~/.pgpass
+```
+
+:::important
+Substitute all instances of `REPLACE_WITH_VALUE` and `TRAEFIK_HOST` with the actual values specific to your environment.
+:::
+
+Next we are going to create a script that will idempotently create the dokploy role and database, 
+while also ensuring the public schema ownership is correctly assigned. It is designed so it can be re-run safely without causing errors:
+
+```bash title="bootstrap_dokploy.sh"
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --- required: RDS connection for the *admin* user (root) ---
+: "${RDS_HOST:?set RDS_HOST}"
+: "${RDS_PORT:=5432}"
+: "${RDS_USER:=root}"
+
+# If your root password is in ~/.pgpass, you don't need RDS_PASSWORD here.
+
+# --- dokploy app db/user ---
+: "${POSTGRES_DB:=dokploy}"
+: "${POSTGRES_USER:=dokploy}"
+# If not provided, autogenerate
+DOKPLOY_PASSWORD="${POSTGRES_PASSWORD:-${DOKPLOY_PASSWORD:-}}"
+if [[ -z "${DOKPLOY_PASSWORD}" ]]; then
+  DOKPLOY_PASSWORD="$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32)"
+fi
+
+# --- update or create .env (idempotent line replace/add) ---
+ENV_FILE="${ENV_FILE:-.env}"
+touch "$ENV_FILE"
+chmod 600 "$ENV_FILE" || true
+upsert_env () {
+  local key="$1" val="$2"
+  if grep -qE "^[# ]*${key}=" "$ENV_FILE"; then
+    # replace existing
+    sed -i "s|^[# ]*${key}=.*|${key}=${val}|" "$ENV_FILE"
+  else
+    echo "${key}=${val}" >> "$ENV_FILE"
+  fi
+}
+
+upsert_env POSTGRES_HOST "${RDS_HOST}"
+upsert_env POSTGRES_PORT "${RDS_PORT}"
+upsert_env POSTGRES_DB   "${POSTGRES_DB}"
+upsert_env POSTGRES_USER "${POSTGRES_USER}"
+upsert_env POSTGRES_PASSWORD "${DOKPLOY_PASSWORD}"
+
+echo "Wrote/updated DB values in ${ENV_FILE}"
+
+# --- run SQL (role, db, grants). Creates password only once; keeps it on re-runs. ---
+PGPASSFILE="${PGPASSFILE:-$HOME/.pgpass}" \
+psql -h "$RDS_HOST" -p "$RDS_PORT" -U "$RDS_USER" -d postgres --set=ON_ERROR_STOP=1 <<SQL
+DO \$\$
+DECLARE
+  role_exists boolean;
+  pwd text := \$pw\$${DOKPLOY_PASSWORD}\$pw\$;
+BEGIN
+  SELECT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '${POSTGRES_USER}') INTO role_exists;
+
+  IF NOT role_exists THEN
+    PERFORM 1 FROM pg_extension WHERE extname = 'pgcrypto';
+    IF NOT FOUND THEN
+      CREATE EXTENSION IF NOT EXISTS pgcrypto;
+    END IF;
+
+    EXECUTE format('CREATE ROLE ${POSTGRES_USER} LOGIN PASSWORD %L', pwd);
+    RAISE NOTICE 'DOKPLOY_PASSWORD=%', pwd;
+  ELSE
+    ALTER ROLE ${POSTGRES_USER} LOGIN;
+  END IF;
+END
+\$\$ LANGUAGE plpgsql;
+
+-- Create DB if missing
+SELECT 'CREATE DATABASE ${POSTGRES_DB} OWNER ${POSTGRES_USER}'
+WHERE NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = '${POSTGRES_DB}');
+\\gexec
+
+-- Ensure ownership if DB existed
+SELECT 'ALTER DATABASE ${POSTGRES_DB} OWNER TO ${POSTGRES_USER}'
+WHERE EXISTS (SELECT 1 FROM pg_database WHERE datname = '${POSTGRES_DB}');
+\\gexec
+
+\\connect ${POSTGRES_DB}
+
+-- We **don't** try to re-own public on RDS (often blocked). Give full rights instead.
+GRANT USAGE, CREATE ON SCHEMA public TO ${POSTGRES_USER};
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES    TO ${POSTGRES_USER};
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ${POSTGRES_USER};
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO ${POSTGRES_USER};
+SQL
+
+echo "Bootstrap complete. Password saved to ${ENV_FILE} (POSTGRES_PASSWORD)."
+```
+and execute the script on the bastion (or whereever you chose to install **postgresql-client**):
+
+```bash
+set -a && source .env && set +a
+
+./bootstrap_dokploy.sh
+```
+
+#### Deploying Dokploy as a Stack
+
+Create a file named `dokploy-stack.yml` in the `/mnt/sfs_turbo` directory:
+
+```yml title="dokploy-stack.yml"
+version: "3.8"
+
+networks:
+  dokploy-network:
+    external: true
+
+services:
+  dokploy:
+    image: dokploy/dokploy:latest
+    environment:
+      DATABASE_URL: >-
+        postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=require&options=-c%20search_path%3Dpublic
+      REDIS_HOST: >-
+        redis://${REDIS_USER}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}
+      ADVERTISE_ADDR: "0.0.0.0"
+      TRAEFIK_HOST: ${TRAEFIK_HOST}
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/sfs_turbo/dokploy:/etc/dokploy
+    networks:
+      - dokploy-network
+    deploy:
+      replicas: 1   # start with one replica to let migrations run
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        order: stop-first
+        parallelism: 1
+      labels:
+        traefik.enable: "true"
+        traefik.http.routers.dokploy.rule: Host(`${TRAEFIK_HOST}`)
+        traefik.http.routers.dokploy.entrypoints: web
+        traefik.http.services.dokploy.loadbalancer.server.port: "3000"
+        traefik.http.services.dokploy.loadbalancer.server.scheme: "http"
+        traefik.http.services.dokploy.loadbalancer.passHostHeader: "true"
+```
+
+and execute the following on one of the manager nodes:
+
+```bash
+cd /mnt/sfs_turbo && mkdir dokploy
+
+set -a && source .env && set +a
+docker stack deploy -c dokploy-stack.yml dokploy
+```
+
+## Troubleshooting
