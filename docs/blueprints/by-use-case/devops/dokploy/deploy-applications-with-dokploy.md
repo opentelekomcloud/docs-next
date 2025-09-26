@@ -189,15 +189,23 @@ Next thing you need to do is set the environment variables required on project, 
 
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_12-18-32.png)
 
-Then, go to *Domains* and create 2 domains. One for the **typesense** service (set **Container Port** to 8108), and one for the typesense-dashboard service ((set **Container Port** to 8108).
+Then, go to *Domains* and create 2 domains. One for the **typesense** service (set **Container Port** to 8108), and one for the **typesense-dashboard** service ((set **Container Port** to 8108).
 
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_11-11-43.png)
 
-If the configuration is correct, all containers should be deployed on the worker nodes of the swarm and we could now visit the dashboard endpoints and observe our search engine collections and indices getting populated:
+If the configuration is correct, all containers should be deployed on the worker nodes of the swarm and we could now visit the dashboard endpoint and observe our search engine collections and indices getting populated:
 
 ![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_12-09-05.png)
 
 ## Deploying from a Dokploy Template
+
+The Dokploy template library provides a collection of preconfigured application stacks that can be deployed with minimal setup. Templates cover common services such as databases, monitoring tools, and developer utilities, offering sensible defaults that reduce configuration effort and errors. They can be used directly for quick deployments or extended with custom settings for production environments. Teams may also add their own templates to the library to standardize and simplify application delivery across projects.
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_13-30-21.png)
+
+:::warning
+Most templates in the Dokploy library are designed for single-server setups. When running on Docker Swarm, you **may** need to adjust them to ensure they work reliably in a clustered environment.
+:::
 
 ## Building and Deploying from a Git Repo
 
