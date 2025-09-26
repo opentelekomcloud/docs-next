@@ -203,7 +203,7 @@ If the configuration is correct, all containers should be deployed on the worker
 
 The Dokploy template library provides a collection of preconfigured application stacks that can be deployed with minimal setup. Templates cover common services such as databases, monitoring tools, and developer utilities, offering sensible defaults that reduce configuration effort and errors. They can be used directly for quick deployments or extended with custom settings for production environments. Teams may also add their own templates to the library to standardize and simplify application delivery across projects.
 
-![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_13-30-21.png)
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-26_13-57-42.png)
 
 :::warning
 Most templates in the Dokploy library are designed for single-server setups. When running on Docker Swarm, you **may** need to adjust them to ensure they work reliably in a clustered environment.
