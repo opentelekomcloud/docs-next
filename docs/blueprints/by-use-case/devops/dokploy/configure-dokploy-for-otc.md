@@ -61,4 +61,6 @@ Creating a backup schedule in Dokploy is essential to safeguard application data
 
 :::warning
 Dokploy backups **work only when PostgreSQL runs as a container managed by the platform**, since Dokploy can execute dump operations directly inside the container. Because in this blueprint we use Open Telekom Cloud RDS, **backups must be handled through the RDS service itself**, because Dokploy cannot access the managed database process. In this case, make sure to configure a backup schedule in RDS to ensure data protection and recovery options remain in place.
+
+For detailed instructions, see [Configuring an Automated Backup Policy](https://docs.otc.t-systems.com/relational-database-service/umn/working_with_rds_for_postgresql/backups_and_restorations/configuring_an_automated_backup_policy.html#rds-09-0027).
 :::
