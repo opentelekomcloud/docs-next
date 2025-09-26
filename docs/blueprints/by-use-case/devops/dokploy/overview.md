@@ -36,6 +36,10 @@ For customers who value a **lightweight platform with minimal operational comple
 - **Relational Database Service (RDS)**: A highly available Postgres database via RDS. Moving Dokploy’s control-plane database to RDS removes the single point of failure and allows you to scale Dokploy beyond one replica without risking metadata loss.
 - **Distributed Cache Service (DCS)**: A highly available Redis instance via DCS. Externalizing queues, cache, and session state to DCS ensures deployments and rolling updates don’t interrupt control-plane tasks and that a node failure doesn’t impact Dokploy’s runtime coordination.
 
+## Benefits
+
+By running a self-service application hosting platform like Dokploy on Open Telekom Cloud, clients gain faster deployment cycles, full control over their environments, and the flexibility to adapt the platform to their own needs. It enables teams to provision and scale applications independently while meeting compliance and data residency requirements. Costs can be optimized by avoiding vendor lock-in and consolidating workloads on shared cloud infrastructure. At the same time, a standardized self-service interface improves consistency, reduces errors, and ensures reliable operations, all built on an open-source foundation that can be extended and integrated with existing pipelines.
+
 :::tip Next Steps
 
 - [Deploy Dokploy on ECS](/docs/blueprints/by-use-case/devops/dokploy/deploy-dokploy-on-ecs)
