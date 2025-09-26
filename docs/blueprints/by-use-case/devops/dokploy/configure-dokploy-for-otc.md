@@ -9,6 +9,10 @@ sidebar_position: 2
 
 This part of the blueprint explains how to configure Dokploy for use with Open Telekom Cloud. After deploying Dokploy, you need to integrate it with cloud services and external components to make the platform fully operational. The configuration steps covered in this guide include setting up container registries, defining S3-compatible storage destinations, assigning a server domain, updating the web server IP address, and connecting to a Git provider. Each of these steps ensures that Dokploy can interact seamlessly with Open Telekom Cloud resources and external systems, enabling you to build and manage applications efficiently.
 
+:::warning attention
+All of the following steps must be configured for Dokploy to function correctly on Open Telekom Cloud.
+:::
+
 ## Configuring Registries
 
 To use Dokploy effectively on Open Telekom Cloud, you must connect it to a container registry. In the registry is where application images will going to be stored, versioned, and retrieved during deployments. Dokploy needs this integration to push newly built images and to pull the correct versions when running applications. On Open Telekom Cloud, the Software Repository for Containers (SWR) is typically used, but external registries such as Docker Hub or GitHub Container Registry can also be configured, although SWR is highly recommended for tighter integration with the rest of the Open Telekom Cloud ecosystem and managed services. This step ensures that Dokploy can access images securely and deliver applications in a consistent and automated way.

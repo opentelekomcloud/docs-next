@@ -20,6 +20,10 @@ Docker Swarm remains a practical option for container orchestration when the req
 For customers who value a **lightweight platform with minimal operational complexity**, Swarm serves as a pragmatic foundation that allows Dokploy to deliver self-service application hosting on Open Telekom Cloud.
 :::
 
+## Architecture
+
+
+
 ## Prerequisites
 
 - **Virtual Private Cloud (VPC)**: A dedicated network environment hosting all components, with appropriate subnets for managers, workers, and the bastion host, RDS and DCS instances.
@@ -36,6 +40,6 @@ For customers who value a **lightweight platform with minimal operational comple
 
 - [Deploy Dokploy on ECS](/docs/blueprints/by-use-case/devops/dokploy/deploy-dokploy-on-ecs)
 - [Configure Dokploy for Open Telekom Cloud](/docs/blueprints/by-use-case/devops/dokploy/configure-dokploy-for-otc)
-- Deploy Workloads with Dokploy
+- [Deploy Applications with Dokploy](/docs/blueprints/by-use-case/devops/dokploy/deploy-applications-with-dokploy)
   
 :::
