@@ -35,7 +35,7 @@ For customers who value a **lightweight platform with minimal operational comple
 :::tip Next Steps
 
 - [Deploy Dokploy on ECS](/docs/blueprints/by-use-case/devops/dokploy/deploy-dokploy-on-ecs)
-- Configure Dokploy for Open Telekom Cloud
+- [Configure Dokploy for Open Telekom Cloud](/docs/blueprints/by-use-case/devops/dokploy/configure-dokploy-for-otc)
 - Deploy Workloads with Dokploy
   
 :::
