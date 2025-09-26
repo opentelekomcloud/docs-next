@@ -468,6 +468,10 @@ Replace **EIP_ELB** and **EIP_NATGW** with the actual Elastic IP addresses assig
 
 Connect to any manager node (preferrably the first) and create a file named `traefik.yml` in the `/mnt/sfs_turbo` directory: 
 
+:::important
+Replace `10.199.0.0/16` with the CIDR block of your VPC.
+:::
+
 ```yml title="traefik.yml"
 entryPoints:
   web:
@@ -475,24 +479,19 @@ entryPoints:
     forwardedHeaders:
       insecure: false
       trustedIPs:
-        # Private ranges inside your VPC(s)
         - 10.199.0.0/16
-        # OTC ELB source addresses often use CGNAT
         - 100.64.0.0/10
     transport:
       respondingTimeouts:
-        # keep generous timeouts for images/build logs, etc.
         readTimeout: 0
         writeTimeout: 0
         idleTimeout: 180s
       lifeCycle:
         graceTimeOut: 15s
 
-# Return HTTP 200 on /ping so the ELB can use HTTP checks
 ping:
   entryPoint: web
 
-# No public dashboard; enable later (and protect) if you really need it
 api:
   dashboard: false
 
@@ -501,21 +500,18 @@ providers:
     swarmMode: true
     watch: true
     exposedByDefault: false
-    # This must match the overlay network your apps/Traefik share
     network: dokploy-network
 
-# Logs
 log:
   level: INFO
 
-# Access logs help when debugging routing
 accessLog:
   bufferingSize: 100
   fields:
     defaultMode: keep
 ```
 
-:::info
+:::note TLS Termination & ELB Health Checks
 Traefik is deployed in Swarm as a **global service**, ensuring one instance runs on every manager node. Because Traefik OSS cannot 
 reliably share ACME certificate state across replicas, TLS termination is handled at the **Open Telekom Cloud Elastic Load Balancer (ELB)** instead. 
 The ELB manages certificates and enforces automatic redirection from `HTTP/80` to `HTTPS/443`, while Traefik itself only receives plain HTTP 
@@ -559,8 +555,8 @@ to update the ELB configuration for every new app domain. The wildcard makes the
 under unique subdomains immediately, with no TLS changes, while still maintaining full encryption and trust at the entry point.
 
 :::important
-If you already have a wildcard certificate for the domain you plan to use, you can skip this step and proceed directly to configuring 
-the ELB listeners.
+If you already have a wildcard certificate for the domain you plan to use, you can skip this step and proceed directly to [configuring 
+the ELB listeners](#creating-elb-listeners).
 :::
 
 Deploy the [certbot](https://github.com/certbot/certbot) on your workstation:

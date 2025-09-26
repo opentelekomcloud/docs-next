@@ -59,6 +59,6 @@ Go to *Dokploy Console* -> *Settings* -> *S3 Destinations* and click *Add Destin
 
 Creating a backup schedule in Dokploy is essential to safeguard application databases and other persistent data. Containers and nodes can be restarted or replaced at any time, which makes local storage unreliable. By scheduling backups, Dokploy automatically exports data to an external S3-compatible service such as Open Telekom Cloud OBS, ensuring that recent restore points are always available. This protects against data loss during upgrades, configuration changes, or unexpected failures and provides a reliable way to recover critical information.
 
-Go to *Dokploy Console* -> *Settings* -> *Web Server* -> *Backups* and click *Create Backup*. Set your desired values and click *Create*.
-
-![img](/img/docs/blueprints/by-use-case/devops/dokploy/Screenshot_from_2025-09-25_14-14-46.png)
+:::warning
+Dokploy backups **work only when PostgreSQL runs as a container managed by the platform**, since Dokploy can execute dump operations directly inside the container. Because in this blueprint we use Open Telekom Cloud RDS, **backups must be handled through the RDS service itself**, because Dokploy cannot access the managed database process. In this case, make sure to configure a backup schedule in RDS to ensure data protection and recovery options remain in place.
+:::
