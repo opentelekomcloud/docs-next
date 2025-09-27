@@ -20,10 +20,6 @@ Docker Swarm remains a practical option for container orchestration when the req
 For customers who value a **lightweight platform with minimal operational complexity**, Swarm serves as a pragmatic foundation that allows Dokploy to deliver self-service application hosting on Open Telekom Cloud.
 :::
 
-## Architecture
-
-
-
 ## Prerequisites
 
 - **Virtual Private Cloud (VPC)**: A dedicated network environment hosting all components, with appropriate subnets for managers, workers, and the bastion host, RDS and DCS instances.
@@ -35,6 +31,10 @@ For customers who value a **lightweight platform with minimal operational comple
 - **Domain Name System (DNS)**: Public DNS records pointing customer domains (e.g. *.apps.example.com) and the Dokploy console to the ELB’s public IP.
 - **Relational Database Service (RDS)**: A highly available Postgres database via RDS. Moving Dokploy’s control-plane database to RDS removes the single point of failure and allows you to scale Dokploy beyond one replica without risking metadata loss.
 - **Distributed Cache Service (DCS)**: A highly available Redis instance via DCS. Externalizing queues, cache, and session state to DCS ensures deployments and rolling updates don’t interrupt control-plane tasks and that a node failure doesn’t impact Dokploy’s runtime coordination.
+
+## Architecture
+
+![img](/img/docs/blueprints/by-use-case/devops/dokploy/Architecture_Diagram-2025-09-27-0756.png)
 
 ## Benefits
 

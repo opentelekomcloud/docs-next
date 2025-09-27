@@ -210,4 +210,3 @@ Most templates in the Dokploy library are designed for single-server setups. Whe
 :::
 
 ## Building and Deploying from a Git Repo
-
