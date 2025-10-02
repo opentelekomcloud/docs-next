@@ -111,10 +111,16 @@ const config: Config = {
           className: 'navbar--terminal-link',
           "aria-label": 'Open Telekom Cloud Console',
         },
+        // {
+        //   href: 'https://status.otc-service.com/',
+        //   position: 'right',
+        //   className: 'navbar--github-link',
+        //   "aria-label": 'Status Dashboard',
+        // },
         {
           href: 'https://github.com/opentelekomcloud/docs-next',
           position: 'right',
-          className: 'navbar--github-link',
+          className: 'navbar--sd-link',
           "aria-label": 'GitHub',
         },
         // { 
@@ -224,8 +230,21 @@ const config: Config = {
               to: 'https://docs.otc.t-systems.com/developer/api_guidelines/index.html',
             },
             {
-              label: 'Endpoints',
+              label: 'Regions & Endpoints',
               to: 'https://docs.otc.t-systems.com/regions-and-endpoints/index.html',
+            },
+          ],
+        },
+        {
+          title: 'Tools',
+          items: [
+            {
+              label: 'Enterprise Dashboard',
+              to: 'https://enterprise-dashboard.otc-service.com',
+            },
+            {
+              label: 'Price Calculator',
+              to: 'https://www.open-telekom-cloud.com/en/prices/price-calculator',
             },
             {
               label: 'Status Dashboard',
