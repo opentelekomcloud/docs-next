@@ -118,7 +118,7 @@ const config: Config = {
         //   "aria-label": 'Status Dashboard',
         // },
         {
-          href: 'https://github.com/opentelekomcloud/docs-next',
+          href: 'https://status.otc-service.com/',
           position: 'right',
           className: 'navbar--sd-link',
           "aria-label": 'GitHub',
