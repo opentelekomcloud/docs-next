@@ -9,6 +9,9 @@
   --shadow-hover: rgba(0, 0, 0, 0.1);
 }
 
+:root { --ifm-background-surface-color: #fbfbfb; }
+html[data-theme='dark'] { --ifm-background-surface-color: #1c1c1e; } 
+
 .container {
   padding: 2rem;
 }

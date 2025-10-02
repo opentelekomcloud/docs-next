@@ -21,6 +21,10 @@
   --shadow-hover: rgba(0, 0, 0, 0.1);
 }
 
+:root { --ifm-background-surface-color: #fbfbfb; }
+html[data-theme='dark'] { --ifm-background-surface-color: #1c1c1e; } 
+
+
 *{box-sizing:border-box}
 body{color:var(--ink)}
 
@@ -123,7 +127,7 @@ html[data-theme='dark'] .empty{
 
 html[data-theme='dark'] .tile{
   /* --accent: #e2e8f0; */
-  background:var(--ifm-color-emphasis-100);
+  background:var(--ifm-background-surface-color);
   border:1px solid var(--ifm-color-emphasis-200);border-radius:10px;
   padding:8px;display:flex;flex-direction:column;box-shadow:var(--shadow);
   cursor:pointer;position:relative;transition:transform .15s ease, box-shadow .15s ease;
