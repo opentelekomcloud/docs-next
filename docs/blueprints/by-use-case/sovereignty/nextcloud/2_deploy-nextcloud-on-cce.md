@@ -13,7 +13,7 @@ This guide walks through deploying a highly available Nextcloud setup on an Open
 1. **Cloud Container Engine (CCE) cluster**  
    - A CCE cluster with sufficient resources.  
    - `kubectl` configured to access the cluster.  
-   - An ingress controller installed on the cluster (we will use Nginx Ingress Controller in this blueprint, see [Installing Nginx Ingress Controller](/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics.md#installing-nginx-ingress-controller)).  
+   - An ingress controller installed on the cluster (we will use Nginx Ingress Controller in this blueprint, see [Installing Nginx Ingress Controller](/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/auto-scaling-based-on-elb-monitoring-metrics.md#installing-nginx-ingress-controller)).  
    - DNS entry pointing to the Ingress load balancer and TLS certificate for the Nextcloud domain (e.g., via cert-manager, see [Issue an ACME Certificate](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md)).
 
 2. **Object Storage Service (OBS)**  
