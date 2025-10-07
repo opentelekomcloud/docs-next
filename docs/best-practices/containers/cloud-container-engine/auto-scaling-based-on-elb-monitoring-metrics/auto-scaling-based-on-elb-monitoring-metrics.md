@@ -1,7 +1,7 @@
 ---
 id: auto-scaling-based-on-elb-monitoring-metrics
-title: Auto Scaling Based on ELB Monitoring Metrics
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, cloudeye, swr]
+title: Auto Scaling Based on ELB Monitoring Metrics - Environment Setup
+tags: [cce, elb, prometheus, prometheus-exporter, cloudeye, swr]
 ---
 
 # Auto Scaling Based on ELB Monitoring Metrics
@@ -10,28 +10,22 @@ By default, Kubernetes scales a workload based on resource usage metrics such as
 
 ## Solution Design
 
-This section describes an auto scaling solution based on ELB monitoring
-metrics. Compared with CPU/memory usage-based auto scaling, auto scaling
-based on ELB QPS data is more targeted and timely.
+This guide covers the environment setup required for implementing auto scaling based on ELB monitoring metrics. This setup is a prerequisite for both [KEDA](auto-scaling-based-on-elb-monitoring-metrics-with-keda.md) and [Prometheus Adapter](auto-scaling-based-on-elb-monitoring-metrics-with-prometheus-adapter.md) scaling solutions.
 
-The key of this solution is to obtain the ELB metric data and report the
-data to Prometheus, convert the data in Prometheus to the metric data
-that can be identified by HPA, and then perform auto scaling based on
-the converted data.
+The key of this solution is to obtain the ELB metric data and report the data to Prometheus.
 
 The implementation scheme is as follows:
 * Develop a Prometheus exporter to obtain ELB metric data 
 * Convert the data into the format required by Prometheus 
 * Report it to Prometheus. 
-* Convert the Prometheus data into the Kubernetes metric API for the HPA controller to use.
-* Set an HPA rule to use ELB monitoring data as auto scaling metrics.
+
+![**Figure 1** ELB traffic flows and monitoring
+data](/img/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/overal.png)
 
 :::note
 This section uses [cloudeye-exporter](https://github.com/akyriako/cloudeye-exporter) as an example.
 :::
 
-![**Figure 1** ELB traffic flows and monitoring
-data](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001160642449.png)
 
 :::tip
 Other metrics can be collected in the similar way.
@@ -75,7 +69,7 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
 
 ### Pushing the image to SWR
    
-1.  (Optional) Log in to the *SWR console*, choose *Organizations*
+1. (Optional) Log in to the *SWR console*, choose *Organizations*
         in the navigation pane, and click *Create Organization* in the
         upper right corner of the page.
         
@@ -85,20 +79,20 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
         ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380832974.png) to
         copy the command.
 
-3.  Run the login command copied in the previous step on the cluster
+3. Run the login command copied in the previous step on the cluster
         node. If the login is successful, the message \"Login
         Succeeded\" is displayed.
 
-4.  Tag the `cloudeye-exporter` image.
+4. Tag the `cloudeye-exporter` image.
 
 ```bash
-**docker tag** *{Image name 1*:*Tag 1}*/*{Image repository address}*/*{Organization name}*/*{Image name 2*:*Tag 2}* 
+docker tag {Image name 1:Tag 1}/{Image repository address}/{Organization name}/{Image name 2:Tag 2}
 ```
 
--   `{Image name 1:Tag 1}`: name and tag of the local image to be uploaded.
--   `{Image repository address}`: The domain name at the end of the login command in is the image repository address, which can be obtained on the SWR console.
--   `{Organization name}`: name of the organization created in.
--   `{Image name 2:Tag 2}`: desired image name and tag to be displayed on the SWR console.
+- `{Image name 1:Tag 1}`: name and tag of the local image to be uploaded.
+- `{Image repository address}`: The domain name at the end of the login command in is the image repository address, which can be obtained on the SWR console.
+- `{Organization name}`: name of the organization created in.
+- `{Image name 2:Tag 2}`: desired image name and tag to be displayed on the SWR console.
 
 :::note Example
 `docker tag cloudeye-exporter:1.0 swr.eu-de.otc.t-systems.com/cloud-develop/cloudeye-exporter:1.0`
@@ -107,7 +101,7 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
 5. Pushing the image to the image repository.
 
 ```bash
-**docker push** *{Image repository address}*/*{Organizationname}*/*{Image name 2:Tag 2}*
+docker push {Image repository address}/{Organizationname}/{Image name 2:Tag 2}
 ```
 
 :::note Example
@@ -235,82 +229,13 @@ We are going to need a workload to test **HPA** and the autoscaling via our
 custom **CloudEye** derived metrics. For that matter we will deploy a dummy
 nginx deployment and service using the script **./install-workload.sh**:
 
- ```shell
- kubectl create namespace applications
- kubectl apply -f deploy/manifests/nginx-deployment.yaml
- kubectl apply -f deploy/manifests/nginx-ingress.yaml
- ```
+```shell
 
-## Installing prometheus-adapter
+kubectl create namespace applications
+kubectl apply -f deploy/manifests/nginx-deployment.yaml
+kubectl apply -f deploy/manifests/nginx-ingress.yaml
 
-Next, and last step, of the installation sequence is the deployment of
-**prometheus-adapter** that will give an additional custom metrics api
-endpoint that will bind our custom **CloudEye** metrics with **HPA**
-**./install-adapter.sh**:
-
- ```shell title="install-adapter.sh"
- envsubst < prometheus-adapter/override.tpl  prometheus-adapter/override.yaml
- sleep 15
-
- helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
- helm repo update
-
- helm upgrade --install --values prometheus-adapter/override.yaml prometheus-adapter prometheus-community/prometheus-adapter -n monitoring
- ```
-
-The configuration values used for the prometheus-adapter chart will be
-autogenerated at **deploy/manifests/prometheus-adapter/override.yaml**. You
-could diff them with the default values **default.yaml** to figure out the
-changes.
-
-## Creating an HPA Policy
-
-After the data reported by the exporter to Prometheus is converted into
-the Kubernetes metric API by using the Prometheus adapter, you can
-create an HPA policy for auto scaling.
-
-1.  Create an HPA policy. The inbound traffic of the ELB load balancer
-    is used to trigger scale-out. When the value of `m7_in_Bps`
-    (inbound traffic rate) exceeds `1000`, the nginx Deployment will be
-    scaled.
-
-    ```yaml
-    apiVersion: autoscaling/v2
-    kind: HorizontalPodAutoscaler
-    metadata:
-      name: nginx
-      namespace: default
-    spec:
-      scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: nginx
-      minReplicas: 1
-      maxReplicas: 10
-      metrics:
-        - type: Object
-          object:
-            metric:
-              name: elb01_listener_m7_in_Bps
-            describedObject:
-              apiVersion: v1
-              kind: Service
-              name: cloudeye-exporter
-            target:
-              type: Value
-              value: 1000
-    ```
-
-    ![**Figure 2** Created HPA Policy](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606847653.png)
-
-2.  After the HPA policy is created, perform a pressure test on the
-    workload (accessing the pods through ELB). Then, the HPA controller
-    determines whether scaling is required based on the configured
-    value.
-
-    In the *Events* dialog box, obtain scaling records in the *Kubernetes Event* column.
-
-    ![**Figure 3** Scaling events](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606845825.png)
+```
 
 ## Appendix
 

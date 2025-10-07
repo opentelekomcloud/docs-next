@@ -444,8 +444,22 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce',
             },
             {
-              type: 'doc',
-              id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics',
+              type: 'category',
+              label: 'Auto Scaling Based on ELB Monitoring Metrics',
+              link: {
+                type: 'doc',
+                id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/auto-scaling-based-on-elb-monitoring-metrics'
+              },
+              items: [
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/auto-scaling-based-on-elb-monitoring-metrics-with-keda',
+                },
+                {
+                  type: 'doc',
+                  id: 'best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/auto-scaling-based-on-elb-monitoring-metrics-with-prometheus-adapter',
+                },
+              ],
             },
             {
               type: 'category',
