@@ -268,7 +268,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
     - `schemaConfig.configs.store: tsdb`, tells Loki to use the [TSDB](https://grafana.com/docs/loki/latest/operations/storage/tsdb/) (Time Series Database) format for storing log data. This modern storage engine improves query performance, compaction, and index management compared to older backends, and is the recommended option for recent Loki versions.
     - The `storage.type: s3` setting defines S3-compatible object storage as Loki’s backend for storing log chunks. The `storage.s3` section provides the connection details—such as endpoint, bucket name, and credentials—needed for Loki to write and read data from that storage. Make sure you adjust the `storage.s3.endpoint` and `storage.bucketNames.*` values according to the properties of the OBS bucket we provisioned in the previous step.
   
-    For deeper understanding of the configuration values of the Helm chart for this deployment mode refer to 
+    For deeper understanding of the configuration values of the Helm chart for this deployment mode refer to the official guide: [Install the microservice Helm chart](https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/).
     :::
 
 5. And finally, we need to deploy the Helm chart:
