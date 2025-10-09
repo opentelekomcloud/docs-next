@@ -1,7 +1,7 @@
 ---
 id: auto-scaling-based-on-elb-monitoring-metrics
 title: Auto Scaling Based on ELB Monitoring Metrics
-tags: [cce, elb, hpa, prometheus, prometheus-exporter, prometheus-adapter, cloudeye, swr]
+tags: [cce, elb, prometheus, prometheus-exporter, cloudeye, swr]
 ---
 
 # Auto Scaling Based on ELB Monitoring Metrics
@@ -10,59 +10,38 @@ By default, Kubernetes scales a workload based on resource usage metrics such as
 
 ## Solution Design
 
-This section describes an auto scaling solution based on ELB monitoring
-metrics. Compared with CPU/memory usage-based auto scaling, auto scaling
-based on ELB QPS data is more targeted and timely.
-
-The key of this solution is to obtain the ELB metric data and report the
-data to Prometheus, convert the data in Prometheus to the metric data
-that can be identified by HPA, and then perform auto scaling based on
-the converted data.
-
-The implementation scheme is as follows:
-* Develop a Prometheus exporter to obtain ELB metric data 
-* Convert the data into the format required by Prometheus 
-* Report it to Prometheus. 
-* Convert the Prometheus data into the Kubernetes metric API for the HPA controller to use.
-* Set an HPA rule to use ELB monitoring data as auto scaling metrics.
-
-:::note
-This section uses [cloudeye-exporter](https://github.com/akyriako/cloudeye-exporter) as an example.
-:::
+This guide covers the environment setup required for implementing auto scaling based on ELB monitoring metrics. This setup is a prerequisite for both [KEDA](auto-scaling-based-on-elb-monitoring-metrics-with-keda.md) and [Prometheus Adapter](auto-scaling-based-on-elb-monitoring-metrics-with-prometheus-adapter.md) scaling solutions.The core of this solution is to collect ELB metric data and expose it to Prometheus for monitoring and scaling decisions. This is achieved by implementing a Prometheus exporter that retrieves the ELB metrics, transforms them into Prometheus-compatible format, and then publishes them so they can be scraped and stored by Prometheus.
 
 ![**Figure 1** ELB traffic flows and monitoring
-data](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001160642449.png)
+data](/img/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/overal.png)
+
+In this guide, we’ll use [cloudeye-exporter](https://github.com/opentelekomcloud-blueprints/cloudeye-exporter), a custom Prometheus exporter designed to collect metrics from Open Telekom Cloud’s Cloud Eye service. The exporter retrieves monitoring data, converts it into Prometheus-compatible format, and exposes it through an endpoint that Prometheus can scrape at regular intervals.
 
 :::tip
-Other metrics can be collected in the similar way.
+Additional metrics can be gathered in the same manner by extending the exporter’s configuration to include other service metrics. By adjusting the metric definitions and endpoints, the same workflow (data retrieval, conversion to Prometheus format, and periodic scraping) can be applied to monitor different resources such as ECS instances, EVS volumes, RDS databases, or networking components. This approach provides a consistent and scalable method for integrating a wide range of Open Telekom Cloud metrics into Prometheus.
 :::
 
 ## Prerequisites
 
-1. You must be familiar with Prometheus and be able to write the Prometheus exporter.
-2. You have the Cloud Native Cluster Monitoring add-on installed in your cluster. This add-on supports clusters **of v1.17 or later**.
-3. Set the deployment mode of Cloud Native Cluster Monitoring to the `server mode`.
+1. You should have a basic understanding of Prometheus and know how to develop a Prometheus exporter.
+2. Ensure that the [Cloud Native Cluster Monitoring](https://docs.otc.t-systems.com/cloud-container-engine/umn/add-ons/cloud_native_observability_add-ons/cloud_native_cluster_monitoring.html) add-on is installed in your cluster, which must be running Kubernetes version 1.17 or later.
+3. Configure the Cloud Native Cluster Monitoring add-on to operate in `server mode`.
+
 
 ## Building the Exporter Image
 
-This section uses [cloudeye-exporter](https://github.com/akyriako/cloudeye-exporter) to
-monitor load balancer metrics. 
-
 ### Installing Buildpacks
 
-In this tutorial we build the image wite the help of [Buildpacks](https://buildpacks.io/). 
+In this tutorial, the container image is built using [Buildpacks](https://buildpacks.io/), a framework that automates the creation of production-ready container images without the need for a Dockerfile. Buildpacks detect the application’s language and dependencies, compile the necessary runtime environment, and package everything into an optimized image. This approach simplifies image creation, ensures consistent builds across environments, and aligns with best practices for secure and maintainable containerized applications.
 
-:::note
-With this approach we are building an OCI image which is
-compatible whit almost all of the container runtimes which support
-OCI. In addition the image can also be build with Dockerfile and
-docker build.
-:::
-
-```shell 
-git clone https://github.com/akyriako/cloudeye-exporter
+```shell
+git clone https://github.com/opentelekomcloud-blueprints/cloudeye-exporter
 curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.32.1/pack-v0.32.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
 ```
+
+:::note
+This method produces an OCI-compliant image, ensuring compatibility with nearly all container runtimes that support the Open Container Initiative standard. Alternatively, the same image can be built using a traditional Dockerfile and the `docker build` command if preferred.
+:::
 
 ### Building the image
 
@@ -74,31 +53,31 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
  ```
 
 ### Pushing the image to SWR
-   
-1.  (Optional) Log in to the *SWR console*, choose *Organizations*
+
+1. (Optional) Log in to the *SWR console*, choose *Organizations*
         in the navigation pane, and click *Create Organization* in the
         upper right corner of the page.
-        
+
 2. In the navigation pane, choose *My Images* and then click
         *Upload Through Client*. On the page displayed, click
         *Generate a temporary login command* and click
         ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380832974.png) to
         copy the command.
 
-3.  Run the login command copied in the previous step on the cluster
+3. Run the login command copied in the previous step on the cluster
         node. If the login is successful, the message \"Login
         Succeeded\" is displayed.
 
-4.  Tag the `cloudeye-exporter` image.
+4. Tag the `cloudeye-exporter` image.
 
 ```bash
-**docker tag** *{Image name 1*:*Tag 1}*/*{Image repository address}*/*{Organization name}*/*{Image name 2*:*Tag 2}* 
+docker tag {IMG1:TAG1}/{IMG_RERO_ADDR}/{ORG_NAME}/{IMG2:TAG2}
 ```
 
--   `{Image name 1:Tag 1}`: name and tag of the local image to be uploaded.
--   `{Image repository address}`: The domain name at the end of the login command in is the image repository address, which can be obtained on the SWR console.
--   `{Organization name}`: name of the organization created in.
--   `{Image name 2:Tag 2}`: desired image name and tag to be displayed on the SWR console.
+- `{IMG1:TAG1}`: name and tag of the local image to be uploaded.
+- `{IMG_RERO_ADDR}`: The domain name at the end of the login command in is the image repository address, which can be obtained on the SWR console.
+- `{ORG_NAME}`: name of the organization created in.
+- `{IMG2:TAG2}`: desired image name and tag to be displayed on the SWR console.
 
 :::note Example
 `docker tag cloudeye-exporter:1.0 swr.eu-de.otc.t-systems.com/cloud-develop/cloudeye-exporter:1.0`
@@ -107,7 +86,7 @@ The image name is `cloudeye-exporter` and the image version is `1.0`.
 5. Pushing the image to the image repository.
 
 ```bash
-**docker push** *{Image repository address}*/*{Organizationname}*/*{Image name 2:Tag 2}*
+docker push {IMG_RERO_ADDR}/{ORG_NAME}/{IMG2:TAG2}
 ```
 
 :::note Example
@@ -126,10 +105,9 @@ To view the pushed image, go to the SWR console and refresh the *My Images* page
 
 ## Installing Prometheus/Grafana Stack & cloudeye-exporter artifacts
 
-Install Prometheus/Grafana stack via the kube-prometheus-stack chart.
-The configuration values used will be autogenerated at
-**deploy/manifests/prometheus-stack/override.yaml**. You could diff them
-with the default values **default.yaml** to figure out the changes.
+Deploy the Prometheus and Grafana stack using the **kube-prometheus-stack** Helm chart. The configuration values will be automatically generated at `deploy/manifests/prometheus-stack/override.yaml`. You can compare this file with the default `default.yaml` to review the applied customizations.
+
+Execute `./install-stack.sh` to begin the deployment. This script not only installs the kube-prometheus-stack but also sets up all required artifacts for the **cloudeye-exporter** integration.
 
 Run `./install-stack.sh`. This script will deploy, besides the
 **kube-prometheus-stack**, all the **cloudeye-exporter** related artifacts.
@@ -137,19 +115,15 @@ Run `./install-stack.sh`. This script will deploy, besides the
 ## Deploying the Exporter
 
 Prometheus can dynamically monitor pods if you add Prometheus
-annotations to the pods (the default path is `/metrics`). This section
-uses [cloudeye-exporter](https://github.com/akyriako/cloudeye-exporter)
-as an example.
+annotations to the pods (the default path is `/metrics`). Common annotations in Prometheus are as follows:
 
-Common annotations in Prometheus are as follows:
+- `prometheus.io/scrape`: If the value is `true`, the pod will bemonitored.
+- `prometheus.io/path`: URL from which the data is collected. The default value is `/metrics`.
+- `prometheus.io/port`: port number of the endpoint to collect data from.
+- `prometheus.io/scheme`: Defaults to `http`. If HTTPS is configured for security purposes, change the value to `https`.
 
--   `prometheus.io/scrape`: If the value is `true`, the pod will bemonitored.
--   `prometheus.io/path`: URL from which the data is collected. The default value is `/metrics`.
--   `prometheus.io/port`: port number of the endpoint to collect data from.
--   `prometheus.io/scheme`: Defaults to `http`. If HTTPS is configured for security purposes, change the value to `https`.
-
-1.  Use kubectl to connect to the cluster.
-2.  Create a secret, which will be used by **cloudeye-exporter** for
+1. Use kubectl to connect to the cluster.
+2. Create a secret, which will be used by **cloudeye-exporter** for
     authentication.
 
     a.  Create a copy of clouds.tpl template, name it **clouds.yml**
@@ -193,7 +167,7 @@ In this example, the ELB metrics associated with the workload need to be
 monitored. Therefore, the target workload must use the Service or
 Ingress of the `LoadBalancer` type.
 
-1.  View the access mode of the workload to be monitored and obtain the
+1. View the access mode of the workload to be monitored and obtain the
     ELB ID and ELB listener ID.
 
     a.  On the CCE cluster console, choose *Networking*. On the
@@ -208,7 +182,7 @@ Ingress of the `LoadBalancer` type.
 
         ![image3](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001380992506.png)
 
-2.  Export the Elastic Load Balancer\'s ID and listener ID as an env
+2. Export the Elastic Load Balancer\'s ID and listener ID as an env
     variables
 
      ```bash
@@ -235,82 +209,13 @@ We are going to need a workload to test **HPA** and the autoscaling via our
 custom **CloudEye** derived metrics. For that matter we will deploy a dummy
 nginx deployment and service using the script **./install-workload.sh**:
 
- ```shell
- kubectl create namespace applications
- kubectl apply -f deploy/manifests/nginx-deployment.yaml
- kubectl apply -f deploy/manifests/nginx-ingress.yaml
- ```
+```shell
 
-## Installing prometheus-adapter
+kubectl create namespace applications
+kubectl apply -f deploy/manifests/nginx-deployment.yaml
+kubectl apply -f deploy/manifests/nginx-ingress.yaml
 
-Next, and last step, of the installation sequence is the deployment of
-**prometheus-adapter** that will give an additional custom metrics api
-endpoint that will bind our custom **CloudEye** metrics with **HPA**
-**./install-adapter.sh**:
-
- ```shell title="install-adapter.sh"
- envsubst < prometheus-adapter/override.tpl  prometheus-adapter/override.yaml
- sleep 15
-
- helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
- helm repo update
-
- helm upgrade --install --values prometheus-adapter/override.yaml prometheus-adapter prometheus-community/prometheus-adapter -n monitoring
- ```
-
-The configuration values used for the prometheus-adapter chart will be
-autogenerated at **deploy/manifests/prometheus-adapter/override.yaml**. You
-could diff them with the default values **default.yaml** to figure out the
-changes.
-
-## Creating an HPA Policy
-
-After the data reported by the exporter to Prometheus is converted into
-the Kubernetes metric API by using the Prometheus adapter, you can
-create an HPA policy for auto scaling.
-
-1.  Create an HPA policy. The inbound traffic of the ELB load balancer
-    is used to trigger scale-out. When the value of `m7_in_Bps`
-    (inbound traffic rate) exceeds `1000`, the nginx Deployment will be
-    scaled.
-
-    ```yaml
-    apiVersion: autoscaling/v2
-    kind: HorizontalPodAutoscaler
-    metadata:
-      name: nginx
-      namespace: default
-    spec:
-      scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: nginx
-      minReplicas: 1
-      maxReplicas: 10
-      metrics:
-        - type: Object
-          object:
-            metric:
-              name: elb01_listener_m7_in_Bps
-            describedObject:
-              apiVersion: v1
-              kind: Service
-              name: cloudeye-exporter
-            target:
-              type: Value
-              value: 1000
-    ```
-
-    ![**Figure 2** Created HPA Policy](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606847653.png)
-
-2.  After the HPA policy is created, perform a pressure test on the
-    workload (accessing the pods through ELB). Then, the HPA controller
-    determines whether scaling is required based on the configured
-    value.
-
-    In the *Events* dialog box, obtain scaling records in the *Kubernetes Event* column.
-
-    ![**Figure 3** Scaling events](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001606845825.png)
+```
 
 ## Appendix
 
@@ -333,7 +238,7 @@ using the method described in sections above.
 | `m5_in_pps`         | Incoming Packets                   | Count        | Number of packets sent to a load balancer.                                                                                                                      |
 | `m6_out_pps`        | Outgoing Packets                   | Count        | Number of packets sent from a load balancer.                                                                                                                    |
 | `m7_in_Bps`         | Inbound Rate                       | byte/s       | Number of incoming bytes per second on a load balancer.                                                                                                         |
-| `m8_out_Bps`        | Outbound Rate                      | byte/s       | Number of outgoing bytes per second on a load balancer. 
+| `m8_out_Bps`        | Outbound Rate                      | byte/s       | Number of outgoing bytes per second on a load balancer.
 
 ### Developing an Exporter
 
@@ -351,28 +256,28 @@ the following figure.
 
 To obtain the preceding data, perform the following steps:
 
-1.  Obtain all Services.
+1. Obtain all Services.
 
     The `annotations` field in the returned information contains the
     ELB associated with the Service.
 
-    -   `kubernetes.io/elb.id`
-    -   `kubernetes.io/elb.class`
+    - `kubernetes.io/elb.id`
+    - `kubernetes.io/elb.class`
 
-2.  Use APIs in Querying Listeners to get the listener ID based on the
+2. Use APIs in Querying Listeners to get the listener ID based on the
     load balancer ID obtained in the previous step.
 
-3.  Obtain the ELB monitoring data.
+3. Obtain the ELB monitoring data.
 
     The ELB monitoring data is obtained using the CES APIs described in
     Querying Monitoring Data in Batches. For details about ELB
     monitoring metrics, see Monitoring Metrics. Example:
 
-    -   `m1_cps`: number of concurrent connections
-    -   `m5_in_pps`: number of incoming data packets
-    -   `m6_out_pps`: number of outgoing data packets
-    -   `m7_in_Bps`: incoming rate
-    -   `m8_out_Bps`: outgoing rate
+    - `m1_cps`: number of concurrent connections
+    - `m5_in_pps`: number of incoming data packets
+    - `m6_out_pps`: number of outgoing data packets
+    - `m7_in_Bps`: incoming rate
+    - `m8_out_Bps`: outgoing rate
 
-4.  Aggregate data in the format that Prometheus supports and expose the
+4. Aggregate data in the format that Prometheus supports and expose the
     data through the `/metrics` API.
