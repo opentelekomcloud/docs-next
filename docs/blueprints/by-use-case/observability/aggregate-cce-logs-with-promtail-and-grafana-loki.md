@@ -1,21 +1,16 @@
 ---
-id: kubernetes-logging-with-loki
-title: CCE Logging with Grafana Loki & Promtail
+id: aggregate-cce-logs-with-promtail-and-grafana-loki
+title: Aggregate CCE Logs with Promtail & Grafana Loki
 tags: [cce, observability, logging, grafana, loki, promtail]
 ---
 
-# CCE Logging with Grafana Loki & Promtail
+# Aggregate CCE Logs with Promtail & Grafana Loki
 
-In this blueprint, we'll consolidate all the logs generated in our Kubernetes cluster into a neat, real-time dashboard in Grafana.
+This blueprint explains how to collect and centralize logs from Cloud Container Engine (CCE) using Promtail and Grafana Loki. It outlines the process of configuring Promtail as a log forwarder within Kubernetes and integrating it with Grafana Loki for efficient storage and visualization. By the end, you will have a unified and scalable logging setup that simplifies monitoring, troubleshooting, and operational insights across your CCE workloads.
 
-[Grafana](https://grafana.com/) is an analytics and interactive visualization platform. It offers a rich variety of charts, graphs, and alerts and connects to a plethora of supported data sources such as Prometheus, time-series databases, or well-known RDBMS. Grafana allows you to query, visualize, and create alerts on your metrics regardless of where they are stored.
+[Grafana](https://grafana.com/) is a visualization and analytics platform that enables users to build interactive dashboards. It supports various data sources, including Prometheus, time-series databases, and relational database systems. Grafana makes it possible to query, visualize, and create alerts based on metrics, regardless of where the data resides.
 
-:::tip
-Think of it as the equivalent of Kibana in the ELK stack.
-:::
-
-[Grafana Loki](https://grafana.com/oss/loki/) is a logs aggregation system designed to be horizontally scalable, highly available, and cost-effective. Inspired by Prometheus, Loki does not index the contents of the logs but rather a set of labels for each log stream. It was launched in 2018 by Grafana Labs.
-
+[Grafana Loki](https://grafana.com/oss/loki/) serves as a log aggregation system optimized for scalability, availability, and cost efficiency. Drawing inspiration from Prometheus, Loki indexes only metadata through labels rather than the log content itself. It was introduced by Grafana Labs in 2018.
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_x7vfbTFPrJDX9n99xuigmw.webp)
 
@@ -23,36 +18,11 @@ Loki uses [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) t
 
 Loki groups log entries into streams and indexes them with labels, which reduces overall costs and the time between log entry ingestion and query availability.
 
-:::tip
-Think of Loki as the equivalent (not 1-to-1 but in a broader context) of Elasticsearch in the ELK stack.
-:::
-
-## Prerequisites
-
-1.  **CCE** cluster.
-2.  **Grafana** installation.
-3.  **Grafana Loki** installation.
-4.  **Promtail** agent on every node of the CCE cluster.
-
 ## Installing Grafana
 
-The installation is straightforward using Helm. If you haven’t installed Helm on your workstation, you can do it either with brew on macOS:
+The installation process is simple when using Helm. If Helm is not yet installed on your local workstation, refer to the official Helm documentation for [installation instructions](https://helm.sh/docs/intro/install/).
 
-```shell
-brew install helm
-```
-
-or with the following bash commands on Debian/Ubuntu Linux:
-
-```shell
-curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-sudo apt-get install apt-transport-https --yes
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm --yes
-```
-
-Now, we can install the Helm chart for Grafana:
+Once Helm is set up, proceed to deploy Grafana using its Helm chart:
 
 ```shell
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -70,13 +40,15 @@ By default, the `service/grafana` will be of type `ClusterIP`. If you are not wo
 
 Loki consists of multiple components/microservices that can be deployed in three different modes:
 
+<center>
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dxVzmGkmFHgkuyJmW1VK3g.webp)
+</center>
 
 that can be deployed in **3 different modes**:
 
-1.  [Monolithic](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode) mode: All of Loki’s microservice components run inside a single process as a single binary.
-2.  [Simple Scalable](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#simple-scalable-deployment-mode) mode:  Separate read and write paths.
-3.  [Microservices](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#microservices-mode) mode: Every Loki component runs as a distinct process.
+1.  [Monolithic](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#monolithic-mode) mode: All of Loki’s microservice components run inside a single process as a single binary.
+2.  [Simple Scalable](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#simple-scalable) mode:  Separate read and write paths.
+3.  [Microservices](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#microservices-mode) mode: Every Loki component runs as a distinct process.
 
 :::important
 The scalable installation requires an S3 compatible object store such as AWS S3, Google Cloud Storage, Open Telekom Cloud OBS, or a self-hosted store like MinIO. In monolithic deployment mode, **only** the filesystem can be used for storage.
