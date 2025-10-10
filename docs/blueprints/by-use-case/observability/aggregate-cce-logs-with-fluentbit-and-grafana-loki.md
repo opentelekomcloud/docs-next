@@ -63,7 +63,7 @@ config:
         Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
         Kube_Tag_Prefix kube.var.log.containers.
         Merge_Log On
-        Keep_Log Off
+        Keep_Log On
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
         Labels Off
@@ -85,8 +85,9 @@ config:
         Port 80
         uri /loki/api/v1/push
         labels job=fluent-bit, namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name']
-        remove_keys kubernetes,host,container_id
-        line_format json
+        remove_keys kubernetes,host,container_id,_p
+        line_format key_value
+        drop_single_key raw
         auto_kubernetes_labels off
 
   customParsers: |
@@ -138,6 +139,10 @@ helm upgrade --install fluent-bit fluent/fluent-bit   \
 --namespace monitoring --create-namespace \
 --reset-values
 ```
+
+:::note
+For detailed guidance on configuring the Kubernetes filter, refer to the [Fluent Bit official documentation](https://docs.fluentbit.io/manual/data-pipeline/filters/kubernetes).
+:::
 
 ## Installing Grafana (Optional)
 
@@ -202,7 +207,7 @@ dashboardProviders:
 dashboards:
   default:
     loki-logs:
-      gnetId: 15141
+      gnetId: 18494
       revision: 1
       datasource: Loki
 
@@ -259,6 +264,7 @@ Go to *Grafana* -> *Dashboards* and click the dashboard we provisioned as bundle
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/Screenshot_from_2025-10-09_11-09-06.png)
 
-:::tip
-The Grafana admin password can be found in `grafana` secret in monitoring namespace.
+:::note
+:bulb: The Grafana admin password can be found in `grafana` secret in monitoring namespace.  
+:warning: This Grafana installation and the provided [dashboard](https://grafana.com/grafana/dashboards/18494-kubernetes-logs-from-loki/) are intended for demonstration purposes only.
 :::
