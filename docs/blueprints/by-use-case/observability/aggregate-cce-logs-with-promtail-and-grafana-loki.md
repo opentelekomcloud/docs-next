@@ -157,7 +157,7 @@ persistence:
   size: 5Gi
   accessModes:
     - ReadWriteOnce
-  # storageClassName: ""
+  storageClassName: "csi-disk"
 
 service:
   enabled: true

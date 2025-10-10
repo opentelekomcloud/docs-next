@@ -81,6 +81,9 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
     ```yaml title="values-loki-obs.yaml"
     deploymentMode: Distributed
 
+    global:
+        dnsService: "coredns"
+
     loki:
         auth_enabled: false
 
@@ -167,6 +170,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
             enabled: true
             accessModes: ["ReadWriteOnce"]
             size: 20Gi    
+            storageClass: csi-disk  
 
     indexGateway:
         replicas: 2
@@ -182,6 +186,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
             enabled: true
             accessModes: ["ReadWriteOnce"]
             size: 10Gi
+            storageClass: csi-disk  
 
     querier:
         replicas: 2
@@ -230,7 +235,8 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
             enabled: true
             accessModes: ["ReadWriteOnce"]
             size: 2Gi
-    
+            storageClass: csi-disk  
+
     compactor:
         replicas: 1
         extraEnvFrom:
@@ -244,6 +250,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
             enabled: true
             accessModes: ["ReadWriteOnce"]
             size: 10Gi
+            storageClass: csi-disk  
 
     memberlist:
         service:
@@ -267,6 +274,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
     - `deploymentMode: Distributed`, dictates Loki to run in a fully distributed architecture, where each core component—such as the distributor, ingester, and querier—operates as a separate service. This enables independent scaling, better performance, and higher resilience, making it suitable for production environments.
     - `schemaConfig.configs.store: tsdb`, tells Loki to use the [TSDB](https://grafana.com/docs/loki/latest/operations/storage/tsdb/) (Time Series Database) format for storing log data. This modern storage engine improves query performance, compaction, and index management compared to older backends, and is the recommended option for recent Loki versions.
     - The `storage.type: s3` setting defines S3-compatible object storage as Loki’s backend for storing log chunks. The `storage.s3` section provides the connection details—such as endpoint, bucket name, and credentials—needed for Loki to write and read data from that storage. Make sure you adjust the `storage.s3.endpoint` and `storage.bucketNames.*` values according to the properties of the OBS bucket we provisioned in the previous step.
+    - `global.dnsService: coredns`, defines the DNS service Loki uses for internal name resolution within the Kubernetes cluster. Setting it explicitly to `coredns` ensures compatibility with the default DNS setup in most modern Kubernetes distributions, one of them CCE. If this value is not specified, Loki defaults to using `kube-dns`.
   
     For deeper understanding of the configuration values of the Helm chart for this deployment mode refer to the official guide: [Install the microservice Helm chart](https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/).
     :::
