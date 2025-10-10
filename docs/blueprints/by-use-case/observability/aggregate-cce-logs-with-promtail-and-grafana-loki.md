@@ -206,7 +206,7 @@ dashboardProviders:
 dashboards:
   default:
     loki-logs:
-      gnetId: 18494
+      gnetId: 15141
       revision: 1
       datasource: Loki
 
@@ -265,6 +265,6 @@ Go to *Grafana* -> *Dashboards* and click the dashboard we provisioned as bundle
 
 :::note
 :bulb: The Grafana admin password can be found in `grafana` secret in monitoring namespace.  
-:warning: This Grafana installation and the provided [dashboard](https://grafana.com/grafana/dashboards/18494-kubernetes-logs-from-loki/) are intended for demonstration purposes only.
+:warning: This Grafana installation and the provided [dashboard](https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/) are intended for demonstration purposes only.
 :::
 
