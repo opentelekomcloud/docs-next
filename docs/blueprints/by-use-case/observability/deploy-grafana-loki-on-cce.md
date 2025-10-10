@@ -16,7 +16,7 @@ Grafana Loki is built around a modular architecture that separates log ingestion
 When a user runs a query from Grafana or directly through the Loki API, the querier reads the index to locate the relevant chunks, retrieves them from storage, and returns the combined results. In larger or production setups, a **query frontend** can be added to optimize performance by caching and parallelizing requests. This division of responsibilities—distributors for routing, ingesters for writing, and queriers for reading, ensures Loki remains efficient even at scale. On Cloud Container Engine (CCE), this architecture integrates naturally with Kubernetes, providing a reliable and cost-effective platform for log aggregation and analysis.
 
 <center>
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/1_dxVzmGkmFHgkuyJmW1VK3g.webp)
+![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/loki-architecture.png)
 </center>
 
 For more information, consult the official [Loki architecture](https://grafana.com/docs/loki/latest/get-started/architecture/) documentation.
