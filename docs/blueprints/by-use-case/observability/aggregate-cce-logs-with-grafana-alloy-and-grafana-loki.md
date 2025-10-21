@@ -1,5 +1,5 @@
 ---
-id: aggregate-cce-logs-with-grafana-alloy-and-loki
+id: aggregate-cce-logs-with-grafana-alloy-and-grafana-loki
 title: Aggregate CCE Logs with Grafana Alloy & Grafana Loki
 tags: [cce, observability, logging, grafana, loki, alloy]
 sidebar_position: 4

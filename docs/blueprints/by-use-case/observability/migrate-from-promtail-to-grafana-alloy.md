@@ -108,7 +108,7 @@ discovery.kubernetes "pods" {
 
 ## Deploying Converted Configuration on CCE
 
-Once you have a converted Alloy configuration, deploy it to your CCE cluster following the approach outlined in [Aggregate CCE Logs with Grafana Alloy & Grafana Loki](/docs/blueprints/by-use-case/observability/aggregate-cce-logs-with-grafana-alloy-and-loki).
+Once you have a converted Alloy configuration, deploy it to your CCE cluster following the approach outlined in [Aggregate CCE Logs with Grafana Alloy & Grafana Loki](/docs/blueprints/by-use-case/observability/aggregate-cce-logs-with-grafana-alloy-and-grafana-loki).
 
 Alternatively, update your existing Alloy configuration to reference the new converted configuration.
  
