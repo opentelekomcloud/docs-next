@@ -1,7 +1,7 @@
 ---
 id: migrate-from-promtail-to-grafana-alloy
 title: Migrating from Promtail to Grafana Alloy
-tags: [cce, observability, logging, grafana, loki, alloy, promtail]
+tags: [cce, observability, logging, grafana, loki, alloy, promtail, migration]
 sidebar_position: 5
 ---
 
@@ -11,7 +11,7 @@ With Promtail reaching end-of-life on March 2, 2026, migrating to Grafana Alloy 
 
 ## Why Migrate to Grafana Alloy?
 
-Grafana Alloy replaces Promtail as the actively maintained log collection agent and offers significant advantages beyond simple log collection. As a unified telemetry collector, Alloy natively supports logs, metrics, traces, and profiles, allowing you to consolidate multiple specialized collectors into a single agent per node. The component-based architecture provides flexibility to adapt to changing requirements, while enterprise-grade features like clustering, GitOps support, and advanced debugging capabilities ensure production readiness.
+Grafana Alloy replaces Promtail as the actively maintained log collection agent and offers significant advantages beyond simple log collection. As a unified telemetry collector, Alloy natively supports logs, metrics, traces, and profiles, allowing you to consolidate multiple specialized collectors into a single agent per node. Its component-based architecture provides flexibility to adapt to changing requirements, while enterprise-grade features like clustering, GitOps support, and advanced debugging capabilities ensure production readiness.
 
 ## Prerequisites
 
@@ -24,11 +24,11 @@ Before migrating, ensure you have the following:
 
 Grafana Alloy supports two migration paths depending on your requirements and timeline.
 
-### 1. Convert Configuration (Recommended)
+### Convert Configuration (Recommended)
 
 Converting your Promtail configuration to Alloy's native format allows you to leverage all of Alloy's features and ensures long-term maintainability. The built-in `convert` command automates most of the conversion process, translating YAML-based Promtail configurations into Alloy's component-based format.
 
-### 2. Run Promtail Configuration Natively
+### Run Promtail Configuration Natively
 For testing or temporary migration scenarios, Alloy can run Promtail configurations directly. This approach requires no configuration changes but doesn't provide access to Alloy's extended capabilities. This method is not discussed in this blueprint as it is intended for short-term use only. Visit [Run a Promtail configuration](https://grafana.com/docs/alloy/latest/set-up/migrate/from-promtail/#run-a-promtail-configuration) for more details.
 
 
@@ -50,7 +50,7 @@ The Alloy CLI provides a conversion tool that translates Promtail YAML configura
 Replace `<INPUT_CONFIG_PATH>` with the full path to your Promtail configuration and `<OUTPUT_CONFIG_PATH>` with the desired output path for the Alloy configuration.
 
 :::tip Extracting Promtail Configuration from Kubernetes
-If you deployed Promtail using Helm (as described in [Aggregate CCE Logs with Promtail & Grafana Loki](/docs/blueprints/by-use-case/observability/aggregate-cce-logs-with-promtail-and-grafana-loki)), your configuration is stored as a Kubernetes secret. Before running the conversion command, you can extract the current Promtail configuration from the cluster using the following command:
+If you deployed Promtail using Helm (as described in [Aggregate CCE Logs with Promtail & Grafana Loki](/docs/blueprints/by-use-case/observability/aggregate-cce-logs-with-promtail-and-grafana-loki)), your configuration is stored as a Kubernetes secret. Before running the conversion command, extract the current Promtail configuration from the cluster using the following command:
 
 ```bash
 kubectl get secret promtail -n monitoring -o jsonpath="{.data.promtail\.yaml}" | base64 --decode > promtail-config.yaml
@@ -89,11 +89,11 @@ Using `--bypass-errors` may result in behavioral differences between the origina
 
 ### Configuration Differences to Consider
 
-**Positions File Location**: Alloy stores the positions file at a different path than Promtail. If you have persistent volumes or specific paths configured for Promtail's positions file, update your storage configuration to use Alloy's default locations.
+**Positions File Location:** Alloy stores the positions file at a different path than Promtail. If you have persistent volumes or specific paths configured for Promtail's positions file, update your storage configuration to use Alloy's default locations.
 
-**Metrics Names**: Alloy exposes different metric names compared to Promtail. Update any dashboards, alerts, or monitoring queries that reference Promtail-specific metrics.
+**Metric Names:** Alloy exposes different metric names compared to Promtail. Update any dashboards, alerts, or monitoring queries that reference Promtail-specific metrics.
 
-**Service Discovery**: For CCE deployments, ensure the converted `discovery.kubernetes` component restricts discovery to pods on the same node as the Alloy pod. Update the configuration as follows:
+**Service Discovery** For CCE deployments, ensure the converted `discovery.kubernetes` component restricts discovery to pods on the same node as the Alloy pod. Update the configuration as follows:
 
 ```
 discovery.kubernetes "pods" {
@@ -110,7 +110,7 @@ discovery.kubernetes "pods" {
 
 Once you have a converted Alloy configuration, deploy it to your CCE cluster following the approach outlined in [Aggregate CCE Logs with Grafana Alloy & Grafana Loki](/docs/blueprints/by-use-case/observability/aggregate-cce-logs-with-grafana-alloy-and-loki).
 
-Or change your existing Alloy configuration to reference the new converted configuration.
+Alternatively, update your existing Alloy configuration to reference the new converted configuration.
  
 ### Creating the ConfigMap
 
