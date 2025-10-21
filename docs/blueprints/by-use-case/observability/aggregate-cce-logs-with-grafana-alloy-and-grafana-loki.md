@@ -2,6 +2,7 @@
 id: aggregate-cce-logs-with-grafana-alloy-and-loki
 title: Aggregate CCE Logs with Grafana Alloy & Grafana Loki
 tags: [cce, observability, logging, grafana, loki, alloy]
+sidebar_position: 4
 ---
 
 # Aggregate CCE Logs with Grafana Alloy & Grafana Loki
@@ -11,7 +12,7 @@ This blueprint explains how to collect and centralize logs from Cloud Container 
 ## What is Grafana Alloy?
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grfana-alloy-overview.png)
 
-Grafana Alloy is a flexible, high-performance, vendor-neutral Telemetry Collector. It also replaces [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) as the actively maintained log collection agent. Alloy is fully compatible with popular open source observability standards such as [OpenTelemetry](https://opentelemetry.io/) and [Prometheus](https://prometheus.io/), focusing on ease-of-use and the ability to adapt to the needs of power users.
+Grafana Alloy is a flexible, high-performance, vendor-neutral telemetry Collector. It also replaces [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) as the actively maintained log collection agent. Alloy is fully compatible with popular open source observability standards such as [OpenTelemetry](https://opentelemetry.io/) and [Prometheus](https://prometheus.io/), focusing on ease of use and the ability to adapt to the needs of power users.
 
 Unlike Promtail, which was designed solely for log collection, Alloy is a unified telemetry collector that natively supports all observability signals including logs, metrics, traces, and profiles. This "big tent" approach means you can deploy a single agent per node instead of managing multiple specialized collectors.
 
@@ -32,7 +33,7 @@ If you don't already have a Grafana Loki instance running, you can set it up fir
 
 
 ### Configuring Grafana Alloy for CCE Log Collection
-Create a ConfigMap for Alloy's configuration. This is going to be referenced in the Helm values file.
+Create a ConfigMap for Alloy's configuration. This will be referenced in the Helm values file.
 
 ```yaml title="alloy-configmap.yaml"
 apiVersion: v1
@@ -204,10 +205,10 @@ This is a baseline configuration and you may need to adjust it based on your spe
 :::
 
 :::tip Node Metadata for Geographic Labels
-By setting `attach_metadata {node = true}`, Alloy attaches node-level metadata to pod targets, which enables extraction of **availability zone** and **region** labels in the subsequent relabeling rules. This useful for multi-region deployments and debugging location-specific issues.
+By setting `attach_metadata {node = true}`, Alloy attaches node-level metadata to pod targets, which enables extraction of **availability zone** and **region** labels in the subsequent relabeling rules. This is useful for multi-region deployments and debugging location-specific issues.
 :::
 
-then apply the ConfigMap:
+Then apply the ConfigMap:
 
 ```bash
 kubectl apply -f alloy-configmap.yaml
@@ -298,7 +299,7 @@ rbac:
 ```
 
 :::tip Log Collection Methods
-Alloy supports collecting logs through the Kubernetes API server instead of mounting host paths. This approach doesn't require privileged security contexts and can be useful for development or environments with strict security policies. However, for production systems, directly mounting log directories is recommended as it provides better performance by removing the log request loads from the Kubernetes API server.
+Alloy supports collecting logs through the Kubernetes API server instead of mounting host paths. This approach doesn't require privileged security contexts and can be useful for development or environments with strict security policies. However, for production systems, directly mounting log directories is recommended as it provides better performance by removing the log request load from the Kubernetes API server.
 :::
 
 :::danger CCE Containerd Log Path
