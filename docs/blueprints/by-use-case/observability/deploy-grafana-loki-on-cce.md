@@ -94,8 +94,8 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
                 object_store: s3
                 schema: v13
                 index:
-                prefix: loki_index_
-                period: 24h
+                    prefix: loki_index_
+                    period: 24h
 
         storage:
             type: s3

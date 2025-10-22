@@ -139,7 +139,7 @@ helm repo update
 
 helm upgrade --install promtail grafana/promtail \
 -f values-promtail.yaml \
--n monitoring --create-namespace
+-n monitoring --create-namespace \
 --reset-values
 ```
 
