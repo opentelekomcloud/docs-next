@@ -10,6 +10,7 @@ sidebar_position: 4
 This blueprint explains how to collect and centralize logs from Cloud Container Engine (CCE) using [Grafana Alloy](https://grafana.com/docs/alloy/latest/) and [Grafana Loki](https://grafana.com/oss/loki/). It outlines the process of configuring Grafana Alloy as a unified telemetry collector within Kubernetes and integrating it with Grafana Loki for efficient storage and visualization. By the end, you will have a modern, future-proof, and scalable logging setup that simplifies monitoring, troubleshooting, and operational insights across your CCE workloads.
 
 ## What is Grafana Alloy?
+
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grfana-alloy-overview.png)
 
 Grafana Alloy is a flexible, high-performance, vendor-neutral telemetry Collector. It also replaces [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) as the actively maintained log collection agent. Alloy is fully compatible with popular open source observability standards such as [OpenTelemetry](https://opentelemetry.io/) and [Prometheus](https://prometheus.io/), focusing on ease of use and the ability to adapt to the needs of power users.
@@ -17,7 +18,6 @@ Grafana Alloy is a flexible, high-performance, vendor-neutral telemetry Collecto
 Unlike Promtail, which was designed solely for log collection, Alloy is a unified telemetry collector that natively supports all observability signals including logs, metrics, traces, and profiles. This "big tent" approach means you can deploy a single agent per node instead of managing multiple specialized collectors.
 
 Grafana Loki serves as a log aggregation system optimized for scalability, availability, and cost efficiency. Drawing inspiration from Prometheus, Loki indexes only metadata through labels rather than the log content itself. Loki groups log entries into streams and indexes them with labels, which reduces overall costs and the time between log entry ingestion and query availability.
-
 
 ## Why Choose Grafana Alloy?
 
@@ -31,8 +31,8 @@ If you don't already have a Grafana Loki instance running, you can set it up fir
 
 ## Installing Grafana Alloy
 
-
 ### Configuring Grafana Alloy for CCE Log Collection
+
 Create a ConfigMap for Alloy's configuration. This will be referenced in the Helm values file.
 
 ```yaml title="alloy-configmap.yaml"
@@ -218,15 +218,13 @@ kubectl apply -f alloy-configmap.yaml
 
 The Alloy [configuration](https://grafana.com/docs/alloy/latest/reference/config-blocks/) uses a [component-based](https://grafana.com/docs/alloy/latest/reference/components/) approach where each component performs a specific task and forwards data to the next component in the pipeline.
 
-**Discovery Components**: The `discovery.kubernetes` component discovers pods in the cluster, while `discovery.relabel` filters and labels the discovered targets. This is similar to Prometheus service discovery but integrated directly into the collector.
-
-**Source Component**: The `loki.source` component reads log files from the discovered pod targets and forwards them to the processing stage.
-
-**Processing Pipeline**: The `loki.process` component applies multiple stages to transform and enrich the logs. It parses CRI format, extracts JSON fields, handles timestamps, and creates labels.
-
-**Write Component**: The `loki.write` component sends the processed logs to Loki with configurable batching, retry, and timeout settings.
+* **Discovery Components**: The `discovery.kubernetes` component discovers pods in the cluster, while `discovery.relabel` filters and labels the discovered targets. This is similar to Prometheus service discovery but integrated directly into the collector.
+* **Source Component**: The `loki.source` component reads log files from the discovered pod targets and forwards them to the processing stage.
+* **Processing Pipeline**: The `loki.process` component applies multiple stages to transform and enrich the logs. It parses CRI format, extracts JSON fields, handles timestamps, and creates labels.
+* **Write Component**: The `loki.write` component sends the processed logs to Loki with configurable batching, retry, and timeout settings.
 
 ### Installing Grafana Alloy via Helm
+
 Now create a values file called **values-alloy.yaml**:
 
 ```yaml title="values-alloy.yaml"
@@ -298,14 +296,13 @@ rbac:
   create: true
 ```
 
-:::tip Log Collection Methods
+:::note Log Collection Methods
 Alloy supports collecting logs through the Kubernetes API server instead of mounting host paths. This approach doesn't require privileged security contexts and can be useful for development or environments with strict security policies. However, for production systems, directly mounting log directories is recommended as it provides better performance by removing the log request load from the Kubernetes API server.
 :::
 
 :::danger CCE Containerd Log Path
 On CCE, containerd stores container logs at `/var/lib/containerd/container_logs`. The standard `/var/log/pods` path is a symbolic link to that path. You must explicitly mount this directory in your Alloy DaemonSet configuration (as shown in the `mounts.extra` section above) to ensure all container logs are collected. Without this mount, logs from containerd-based containers will not be accessible to Alloy.
 :::
-
 
 Deploy Grafana Alloy via Helm:
 
@@ -339,20 +336,16 @@ Open your browser and navigate to `http://localhost:12345`. In the Alloy UI:
 
 1. Click on **Graph** to view the component pipeline visualization
 
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-dashboard-graph.png)
+  ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-dashboard-graph.png)
 
 2. Click on **Alloy logo** to get list of defined components and verify that all components show a green status indicator
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-dashboard-status.png)
+  
+  ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-dashboard-status.png)
 
 3. Click on the `loki.source.file` component to see active targets and log files being read
 
+  To confirm logs are arriving in Loki, navigate to **Grafana** and run a simple query in **Explore** or view the **Drilldown** section:
 
-To confirm logs are arriving in Loki, navigate to **Grafana** and run a simple query in **Explore** or view the **Drilldown** section:
+  ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-grafana-dashboard.png)
 
-
-![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/grafana-alloy-grafana-dashboard.png)
-
-You should see logs from pods. If logs appear with labels like `pod`, `namespace`, `container`, `region`, and `zone`, your Alloy configuration is working correctly. If no logs appear, check the Alloy component details for error messages and verify that the Loki endpoint URL is correct in your configuration.
-
-
-
+  You should see logs from pods. If logs appear with labels like `pod`, `namespace`, `container`, `region`, and `zone`, your Alloy configuration is working correctly. If no logs appear, check the Alloy component details for error messages and verify that the Loki endpoint URL is correct in your configuration.
