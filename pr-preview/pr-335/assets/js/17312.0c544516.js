@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs_next=self.webpackChunkdocs_next||[]).push([[17312,94931],{94931:(s,e,r)=>{r.r(e),r.d(e,{scale_ssr_slot_fix:()=>c});var t=r(90936);const c=class{constructor(s){(0,t.r)(this,s)}render(){return(0,t.h)(t.a,null,(0,t.h)("slot",null))}}}}]);
