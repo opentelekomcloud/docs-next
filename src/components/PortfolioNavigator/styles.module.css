@@ -296,13 +296,22 @@ html[data-theme='dark'] .sleeveBody{
 /* 2 equal tracks */
 .sleeveFooter {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)); */
+  grid-template-columns: 1fr;
   gap: 10px;
   padding: 14px 18px 18px 18px;
   border-top: 1px solid var(--line);
 
   /* safety: if an old rule set justify-content, kill it */
   justify-content: initial;
+  justify-items: stretch;                      /* ensure children stretch horizontally */
+  align-items: stretch;
+}
+
+.sleeveFooter > * {
+  --width: 100%;        /* <- this is the key */
+  display: block;       /* optional, makes the host behave like a block */
+  justify-self: stretch;
 }
 
 .sleeveFooterSingle {
@@ -321,13 +330,21 @@ html[data-theme='dark'] .sleeveBody{
 
 html[data-theme='dark'] .sleeveFooter {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50/50 */
+  grid-template-columns: 1fr;
   gap: 10px;
   padding: 14px 18px 18px 18px;
-  border-top: 1px solid 1px solid var(--ifm-color-emphasis-200);
+  border-top: 1px solid var(--ifm-color-emphasis-200); 
 
   /* safety: if an old rule set justify-content, kill it */
   justify-content: initial;
+  justify-items: stretch;                      /* ensure children stretch horizontally */
+  align-items: stretch;
+}
+
+html[data-theme='dark'] .sleeveFooter > * {
+  --width: 100%;        /* <- this is the key */
+  display: block;       /* optional, makes the host behave like a block */
+  justify-self: stretch;
 }
 
 html[data-theme='dark'] .sleeveFooterSingle {

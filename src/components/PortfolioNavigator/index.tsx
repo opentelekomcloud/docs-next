@@ -2,6 +2,7 @@ import React, { useMemo, useState, useRef, useEffect, KeyboardEvent } from "reac
 import styles from "./styles.module.css";
 import 'flag-icons/css/flag-icons.min.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import { ClipboardClock } from 'lucide-react';
 
 export type OtcCategory =
   | "Application"
@@ -440,8 +441,18 @@ export default function OtcServicesColumns() {
                   variant="primary"
                   size="small"
                 >
-                  Discover Blueprints
-                  <scale-icon-navigation-right />
+                  Discover Best Practices & Blueprints
+                  <scale-icon-action-search accessibility-title="search"/>
+                </scale-button>
+
+                <scale-button
+                  href={open.rn_url || "#"}
+                  target="_blank"
+                  variant="secondary"
+                  size="small"
+                >
+                  Release Notes
+                  <scale-icon-content-history accessibility-title="history"/>
                 </scale-button>
 
                 <scale-button
