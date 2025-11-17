@@ -79,26 +79,22 @@ Group `dns-admins` (if it exists, otherwise create it for a more rigid permissio
 
 ## Deploying ExternalDNS on CCE
 
-We are going to deploy ExternalDNS with Helm as well. First let's lay
-down the configuration of the chart:
+We are going to deploy ExternalDNS with Helm and we are going to specify [OpenStack's Designate](https://docs.openstack.org/designate/latest/) as the ExternalDNS provider via the [out-of-tree webhook](https://github.com/inovex/external-dns-openstack-webhook).
 
-```yaml title="overrides.yaml" linenos="" emphasize-lines="11,13-14"
-sources:
-  - crd
-  - service
-  - ingress
-provider: designate
-combineFQDNAnnotation: true
-crd:
-  create: true
-logFormat: json
-designate:
-  username: "OTCAC_DNS_ServiceAccount"
-  password: <<OTCAC_DNS_ServiceAccount_PASSWORD>>
-  authUrl: "https://iam.eu-de.otc.t-systems.com:443/v3"
-  regionName: "eu-de"
-  userDomainName: "OTCXXXXXXXXXXXXXXXXXXXX"
-  projectName: "eu-de_XXXXXXXXXXX"
+1. Create **clouds.yaml** in your working directory:
+
+```yaml title="clouds.yaml"
+clouds:
+  openstack:
+    auth:
+      auth_url: https://iam.eu-de.otc.t-systems.com:443/v3
+      username: "OTCAC_DNS_ServiceAccount"
+      password: <OTCAC_DNS_ServiceAccount_PASSWORD>
+      user_domain_name: "OTCXXXXXXXXXXXXXXXXXXXX"
+      project_name: "eu-de_XXXXXXXXXXX"
+    region_name: "eu-de"
+    interface: "public"
+    auth_type: "password"
 ```
 
 :::warning
@@ -106,22 +102,63 @@ Special attention required here. Although DNS is a global
 service, **all** changes have to be applied in Region **eu-de**.
 :::
 
-Install the chart (it will deploy all the necessary resources in an
-automatically created namespace called `external-dns`:
+2. Create a namespace to isolate the installation (if it doesn't exist already) and deploy **clouds.yaml** as a `Secret`:
+
+```bash
+kubectl create namespace external-dns
+
+kubectl create secret generic oscloudsyaml \
+   --namespace external-dns --from-file=clouds.yaml
+```
+
+3. Create **overrides.yaml** in your working directory:
+
+```yaml
+sources:
+  - crd
+  - service
+  - ingress
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/inovex/external-dns-openstack-webhook
+      tag: 1.1.0
+    extraVolumeMounts:
+      - name: oscloudsyaml
+        mountPath: /etc/openstack/
+    resources: {}
+extraVolumes:
+  - name: oscloudsyaml
+    secret:
+      secretName: oscloudsyaml
+```
+
+:::note
+By specifying the `sources`, we instruct the ExternalDNS controller which resources it should watch and for which it should automatically create or update the corresponding A records.
+:::
+
+4. Deploy the helm chart using the above defined overrides:
 
 ```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
 helm repo update
 
-helm upgrade --install -f overrides.yaml external-dns bitnami/external-dns -n external-dns --create-namespace
+helm upgrade --install external-dns external-dns/external-dns \
+  --namespace external-dns \
+  --create-namespace \
+  --values overrides.yaml
 ```
 
 ## Verification
 
-We have now laid all the groundwork in order to automatically provision
-a Public DNS Zone and a dedicated A-Record that will bind the Elastic IP of our
-Elastic Load Balancer with the FQDN of thesubdomain we configure above. For that matter we need to install
-a Custom Resource based on a CRD installed by ExternalDNS that is called `DNSEndpoint`:
+:::important
+If you completed all these steps on a cluster that already exposes services through an `Ingress`, and all components were configured correctly, ExternalDNS **will automatically create the corresponding A records** in the Open Telekom Cloud DNS service.
+:::
+
+### Creating a DNSEndpoint
+
+We have now prepared everything needed to automatically provision a public DNS zone and a dedicated A record that links the Elastic IP of our Elastic Load Balancer to the FQDN of the subdomain configured earlier. To achieve this, we need to create a custom resource, based on the CRD installed by ExternalDNS, called `DNSEndpoint`.
 
 ```yaml title="dns-endpoint.yaml"
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -131,7 +168,7 @@ metadata:
   namespace: keycloak
 spec:
   endpoints:
-  - dnsName: blog.example.com
+  - dnsName: blog.example.de
     recordTTL: 300
     recordType: A
     targets:
@@ -148,3 +185,6 @@ ExternalDNS controller is done, and if all went well you should now see
 the Record Sets of your Public Zone populated with various entries:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)
+
+### Deploying a demo workload (Optional)
+
