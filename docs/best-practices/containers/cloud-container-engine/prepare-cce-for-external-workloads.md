@@ -1,10 +1,12 @@
 ---
 id: prepare-cce-for-external-workloads
-title: Prepare CCE to Expose Workloads
+title: Enabling External Traffic with Ingress & TLS
 tags: [cce, elb, externaldns, dns, nginx, acme, ingress, cert-manager]
 ---
 
-# Prepare CCE to Expose Workloads
+# Enabling External Traffic with Ingress & TLS
+
+Prepare CCE to Expose Workloads
 
 Before deploying our workloads, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 

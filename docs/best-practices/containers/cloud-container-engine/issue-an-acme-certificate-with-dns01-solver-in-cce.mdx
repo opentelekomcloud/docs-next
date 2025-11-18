@@ -73,12 +73,17 @@ helm upgrade --install \
 You are going to need one `ClusterIssuer` for the *production* and one for the *staging* Let's Encrypt endpoint.
 
 :::warning
-**cert-manager** has a known bug, that prevents custom webhooks to work with an `Issuer`. For that reason you need to install your issuer as `ClusterIssuer`.
+**cert-manager** has a known issue that prevents custom webhooks from working with an `Issuer`. For this reason, you must create your issuer as a `ClusterIssuer` instead.
 :::
 
-### For Staging
+    Create and deploy the following manifest:
 
-Create and deploy the following manifest:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="staging" label="Staging" default>
 
 ```yaml title="opentelekomcloud-letsencrypt-staging.yaml"
 apiVersion: cert-manager.io/v1
@@ -108,15 +113,15 @@ spec:
 ```
 
 :::note
-Replace placeholder **email** value, `user@company.com`, with the email that will be used for requesting certificates from Let's Encrypt.
+Replace the placeholder **email** value `user@company.com` with the address you want to use when requesting certificates from Let's Encrypt.
 :::
 
 ```shell
 kubectl apply -f opentelekomcloud-letsencrypt-staging.yaml
 ```
+</TabItem>
 
-### For Production
-
+<TabItem value="production" label="Production">
 ```yaml title="opentelekomcloud-letsencrypt.yaml"
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -145,98 +150,219 @@ spec:
 ```
 
 :::note
-Replace placeholder **email** value, `user@company.com`, with the email that will be used for requesting certificates from Let's Encrypt.
+Replace the placeholder **email** value `user@company.com` with the address you want to use when requesting certificates from Let's Encrypt.
 :::
 
 ```shell
 kubectl apply -f opentelekomcloud-letsencrypt.yaml
 ```
 
-## Requesting a Certificate
+</TabItem>
+</Tabs>
+
+## Requesting Certificates
+
+:::warning
+Using the *staging* endpoint of Let's Encrypt before switching to *production* is considered best practice. Let's Encrypt applies rate limits to control how many 
+certificates can be requested within a certain time. Testing against the staging environment helps you avoid exceeding these limits during development and validation.
+:::
+
+### Explicit
 
 Create and deploy the following manifest:
 
-```yaml title="certificate-subdomain-example-com"
+```yaml title="certificate-example-com"
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: certificate-subdomain-example-com
+  name: certificate-example-com
 spec:
   dnsNames:
-  - '*.subdomain.example.com'
+  - '*.example.com'
   issuerRef:
     kind: ClusterIssuer
-    name: opentelekomcloud-letsencrypt-staging
-  secretName: certificate-subdomain-example-com-tls
+    name: opentelekomcloud-letsencrypt
+  secretName: certificate-example-com-tls
 ```
 
 :::note
-Replace placeholder DNS name `*.subdomain.example.com`, with one that you own and will be used to request a certificate from Let's Encrypt.
+Replace the placeholder DNS name `*.example.com` with a domain you own, which will be used to obtain a certificate from Let's Encrypt.
 :::
 
 ```shell
-kubectl apply -f certificate-subdomain-example-com
+kubectl apply -f certificate-example-com
 ```
 
-:::warning
-Using the *staging* endpoint of Let's Encrypt before moving to the *production* endpoint is a best practice. Let's Encrypt imposes rate limits on the number of certificates you can request in a given period to prevent abuse. By testing with the staging environment, you avoid hitting these limits during your development and testing phases.
-:::
+### Implicit
 
-## Exposing a workload with Ingress
+Let's create the manifests to deploy a demo workload based on [traefik/whoami](https://github.com/traefik/whoami):
 
-Create and deploy the following manifest:
 
-```yaml title="workload-ingress.yaml"
+<Tabs>
+<TabItem value="existing" label="Use an existing Elastic Load Balancer">
+
+```yaml title="whoami.yaml"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - name: whoami
+        image: traefik/whoami:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+spec:
+  selector:
+    app: whoami
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: workload-ingress
-  labels:
-    app: workload
+  name: whoami-ingress
   annotations:
     kubernetes.io/elb.class: union
-    kubernetes.io/elb.id: "{value}"
-    kubernetes.io/elb.port: 443
+    kubernetes.io/elb.id: "<ELB_ID>"
+    kubernetes.io/elb.port: '443'
+    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
 spec:
-  ingressClassName: cce
+  ingressClassName: nginx
   tls:
   - hosts:
-      - subdomain.example.com
-    secretName: certificate-subdomain-example-com-tls
+    - whoami.example.com
+    secretName: whoami-example-com-tls
   rules:
-  - host: subdomain.example.com
+  - host: "whoami.example.com"
     http:
       paths:
-      - backend:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
           service:
-            name: workload-svc
+            name: whoami-service
             port:
               number: 80
-        path: /
-        pathType: ImplementationSpecific
 ```
 
-:::note
-You need to have:
+:::warning
+Before applying the manifest ensure:
 
-- a *workload* installed in your CCE Cluster (you can experiment with **traefik/whoami**)
-- this workload exposed with a `Service`, *workload-svc*, of type `NodePort`
-- a Shared Elastic Load Balancer
-  
+- The Load Balancer's Elastic IP is bound to `whoami.example.com`  
+- You have replaced the placeholder value `ELB_ID` with the unique identifier of your Elastic Load Balancer  
+- You have set the correct value for `kubernetes.io/elb.class`; `union` if is a Shared Load Balancer and `performance` if is a Dedicated one
 :::
 
-| Parameter               | Value                                                                        |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| kubernetes.io/elb.class | `union`, if it is a Shared Elastic Load Balancer                             |
-| kubernetes.io/elb.id    | Replace placeholder value `{value}` with the ID of the Elastic Load Balancer |
-| kubernetes.io/elb.port  | 443                                                                          |
-| ingressClassName        | `cce`                                                                        |
-| tls.hosts[0]            | Replace placeholder value `subdomain.example.com` with your own              |
-| tls.secretName          | Use the name of the `Secret` that was created from `Certificate`             |
-| rules.host[0]           | Replace placeholder value `subdomain.example.com` with your own              |
+</TabItem>
+<TabItem value="new" label="Automatically create a new Elastic Load Balancer">
 
-```shell
-kubectl apply -f workload-ingress.yaml
+```yaml title="whoami.yaml"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - name: whoami
+        image: traefik/whoami:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+spec:
+  selector:
+    app: whoami
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-ingress
+  annotations:
+    kubernetes.io/elb.class: performance
+    kubernetes.io/elb.http-redirect: "true"
+    kubernetes.io/elb.listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
+    kubernetes.io/elb.autocreate: '{
+      "type": "public",
+      "bandwidth_name": "cce-bandwidth-whomi",
+      "bandwidth_chargemode": "traffic",
+      "bandwidth_size": 5,
+      "bandwidth_sharetype": "PER",
+      "eip_type": "5_bgp",
+      "l7_flavor_name": "L7_flavor.elb.s1.small",
+      "available_zone": [ "eu-de-01" ]
+    }'
+    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
+    external-dns.alpha.kubernetes.io/hostname: whoami.example.com
+    external-dns.alpha.kubernetes.io/target: ""
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - whoami.example.com
+    secretName: whoami-example-com-tls
+  rules:
+  - host: "whoami.example.com"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: whoami-service
+            port:
+              number: 80
 ```
 
-If you visit in your browser the address https://subdomain.example.com you will notice that the endpoint is served in HTTPS and is secured by a valid certificate.
+:::danger Very Important
+Before applying the manifest, make sure you have completed the steps outlined in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns), as this process will:
+
+* Provision a new dedicated ELB with an associated EIP
+* Automatically create the required DNS records in Open Telekom Cloud DNS via ExternalDNS
+* Automatically obtain a Let's Encrypt certificate for `whoami.example.com`
+
+:::
+
+</TabItem>
+
+</Tabs>
+
+```shell
+kubectl apply -f whoami.yaml
+```
+
+When you open [https://whoami.example.com](https://whoami.example.com) in your browser, you'll see that the endpoint is served over HTTPS and secured with a valid certificate.

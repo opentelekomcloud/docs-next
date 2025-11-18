@@ -235,7 +235,7 @@ kubectl apply -f whoami.yaml
 3. Next, we’ll expose this workload using an `Ingress`:
 
 ```yaml title="whoami-ingress"
-aapiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: whoami-ingress
