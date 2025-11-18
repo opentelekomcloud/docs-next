@@ -441,6 +441,10 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns',
+            },
+            {
+              type: 'doc',
               id: 'best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce',
             },
             {
