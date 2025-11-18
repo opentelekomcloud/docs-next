@@ -188,7 +188,7 @@ Cert-manager DNS providers are integrations with various DNS (Domain Name System
 
 By configuring cert-manager with the compatible Open Telekom Cloud DNS provider, we can set up automatic certificate issuance and renewal for our Open Telekom Cloud CCE workloads without manual intervention. This automation is crucial for securing web applications and services deployed on CCE clusters.
 
-To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](../../../../best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md).
+To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](../../../../best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce).
 
 ### Importing Database SSL Certificate
 

@@ -437,7 +437,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads',
+              id: 'best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls',
             },
             {
               type: 'doc',

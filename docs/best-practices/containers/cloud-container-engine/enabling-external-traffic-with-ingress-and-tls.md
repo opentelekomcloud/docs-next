@@ -1,12 +1,10 @@
 ---
-id: prepare-cce-for-external-workloads
+id: enabling-external-traffic-with-ingress-and-tls
 title: Enabling External Traffic with Ingress & TLS
 tags: [cce, elb, externaldns, dns, nginx, acme, ingress, cert-manager]
 ---
 
 # Enabling External Traffic with Ingress & TLS
-
-Prepare CCE to Expose Workloads
 
 Before deploying our workloads, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
@@ -117,4 +115,4 @@ This step has to take place **once** for every cluster.
 
 By configuring cert-manager with the compatible Open Telekom Cloud DNS provider, we can set up automatic certificate issuance and renewal for our Open Telekom Cloud CCE workloads without manual intervention. This automation is crucial for securing web applications and services deployed on CCE clusters.
 
-To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce.md).
+To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](/docs/best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce).
