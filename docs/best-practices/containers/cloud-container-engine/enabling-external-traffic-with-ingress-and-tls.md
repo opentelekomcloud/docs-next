@@ -8,6 +8,22 @@ tags: [cce, elb, externaldns, dns, nginx, acme, ingress, cert-manager]
 
 Before deploying our workloads, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
+## Ingress Overview
+
+Kubernetes uses ingress resources to define how incoming traffic should be handled, while the Ingress Controller is responsible for processing the actual traffic.
+
+- Ingress object: a set of access rules that forward requests to specified Services based on domain names or paths. It can be added, deleted, modified, and queried by calling APIs.
+- Ingress Controller: an executor for forwarding requests. It monitors the changes of resource objects such as ingresses, Services, endpoints, secrets (mainly TLS certificates and keys), nodes, and ConfigMaps in real time, parses rules defined by ingresses, and forwards requests to the target backend Services.
+
+The way of implementing Ingress Controllers varies depending on their vendors. CCE supports **LoadBalancer Ingress Controllers** and **NGINX Ingress Controllers**.
+
+- LoadBalancer Ingress Controllers are deployed on master nodes and forward traffic based on the ELB. All policy configurations and forwarding behaviors are managed on the ELB.
+- NGINX Ingress Controllers are deployed in clusters using charts and images maintained by the Kubernetes community. They provide external access through NodePort and forward external traffic to other services in the cluster through Nginx. All traffic forwarding behaviors and forwarding objects are within the cluster.
+
+:::important
+In this Best Practice, we will enable external traffic using **NGINX Ingress Controllers**.
+:::
+
 ## Creating an Elastic Load Balancer
 
 :::caution
@@ -20,62 +36,58 @@ Go to *Open Telekom Cloud Console* -> *Network* -> *Elastic Load Balancing* and 
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_08-06-28.png)
 
-Once the Elastic Load Balancer is provisioned, make sure to **note down the ELB ID**. This identifier will be required during the configuration of the NGINX Ingress Controller, allowing it to bind correctly to the external load balancer and handle incoming traffic. The ELB ID serves as a reference for associating Kubernetes resources with the underlying network infrastructure, ensuring seamless integration between your Ingress layer and the public-facing endpoint.
+After the Elastic Load Balancer is provisioned, make sure to record the ELB *ID*. This unique identifier is needed when configuring the NGINX Ingress Controller, enabling it to correctly bind to the external load balancer and manage incoming traffic. The ELB ID acts as a reference to link Kubernetes resources with the underlying network infrastructure, ensuring smooth integration between your Ingress layer and the public-facing endpoint.
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-i88.png)
 
 ## Creating a Public DNS Endpoint
 
 :::important
-This step has to take place for **every** single workload.
+This step must be performed **for each individual workload**.
 :::
 
 Login to your domain registrar’s control panel and ensure the following:
 
-- **Disable any dynamic DNS features** associated with the domain or subdomains that will be used by your application.
-- **Update the NS records** of your domain to point exclusively to the following OTC name servers:
+1. **Disable any dynamic DNS features** associated with the domain or subdomains that will be used by your application.  
+2. **Update the NS records** of your domain to point exclusively to the following OTC name servers:
   
-  ```
-  ns1.open-telekom-cloud.com
-  ns2.open-telekom-cloud.com
-  ```
+    ```
+    ns1.open-telekom-cloud.com
+    ns2.open-telekom-cloud.com
+    ```
 
-Once the nameserver change propagates and OTC has authoritative control over your domain, you’re ready to define DNS zones and records. You have two paths forward, depending on your operational model:
+Once the nameserver changes have propagated and Open Telekom Cloud DNS service assumes authoritative control of your domain, you can proceed to define DNS zones and records. From here, you have two options depending on your operational approach:
 
 1. **Manual Configuration via the OTC Console**  
    Create a **Public DNS Zone** in the Open Telekom Cloud DNS service, then define an **A record** that maps your domain (e.g., `application.example.com`) to the **EIP** of the external load balancer.
 
-2. **Automated Configuration with ExternalDNS**  
-   Integrate the [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) controller into your Kubernetes cluster. It monitors Ingress resources and automatically creates and updates DNS records in your OTC DNS zone based on annotations. This option is ideal for dynamic environments or production setups that benefit from infrastructure-as-code and reduced manual intervention.
+**OR**
 
-Choose the approach that best fits your deployment strategy and automation preferences.
+2. **Automated Configuration with ExternalDNS**  
+   Deploy the ExternalDNS in your Kubernetes cluster. It watches Ingress resources (among others such as CRDs and Services) and automatically creates or updates DNS records in your Open Telekom Cloud DNS zone according to annotations in these resources. This approach is well-suited for dynamic environments or production setups that leverage infrastructure-as-code and minimize manual management. Follow the instructions of [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns).
+
+:::note  
+Select the approach that aligns with your deployment strategy and automation preferences. The remainder of this article will focus on the manual configuration.
+:::
 
 ## Installing NGINX Ingress Controller
 
 :::caution
-This step has to take place **once** for every cluster as long as you are planning to use a single load balancer for all of your workloads.
+This step only needs to be performed **once per cluster**, if you plan to use a single load balancer for all workloads.
 :::
 
-In this step, we’ll deploy the [Ingress NGINX Controller for Kubernetes](https://github.com/kubernetes/ingress-nginx), which will act as the interface between the Elastic Load Balancer and the service running inside the CCE cluster. The controller handles HTTP(S) routing and termination, forwarding external traffic to the appropriate internal services based on host and path rules. 
+In this step, we’ll deploy the [Ingress NGINX Controller for Kubernetes](https://github.com/kubernetes/ingress-nginx), which serves as the bridge between the Elastic Load Balancer and the services running within the CCE cluster. The controller manages HTTP(S) routing and termination, directing external traffic to the correct internal services based on host and path rules.
 
 :::important
 
-- Make sure that custom domain name—`application.example.com`—should point to the public EIP associated with your ELB. This setup enables secure, domain-based access to your application and forms the foundation for managing ingress traffic across the cluster.
-- Don't forget that the **Fully Qualified Domain Name (FQDN)** you use to expose the corresponding service—such as `application.example.com`—must correspond to a **real, resolvable domain or subdomain** that you own and control. You’ll need to create a DNS record (typically an A or CNAME record) that points this FQDN to the public **Elastic IP** assigned to your load balancer. Without a valid DNS mapping, certificate issuance and external access to the service instance will fail, especially if you're using TLS termination via cert-manager.
+- Make sure that custom domain name, `application.example.com`, points to the public EIP associated with your ELB. This setup enables secure, domain-based access to your application and forms the foundation for managing ingress traffic across the cluster.
+- Don't forget that the **Fully Qualified Domain Name (FQDN)** you use to expose the corresponding service, such as `application.example.com`, must correspond to a **real, resolvable domain or subdomain** that you own and control. You’ll need to create a DNS record (typically an A or CNAME record) that points this FQDN to the public **Elastic IP** assigned to your load balancer. Without a valid DNS mapping, certificate issuance and external access to the service instance will fail, especially if you're using TLS termination via cert-manager.
 
 :::
 
-We’ll use [Helm](https://helm.sh/) to deploy the NGINX Ingress Controller into the CCE cluster. Helm is the de facto package manager for Kubernetes, streamlining the deployment of complex applications using templated charts. If Helm is not yet installed on your local machine or the bastion host you're using to manage the cluster, you can install it using the following commands:
+To deploy the NGINX Ingress Controller for Kubernetes correctly, we provide Helm with a custom values file, typically named **overrides.yaml**, that specifies configuration parameters for the deployment. A key value in this file is the internal ID of the Elastic Load Balancer (ELB), which ensures the Ingress Controller binds to the correct load balancer and routes external traffic to the appropriate Kubernetes services.
 
-```shell
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-```
-
-To deploy the Ingress NGINX Controller for Kubernetes properly, we need to supply Helm with a custom values file—commonly named **overrides.yaml**—which defines specific configuration parameters for the deployment. One of the most critical values in this file is the internal ID of the Elastic Load Balancer (ELB). This ID ensures that the Ingress Controller binds to the correct load balancer, enabling it to route external traffic to internal Kubernetes services.
-
-The `kubernetes.io/elb.id` attribute will be used to annotate the `Service` resource created by the Ingress NGINX Controller for Kubernetes, so that all `Ingress` resources referencing this `IngressClass` **will be automatically linked to the designated load balancer**:
+The `kubernetes.io/elb.id` annotation is applied to the `Service` resource created by the NGINX Ingress Controller for Kubernetes, ensuring that all `Ingress` resources using this `IngressClass` **are automatically associated with the specified load balancer**:
 
 ```yaml title="overrides.yaml" linenos="" emphasize-lines="6"
 controller:
@@ -87,10 +99,10 @@ controller:
 ```
 
 :::important
-Make sure to replace `<ELB_ID>` with the actual ID of the Elastic Load Balancer we created earlier.
+Be sure to replace placeholder value `<ELB_ID>` with the actual ID of the Elastic Load Balancer created earlier.
 :::
 
-With the overrides.yaml file prepared, you can now proceed to install the NGINX Ingress Controller using Helm. This will deploy all required components into a dedicated namespace called `nginx-system`. Run the following commands:
+Once the **overrides.yaml** file is ready, you can install the NGINX Ingress Controller using Helm. This will deploy all necessary components into a dedicated namespace called `nginx-system`. Execute the following commands:
 
 ```shell
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -108,7 +120,7 @@ This will set up the Ingress NGINX Controller for Kubernetes with your custom co
 ## Installing OTC ACME DNS01 Solver
 
 :::caution
-This step has to take place **once** for every cluster.
+This step only needs to be performed **once per cluster**.
 :::
 
 [Cert-manager](https://cert-manager.io/) DNS providers are integrations with various DNS (Domain Name System) service providers that allow cert-manager, a Kubernetes add-on, to automate the management of SSL/TLS certificates. DNS providers enable cert-manager to automatically perform challenges to prove domain ownership and obtain certificates from certificate authorities like Let's Encrypt.
