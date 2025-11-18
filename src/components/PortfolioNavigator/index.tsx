@@ -2,7 +2,6 @@ import React, { useMemo, useState, useRef, useEffect, KeyboardEvent } from "reac
 import styles from "./styles.module.css";
 import 'flag-icons/css/flag-icons.min.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import { ClipboardClock } from 'lucide-react';
 
 export type OtcCategory =
   | "Application"
