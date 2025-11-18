@@ -209,4 +209,4 @@ The Dokploy template library provides a collection of preconfigured application 
 Most templates in the Dokploy library are designed for single-server setups. When running on Docker Swarm, you **may** need to adjust them to ensure they work reliably in a clustered environment.
 :::
 
-## Building and Deploying from a Git Repo
+<!-- ## Building and Deploying from a Git Repo -->
