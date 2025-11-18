@@ -89,6 +89,7 @@ kubectl create secret generic oscloudsyaml \
 ```yaml title="overrides.yaml"
 policy: sync
 registry: txt
+txtOwnerId: "cce-blueprints"
 
 ignoreIngressTLSSpec: true
 
@@ -114,8 +115,12 @@ extraVolumes:
       secretName: oscloudsyaml
 ```
 
-:::note
-By specifying the `sources`, we instruct the ExternalDNS controller which resources it should watch and for which it should automatically create or update the corresponding A records.
+:::danger very important
+By specifying:
+
+- `sources` we instruct the ExternalDNS controller which resources it should watch and for which it should automatically create or update the corresponding A records.
+- `txtOwnerId`, we tell ExternalDNS to only touch records with the matching TXT record, and if that TXT record is missing, it knows to recreate both the A record AND the TXT record as a pair. `txtOwnerId` is **extremely important** because it prevents ExternalDNS from managing DNS records created by other tools or processes or have records deleted or ovewritten by other ExternalDNS instances that might be running in other clusters. **Use a different value for each ExternalDNS instance**.
+
 :::
 
 4. Deploy the helm chart using the above defined overrides:
@@ -167,18 +172,6 @@ the Record Sets of your Public Zone populated with various entries:
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dsj.png)
 
 ### Option 2: Configuring an Ingress
-
-:::note
-CCE supports **LoadBalancer Ingress Controllers** and **NGINX Ingress Controllers**:
-
-- **LoadBalancer Ingress Controllers** are deployed on master nodes and forward traffic based on the ELB. All policy configurations and forwarding behaviors are managed on the ELB. `ingressClassName: cce`
-- **NGINX Ingress Controllers** are deployed in clusters using charts and images maintained by the Kubernetes community. They provide external access through `NodePort` and forward
-  external traffic to other services in the cluster through Nginx. All traffic forwarding behaviors and forwarding objects are within the cluster. `ingressClassName: nginx`
-
-For a deeper understanding of their differences, refer to the comprehensive [feature comparison list](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/ingresses/ingress_overview.html#ingress-feature-comparison)
-in Open Telekom Cloud Help Center.
-
-:::
 
 1. First let's create the manifests to deploy a demo workload based on [traefik/whoami](https://github.com/traefik/whoami):
 
@@ -241,23 +234,7 @@ metadata:
   name: whoami-ingress
   namespace: demo
   annotations:
-    kubernetes.io/elb.class: performance
-    kubernetes.io/elb.http-redirect: "true"
-    kubernetes.io/elb.listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
-    kubernetes.io/elb.autocreate: '{
-      "type": "public",
-      "bandwidth_name": "cce-bandwidth-whomi",
-      "bandwidth_chargemode": "traffic",
-      "bandwidth_size": 5,
-      "bandwidth_sharetype": "PER",
-      "eip_type": "5_bgp",
-      "l7_flavor_name": "L7_flavor.elb.s1.small",
-      "available_zone": [ "eu-de-01" ]
-    }'
-    kubernetes.io/elb.tags: app=demo,env=test
     cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
-    external-dns.alpha.kubernetes.io/hostname: whoami.example.de
-    external-dns.alpha.kubernetes.io/target: ""
 spec:
   ingressClassName: nginx
   tls:
@@ -281,22 +258,7 @@ spec:
 Replace the placeholder `whoami.example.de` with your own FQDN. After completing all steps, you should have the following resources:
 
 :white_check_mark: A **whoami** `Deployment` and `Service`  
-:white_check_mark: A **whoami** `Ingress` that automatically provisions a **dedicated** ELB in your Open Telekom Cloud tenant  
-:white_check_mark: A new ELB and EIP in the same VPC as your CCE cluster, exposing the service at `whoami.example.de`  
+:white_check_mark: A **whoami** `Ingress` served by the Ingress Controller with class name `nginx`  
 :white_check_mark: A `whoami-example-de-tls` certificate automatically created by the Open Telekom Cloud ACME DNS-01 solver  
 :white_check_mark: An A record and a TXT record in your `example.de` public zone, binding the EIP to `whoami.example.de`  
-
-For a deeper understanding on how to use ingress annotations to specify the ELB class, enable HTTP→HTTPS redirection, define listener ports, and even instruct Open Telekom Cloud to automatically create a public or private ELB with a specific bandwidth, flavor, and availability zone refer to [Configuring Advanced Load Balancing Functions Using Annotations](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/services/loadbalancer/configuring_advanced_load_balancing_functions_using_annotations.html).
-:::
-
-## Appendix
-
-:::tip Useful Links
-
-- [CCE Ingresses Feature Comparison](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/ingresses/ingress_overview.html#ingress-feature-comparison)
-- [Configuring Advanced Nginx Ingress Functions Using Annotations](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/ingresses/nginx_ingresses/configuring_advanced_nginx_ingress_functions_using_annotations.html)
-- [Nginx Ingress Usage Suggestions](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/ingresses/nginx_ingresses/advanced_setting_examples_of_nginx_ingresses/nginx_ingress_usage_suggestions.html)
-- [Optimizing NGINX Ingress Controller in High-Traffic Scenarios](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/ingresses/nginx_ingresses/advanced_setting_examples_of_nginx_ingresses/optimizing_nginx_ingress_controller_in_high-traffic_scenarios.html)
-- [Installing the ACME DNS01 Solver](../cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce/#installing-the-acme-dns01-solver)  
-- [Configuring Advanced Load Balancing Functions Using Annotations](https://docs.otc.t-systems.com/cloud-container-engine/umn/networking/services/loadbalancer/configuring_advanced_load_balancing_functions_using_annotations.html)
 :::

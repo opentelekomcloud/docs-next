@@ -186,7 +186,8 @@ spec:
 ```
 
 :::note
-Replace the placeholder DNS name `*.example.com` with a domain you own, which will be used to obtain a certificate from Let's Encrypt.
+Replace the placeholder DNS name `*.example.com` with a domain you own, which will be used to obtain a certificate from Let's Encrypt. 
+Before applying the manifest ensure `*.example.com` can resolve to an actual public IP address via an A record in Open Telekom Cloud DNS service.
 :::
 
 ```shell
@@ -196,10 +197,6 @@ kubectl apply -f certificate-example-com
 ### Implicit
 
 Let's create the manifests to deploy a demo workload based on [traefik/whoami](https://github.com/traefik/whoami):
-
-
-<Tabs>
-<TabItem value="existing" label="Use an existing Elastic Load Balancer">
 
 ```yaml title="whoami.yaml"
 apiVersion: apps/v1
@@ -240,9 +237,6 @@ kind: Ingress
 metadata:
   name: whoami-ingress
   annotations:
-    kubernetes.io/elb.class: union
-    kubernetes.io/elb.id: "<ELB_ID>"
-    kubernetes.io/elb.port: '443'
     cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
 spec:
   ingressClassName: nginx
@@ -264,102 +258,9 @@ spec:
 ```
 
 :::warning
-Before applying the manifest ensure:
-
-- The Load Balancer's Elastic IP is bound to `whoami.example.com`  
-- You have replaced the placeholder value `ELB_ID` with the unique identifier of your Elastic Load Balancer  
-- You have set the correct value for `kubernetes.io/elb.class`; `union` if is a Shared Load Balancer and `performance` if is a Dedicated one
+If you have opted-in for automatic DNS records creation via ExternalDNS, as described in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns),
+the required DNS A records will be created **automatically**. If not, before applying the manifest ensure the Elastic Load Balancer's Elastic IP is bound to `whoami.example.com` by creating manually an A record in Open Telekom Cloud DNS service.
 :::
-
-</TabItem>
-<TabItem value="new" label="Automatically create a new Elastic Load Balancer">
-
-```yaml title="whoami.yaml"
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: whoami
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: whoami
-  template:
-    metadata:
-      labels:
-        app: whoami
-    spec:
-      containers:
-      - name: whoami
-        image: traefik/whoami:latest
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: whoami-service
-spec:
-  selector:
-    app: whoami
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  type: NodePort
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: whoami-ingress
-  annotations:
-    kubernetes.io/elb.class: performance
-    kubernetes.io/elb.http-redirect: "true"
-    kubernetes.io/elb.listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
-    kubernetes.io/elb.autocreate: '{
-      "type": "public",
-      "bandwidth_name": "cce-bandwidth-whomi",
-      "bandwidth_chargemode": "traffic",
-      "bandwidth_size": 5,
-      "bandwidth_sharetype": "PER",
-      "eip_type": "5_bgp",
-      "l7_flavor_name": "L7_flavor.elb.s1.small",
-      "available_zone": [ "eu-de-01" ]
-    }'
-    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
-    external-dns.alpha.kubernetes.io/hostname: whoami.example.com
-    external-dns.alpha.kubernetes.io/target: ""
-spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - whoami.example.com
-    secretName: whoami-example-com-tls
-  rules:
-  - host: "whoami.example.com"
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: whoami-service
-            port:
-              number: 80
-```
-
-:::danger Very Important
-Before applying the manifest, make sure you have completed the steps outlined in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns), as this process will:
-
-* Provision a new dedicated ELB with an associated EIP
-* Automatically create the required DNS records in Open Telekom Cloud DNS via ExternalDNS
-* Automatically obtain a Let's Encrypt certificate for `whoami.example.com`
-
-:::
-
-</TabItem>
-
-</Tabs>
 
 ```shell
 kubectl apply -f whoami.yaml
