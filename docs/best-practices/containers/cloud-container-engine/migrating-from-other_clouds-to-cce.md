@@ -141,7 +141,7 @@ If you have decided to go with Open Telekom Cloud OBS as your object-storage, pl
     kubectl apply -f minio-deployment.yaml
     ```
 
-3. Expose MinIO console following the steps described in [Prepare CCE to Expose Workloads](/docs/best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads.md).
+3. Expose MinIO console following the steps described in [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls).
 
 ## Installing Velero
 

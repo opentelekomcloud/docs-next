@@ -1,7 +1,7 @@
 ---
 id: cce-keycloak
 title: Deploy Keycloak on CCE
-tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ingress, externaldns, dns]
+tags: [cce, keycloak, security, rds, postgresql, ingress, nginx-ingress, externaldns]
 ---
 
 # Deploy Keycloak on CCE
@@ -421,8 +421,8 @@ Elastic Load Balancer.
 
 #### Creating the Endpoint with ExternalDNS
 
-Alternatively, we can automate the whole process by using ExternalDNS. You can find the necessary steps in blueprint:
-[Create a Public DNS Endpoint with ExternalDNS](../../networking/create-a-public-dns-endpoint-with-externaldns.md).
+Alternatively, we can automate the whole process by using ExternalDNS. You can find the necessary steps in best practice:
+[Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../../../../best-practices/containers/cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns).
 
 ##### Deploying a Keycloak Endpoint
 

@@ -107,7 +107,7 @@ While the first option is quicker to set up, **the recommended approach is to us
 
 Before deploying our workload, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
-Follow the guidelines in the best practice [Prepare CCE to Expose Workloads](/docs/best-practices/containers/cloud-container-engine/prepare-cce-for-external-workloads.md) before proceeding to the next steps.
+Follow the guidelines in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls) before proceeding to the next steps.
 
 ## Installing Formbricks using Helm
 
