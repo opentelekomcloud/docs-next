@@ -203,6 +203,10 @@ For more information about configuring **MIG**, refer to [GPU Operator with MIG]
 
 ## Deploying an application with GPU Support
 
+
+<Tabs>
+  <TabItem value="normal" label="Standard (Without MIG)" default>
+
 1. **Create a Pod Manifest**: For example, deploying a CUDA job.
 
 ```yaml title="cuda-example.yaml"
@@ -224,7 +228,85 @@ spec:
 
 ```bash
 kubectl apply -f cuda-example.yaml
- ```
+```
+
+  </TabItem>
+  <TabItem value="mig" label="MIG">
+
+### Label the Node with MIG Configuration
+
+Before deploying a MIG-enabled workload, you must label the node to apply a specific MIG configuration profile. This triggers the MIG Manager to reconfigure the GPU into the desired partitions.
+
+```bash
+kubectl label nodes <node-name> nvidia.com/mig.config=all-1g.5gb --overwrite
+```
+
+Replace `<node-name>` with your actual node name and `all-1g.5gb` with your desired MIG profile (e.g., `all-1g.10gb`, `all-3g.20gb`, etc.).
+
+### Enable Automatic Reboot for MIG Configuration
+
+The GPU Operator requires a GPU reset to apply MIG partition changes because enabling MIG mode and reconfiguring GPU profile requires stopping all GPU clients and modifying low-level GPU settings. To enable automatic node reboots, update your Helm `values.yaml` with the following configuration:
+
+```yaml title="values.yaml"
+# ... other fields ...
+migManager:
+  env:
+    - name: WITH_REBOOT
+      value: "true"
+```
+
+After updating the configuration, upgrade the GPU Operator:
+
+```bash
+helm upgrade --install gpu-operator \
+  -n gpu-operator --create-namespace \
+  nvidia/gpu-operator \
+  -f values.yaml \
+  --version=v25.3.1
+```
+
+:::caution Why Reboot is Needed
+MIG mode changes require a system-level reconfiguration of the GPU hardware. On many systems, this process requires a full node reboot to properly initialize the new MIG profile.
+:::
+
+### Deploy a MIG-Enabled Pod
+
+Create a pod manifest that requests MIG resources. The resource request depends on your configured `mig.strategy`:
+
+```yaml title="cuda-mig-example.yaml"
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-vectoradd-mig
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: cuda-vectoradd
+    image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
+    resources:
+      limits:
+        nvidia.com/gpu: 1  # Use this for 'single' strategy
+        # nvidia.com/mig-1g.5gb: 1  # Use this for 'mixed' strategy
+```
+
+Apply the manifest:
+
+```bash
+kubectl apply -f cuda-mig-example.yaml
+```
+
+:::tip Understanding MIG Resource Strategies
+
+The way you request MIG resources in your pod manifest depends on the `mig.strategy` configured in your GPU Operator deployment:
+
+- **Single Strategy** (`mig.strategy: single`): All MIG instances are exposed as homogeneous resources. Pods request GPUs using the standard `nvidia.com/gpu: 1` resource, and Kubernetes will allocate any available MIG partition of the configured size.
+
+- **Mixed Strategy** (`mig.strategy: mixed`): MIG instances are exposed as distinct resource types based on their profile (e.g., `nvidia.com/mig-1g.5gb`, `nvidia.com/mig-3g.20gb`). Pods must explicitly request the specific MIG profile they need. 
+
+:::
+
+  </TabItem>
+</Tabs>
 
 ### Validation
 
