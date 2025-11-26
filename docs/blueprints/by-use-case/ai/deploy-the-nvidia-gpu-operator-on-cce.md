@@ -9,6 +9,11 @@ import TabItem from '@theme/TabItem';
 
 # Deploy the NVIDIA GPU Operator on CCE
 
+:::caution Driver version disclaimer
+At the time of writing, for the **CCE AI Suite (NVIDIA GPU)** add-on with version **2.8.4**, the latest driver version used and validated is **550.163.01**.  
+Driver compatibility may change over time, so always verify the currently supported driver versions in the official documentation before deploying to production.
+:::
+
 The [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator) is a critical tool for effectively managing GPU resources in Kubernetes clusters. It serves as an abstraction layer over Kubernetes APIs, automating tasks such as dynamic provisioning, driver updates, resource allocation, and optimization for GPU-intensive workloads, thereby simplifying the deployment and management of GPU-accelerated applications. Its functionality extends to dynamic provisioning of GPUs on demand, managing driver updates, optimizing resource allocation for varied workloads, and integrating with monitoring tools for comprehensive insights into GPU usage and health. This guide outlines how to deploy the NVIDIA GPU Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.
 
 ## Prerequisites
