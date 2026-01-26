@@ -164,8 +164,6 @@ helm install gpu-operator \
   --version=v25.3.1
 ```
 
-Of course. Here is the updated section for your article with instructions on how to check for Multi-Instance GPU (MIG) support online.
-
 ### Multi-Instance GPU (MIG) - Optional
 
 [Multi-Instance GPU (MIG)](https://www.nvidia.com/en-us/technologies/multi-instance-gpu/) allows a single physical GPU to be partitioned into multiple smaller, fully isolated GPU instances. Each instance has its own dedicated resources, including memory, cache, and compute cores, making it ideal for running multiple workloads in parallel without interference.
@@ -203,9 +201,10 @@ helm upgrade --install gpu-operator \
   --version=v25.3.1
 ```
 
-:::info
-For more information about configuring **MIG**, refer to [GPU Operator with MIG](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html).
+:::warning MIG Manager Reboot Configuration
+When using MIG, you should configure the `WITH_REBOOT` environment variable for the MIG Manager so that it can properly update GPU profiles. MIG Manager requires the ability to reboot nodes when changing MIG configurations, as enabling MIG mode and reconfiguring GPU profiles requires stopping all GPU clients and modifying low-level GPU settings. For detailed information about configuring this environment variable, refer to the [GPU Operator with MIG documentation](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html).
 :::
+
 
 ## Deploying an application with GPU Support
 
@@ -222,6 +221,11 @@ metadata:
   name: cuda-vectoradd
 spec:
   restartPolicy: OnFailure
+  tolerations:
+  - key: nvidia.com/gpu
+    operator: Equal
+    value: "true"
+    effect: NoExecute
   containers:
   - name: cuda-vectoradd
     image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
@@ -286,6 +290,11 @@ metadata:
   name: cuda-vectoradd-mig
 spec:
   restartPolicy: OnFailure
+  tolerations:
+  - key: nvidia.com/gpu
+    operator: Equal
+    value: "true"
+    effect: NoExecute
   containers:
   - name: cuda-vectoradd
     image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
