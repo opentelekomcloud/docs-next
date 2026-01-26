@@ -113,7 +113,7 @@ jobs:
           uses: actions/checkout@v4
           with: 
             repository: "${{ vars.DOCS_NEXT_CHARTS_ORG }}/${{ vars.DOCS_NEXT_CHARTS_REPO }}"
-            token: ${{ secrets.DOCS_NEXT_TOKEN }}
+            token: ${{ secrets.DOCS_NEXT_TOKEN_NEW }}
         - name: Commit Changes
           env:
             image: ${{ vars.REGISTRY }}/${{ vars.REGISTRY_ORG }}/${{ vars.IMG_NAME }}
@@ -130,5 +130,5 @@ jobs:
             remote_pr_branch: 'release/staging-${{ needs.build-preview.outputs.image_version }}'
           with:
             title: ${{ env.remote_pr_branch }}
-            token: ${{ secrets.DOCS_NEXT_TOKEN }}
+            token: ${{ secrets.DOCS_NEXT_TOKEN_NEW }}
             branch: ${{ env.remote_pr_branch }}
