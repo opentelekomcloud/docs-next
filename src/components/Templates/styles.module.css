@@ -206,3 +206,35 @@ html[data-theme='dark'] .card {
   height: 44px;
 }
 
+.tileGrid{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+}
+
+/* Span the full results grid and center content */
+.emptyFill {
+  grid-column: 1 / -1;     /* <-- key: occupy all grid columns */
+  width: 100%;
+
+  display: grid;           /* center both axes */
+  place-items: center;
+  min-height: 50vh;        /* or 100vh if you want true viewport centering */
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyState img {
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import styles from "./styles.module.css";
 import TemplateCard from "./TemplateCard";
 import { TemplatesList } from "./TemplatesList";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const FILTERS = [
     { label: "ANSIBLE", value: "ansible" },
@@ -23,6 +24,7 @@ function splitTemplateTypes(typeField?: string): string[] {
 
 export default function Templates() {
     const [activeTypes, setActiveTypes] = useState<Set<FilterType>>(new Set());
+    const noDataImg = useBaseUrl('/img/undraw_no-data_ig65.svg');
 
     const toggleType = (t: FilterType) => {
         setActiveTypes((prev) => {
@@ -90,12 +92,20 @@ export default function Templates() {
 
             <scale-divider></scale-divider>
 
-
             <div className={styles.grid}>
-                {filteredTemplates.map((tpl) => (
-                    <TemplateCard title={tpl.title} logo={tpl.logo} description={tpl.description} type={tpl.type} link={tpl.link} partner={tpl.partner} />
+                {filteredTemplates.length === 0 ? (
+                    <div className={styles.emptyFill}>
+                        <div className={styles.emptyState}>
+                            <img src={noDataImg} />
+                            <h3>No results match your filters.</h3>
+                        </div>
+                    </div>
 
-                ))}
+                ) : (
+                    filteredTemplates.map((tpl) => (
+                        <TemplateCard title={tpl.title} logo={tpl.logo} description={tpl.description} type={tpl.type} link={tpl.link} partner={tpl.partner} />
+                    ))
+                )}
             </div>
         </div>
     );
