@@ -5,10 +5,10 @@ import { TemplatesList } from "./TemplatesList";
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const FILTERS = [
-    { label: "ANSIBLE", value: "ansible" },
-    { label: "CLOUD CREATE", value: "cloud create" },
-    { label: "CROSSPLANE", value: "crossplane" },
-    { label: "TERRAFORM", value: "terraform" },
+    { label: "Ansible", value: "ansible" },
+    { label: "Cloud Create", value: "cloud create" },
+    { label: "Crossplane", value: "crossplane" },
+    { label: "Terraform", value: "terraform" },
 ] as const;
 
 type FilterType = (typeof FILTERS)[number]["value"];
