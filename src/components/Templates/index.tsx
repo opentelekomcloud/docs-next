@@ -83,7 +83,6 @@ export default function Templates() {
                     })}
                 </div>
 
-                {activeTypes.size > 0 && (
                     <scale-button
                         variant="secondary"
                         className={styles.resetBtn}
@@ -91,7 +90,6 @@ export default function Templates() {
                     >
                         <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
                     </scale-button>
-                )}
             </div>
 
             <scale-divider></scale-divider>
