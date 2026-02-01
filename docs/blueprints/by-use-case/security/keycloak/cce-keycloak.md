@@ -421,7 +421,7 @@ kubectl apply -f keycloak-ingress.yaml
 We can now open the url address we defined in our Public DNS Zone for
 this application and land on the welcome page of Keycloak:
 
-![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-fhq.png)
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20260201-f1u.png)
 
 ## Troubleshooting
 
