@@ -451,7 +451,7 @@ psql \
   --username=root \
   --dbname=postgres \
   --set=sslmode=require \
-  --file=create-keycloak-db.sql
+  --file=rollback-keycloak-db.sql
 
 unset PGPASSWORD
 ```
