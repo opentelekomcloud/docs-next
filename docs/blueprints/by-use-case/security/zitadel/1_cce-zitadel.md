@@ -1,7 +1,7 @@
 ---
 id: deploy-zitadel-on-cce
 title: Deploy ZITADEL on CCE
-tags: [security,  iam, zitadel, cce]
+tags: [security, iam, zitadel, cce]
 ---
 # Deploy ZITADEL on CCE
 
