@@ -10,9 +10,9 @@ This blueprint explains how to deploy [Keycloak](https://www.keycloak.org/) on a
 
 ## Prerequisites
 
-1. a Cloud Container Engine (CCE) cluster
-2. a PostgreSQL instance in Relational Database Service (RDS)
-3. a bastion host in Elastic Cloud Service (ECS) (an Ubuntu instance will be used for this guide)
+1. a **Cloud Container Engine (CCE)** cluster
+2. a PostgreSQL instance in **Relational Database Service (RDS)**
+3. a bastion host in **Elastic Cloud Service (ECS)** (an Ubuntu instance will be used for this guide)
 
 ## Deploying a PostgreSQL with RDS
 
