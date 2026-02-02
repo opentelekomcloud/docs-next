@@ -169,7 +169,7 @@ import TabItem from '@theme/TabItem';
 
   :::note
   :trolleybus: Every user's server will be hosted under the **same** domain: `jupyter.example.com/user/<username>`  
-  :white_check_mark: Each user will get a dedicated PVC `claim-<username>` for their data, if `hub.db.type` is set to `sqlite-pvc`
+  :white_check_mark: Each user will get a dedicated PVC `claim-<username>` for their data, if `hub.db.type` is set to `sqlite-pvc`  
   :closed_lock_with_key: A DNS record `jupyter.example.com` and a corresponding TLS certificate.
   :::
 
@@ -237,7 +237,7 @@ import TabItem from '@theme/TabItem';
 
   :::note
   :motor_scooter: Every user's server will be hosted under its **own** subdomain: `<username>.jupyter.example.com`  
-  :white_check_mark: Each user will get a dedicated PVC `claim-<username>` for their data, if `hub.db.type` is set to `sqlite-pvc`
+  :white_check_mark: Each user will get a dedicated PVC `claim-<username>` for their data, if `hub.db.type` is set to `sqlite-pvc`  
   :closed_lock_with_key: A **wildcard** DNS record `*.jupyter.example.com` and a corresponding **wildcard** TLS certificate.
   :::
 
