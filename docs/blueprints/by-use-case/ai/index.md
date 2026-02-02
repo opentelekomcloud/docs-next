@@ -1,10 +1,14 @@
 ---
 id: ai
-title: AI & LLMs
+title: Machine Learning & Artificial Intelligence
 ---
 
-# AI & LLMs
+# Machine Learning & Artificial Intelligence
 
-This category is dedicated to exploring how Open Telekom Cloud can be leveraged to build robust artificial intelligence solutions that incorporate large language models. As AI continues to transform industries by enabling smarter applications and automating complex tasks, understanding the cloud architecture that supports such advancements becomes crucial. This section provides insights into optimizing deployments, managing resources efficiently, and scaling applications seamlessly on Open Telekom Cloud's infrastructure. With a focus on real-world use cases, it guides developers and architects through the nuances of integrating AI workloads with LLMs, ensuring high performance and reliability.
+This category covers architecture guidance for building and operating AI workloads on Open Telekom Cloud, with a focus on platform engineering for MLOps and AIOps. The articles are aimed at architects and platform teams who design shared cloud platforms that support machine learning and AI-driven operations in a structured and repeatable way.
 
-Here, you'll find articles that dive into best practices for deploying AI models, including how to handle data processing, storage, and security in an efficient manner. Whether you're looking to implement cutting-edge natural language processing solutions or enhance machine learning pipelines, this category serves as your resource hub in the Open Telekom Cloud world.
+Here, you'll find articles that dive into how AI and LLM workloads fit into a cloud platform rather than how individual models are built. We look at architectural patterns for providing GPU-backed compute, scalable data access, and standardized environments for training, deployment, and inference. [MLOps](https://en.wikipedia.org/wiki/MLOps) is treated as a platform concern, covering topics such as reproducible pipelines, environment consistency, and controlled model promotion across stages.
+
+In addition, the category includes guidance on applying [AIOps](https://en.wikipedia.org/wiki/AIOps) concepts to the operation of AI platforms and underlying cloud infrastructure. This includes the use of telemetry and automation to improve observability, capacity management, and incident response in complex, Kubernetes-based environments.
+
+Overall, these articles are intended to help platform engineering teams design AI-capable cloud architectures that are maintainable, scalable, and aligned with existing cloud and DevOps operating models on Open Telekom Cloud.
