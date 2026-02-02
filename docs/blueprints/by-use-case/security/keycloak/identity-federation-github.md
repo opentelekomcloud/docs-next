@@ -12,14 +12,13 @@ Identity Federation in Keycloak refers to the ability to use external identity p
 
 For this lab, you are going to need a:
 
-1. **Keycloak** server: You should have a Keycloak server instance set up and running
-2. **GitHub** account: You need a GitHub account to register your application and obtain client ID and secret
-
+1. **Keycloak** server: A Keycloak server instance must be set up and running.
+2. **GitHub** account: A GitHub account is required to register the application and obtain the client ID and client secret.
 
 ## Deploying Keycloak
 
 :::tip
-You can follow the blueprint [Deploy Keycloak on CCE](./cce-keycloak.md) in order to setup a working instance of Keycloak on CCE.
+You can use the [Deploy Keycloak on CCE](./cce-keycloak.md) blueprint to set up a working Keycloak instance on CCE.
 :::
 
 ## Configuring Keycloak & IAM
