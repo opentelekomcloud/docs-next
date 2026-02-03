@@ -13,7 +13,7 @@ html[data-theme='dark'] { --ifm-background-surface-color: #1c1c1e; }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -148,3 +148,93 @@ html[data-theme='dark'] .card {
   display: inline-flex;   /* reset any block-level margins */
   margin: 0;              /* remove leftover bottom-margins */
 }
+
+/* ===== Filters (toggle chips) ===== */
+.filtersLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.filtersRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 16px auto; /* center like the grid */
+}
+
+.chip {
+  background: var(--chip, #f1f5f9);
+  color: var(--chip-ink, #0f172a);
+  border: 1px solid var(--line, #e2e8f0);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.chipsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1 1 auto;     /* <-- this is the key */
+  min-width: 280px;   /* keeps some space before button wraps */
+}
+
+.chipActive {
+  background: var(--chip-active, #111827);
+  color: var(--chip-active-ink, #fff);
+  border-color: var(--chip-active, #111827);
+}
+
+.clearBtn {
+  margin-left: auto;
+  border: 1px solid var(--line, #e2e8f0);
+  background: transparent;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.resetBtn {
+  margin-left: auto;
+  width: auto;
+  flex: 0 0 auto;
+  height: 44px;
+}
+
+.tileGrid{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+}
+
+/* Span the full results grid and center content */
+.emptyFill {
+  grid-column: 1 / -1;     /* <-- key: occupy all grid columns */
+  width: 100%;
+
+  display: grid;           /* center both axes */
+  place-items: center;
+  min-height: 50vh;        /* or 100vh if you want true viewport centering */
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyState img {
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+
