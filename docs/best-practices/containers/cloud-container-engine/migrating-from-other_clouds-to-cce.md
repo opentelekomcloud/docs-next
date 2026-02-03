@@ -1,12 +1,12 @@
 ---
 id: migrating-from-other_clouds-to-cce
 title: Migrating Clusters from Other Clouds to CCE
-tags: [cce, migration, minio, velero, obs, wordpress, kubernetes, aws, eks]
+tags: [cce, migration, velero, obs, wordpress, kubernetes, aws, eks]
 ---
 
 # Migrating Clusters from Other Clouds to CCE
 
-This best practices series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/), and optionaly [MinIO](https://www.min.io/), to provide a reliable and structured migration path for Kubernetes workloads.
+This best practices series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/) to provide a reliable and structured migration path for Kubernetes workloads.
 
 <center>
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
@@ -16,7 +16,7 @@ This best practices series showcase how to migrate Kubernetes workloads from oth
 ## Prerequisites
 
 * The source and target Kubernetes clusters must run version **1.10 or higher**.
-* An **OBS bucket** on Open Telekom Cloud is required and **Access credentials (AK/SK)** with proper permissions. Same count if **MinIO** is used as an alternative S3-compatible object-storage instead of OBS.
+* An **OBS bucket** on Open Telekom Cloud is required and **Access credentials (AK/SK)** with proper permissions. Same counts if any alternative S3-compliant object-storage instead of OBS.
 * Both the source and target clusters need network access to the chosen object storage.
 * The **source cluster must be healthy**, with no abnormal pods running.
 * The **target CCE cluster must not contain conflicting resources**, since Velero will not overwrite existing objects.
@@ -39,109 +39,6 @@ If you are going to use exclusively [SWR](https://docs.otc.t-systems.com/softwar
 :::note
 Provisioning the source and target Kubernetes cluster(s) is out of the scope of this best practice article.
 :::
-
-## Installing MinIO (Optional)
-
-:::important
-If you have decided to go with Open Telekom Cloud OBS as your object-storage, please **skip this part** and go straight to [Installing Velero](#installing-velero).
-:::
-
-[MinIO](https://min.io/) is an open-source, high-performance object storage system that is fully compatible with the Amazon S3 API. It is designed to store unstructured data such as backups, logs, and media files, and can run on bare metal, virtual machines, or containerized environments. Because of its S3 compatibility, MinIO is often used as a lightweight alternative to commercial object storage services or as a temporary storage backend for applications like Velero during migrations or testing.
-
-1. Prepare a file named **minio-deployment.yaml**, and save it in your workstation:
-
-    ```yaml title="minio-deployment.yaml"
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-    name: minio
-    namespace: minio
-    spec:
-    replicas: 1
-    selector:
-        matchLabels:
-        app: minio
-    template:
-        metadata:
-        labels:
-            app: minio
-        spec:
-        containers:
-        - name: minio
-            image: minio/minio:RELEASE.2022-12-12T19-27-27Z
-            args:
-            - server
-            - /data
-            - --console-address
-            - ":9001"
-            env:
-            - name: MINIO_ROOT_USER
-                value: "admin"
-            - name: MINIO_ROOT_PASSWORD
-                value: <A_SECURE_PASSWORD>
-            ports:
-            - containerPort: 9000
-            - containerPort: 9001
-            volumeMounts:
-            - name: minio-data
-                mountPath: /data
-        volumes:
-            - name: minio-data
-            persistentVolumeClaim:
-                claimName: minio-pvc
-    ---
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-    name: minio-pvc
-    namespace: minio
-    spec:
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-        storage: 20Gi
-    storageClassName: csi-disk
-    ---
-    apiVersion: v1
-    kind: Service
-    metadata:
-    name: minio
-    namespace: minio
-    spec:
-    type: ClusterIP
-    ports:
-        - port: 9000
-        targetPort: 9000
-        name: api
-        - port: 9001
-        targetPort: 9001
-        name: console
-    selector:
-        app: minio
-    ```
-
-    :::important
-    Replace the value of `MINIO_ROOT_PASSWORD` with a secure, strong, random password of your choice. e.g.:
-
-    ```shell
-    openssl rand -base64 32
-    ```
-
-    :::
-
-    :::warning
-    The MinIO image `RELEASE.2022-12-12T19-27-27Z` is intentionally used here because later versions have gradually removed functionality from the WebUI, which makes them less suitable for demonstration and training purposes. This MinIO deployment is provided solely for use in a lab context to support migration exercises and should **not** be considered a production-ready setup. For production environments on Open Telekom Cloud, Object Storage Service (OBS) remains the recommended option, offering durability, scalability, and full integration with Velero and other cloud-native services.
-    :::
-
-2. Deploy it on your **target** cluster, in this case your Open Telekom Cloud CCE cluster:
-
-    ```shell
-    kubectl create namespace minio
-    kubectl apply -f minio-deployment.yaml
-    ```
-
-3. Expose MinIO console following the steps described in [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls).
 
 ## Installing Velero
 
@@ -171,12 +68,6 @@ In practice, CSI mode is preferred when the underlying infrastructure supports i
     Replace **OBS_ACCESS_KEY** and **OBS_SECRET_KEY** with the values you obtained by executing the steps in [Obtaining Access Keys (AK/SK)](https://docs.otc.t-systems.com/object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html).
     :::
 
-    :::warning
-    If you have decided to go with MinIO, then open *MinIO Console* -> *Access Keys* -> *Create access key* and copy the autogenerated values:
-
-    ![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_09-32-21.png)
-    :::
-
 2. Prepare a file named **obs.env**, and save it in your workstation:
 
     ```bash title="obs.env"
@@ -194,16 +85,9 @@ In practice, CSI mode is preferred when the underlying infrastructure supports i
 
     :::
 
-    :::warning
-    1. If you have decided to go with MinIO, then open *MinIO Dashboard* -> *Settings* -> *Region* and set the value of **Server Location** as **VELERO_S3_REGION**.
-    2. If you followed the instructions of [Installing MinIO](#installing-minio-optional) in this guide, set the **VELERO_S3_URL** either to EIP of the Load Balancer or the URL address exposed by the MinIO Ingress.
-
-    ![image1](/img/docs/best-practices/containers/cloud-container-engine/Screenshot_from_2025-09-10_09-55-40.png)
-    :::
-
 ### Creating a Bucket
 
-Go to the OBS or MinIO console and create a bucket named `velero` as a destination for your backup files. You can use **any** bucket name, but make sure you set `VELERO_S3_BUCKET` value in the next steps accordingly.
+Navigate to the OBS console and create a bucket named `velero` as a destination for your backup files. You can use **any** bucket name, but make sure you set `VELERO_S3_BUCKET` value in the next steps accordingly.
 
 ### Installing Velero CLI
 
@@ -282,7 +166,7 @@ The installation of Velero has to be performed in both source **and** target clu
 
 4. Install Velero Plugin for AWS:
 
-    The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3–compatible object storage systems. Since Open Telekom Cloud’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (same counts for MinIO). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
+    The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3-compliant object store systems. Since Open Telekom Cloud’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (or any other S3-compliant object store). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
 
     ```bash
     velero plugin add velero/velero-plugin-for-aws:v1.8.2

@@ -1,7 +1,7 @@
 ---
 id: restore-kubernetes-objects
 title: Restoring Kubernetes Objects in a CCE Cluster
-tags: [cce, migration, minio, velero, obs, wordpress, kubernetes, aws, eks]
+tags: [cce, migration, velero, obs, wordpress, kubernetes, aws, eks]
 ---
 
 # Restoring Kubernetes Objects in a CCE Cluster

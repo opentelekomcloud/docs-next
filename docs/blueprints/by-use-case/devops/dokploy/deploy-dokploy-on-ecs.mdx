@@ -247,7 +247,7 @@ to OBS, where they are durable, versioned if you enable it, and available to res
 Another important reason is compatibility. Dokploy assumes an S3 endpoint for its storage backend, which means it can treat local deployments and 
 cloud deployments the same way. By giving it an OBS bucket, you satisfy that contract with an API that looks like AWS S3 but lives entirely in Open Telekom Cloud, 
 taking advantage of built-in durability and regional replication. This reduces operational burden compared to stitching together your own distributed file 
-service for large objects (e.g. with [MinIO](https://www.min.io/)). 
+service for large objects. 
 
 In practice the OBS bucket becomes the persistent layer for Dokploy's heavy binary data, while Postgres tracks metadata 
 and Redis accelerates queries. Together, those three backends give Dokploy all the persistence primitives it needs: structured state, ephemeral cache, 
