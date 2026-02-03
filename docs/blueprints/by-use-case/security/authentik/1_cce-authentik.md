@@ -1,7 +1,7 @@
 ---
 id: cce-authentik
 title: Deploy Authentik on CCE
-tags: [cce, authentik, security, ingress, nginx-ingress]
+tags: [cce, authentik, security, iam]
 ---
 
 # Deploy Authentik on CCE
