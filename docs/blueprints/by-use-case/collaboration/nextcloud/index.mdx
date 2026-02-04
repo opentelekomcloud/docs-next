@@ -5,7 +5,9 @@ sidebar_position: 1
 ---
 
 import { Redirect } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function Nextcloud() {
-  return <Redirect to="/docs/blueprints/by-use-case/sovereignty/nextcloud" />;
+  const redirectToUrl = useBaseUrl('/docs/blueprints/by-use-case/sovereignty/nextcloud');
+  return <Redirect to={redirectToUrl} />;
 }
