@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Architecture Center',
-  tagline: 'Best Practices & Blueprints',
+  title: 'Open Telekom Cloud Architecture Center',
+  tagline: 'Official reference architectures, blueprints, and best practices for Open Telekom Cloud',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -13,6 +13,11 @@ const config: Config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL ?? '/',
+
+  // When enabled, will show a banner in case your site can't load its CSS or
+  // JavaScript files, which is a very common issue, often related to a wrong
+  // `baseUrl` in site config.
+  baseUrlIssueBanner: false,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -61,6 +66,13 @@ const config: Config = {
 
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.',
+      },
+    ],
     // Replace with your project's social card
     image: 'img/open-telekom-cloud-social-card.png',
     colorMode: {
