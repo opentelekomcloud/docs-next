@@ -67,11 +67,8 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     metadata: [
-      {
-        name: 'description',
-        content:
-          'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.',
-      },
+      { name: 'description', content: 'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.'},
+      { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, open telekom cloud, opentelekomcloud, otc, t-systems'}
     ],
     // Replace with your project's social card
     image: 'img/open-telekom-cloud-social-card.png',
