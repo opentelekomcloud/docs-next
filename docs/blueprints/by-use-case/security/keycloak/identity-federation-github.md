@@ -18,7 +18,7 @@ For this lab, you are going to need a:
 ## Deploying Keycloak
 
 :::tip
-You can follow the blueprint [Deploy Keycloak on CCE](./cce-keycloak.md) in order to setup a working instance of Keycloak on CCE.
+You can use the [Deploy Keycloak on CCE](./cce-keycloak.md) blueprint to set up a working Keycloak instance on CCE.
 :::
 
 ## Configuring Keycloak & IAM

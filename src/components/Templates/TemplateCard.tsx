@@ -5,7 +5,7 @@ export type TemplateItem = {
   title: string;
   logo: string;
   description: JSX.Element;
-  type: string;
+  type?: string;
   link?: string;
   partner?: boolean;
 };

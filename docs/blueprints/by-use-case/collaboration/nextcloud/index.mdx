@@ -1,0 +1,13 @@
+---
+id: nextcloud-link
+title: Nextcloud
+sidebar_position: 1
+---
+
+import { Redirect } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export default function Nextcloud() {
+  const redirectToUrl = useBaseUrl('/docs/blueprints/by-use-case/sovereignty/nextcloud');
+  return <Redirect to={redirectToUrl} />;
+}
