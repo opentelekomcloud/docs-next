@@ -437,7 +437,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls',
+              id: 'best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api',
             },
             {
               type: 'doc',

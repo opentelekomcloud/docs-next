@@ -239,7 +239,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
 spec:
-  ingressClassName: nginx
+  ingressClassName: <INGRESS_CLASS_NAME>
   tls:
   - hosts:
     - whoami.example.com
@@ -257,9 +257,13 @@ spec:
               number: 80
 ```
 
-:::warning
-If you have opted-in for automatic DNS records creation via ExternalDNS, as described in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns),
+:::important
+1️⃣ If you have opted-in for automatic DNS records creation via ExternalDNS, as described in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns),
 the required DNS A records will be created **automatically**. If not, before applying the manifest ensure the Elastic Load Balancer's Elastic IP is bound to `whoami.example.com` by creating manually an A record in Open Telekom Cloud DNS service.
+
+2️⃣ Replace `INGRESS_CLASS_NAME` with the name of the ingress class you are using in your cluster. 
+If you are using Open Telekom Cloud's native ingress controller, this will be whatever value you have set during the NGINX Ingress Controller installation for the **Parameters.Controller Name** parameter, which defaults to `nginx`.
+For [Contour](https://projectcontour.io/) the default value would be `contour` and for [HAProxy](https://www.haproxy.com/documentation/kubernetes-ingress/) `haproxy`. Refer to [Enabling External Traffic with Ingress API & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api.mdx).
 :::
 
 ```shell
