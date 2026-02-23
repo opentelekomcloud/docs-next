@@ -379,7 +379,7 @@ kubectl apply -f keycloak-sts.yaml
 
 Before deploying the Ingress, the CCE cluster must be equipped with a set of foundational components. You will need to  install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
-Follow the guidelines in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls) before proceeding to the next steps.
+Follow the guidelines in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api) before proceeding to the next steps.
 
 :::
 

@@ -49,7 +49,7 @@ While the first option is quicker to set up, **the recommended approach is to us
 Before deploying our workload, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as the NGINX Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
 :::danger Before you continue
-Follow the guidelines in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls) before proceeding to the next steps.
+Follow the guidelines in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api) before proceeding to the next steps.
 :::
 
 ## Deploying Keycloak
@@ -145,7 +145,7 @@ or integrate third-party extensions. Subdomains also make OAuth flows and token 
 The trade-off is increased operational complexity. Hosting user servers on subdomains requires wildcard DNS records, TLS certificates that cover those subdomains, 
 and corresponding configuration in the Kubernetes ingress or load balancer layer. This adds upfront setup effort and may introduce additional dependencies on DNS and certificate management processes if you 
 don't automate these steps based on the guidelines in the best practices [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](/docs/best-practices/containers/cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns) and
-[Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-and-tls).
+[Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api).
 
 :::tip
 In practice, hosting user servers on subdomains is recommended for production-grade JupyterHub deployments where security isolation between users matters. For simple, internal, or short-lived setups, the default path-based routing may be sufficient. The decision should be made early, as it influences DNS, ingress, and certificate design for the overall platform.
