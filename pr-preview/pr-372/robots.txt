@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://arch.otc-service.com/sitemap.xml
