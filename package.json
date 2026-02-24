@@ -20,6 +20,7 @@
     "@docusaurus/core": "^3.9.1",
     "@docusaurus/plugin-content-docs": "^3.9.1",
     "@docusaurus/preset-classic": "^3.9.1",
+    "@docusaurus/theme-mermaid": "^3.9.1",
     "@mdx-js/react": "^3.1.1",
     "@telekom/scale-components": "^3.0.0-beta.151",
     "@telekom/scale-components-react": "^3.0.0-beta.56",
