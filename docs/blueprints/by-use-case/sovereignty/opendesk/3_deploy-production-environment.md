@@ -1,10 +1,9 @@
 ---
 id: deploy-production-environment
 title: Deploy Production-Ready OpenDesk
-tags: [opendesk, cce, production, high-availability, otc]
+tags: [opendesk, cce, production, sovereignty,high-availability, otc]
 ---
 
-import Mermaid from '@theme/Mermaid';
 
 # Deploy Production-Ready OpenDesk
 

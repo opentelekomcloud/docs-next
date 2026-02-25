@@ -3,11 +3,6 @@ id: deploy-opendesk-on-cce
 title: Deploy OpenDesk on CCE
 tags: [opendesk, cce, collaboration, sovereignty, kubernetes]
 ---
-
-
-import Mermaid from '@theme/Mermaid';
-
-
 # Deploy OpenDesk on CCE (Evaluation)
 
 This guide walks through deploying an **OpenDesk** instance on Open Telekom Cloud.

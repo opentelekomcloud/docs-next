@@ -64,12 +64,8 @@ const config: Config = {
     ],
   ],
 
-  themes: ['docusaurus-theme-search-typesense', '@docusaurus/theme-mermaid'],
+  themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
-    mermaid: {
-      theme: { light: 'neutral', dark: 'forest' },
-    },
-
     metadata: [
       { name: 'description', content: 'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.' },
       { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, open telekom cloud, opentelekomcloud, otc, t-systems' },
@@ -340,10 +336,6 @@ const config: Config = {
       } as UmamiOptions,
     ],
   ],
-  markdown: {
-    mermaid: true,
-  },
-
 };
 
 export default config;
