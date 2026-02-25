@@ -187,7 +187,7 @@ This patch:
 1.  Disables the use of these specific temp volumes (`useTmpVolumes: false`).
 2.  Relaxes the `readOnlyRootFilesystem` constraint so the container can write to its writable layer instead.
 
-See [OpenProject Helm Chart Docs](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#tmp-volume-mounts) and [Data Storage Reference](/docs/blueprints/by-use-case/sovereignty/opendesk/documents/data-storage.md) for details.
+See [OpenProject Helm Chart Docs](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#tmp-volume-mounts) and [Data Storage Reference](/docs/blueprints/by-use-case/sovereignty/opendesk/documents/data-storage) for details.
 :::
 
 :::danger Security Implication
