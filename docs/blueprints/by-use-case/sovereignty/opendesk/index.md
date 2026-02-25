@@ -36,8 +36,8 @@ Based on the official project description, openDesk is designed to give public-s
 - **Digital sovereignty for public administration**: openDesk reduces dependence on large international platform providers by relying on open standards and free/libre open-source software. Data, identities and configurations remain under the control of the operating organisation.
 - **Integrated collaboration suite**: Instead of a patchwork of isolated tools, openDesk combines mail, calendar, chat, video conferencing, file storage, office editing, project management and knowledge management into a coherent workplace with single sign-on.
 - **Open standards and interoperability**: The platform uses open protocols and interfaces, making it easier to integrate into existing infrastructures and to switch components where needed without lock-in.
-- **Cloud‑native, scalable architecture**: openDesk is built for Kubernetes and can run on sovereign cloud infrastructures such as Sovereign Cloud Stack (SCS), supporting horizontal scaling and resilient operation.
-- **Security and compliance**: By design, openDesk supports operation in environments with high security and data-protection requirements (e.g. GDPR, public sector security baselines). The open-source codebase allows independent audits and hardening.
+- **Cloud‑native, scalable architecture**: openDesk is built for Kubernetes and can run on sovereign cloud infrastructures, supporting horizontal scaling and resilient operation.
+- **Security and compliance**: By design, openDesk supports operation in environments with high security and data-protection requirements (e.g. GDPR, public sector security baselines).
 
 
 
@@ -51,10 +51,5 @@ Based on the official project description, openDesk is designed to give public-s
 
 Ready to deploy openDesk? Choose your path:
 
-- **[Deploy a Test Environment](./deploy-opendesk-on-cce)**: Quick start guide for evaluation. Uses minimal resources and bundled internal services. Perfect for Proof of Concepts (PoC).
-- **[Deploy a Production Environment](./deploy-production-environment)**: Comprehensive guide for a secure, scalable production setup using OTC managed services. Recommended for pilots and live operation.
-<!-- 
-:::info Github Repository
-All configuration files, Helmfiles, and patches mentioned in these guides are available in our public repository:
-[OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/opendesk)
-::: -->
+- **[Deploy a Test Environment for Evaluation](./deploy-opendesk-on-cce)**: Quick start guide for evaluation. Uses minimal resources and bundled internal services. Perfect for Proof of Concepts (PoC).
+- **[Deploy a Production Environment](./deploy-production-environment)**: Comprehensive guide for a secure, scalable production setup using OTC managed services.
