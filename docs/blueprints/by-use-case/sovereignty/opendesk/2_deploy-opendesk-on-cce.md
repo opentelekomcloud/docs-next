@@ -10,7 +10,7 @@ import Mermaid from '@theme/Mermaid';
 
 # Deploy OpenDesk on CCE (Evaluation)
 
-This guide walks through deploying an **OpenDesk** instance on Open Telekom Cloud's **Cloud Container Engine (CCE)**.
+This guide walks through deploying an **OpenDesk** instance on Open Telekom Cloud.
 
 :::important Evaluation Only
 This deployment is intended for **evaluation and testing**. It runs all databases, caches, and object storage *inside* the cluster as containers.
@@ -80,11 +80,11 @@ flowchart TD
 
     subgraph "CCE Cluster (Kubernetes)"
         Ingress --> Portal
-        Ingress --> Keycloak
+        Ingress --> KC[Keycloak]
         
         subgraph Nubus
-            Keycloak --> Portal
-            Keycloak -->|User Directory| OpenLDAP
+            KC --> Portal
+            KC -->|User Directory| OpenLDAP
             Portal
         end
         
@@ -102,7 +102,12 @@ flowchart TD
             NC --> PostgreSQL
             NC --> Redis
             NC --> MinIO["MinIO (S3)"]
+            OP --> PostgreSQL
             OXE --> MariaDB
+            KC --> PostgreSQL
+            XW --> PostgreSQL
+            OXE --> Redis
+            OP --> Memcached
         end
     end
 `}
@@ -118,7 +123,7 @@ Before deploying, you must configure the basic DNS records to point to your ELB.
 This IP must belong to the **Elastic Load Balancer** used by your **Ingress NGINX Controller**. The external IP associated with the nginx `LoadBalancer` service in your cluster.
 :::
 
-| Valid Hostname | Type | Value | Purpose |
+| Valid Hostnames | Type | Value | Purpose |
 |----------------|------|-------|---------|
 | `*.opendesk.example.com` | A | `1.2.3.4` | Wildcard for all web subdomains |
 | `opendesk.example.com` | A | `1.2.3.4` | Base domain |
@@ -278,7 +283,6 @@ persistence:
     RWO: "csi-disk-topology"
     RWX: "csi-sfsturbo"
 
-
 # Apply Patches
 customization:
   release:
@@ -295,7 +299,7 @@ customization:
 | Key | Description | Example / Note |
 | :--- | :--- | :--- |
 | `global.domain` | The base domain where openDesk will be accessible. | `opendesk.example.com` |
-| `cluster.networking.cidr` | The cidr of the cluster's pod network. | **Critical** By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues. |
+| `cluster.networking.cidr` | The CIDR of the cluster's pod network. | **Critical** By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues. |
 | `cluster.networking.ingressGatewayIP` | The Public IP of your ELB. | Jitsi Meet uses WebRTC for video. The JVB (Video Bridge) pod is behind NAT (the ELB). It needs to know its **Public IP** to advertise to clients in the SDP (Session Description Protocol) packet. |
 | `annotations...elb.id` | The ID of your pre-provisioned OTC Elastic Load Balancer. | **Must be the same ELB** used by Ingress NGINX (matching the DNS records). Used to attach Jitsi/Mail services. |
 | `annotations...elb.class` | Specifies the type of OTC Elastic Load Balancer. | Use `performance` for **Dedicated ELB**  or `union` for **Shared ELB**. |
@@ -309,10 +313,10 @@ Ensure you provide the **ELB ID** of the *same* load balancer whose IP you confi
 :::
 
 
-#### Why to set `cluster.networking.cidr`?
+#### Why set `cluster.networking.cidr`?
 By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues.
 
-#### Why to set `cluster.networking.ingressGatewayIP`?
+#### Why set `cluster.networking.ingressGatewayIP`?
 Jitsi Meet uses WebRTC for video. The JVB (Video Bridge) pod is behind NAT (the ELB). It needs to know its **Public IP** to advertise to clients in the SDP (Session Description Protocol) packet.
 
 ### Deploy
@@ -324,42 +328,53 @@ helmfile apply -e test -n opendesk-test --concurrency 0 --skip-diff-on-install
 ```
 
 This command:
--   Sets the target namespace to `opendesk-test`.
--   **`--concurrency 0`**: Ensures sequential deployment (crucial for inter-dependent components).
--   **`--skip-diff-on-install`**: Speeds up the initial run by skipping the diff stage for new releases.
+- **`-e test`**: selects the test environment
+- **`-n opendesk-test`**: deploys into the `opendesk-test` namespace
+- **`--concurrency 0`**: unlimited concurrent Helm processes (0 = no limit; increases speed)
+- **`--skip-diff-on-install`**: Speeds up the initial run by skipping the diff stage for new releases.
 
 ### Post-Deployment Steps
 
-#### Get Admin Credentials
-Retrieve the generated administrator password:
+#### Management Portal
+
+
+
+Go to `https://portal.opendesk.example.com` and log in using:
+
+- Username: `Administrator`
+- Retrieve the generated administrator password with the following command:
 
 ```bash
 kubectl get secret ums-nubus-credentials -n opendesk-test -o jsonpath='{.data.administrator_password}' | base64 -d
 ```
-Username: `Administrator`
-
-#### Log In
-Go to `https://portal.opendesk.example.com` and log in.
 
 
+:::tip 2 Factor Authentication
+ On the **first login with the admin account**, you are prompted to set up **two-factor authentication (2FA)** using an authenticator application.
+
+ If you require **end users** to use 2FA as well, it is a good practice to add their accounts to the dedicated **2FA group**, so that 2FA becomes mandatory for them according to your security policies.
+:::
+
+After logging in, you are taken to the **management portal**, where you can:
+
+- Create and manage users.
+- Assign roles and application access to the users.
+
+![OpenDesk admin portal login screen](/img/docs/blueprints/by-use-case/sovereignty/opendesk/admin_portal.png)
 
 
-## Troubleshooting
+#### Create a Test User and Validate Login
+1. In the management portal, create a new user.
+2. Make it a member of the **Domain Users** group.
+3. Open a new browser session (or incognito window).
+4. Navigate again to `https://portal.opendesk.example.com`.
+5. Log in using the new user's credentials.
 
-### Jitsi Video Black Screen
--   **Cause**: Clients cannot reach the Video Bridge via UDP.
--   **Fix 1**: Check `ingressGatewayIP` is set to the ELB Public IP.
--   **Fix 2**: Ensure your ELB has a listener on **UDP port 10000**.
+If the login succeeds and the user can access the portal and available apps, your evaluation environment is ready for testing. Make sure to open and verify all provisioned OpenDesk applications to confirm they work as expected.
 
-### Portal "Link must be string" Error
--   **Cause**: `functional.portal.linkSupport` is empty or null.
--   **Fix**: Set it to a valid URL string in `values.yaml.gotmpl`.
+![OpenDesk user portal login screen](/img/docs/blueprints/by-use-case/sovereignty/opendesk/user_portal.png)
 
-### Email Not Sending
--   **Cause**: Cloud IP blocklists.
--   **Fix**: Check Postfix logs (`kubectl logs -n opendesk -l app.kubernetes.io/name=postfix`). If you see connection timeouts, port 25 is blocked. Use a relay (SmartHost) or request port 25 unblocking.
 
-<!-- TODO mention step by step installation -->
 
 ## Uninstall
 
