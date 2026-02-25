@@ -72,46 +72,8 @@ Before deploying openDesk, your cluster must have:
 
 The following diagram illustrates the openDesk architecture deployed on CCE, showing how applications are hosted within the cluster and exposed via the Elastic Load Balancer.
 
-<Mermaid
-  value={`
-flowchart TD
-    User(User) -->|HTTPS| ELB[Elastic Load Balancer]
-    ELB --> Ingress[Ingress NGINX]
+![OpenDesk Evaluation Architecture](/img/docs/blueprints/by-use-case/sovereignty/opendesk/eval_arch.png)
 
-    subgraph "CCE Cluster (Kubernetes)"
-        Ingress --> Portal
-        Ingress --> KC[Keycloak]
-        
-        subgraph Nubus
-            KC --> Portal
-            KC -->|User Directory| OpenLDAP
-            Portal
-        end
-        
-        subgraph Apps
-            Portal -->|Manage Files| NC[Nextcloud]
-            Portal -->|Chat & Call| EL[Element]
-            Portal -->|Send/Receive E-Mails| OXE[OX App Suite]
-            NC -->|Edit Offices| CO[Collabora Online]
-            Portal -->|Tasks| OP[OpenProject]
-            Portal -->|Wiki| XW[XWiki]
-            Portal -->|Meet| JI[Jitsi]
-        end
-
-        subgraph "Data (In-Cluster)"
-            NC --> PostgreSQL
-            NC --> Redis
-            NC --> MinIO["MinIO (S3)"]
-            OP --> PostgreSQL
-            OXE --> MariaDB
-            KC --> PostgreSQL
-            XW --> PostgreSQL
-            OXE --> Redis
-            OP --> Memcached
-        end
-    end
-`}
-/>
 
 ## Deployment Steps
 

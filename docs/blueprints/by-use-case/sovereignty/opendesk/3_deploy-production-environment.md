@@ -22,70 +22,8 @@ Unlike the [test environment](./deploy-opendesk-on-cce), this production setup e
 
 In production, the architecture shifts from a "bundled" model (everything in-cluster) to a "distributed" model where database services are externalized to OTC managed offerings.
 
-<Mermaid
-  value={`
-graph TB
-    subgraph "External Access"
-        User[Users]
-        ELB[OTC Elastic Load Balancer]
-        Relay[SMTP Relay]
-        TURN[TURN Server]
-    end
+![OpenDesk Production Ready Architecture](/img/docs/blueprints/by-use-case/sovereignty/opendesk/prod_arch.png)
 
-    subgraph "Compute Layer (CCE)"
-        Ingress[Ingress NGINX]
-
-        subgraph "Stateless Workloads"
-            Keycloak
-            Nextcloud
-            OpenProject
-            Matrix/Element
-            OX_App_Suite
-            Jitsi
-            XWiki
-            Notes
-            Collabora
-        end
-    end
-
-    subgraph "Managed Services"
-        RDS_PG[(RDS PostgreSQL 15 HA)]
-        RDS_MY[(RDS MySQL 8.0 HA)]
-        DCS_RED[(DCS Redis 7 HA)]
-        OBS[OBS Object Storage]
-    end
-
-    User -->|HTTPS| ELB
-    ELB --> Ingress
-    Ingress --> Keycloak
-    Ingress --> Nextcloud
-    Ingress --> OpenProject
-    Ingress --> XWiki
-    Ingress --> Notes
-    Ingress --> Collabora
-    Ingress --> OX_App_Suite
-    Ingress --> Jitsi
-
-    Keycloak --> RDS_PG
-    Nextcloud --> RDS_PG
-    OpenProject --> RDS_PG
-    Matrix/Element --> RDS_PG
-    XWiki --> RDS_PG
-    Notes --> RDS_PG
-    Nextcloud --> OBS
-    OpenProject --> OBS
-    Notes --> OBS
-    Nextcloud --> DCS_RED
-    Notes --> DCS_RED
-
-    OX_App_Suite --> RDS_MY
-    OX_App_Suite --> DCS_RED
-    OX_App_Suite --> OBS
-    OX_App_Suite -->|SMTP| Relay
-
-    Jitsi -->|UDP/TCP| TURN
-`}
-/>
 
 ## Prerequisites
 
