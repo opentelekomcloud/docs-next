@@ -8,10 +8,10 @@ import Mermaid from '@theme/Mermaid';
 
 # Deploy Production-Ready OpenDesk
 
-This guide details how to deploy a scalable, high-availability (HA) instance of [openDesk](https://opendesk.eu/) on Open Telekom Cloud (OTC).
+This guide details how to deploy a scalable, high-availability (HA) instance of [openDesk](https://opendesk.eu/) on Open Telekom Cloud.
 
 :::tip GitHub Repository
-All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/opendesk) under `helmfile/environments/prod`.
+All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/openDesk-deployment) (under path `helmfile/environments/prod`).
 :::
 
 Unlike the [test environment](./deploy-opendesk-on-cce), this production setup externalizes some services — databases, caches (except memcache), and object storage — onto **OTC Managed Services** (RDS, DCS, OBS) and uses **SFS Turbo** for shared filesystem access.
@@ -53,19 +53,30 @@ graph TB
         RDS_MY[(RDS MySQL 8.0 HA)]
         DCS_RED[(DCS Redis 7 HA)]
         OBS[OBS Object Storage]
-        SFS["SFS Turbo (RWX)"]
     end
 
     User -->|HTTPS| ELB
     ELB --> Ingress
     Ingress --> Keycloak
     Ingress --> Nextcloud
+    Ingress --> OpenProject
+    Ingress --> XWiki
+    Ingress --> Notes
+    Ingress --> Collabora
+    Ingress --> OX_App_Suite
+    Ingress --> Jitsi
 
     Keycloak --> RDS_PG
     Nextcloud --> RDS_PG
+    OpenProject --> RDS_PG
+    Matrix/Element --> RDS_PG
+    XWiki --> RDS_PG
+    Notes --> RDS_PG
     Nextcloud --> OBS
+    OpenProject --> OBS
+    Notes --> OBS
     Nextcloud --> DCS_RED
-    Nextcloud -->|RWX| SFS
+    Notes --> DCS_RED
 
     OX_App_Suite --> RDS_MY
     OX_App_Suite --> DCS_RED
@@ -174,7 +185,7 @@ In the OTC Console: **Bucket → Permissions → Bucket Policies → Create**, a
 
 ### IAM Credentials for OBS
 
-To access OBS we need to uses **AK/SK** pairs. You have two options:
+To access OBS we need to use **AK/SK** pairs. You have two options:
 
 | Option | Approach | Recommendation |
 |--------|----------|----------------|
@@ -220,7 +231,7 @@ For each bucket, follow these steps:
         {
             "Effect": "Allow",
             "Action": [
-              // Give ReadWrite and ListOnly permitions
+              // Give ReadWrite and ListOnly permissions
             ],
             "Resource": [
                 "OBS:*:*:bucket:<bucket-name>",
@@ -269,11 +280,11 @@ All credentials — database passwords, Redis password, and OBS access keys — 
 cp files/bootstrap-external.env.example files/bootstrap-external.env
 ```
 
-### Fill in `bootstrap-external.env`
+### Fill in Environment Variables
 
 Open `files/bootstrap-external.env` and fill in every value:
 
-```bash
+```bash title="helmfile/environments/prod/files/bootstrap-external.env"
 # Kubernetes namespace where openDesk is deployed
 NAMESPACE="opendesk"
 
@@ -369,7 +380,7 @@ For Redis, an `ExternalName` Service is used instead, which creates a DNS CNAME 
 
 The full content of `external-services.yaml` after editing should look like:
 
-```yaml
+```yaml title="helmfile/environments/prod/files/external-services.yaml"
 ---
 apiVersion: v1
 kind: Service
@@ -483,7 +494,7 @@ Review the output carefully before running without `DRY_RUN`.
 
 If you prefer a declarative approach, use the pre-generated static manifest file. You must replace all `<PLACEHOLDER>` values manually before applying:
 
-```bash
+```bash title="helmfile/environments/prod/files/bootstrap-external-manifests.yaml"
 # Edit the file — replace ALL placeholders:
 #   <PG_HOST>              → your RDS PostgreSQL private IP
 #   <MARIA_HOST>           → your RDS MySQL private IP
@@ -492,7 +503,9 @@ If you prefer a declarative approach, use the pre-generated static manifest file
 #   <DB_*_PASSWORD>        → per-service passwords (must match bootstrap-external.env)
 #   <PG_IMAGE>             → check helmfile/environments/default/images.yaml.gotmpl
 #   <MARIA_IMAGE>          → check helmfile/environments/default/images.yaml.gotmpl
+```
 
+```bash
 kubectl apply -f files/bootstrap-external-manifests.yaml
 ```
 
@@ -555,6 +568,10 @@ Production requires a complete set of DNS records.
 
 ### Generate DKIM Keys
 
+:::info Self-Hosted Email Only
+The following DKIM key generation steps are required **only if you are self-hosting the email services and not using an external email relay service**.
+:::
+
 openDesk uses DKIM for email signing via the `dkimpy` component. In this step you will:
 
 - **Create an Ed25519 DKIM key pair** on your workstation.
@@ -572,7 +589,7 @@ openssl pkey -in dkim_ed25519.pem -pubout -outform DER | tail -c 32 | base64
 
 ### Create the DKIM Kubernetes Secret
 
-The DKIM private key is referenced in `values.yaml.gotmpl` as a Kubernetes Secret named `dkim-private-key`. We create this secret form the file:
+The DKIM private key is referenced in `values.yaml.gotmpl` as a Kubernetes Secret named `dkim-private-key`. We create this secret from the file:
 
 ```bash
 kubectl create secret generic dkim-private-key \
@@ -588,7 +605,7 @@ Production openDesk requires a `ReadWriteMany` (RWX) storage class for some open
 
 **Create an SFS Turbo instance** in the OTC Console (same VPC as the CCE cluster), then create a StorageClass named `csi-sfsturbo-opendesk`:
 
-```yaml
+```yaml title="helmfile/environments/prod/files/csi-sfsturbo-opendesk.yaml"
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -620,9 +637,6 @@ kubectl apply -f sfsturbo-storageclass.yaml
 
 The storage class name `csi-sfsturbo-opendesk` must match the `persistence.storageClassNames.RWX` value in `values.yaml.gotmpl`.
 
-:::info SFS Turbo vs Standard SFS
-SFS Turbo (NFS-based) provides much lower latency than standard SFS and is required for Nextcloud multi-replica deployments. Standard SFS is not recommended for production openDesk.
-:::
 
 ---
 
@@ -639,19 +653,31 @@ All production-specific overrides live in `helmfile/environments/prod/`. Each fi
 | `secrets.yaml.gotmpl` | Per-service passwords (read from env vars) |
 | `replicas.yaml.gotmpl` | HA replica counts for each component |
 
-### Configure `values.yaml.gotmpl`
+### Configure General Values 
 
 The main settings you must edit:
 
-```yaml
+```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 global:
   domain: "opendesk.example.com"   # TODO: your production domain
 
 apps:
   notes:
     enabled: true
+   # enable DKIM signing (enable and configure this if you're not 
+   # using an email relay service and want to self-host email delivery)
   dkimpy:
-    enabled: true           # enable DKIM signing
+    enabled: true          
+
+
+  # simple / standalone ClamAV is disabled in production
+  # we use the distributed ClamAV deployment for production workloads
+  clamavSimple:
+    enabled: false          
+  clamavDistributed:
+    enabled: true           
+
+
   # Bundled data services are DISABLED — using OTC managed services instead
   postgresql:
     enabled: false
@@ -662,6 +688,10 @@ apps:
   redis:
     enabled: false
 
+ # memcached stays enabled and runs in-cluster (no managed Memcached service on OTC)
+  memcached:
+    enabled: true          
+
 cluster:
   networking:
     cidr:
@@ -671,12 +701,31 @@ cluster:
     engine: "containerd"
   persistence:
     readWriteMany:
-      enabled: true           # required for Nextcloud multi-replica
+      enabled: true           # required for components multi-replica
 
 persistence:
   storageClassNames:
     RWO: "csi-disk-topology"
     RWX: "csi-sfsturbo-opendesk"  # must match your SFS Turbo StorageClass name
+
+  # Increase default storage limits
+  storages:
+  clamav:
+    size: "5Gi"
+  dovecot:
+    size: "50Gi" # mail storage (CE)
+  nubusLdapServerData:
+    size: "5Gi"
+  nubusProvisioningNats:
+    size: "10Gi" # recommended for production
+  postfix:
+    size: "10Gi" # mail spool
+  prosody:
+    size: "5Gi"
+  synapse:
+    size: "20Gi" # media / attachments
+  xwiki:
+    size: "20Gi" # attachments
 
 certificate:
   issuerRef:
@@ -704,7 +753,44 @@ annotations:
       kubernetes.io/elb.id: "<YOUR_ELB_ID>"       # TODO: OTC ELB ID
       kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
       kubernetes.io/elb.class: performance
+
+ # Enable production monitoring via kube-prometheus-stack (Prometheus/Grafana)
+monitoring:
+  prometheus:
+    serviceMonitors:
+      enabled: true
+      labels:
+        release: "kube-prometheus-stack"
+    podMonitors:
+      enabled: true
+      labels:
+        release: "kube-prometheus-stack"
+    prometheusRules:
+      enabled: true
+      labels:
+        release: "kube-prometheus-stack"
+  grafana:
+    dashboards:
+      enabled: true
+      labels:
+        grafana_dashboard: "1"
+
+# Apply Patches
+customization:
+  release:
+    ums:
+      - "../../environments/prod/values-nubus-fixes.yaml"
+    oxConnector:
+      - "../../environments/prod/values-oxconnector-probe-fix.yaml"
+    openproject:
+      - "../../environments/prod/values-openproject-tmpdir-fix.yaml"
 ```
+
+::::tip Further customization
+For further customization and fine‑tuning of your openDesk setup, you can use the default Helmfile environment under `helmfile/environments/default/` as a **reference** for all available configuration fields. For each real environment (such as `prod`), configure your own values under `helmfile/environments/` these overrides will replace the defaults at deploy time. 
+
+In particular, `helmfile/environments/default/functional.yaml.gotmpl` lists many functional toggles (such as authentication, portal behavior, and app features).
+::::
 
 ### Configure SMTP
 
@@ -714,35 +800,25 @@ You must choose between **Option A (External Relay)** or **Option B (Direct Deli
 
 **Option A: External Relay (Recommended)**
 
-Use an external SMTP relay (e.g., Mailgun, AWS SES, or a corporate SMTP relay) for reliable deliverability:
+Use an external SMTP relay (e.g., [Mailgun](https://www.mailgun.com/), or a corporate SMTP relay) for reliable deliverability:
 
-```yaml
+```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 smtp:
   host: "smtp.relay.example.com"
   port: 587
-  username: "apikey"
-  password: "{{ env \"SMTP_RELAY_PASSWORD\" | default \"\" | quote }}"
-  dkim:
-    key:
-      secret:
-        name: "dkim-private-key"
-        key: "dkim.key"
-    selector: "default"
-    useED25519: true
+  username: "{{ env "SMTP_RELAY_USERNAME" | default "" | quote }}"
+  password: "{{ env "SMTP_RELAY_PASSWORD" | default "" | quote }}"
 ```
 
 **Option B: Direct Delivery (Self-Hosted)**
 
-Send directly from the cluster. **Prerequisites**:
-- A dedicated EIP attached to the Postfix pod via `LoadBalancer` service
-- A valid **PTR record** (reverse DNS) for that IP — contact OTC Support to set this up
-- Port 25 outbound must be unblocked (may require OTC Support approval)
+Send directly from the cluster. 
 
 :::caution PTR Record is Mandatory for Direct Delivery
-Most major mail providers (Gmail, Outlook) **will reject** or spam-folder all email from IPs without a matching PTR record. This is the #1 cause of email delivery failure in self-hosted setups.
+Most major mail providers (Gmail, Outlook) **will reject** or spam-folder all email from IPs without a matching PTR record.
 :::
 
-```yaml
+```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 smtp:
   dkim:
     key:
@@ -751,28 +827,32 @@ smtp:
         key: "dkim.key"
     selector: "default"
     useED25519: true
-  # No relay host → Postfix delivers directly to MX records
 ```
 
 ### Configure TURN Server
 
-For reliable video calls (Jitsi / Element) for users behind corporate firewalls or strict NAT, configure an external TURN server (e.g., [`coturn`](https://github.com/coturn/coturn)):
+For reliable video calls (Jitsi / Element) for users behind corporate firewalls or strict NAT, configure an external TURN server:
 
-```yaml
+```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 turn:
-  enabled: true
-  host: "turn.example.com"
-  port: 3478
-  secret: "{{ env \"TURN_SECRET\" | quote }}"
+  transport: "udp"
+  credentials: {{ env "TURN_CREDENTIALS" | quote }}
+  server:
+    host: "turn.example.com"
+    port: "3478"
+  tls:
+    host: "turn.example.com"
+    port: "5349"
 ```
+::::caution TURN server is required for restricted networks
+If you do not have a TURN server, video calls may fail for users on restricted or enterprise networks (e.g. with strict firewalls or NAT).
+::::
 
-*If you do not have a TURN server, video calls may fail for users on restricted networks.*
-
-### `databases.yaml.gotmpl` — Connection Parameters
+### Connection Parameters
 
 This file reads passwords from environment variables. Verify the `host` values match the Kubernetes Service names created in Step 5 (`postgresql` and `mariadb`):
 
-```yaml
+```yaml title="helmfile/environments/prod/databases.yaml.gotmpl"
 databases:
   keycloak:
     type: "postgresql"
@@ -790,12 +870,12 @@ databases:
 ```
 
 :::note OX App Suite requires root
-The OX App Suite chart requires the MariaDB `root` user to manage its own internal databases during startup. This is an upstream limitation.
+The OX App Suite chart requires the MariaDB `root` user. This is an upstream limitation.
 :::
 
-### `cache.yaml.gotmpl` — Redis Connection
+### Redis Connection
 
-```yaml
+```yaml title="helmfile/environments/prod/cache.yaml.gotmpl"
 cache:
   intercomService:
     host: "redis-headless"   # resolves via ExternalName Service to DCS hostname
@@ -807,7 +887,7 @@ cache:
     port: 6379
     username: "default"
     password: {{ env "CACHE_REDIS_PASSWORD" | default "" | quote }}
-    tls: false  # set true if your DCS instance has TLS enabled
+    tls: false 
   notes:
     host: "redis-headless"
     port: 6379
@@ -819,29 +899,34 @@ cache:
     password: {{ env "CACHE_REDIS_PASSWORD" | default "" | quote }}
 ```
 
-### `objectstores.yaml.gotmpl` — OBS Buckets
+### OBS Buckets
 
 The `username` field contains the **Access Key (AK)** — it is the OBS authentication credential, not a display label. The `secretKey` field contains the **Secret Key (SK)**:
 
-```yaml
+```yaml title="helmfile/environments/prod/objectstores.yaml.gotmpl"
+{{- $endpoint := "obs.eu-de.otc.t-systems.com" }}
+{{- $region   := "eu-de" }}
+{{- $port     := 443 }}
+
 objectstores:
   nextcloud:
     bucket: "opendesk-nextcloud"
-    endpoint: "obs.eu-de.otc.t-systems.com"
-    region: "eu-de"
-    username: {{ env "OBS_AK_NEXTCLOUD" | default "" | quote }}  # AK
-    secretKey: {{ env "OBS_SK_NEXTCLOUD" | default "" | quote }} # SK
+    endpoint: {{ $endpoint | quote }}
+    region: {{ $region | quote }}
+    username: {{ env "OBS_AK_NEXTCLOUD" | default "" | quote }}
+    secretKey: {{ env "OBS_SK_NEXTCLOUD" | default "" | quote }}
+    storageClass: "STANDARD"
     useSSL: true
-    pathStyle: true    # required for OTC OBS
-    port: 443
+    pathStyle: true
+    port: {{ $port }}
   # ... repeat for all 7 buckets
 ```
 
-### `secrets.yaml.gotmpl` — Password Mapping
+### Password Mapping
 
 This file maps environment variables to the Helm chart secret structure. It is automatically read by Helmfile — **no manual editing is needed** as long as your env file is correctly sourced:
 
-```yaml
+```yaml title="helmfile/environments/prod/secrets.yaml.gotmpl"
 secrets:
   postgresql:
     postgresUser: {{ env "PG_ADMIN_PASSWORD" | default "" | quote }}
@@ -852,27 +937,28 @@ secrets:
     openxchangeUser: {{ env "DB_OX_PASSWORD" | default "" | quote }}
 ```
 
-### `replicas.yaml.gotmpl` — HA Replica Counts
+### HA Replica Counts
 
-The production configuration deploys multiple replicas of each stateless component. Review and adjust based on your cluster capacity:
+The production configuration deploys multiple replicas of each stateless component. Review and adjust based on your needs and cluster capacity:
 
-```yaml
+::::caution Check replica capabilities first
+Before changing any replica counts in, review the reference file `helmfile/environments/default/replicas.yaml.gotmpl`. It documents which components **do not support scaling**. **Do not increase replicas** for components that are marked non-scalable or `tbd`.
+::::
+
+```yaml title="helmfile/environments/prod/replicas.yaml.gotmpl"
 replicas:
-  keycloak: 2
-  collabora: 3           # scale: ~1 vCPU per 15 concurrent users
-  nextcloud: 2           # requires RWX (SFS Turbo)
-  openprojectWeb: 2
-  openprojectWorker: 2
-  element: 2
-  synapseWeb: 2
-  # Mail services must stay at 1 on Community Edition
-  dovecot: 1
-  postfix: 1
-  freshclam: 1           # NEVER scale above 1
+  # Identity & access — HA for login availability
+  keycloak: 2              # avoid single point of failure for auth
+
+  # Weboffice — scale by active users (~1 vCPU / 15 concurrent users)
+  collabora: 3             # good starting point for ~40–50 users
+
+  # Filestore — RWX-backed, moderate HA
+  nextcloud: 2             # one extra pod for failover & upgrades
 ```
 
 :::caution Mail replicas fixed at 1
-`dovecot`, `postfix`, and `freshclam` must remain at replica count `1` in the Community Edition. Scaling these is not supported and will cause data corruption or split-brain issues.
+`dovecot`, `postfix`, and `freshclam` must remain at replica count `1` in the Community Edition. Scaling these is not supported.
 :::
 
 ---
@@ -891,7 +977,7 @@ helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install
 
 - **`-e prod`**: selects the production environment
 - **`-n opendesk`**: deploys into the `opendesk` namespace
-- **`--concurrency 0`**: sequential deployment (required — components have strict startup order)
+- **`--concurrency 0`**: unlimited concurrent Helm processes (0 = no limit; increases speed)
 - **`--skip-diff-on-install`**: skips the diff stage for new releases (speeds up initial install)
 
 :::tip Monitor rollout progress
@@ -902,16 +988,21 @@ watch -n5 kubectl get pods -n opendesk
 The full stack takes approximately 15–20 minutes to become fully ready.
 :::
 
-### Post-Deployment: Get Admin Credentials
+### Post-Deployment
+
+To access the OpenDesk **management portal**, retrieve the password for **Administrator** account:
 
 ```bash
 kubectl get secret ums-nubus-credentials -n opendesk \
   -o jsonpath='{.data.administrator_password}' | base64 -d
 ```
 
-Username: `Administrator`
+Then log in at `https://portal.opendesk.example.com` with:
 
-Log in at `https://portal.opendesk.example.com`.
+- Username: `Administrator`
+- Password: the value returned by the command above
+
+The steps for the portal are the same as in the evaluation environment. See **Post-Deployment Steps** of the previous article: [Management Portal](./2_deploy-opendesk-on-cce.md#management-portal) and [Create a Test User and Validate Login](./2_deploy-opendesk-on-cce.md#create-a-test-user-and-validate-login).
 
 ---
 
@@ -919,44 +1010,61 @@ Log in at `https://portal.opendesk.example.com`.
 
 After deployment, run through these verification steps:
 
-### 1. Portal Access
-```bash
-curl -sI https://portal.opendesk.example.com | head -5
-# Expect: HTTP/2 200
-```
-
-### 2. Database Connectivity
+### Database Connectivity
 Confirm all pods are `Running` and not restarting:
 ```bash
 kubectl get pods -n opendesk | grep -v Running | grep -v Completed
 # Should return nothing (all pods Running or Completed)
 ```
 
-### 3. Email & DKIM
+### Email & DKIM
 Send a test email from the portal to a Gmail or Outlook address. Check the received email headers:
 ```
 Authentication-Results: ... dkim=pass header.i=@opendesk.example.com
 ```
 
-### 4. Video Calls (TURN)
-Start a Jitsi call between a user on a corporate VPN and a user on mobile data. If it connects, TURN is correctly configured.
-
-### 5. Object Storage
+### Object Storage
 Upload a file in Nextcloud, then download it. Verify it round-trips correctly through OBS.
 
-### 6. Persistence
-To simulate a managed service failover: trigger an RDS HA switch in the OTC Console. Pods should reconnect automatically within 30–60 seconds. Data must remain intact.
 
 ---
 
 ## Troubleshooting
 
+### Step-by-step installation 
+
+If the full-stack installation fails, you can re-run the deployment **step by step** by deploy stage. 
+
+The main stages (in execution order) are:
+
+- **010-migrations-pre**
+- **030-opendesk-services**
+- **030-services-external**
+- **050-components**
+- **060-components**
+- **090-migrations-post**
+
+For example, to only deploy the `030-services-external` stage:
+
+```bash
+helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install -l deployStage=030-services-external
+```
+
+You can also deploy **component by component**. For example, to only deploy the `notes` component:
+
+```bash
+helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install -l component=notes
+```
+
+See `helmfile/apps` for the available deploy stages and components, and `helmfile_generic.yaml.gotmpl` for how these stages are wired into the main `helmfile` execution.
+
+
+
 ### Emails Rejected / Sent to Spam
 
 - **Check SPF**: Does the SPF record include the sending IP? Run: `nslookup -type=TXT opendesk.example.com`
 - **Check DKIM**: Use an online DKIM validator (e.g., `mail-tester.com`). Confirm the `dkimpy` pod is running.
-- **Check PTR (Option B only)**: Run `dig -x <ELB_IP>`. A missing PTR record is the #1 cause of rejection by Gmail/Outlook.
-- **Port 25 blocked**: Check Postfix logs: `kubectl logs -n opendesk -l app.kubernetes.io/name=postfix`. If you see connection timeouts, port 25 is blocked by OTC — use an external relay (Option A) or request unblocking.
+- **Check PTR**: Run `dig -x <ELB_IP>`. A missing PTR record could be the cause of rejection by Gmail/Outlook.
 
 ### Jitsi Video: ICE Failed / Black Screen
 
@@ -970,17 +1078,8 @@ To simulate a managed service failover: trigger an RDS HA switch in the OTC Cons
 - Confirm RDS Security Group allows inbound traffic from the CCE node subnet on port 5432 / 3306.
 - Rerun `./files/verify-external.sh` to confirm all users and databases exist.
 
-### Nextcloud Stuck / CrashLoop
 
-- If Nextcloud pods crashloop with storage errors, verify the SFS Turbo StorageClass is correctly configured and the PVCs are bound: `kubectl get pvc -n opendesk`
-- Check that `readWriteMany.enabled: true` is set in `values.yaml.gotmpl`.
 
-### `helmfile apply` Fails with Empty Passwords
 
-- You likely forgot to source the env file. Run `source files/bootstrap-external.env` and retry.
-- Verify with: `echo $DB_KEYCLOAK_PASSWORD` — should not be empty.
 
-### Portal "Link must be string" Error
-
-- **Cause**: `functional.portal.linkSupport` is empty or null.
-- **Fix**: Set it to a valid URL string in `values.yaml.gotmpl`.
+  
