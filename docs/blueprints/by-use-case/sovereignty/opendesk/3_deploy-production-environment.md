@@ -11,7 +11,7 @@ import Mermaid from '@theme/Mermaid';
 This guide details how to deploy a scalable, high-availability (HA) instance of [openDesk](https://opendesk.eu/) on Open Telekom Cloud.
 
 :::tip GitHub Repository
-All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/openDesk-deployment) (under path `helmfile/environments/prod`).
+All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/openDesk-deployment/tree/v1.11.4-production) (under path `helmfile/environments/prod`).
 :::
 
 Unlike the [test environment](./deploy-opendesk-on-cce), this production setup externalizes some services — databases, caches (except memcache), and object storage — onto **OTC Managed Services** (RDS, DCS, OBS) and uses **SFS Turbo** for shared filesystem access.
@@ -365,6 +365,7 @@ source files/bootstrap-external.env
 
 The Helm charts expect database and cache services to be available via **in-cluster DNS names** (`postgresql`, `mariadb`, `redis-headless`). You must create Kubernetes Service and Endpoints resources that map these names to your external OTC managed service IPs.
 
+
 Apply `files/external-services.yaml` after filling in your actual RDS IPs and DCS Redis hostname:
 
 ```bash
@@ -446,6 +447,10 @@ spec:
       protocol: TCP
 ```
 
+:::info Naming Convention
+Note that while the managed database engine on OTC is **MySQL**, the in-cluster Kubernetes Service name remains `mariadb`. This keeps the service name consistent with the upstream Helm charts, while the associated `Endpoints` resource points to your MySQL RDS instance.
+:::
+
 ---
 
 ## Bootstrap External Databases
@@ -505,6 +510,17 @@ If you prefer a declarative approach, use the pre-generated static manifest file
 #   <MARIA_IMAGE>          → check helmfile/environments/default/images.yaml.gotmpl
 ```
 
+:::tip Generate manifests via DRY_RUN
+You can also generate the manifests from the bootstrap script and then apply them:
+
+```bash
+DRY_RUN=true ./files/bootstrap-external.sh > files/bootstrap-external-manifests.yaml
+```
+
+Review the generated `files/bootstrap-external-manifests.yaml` and then apply it to the cluster.
+::::
+
+
 ```bash
 kubectl apply -f files/bootstrap-external-manifests.yaml
 ```
@@ -526,6 +542,16 @@ After the bootstrap jobs complete, verify the database state using the included 
 source files/bootstrap-external.env
 ./files/verify-external.sh
 ```
+
+:::tip Generate manifests via DRY_RUN
+You can also generate the manifests for verifying and then apply them:
+
+```bash
+DRY_RUN=true ./files/verify-external.sh > files/verify-external-manifests.yaml
+```
+
+Review the generated `files/verify-external-manifests.yaml` and then apply it to the cluster.
+::::
 
 The script spins up short-lived Jobs inside the cluster that connect to PostgreSQL and MariaDB and check that all expected users and databases exist. Successful output looks like:
 
