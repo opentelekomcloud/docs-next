@@ -9,10 +9,10 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://' + (process.env.REACT_APP_DOCS_NEXT_HOST ?? 'opentelekomcloud.github.io'),
+  url: `https://${process.env.REACT_APP_DOCS_NEXT_HOST?.trim() || 'opentelekomcloud.github.io'}`,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL ?? '/',
+  baseUrl: process.env.REACT_APP_DOCUSAURUS_BASE_URL?.trim() ?? '/',
 
   // When enabled, will show a banner in case your site can't load its CSS or
   // JavaScript files, which is a very common issue, often related to a wrong
