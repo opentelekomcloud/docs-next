@@ -89,19 +89,26 @@ Before starting the deployment, configure the required DNS records so that they 
 Replace the placeholder value `<ELB_IP_ADDRESS>` with the one that corresponds to the external IP of the `LoadBalancer` service associated with NGINX in the cluster.
 :::
 
-:::warning Email Delivery
+:::warning Email Delivery Limitations in Evaluation Setup
 In this evaluation setup, **DKIM is disabled** and email is sent directly from the cluster IP without a relay.
 Most public email providers (Gmail, Outlook, etc.) will **reject** these emails due to missing reputation and authentication.
 
-For reliable email configuration, refer to the guide: [Deploy OpenDesk on CCE](/docs/blueprints/by-use-case/sovereignty/opendesk/3_deploy-opendesk-on-cce.md)..
+For reliable email configuration, refer to the guide: [Deploy OpenDesk on CCE](/docs/blueprints/by-use-case/sovereignty/opendesk/3_deploy-opendesk-on-cce.md).
 :::
 
 ### Cloning the Repository
 
-Clone the upstream openDesk deployment repository (or the blueprints fork):
+Clone the upstream openDesk deployment repository:
 
 ```bash
 git clone https://gitlab.opencode.de/bmi/opendesk/deployment/opendesk.git
+cd opendesk
+```
+
+or alternatively, use the T Cloud Public blueprints fork. This option is recommended, as it already includes the fixes and patches described below.
+
+```bash
+git clone https://github.com/opentelekomcloud-blueprints/openDesk-deployment
 cd opendesk
 ```
 
@@ -121,9 +128,11 @@ nubusKeycloakExtensions:
       enabled: null
 ```
 
-:::note Why is this needed?
-- `opendeskEnterprise`: This variable has no default value in the chart, causing the `stack-data-ums` job to fail if undefined. We explicitly set it to `false`.
-- `securityContext`: The `nubusKeycloakExtensions` chart attempts to set `securityContext.enabled` on the proxy container, which is an invalid field in the Kubernetes API. This monkey-patch removes it (`enabled: null`) to prevent Admission Webhook rejection.
+:::note Why is this required?
+
+* `opendeskEnterprise`: This parameter has no default value defined in the Helm chart. If it remains unset, the `stack-data-ums` job fails during deployment. It is therefore explicitly set to `false`.
+* `securityContext`: The `nubusKeycloakExtensions` chart attempts to configure `securityContext.enabled` on the proxy container. This field is not valid in the Kubernetes API and results in the request being rejected by the Admission Webhook. The configuration is adjusted by removing the field (`enabled: null`) to ensure successful deployment.
+
 :::
 
 <!-- 2. **** -->
@@ -137,8 +146,10 @@ probes:
     enabled: null
 ```
 
-:::note Why is this needed?
-The `ox-connector` chart incorrectly includes an `enabled: true` field in its `livenessProbe` and `readinessProbe` definitions. This is not part of the valid Kubernetes Probe schema and causes deployment failure. This patch removes the invalid fields.
+:::note Why is this required?
+
+The `ox-connector` chart incorrectly defines an `enabled: true` field within its `livenessProbe` and `readinessProbe` configurations. This field is not part of the valid Kubernetes Probe specification and results in a deployment failure. The patch removes these invalid entries to ensure the workload can be created successfully.
+
 :::
 
 <!-- **3. `values-openproject-tmpdir-fix.yaml`** -->
@@ -150,33 +161,35 @@ containerSecurityContext:
 openproject:
   useTmpVolumes: false
 ```
-:::note Why is this needed?
-OpenProject requires extensive use of temporary directories (`/tmp`, `/app/tmp`). By default, Kubernetes `emptyDir` volumes do not support sticky bits (mode 1777), which causes OpenProject's Ruby runtime/seeder jobs to crash with permission errors. 
+:::note Why is this required?
+
+[OpenProject](https://www.openproject.org/) requires extensive use of temporary directories such as `/tmp` and `/app/tmp`. By default, Kubernetes `emptyDir` volumes do not provide the required sticky bit permissions (mode `1777`). As a result, the OpenProject Ruby runtime and seeder jobs may fail with permission-related errors during startup.
 
 This patch:
 1.  Disables the use of these specific temp volumes (`useTmpVolumes: false`).
 2.  Relaxes the `readOnlyRootFilesystem` constraint so the container can write to its writable layer instead.
 
-See [OpenProject Helm Chart Docs](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#tmp-volume-mounts) and [Data Storage Reference](https://docs.opendesk.eu/operations/data-storage/) for details.
+See [OpenProject Helm Chart Docs](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#tmp-volume-mounts) and [Data Storage Reference](https://docs.opendesk.eu/operations/data-storage/) for more details.
+
 :::
 
 :::danger Security Implication
+
 If disabling `readOnlyRootFilesystem` violates your cluster's security policies (e.g., PSP/PSS restrictions), you can:
-- **Fork the chart** to add an `initContainer` that sets the sticky bit (`chmod +t`) on the `emptyDir` volume.
+
+- **Fork the chart**, to add an `initContainer` that sets the sticky bit (`chmod +t`) on the `emptyDir` volume.
 - **Use custom PVCs** pre-provisioned with the required permissions.
 
-The solution provided here is the **simplest** but not **the most secure** method for this deployment.
+The approach described here is intended for **evaluation purposes**. It provides the simplest way to complete the deployment, but **it does not represent the most secure option**.
 :::
 
-### Configure Environment
+### Configuring an Environment
 
-Create `helmfile/environments/test/values.yaml.gotmpl`.
+Create the following file: **helmfile/environments/test/values.yaml.gotmpl**.
 
-Replace the placeholders below with your actual infrastructure details.
+Replace the placeholder values below with the corresponding details from your environment.
 
-```yaml
-# helmfile/environments/test/values.yaml.gotmpl
----
+```yaml title="helmfile/environments/test/values.yaml.gotmpl"
 global:
   domain: "opendesk.example.com"  # Your base domain
 
@@ -202,7 +215,7 @@ cluster:
     cidr:
       - "172.16.0.0/16"
     # MUST match your ELB Public IP (for Jitsi ICE candidates)
-    ingressGatewayIP: "1.2.3.4" 
+    ingressGatewayIP: <ELB_IP_ADDRESS>
 
   # Container Runtime should be specified as its not set by default 
   container:
@@ -270,17 +283,15 @@ customization:
 | `certificate.issuerRef`               | Points to your cert-manager ClusterIssuer.                 | Ensure this matches the `metadata.name` of the issuer you created.                                                                                                                                                                              |
 | `customization.release`               | Applies the patch files created in the previous step.      | These paths are relative to the `helmfile` execution directory.                                                                                                                                                                                 |
 
-:::tip Single ELB Strategy
-We use a **single** Elastic Load Balancer for all openDesk traffic (HTTP/S via Ingress, UDP for Jitsi, TCP for Mail).
-Ensure you provide the **ELB ID** of the *same* load balancer whose IP you configured in the [Configure DNS](#configure-dns) step.
+:::note
+
+1️⃣ **Single Elastic Load Balancer**: This evaluation setup uses a single Elastic Load Balancer to handle all openDesk traffic, including HTTP and HTTPS via Ingress, UDP for Jitsi, and TCP for mail services. Ensure that you specify the `<ELB_ID>` of the same load balancer whose IP address (`<ELB_IP_ADDRESS>`) was configured during the [Configure DNS](#configure-dns) step.
+
+2️⃣ **Why we need to set** `cluster.networking.cidr`: By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues.
+
+3️⃣ **Why we need to set** `cluster.networking.ingressGatewayIP`: Jitsi Meet uses WebRTC for video. The JVB (Video Bridge) pod is behind NAT (the ELB). It needs to know its **Public IP** to advertise to clients in the SDP (Session Description Protocol) packet.
+
 :::
-
-
-#### Why set `cluster.networking.cidr`?
-By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues.
-
-#### Why set `cluster.networking.ingressGatewayIP`?
-Jitsi Meet uses WebRTC for video. The JVB (Video Bridge) pod is behind NAT (the ELB). It needs to know its **Public IP** to advertise to clients in the SDP (Session Description Protocol) packet.
 
 ### Deploying with Helmfile
 
@@ -291,10 +302,10 @@ helmfile apply -e test -n opendesk-test --concurrency 0 --skip-diff-on-install
 ```
 
 This command:
-- **`-e test`**: selects the test environment
-- **`-n opendesk-test`**: deploys into the `opendesk-test` namespace
-- **`--concurrency 0`**: unlimited concurrent Helm processes (0 = no limit; increases speed)
-- **`--skip-diff-on-install`**: Speeds up the initial run by skipping the diff stage for new releases.
+- `-e test`: selects the test environment
+- `-n opendesk-test`: deploys into the `opendesk-test` namespace
+- `--concurrency 0`: unlimited concurrent Helm processes (0 = no limit; increases speed)
+- `--skip-diff-on-install`: Speeds up the initial run by skipping the diff stage for new releases.
 
 ## Post-Deployment
 
@@ -309,7 +320,7 @@ Go to `https://portal.opendesk.example.com` and log in using:
 kubectl get secret ums-nubus-credentials -n opendesk-test -o jsonpath='{.data.administrator_password}' | base64 -d
 ```
 
-:::tip 2 Factor Authentication
+:::tip Two-Factor Authentication (2FA)
  On the **first login with the admin account**, you are prompted to set up **two-factor authentication (2FA)** using an authenticator application.
 
  If you require **end users** to use 2FA as well, it is a good practice to add their accounts to the dedicated **2FA group**, so that 2FA becomes mandatory for them according to your security policies.
