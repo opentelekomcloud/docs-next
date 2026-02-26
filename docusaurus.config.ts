@@ -328,7 +328,7 @@ const config: Config = {
       {
         websiteID: process.env.UMAMI_WEBSITE_ID?.trim() || "00000000-0000-0000-0000-000000000000", // Required
         analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN?.trim() || "opentelekomcloud.github.io", // Required
-        dataHostURL: process.env.UMAMI_DATAHOST_URL, // Optional
+        dataHostURL: process.env.UMAMI_DATAHOST_URL?.trim() ?? "opentelekomcloud-analytics.github.io", // Optional
         dataAutoTrack: true, // Optional
         dataDoNotTrack: true, // Optional
         dataCache: true, // Optional
