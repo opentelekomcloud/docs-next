@@ -1,11 +1,10 @@
 ---
-id: deploy-production-environment
-title: Deploy Production-Ready OpenDesk
+id: deploy-opendesk-on-cce
+title: Deploy OpenDesk on CCE
 tags: [opendesk, cce, production, sovereignty,high-availability, otc]
 ---
 
-
-# Deploy Production-Ready OpenDesk
+# Deploy OpenDesk on CCE
 
 This guide details how to deploy a scalable, high-availability (HA) instance of [openDesk](https://opendesk.eu/) on Open Telekom Cloud.
 
