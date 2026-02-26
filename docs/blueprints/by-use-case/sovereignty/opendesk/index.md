@@ -10,25 +10,30 @@ import Mermaid from '@theme/Mermaid';
 
 [OpenDesk](https://opendesk.eu/) (branded as *openDesk*) is an open-source, sovereign digital workplace solution designed for public administration under the coordination of the German Federal Ministry of the Interior (BMI, [Bundesministerium des Innern](https://www.bmi.bund.de/)) and developed by the Centre for Digital Sovereignty of the Public Administration (ZenDiS GmbH, [Zentrum für Digitale Souveränität der Öffentlichen Verwaltung](https://www.zendis.de/)). It bundles established open-source applications into a single collaboration suite so that organisations can retain full control over their data, identities and infrastructure while avoiding dependence on large proprietary vendors.
 
-![OpenDesk user portal login screen](/img/docs/blueprints/by-use-case/sovereignty/opendesk/user_portal.png)
+<!-- ![OpenDesk user portal login screen](/img/docs/blueprints/by-use-case/sovereignty/opendesk/user_portal.png) -->
+
+![img](/img/docs/blueprints/by-use-case/sovereignty/opendesk/Screenshot_from_2026-02-26_09-58-20.png)
 
 ## Key Components
 
 OpenDesk integrates the following core applications as a unified digital workplace:
 
-| Component            | Purpose                                            |
-| -------------------- | -------------------------------------------------- |
-| **Nubus**            | Identity & Access Management (IAM) and web portal  |
-| **Nextcloud**        | File sharing, storage and synchronization          |
-| **Collabora Online** | Online office suite and web-based document editing |
-| **OX App Suite**     | Email, calendar and groupware                      |
-| **Element/Matrix**   | Secure messaging and real-time communication       |
-| **Jitsi**            | Secure video conferencing                          |
-| **OpenProject**      | Project and task management                        |
-| **XWiki**            | Knowledge management and wiki                      |
-| **CryptPad**         | End-to-end encrypted collaborative editing         |
+| Component                                                      | Purpose                                            |
+| -------------------------------------------------------------- | -------------------------------------------------- |
+| **[Nubus](https://www.univention.com/products/ucs/)**          | Identity & Access Management (IAM) and web portal  |
+| **[Nextcloud](https://nextcloud.com/)**                        | File sharing, storage and synchronization          |
+| **[Collabora Online](http://collaboraonline.com/)**            | Online office suite and web-based document editing |
+| **[OX App Suite](https://www.open-xchange.com/)**              | Email, calendar and groupware                      |
+| **[Element/Matrix](https://element.io/)**                      | Secure messaging and real-time communication       |
+| **[Jitsi](https://en.wikipedia.org/wiki/Jitsi)**               | Secure video conferencing                          |
+| **[OpenProject](https://openproject.org/)**                    | Project and task management                        |
+| **[XWiki](https://www.xwiki.org/xwiki/bin/view/Main/WebHome)** | Knowledge management and wiki                      |
+| **[CryptPad](https://cryptpad.org/)**                          | End-to-end encrypted collaborative editing         |
+| **[ClamAV](https://www.clamav.net/)**                          | Antivirus                                          |
+| **[Dovecot](https://www.dovecot.org/)**                         | IMAP server                                        |
+| **[Postfix](https://www.postfix.org/)**                         | Mail transfer agent                                |
 
-![img](/img/docs/blueprints/by-use-case/sovereignty/opendesk/openDesk_Komponenten_EN.png)
+<!-- ![img](/img/docs/blueprints/by-use-case/sovereignty/opendesk/Screenshot_from_2026-02-26_09-58-20.png) -->
 
 ## Benefits
 

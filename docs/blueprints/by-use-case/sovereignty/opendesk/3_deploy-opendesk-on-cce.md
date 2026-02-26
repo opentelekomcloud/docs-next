@@ -1,27 +1,24 @@
 ---
 id: deploy-opendesk-on-cce
 title: Deploy OpenDesk on CCE
-tags: [opendesk, cce, production, sovereignty,high-availability, otc]
+tags: [opendesk, cce, collaboration, sovereignty, kubernetes]
 ---
 
 # Deploy OpenDesk on CCE
 
-This guide details how to deploy a scalable, high-availability (HA) instance of [openDesk](https://opendesk.eu/) on Open Telekom Cloud.
+This blueprint showcases how to deploy a scalable, high-availability (HA) instance of [OpenDesk](https://opendesk.eu/) on T Cloud Public. Unlike the [evaluation environment](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public.md) demonstrated in a previous guide, this production setup externalizes some services such as databases, caches and object storage onto **T Cloud Public Managed Services** (RDS, DCS, OBS) and uses **SFS Turbo** for shared filesystem access.
 
-:::tip GitHub Repository
-All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/openDesk-deployment/tree/v1.11.4-production) (under path `helmfile/environments/prod`).
+:::note GitHub Repository
+
+All configuration files, Helmfiles, and patch files referenced in this guide are available in the [OpenDesk Blueprints Repository](https://github.com/opentelekomcloud-blueprints/openDesk-deployment/tree/v1.11.4-production) (under path **helmfile/environments/prod**).
+
 :::
 
-Unlike the [test environment](./deploy-opendesk-on-cce), this production setup externalizes some services — databases, caches (except memcache), and object storage — onto **OTC Managed Services** (RDS, DCS, OBS) and uses **SFS Turbo** for shared filesystem access.
+## Solution Overview
 
-
-
-## Architecture Overview
-
-In production, the architecture shifts from a "bundled" model (everything in-cluster) to a "distributed" model where database services are externalized to OTC managed offerings.
+In production, the architecture shifts from a "bundled" model (everything in-cluster) to a "distributed" model where database services are externalized to T Cloud Public managed offerings.
 
 ![OpenDesk Production Ready Architecture](/img/docs/blueprints/by-use-case/sovereignty/opendesk/prod_arch.png)
-
 
 ## Prerequisites
 
@@ -35,66 +32,64 @@ In production, the architecture shifts from a "bundled" model (everything in-clu
 
 ### Cluster Dependencies
 
-The same cluster-level prerequisites as the [Evaluation Guide](./deploy-opendesk-on-cce#cluster-dependencies) apply here:
+The same cluster-level prerequisites, as in the [Evaluation Guide](./deploy-opendesk-on-cce#cluster-dependencies), apply here as well:
 
-1. **Ingress NGINX Controller** (≥ 1.11.5) with the critical `configMap` settings.
-2. **cert-manager** with a `ClusterIssuer` for DNS-01 wildcard certificates.
-3. **Default Storage Class** set to `csi-disk-topology`.
+1. **Ingress NGINX Controller** (≥ 1.11.5), with the critical `configMap` settings.
+2. **cert-manager**, with a `ClusterIssuer` for DNS-01 wildcard certificates.
+3. **Default Storage Class**, defaulting to `csi-disk-topology` class.
 4. **Prometheus Stack** is required for monitoring.
 
-### OTC Managed Services (Pre-Provisioned)
+### Managed Services (Pre-Provisioned)
 
-You **must** provision all of the following OTC resources **before** running any deployment steps. The Helm charts cannot create these for you.
+All of the following T Public Cloud resources must be provisioned **before** starting the deployment. The Helm charts do not create these resources automatically.
 
-| Service | OTC Offering | Spec |
-|---------|-------------|------|
-| **PostgreSQL** | RDS for PostgreSQL | Version **15.x**, HA (Primary+Standby), ≥ 4 vCPU / 8 GB RAM |
-| **MySQL** | RDS for MySQL | Version **8.0**, HA (Primary+Standby), ≥ 2 vCPU / 4 GB RAM |
-| **Redis** | DCS for Redis | Version **7.x**, HA (Master+Replica), with AUTH enabled |
-| **Object Storage** | OBS | 7 private buckets (see [Provision OBS Buckets](#provision-obs-buckets)) |
-| **Shared Filesystem** | SFS Turbo | ≥ 500 GB, Standard or Performance type |
-| **CCE Cluster** | CCE | Minimum 3 worker nodes across different AZs |
+| Service               | OTC Offering       | Spec                                                                    |
+| --------------------- | ------------------ | ----------------------------------------------------------------------- |
+| **PostgreSQL**        | RDS for PostgreSQL | Version **15.x**, HA (Primary+Standby), ≥ 4 vCPU / 8 GB RAM             |
+| **MySQL**             | RDS for MySQL      | Version **8.0**, HA (Primary+Standby), ≥ 2 vCPU / 4 GB RAM              |
+| **Redis**             | DCS for Redis      | Version **7.x**, HA (Master+Replica), with AUTH enabled                 |
+| **Object Storage**    | OBS                | 7 private buckets (see [Provision OBS Buckets](#provision-obs-buckets)) |
+| **Shared Filesystem** | SFS Turbo          | ≥ 500 GB, Standard or Performance type                                  |
+| **CCE Cluster**       | CCE                | Minimum 3 worker nodes across different AZs                             |
 
 :::info Memcached Runs In-Cluster
 **Memcached is not externalized.** OTC does not offer a managed Memcached service, so the bundled in-cluster Memcached deployment is kept as-is. It is used internally by OX App Suite and is not a critical data store — no persistent state is lost if the pod restarts.
 :::
 
 :::danger Network Accessibility
-All managed services must be **in the same VPC** as your CCE cluster (or peered). Use **private IP addresses** for RDS and the **DCS hostname** for Redis. Never expose database ports to the public internet.
+All managed services must be **in the same VPC** as your CCE cluster (or peered). Use **private IP addresses** for RDS and the **DCS hostname** for Redis. 
+
+**Never expose database ports to the public internet**.
 :::
 
 :::warning Configure Security Groups
 You must update the **Security Groups** of your RDS PostgreSQL and RDS MySQL instances to allow inbound traffic on ports **5432** and **3306** respectively from the CCE cluster's VPC CIDR (or node subnet).
 
-See [Configure Security Groups for RDS Instances](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances) for step-by-step instructions.
+Refer to the guide: [Configure Security Groups for RDS Instances](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances) for step-by-step instructions.
 :::
 
-## Provision OBS Buckets
+## Provisioning OBS Buckets
 
-OBS buckets **cannot** be created by in-cluster Jobs. You must create them via the OTC Console or Terraform before deployment.
+OBS buckets **cannot** be created by in-cluster Jobs. You must create them via the T Cloud Public Console or Terraform **before** starting with deployment. Create the following buckets within your tenant. The bucket names must exactly match the values defined in **objectstores.yaml.gotmpl**:
 
-### Required Buckets
-
-Create the following buckets in your tenant. The bucket names must be the same as configured in `objectstores.yaml.gotmpl`:
-
-| Bucket Name | Used By | Versioning | Notes |
-|-------------|---------|------------|-------|
-| `opendesk-migrations` | Data migrations | Suspended | — |
-| `opendesk-nextcloud` | Nextcloud (file storage) | Suspended | — |
-| `opendesk-notes` | Notes (document storage) | **Enabled** | Required for conflict resolution |
-| `opendesk-openproject` | OpenProject (attachments) | Suspended | — |
-| `opendesk-openxchange` | OX App Suite (filestore) | Suspended | — |
-| `opendesk-ums` | Nubus / Portal | Suspended | Requires public read policy on `portal-assets/` |
-| `opendesk-dovecot` | Dovecot (mail storage) | Suspended | — |
+| Bucket Name              | Used By                   | Versioning  | Notes                                             |
+| ------------------------ | ------------------------- | ----------- | ------------------------------------------------- |
+| **opendesk-migrations**  | Data migrations           | Suspended   | —                                                 |
+| **opendesk-nextcloud**   | Nextcloud (file storage)  | Suspended   | —                                                 |
+| **opendesk-notes**       | Notes (document storage)  | **Enabled** | Required for conflict resolution                  |
+| **opendesk-openproject** | OpenProject (attachments) | Suspended   | —                                                 |
+| **opendesk-openxchange** | OX App Suite (filestore)  | Suspended   | —                                                 |
+| **opendesk-ums**         | Nubus / Portal            | Suspended   | Requires public read policy on **portal-assets/** |
+| **opendesk-dovecot**     | Dovecot (mail storage)    | Suspended   | —                                                 |
 
 :::info Notes Bucket Versioning
-Enable versioning for the `opendesk-notes` bucket. This supports document conflict resolution and document history in the Notes application.
+Enable versioning for the **opendesk-notes** bucket. This supports document conflict resolution and document history in the Notes application.
 :::
 
 :::important Anonymous Access for UMS Portal Assets
-The `opendesk-ums` bucket requires a **public read policy** on the `portal-assets/` prefix so the portal frontend can load branding assets without authentication.
+The **opendesk-ums** bucket requires a **"public read policy"** on the **portal-assets/** prefix so the portal frontend can load branding assets without authentication.
 
-In the OTC Console: **Bucket → Permissions → Bucket Policies → Create**, and apply:
+Navigate to the *T Cloud Public Console* -> *Bucket* -> *Permissions* -> *Bucket Policies* -> *Create*, and apply:
 
 ```json
 {
@@ -117,26 +112,27 @@ In the OTC Console: **Bucket → Permissions → Bucket Policies → Create**, a
     ]
 }
 ```
+
 :::
 
-### IAM Credentials for OBS
+### Creating IAM Credentials for OBS
 
 To access OBS we need to use **AK/SK** pairs. You have two options:
 
-| Option | Approach | Recommendation |
-|--------|----------|----------------|
-| **Shared Credentials** | One IAM user, one AK/SK pair for all buckets | Simpler setup |
-| **Per-Bucket Credentials** | One IAM user per bucket, each with scoped permissions | More secure |
+| Option                         | Approach                                              | Recommendation |
+| ------------------------------ | ----------------------------------------------------- | -------------- |
+| (A) **Shared Credentials**     | One IAM user, one AK/SK pair for all buckets          | Simpler setup  |
+| (B) **Per-Bucket Credentials** | One IAM user per bucket, each with scoped permissions | More secure    |
 
 :::danger Use Per-Bucket Credentials (Option B)
-**Do not use Shared Credentials in production.** A single AK/SK pair with access to all buckets means that if the credentials are leaked or compromised, an attacker gains unrestricted access to **all** OpenDesk data across every service (Nextcloud, OX App Suite, OpenProject, UMS, etc.) at once.
+**It is not recommended to use Shared Credentials in production.** A single AK/SK pair with access to all buckets means that if the credentials are leaked or compromised, an attacker gains unrestricted access to **all** OpenDesk data across every service (Nextcloud, OX App Suite, OpenProject, UMS, etc.) at once.
 
-Always go with **Per-Bucket Credentials** — one IAM user per bucket with scoped permissions. This limits the blast radius of a credential compromise to a single service's data only.
+Use **Per-Bucket Credentials** by creating a dedicated IAM user for each bucket with permissions limited to that specific resource. This approach restricts the impact of compromised credentials to the data of a single service.
 :::
 
 #### Option A: Shared Credentials (Simpler)
 
-1. Go to **IAM → Users → Create User**
+1. Go to *IAM* -> *Users* -> *Create User*
 2. Set **Access Type** to **Programmatic access**
 3. Create a **User Group** and authorize it with a policy granting access to all 7 `opendesk-*` buckets
 4. Add the user to the group
@@ -146,19 +142,19 @@ Always go with **Per-Bucket Credentials** — one IAM user per bucket with scope
 
 Create one IAM user per service:
 
-|  Bucket | Env Vars (AK/SK) |
-|---|---|
-| `opendesk-dovecot` | `OBS_AK_DOVECOT`, `OBS_SK_DOVECOT` |
-| `opendesk-migrations` | `OBS_AK_MIGRATIONS`, `OBS_SK_MIGRATIONS` |
-| `opendesk-nextcloud` | `OBS_AK_NEXTCLOUD`, `OBS_SK_NEXTCLOUD` |
-| `opendesk-notes` | `OBS_AK_NOTES`, `OBS_SK_NOTES` |
-| `opendesk-ums` | `OBS_AK_UMS`, `OBS_SK_UMS` |
-| `opendesk-openproject` | `OBS_AK_OPENPROJECT`, `OBS_SK_OPENPROJECT` |
-| `opendesk-openxchange` | `OBS_AK_OPENXCHANGE`, `OBS_SK_OPENXCHANGE` |
+| Bucket                   | Env Vars (AK/SK)                           |
+| ------------------------ | ------------------------------------------ |
+| **opendesk-dovecot**     | `OBS_AK_DOVECOT`, `OBS_SK_DOVECOT`         |
+| **opendesk-migrations**  | `OBS_AK_MIGRATIONS`, `OBS_SK_MIGRATIONS`   |
+| **opendesk-nextcloud**   | `OBS_AK_NEXTCLOUD`, `OBS_SK_NEXTCLOUD`     |
+| **opendesk-notes**       | `OBS_AK_NOTES`, `OBS_SK_NOTES`             |
+| **opendesk-ums**         | `OBS_AK_UMS`, `OBS_SK_UMS`                 |
+| **opendesk-openproject** | `OBS_AK_OPENPROJECT`, `OBS_SK_OPENPROJECT` |
+| **opendesk-openxchange** | `OBS_AK_OPENXCHANGE`, `OBS_SK_OPENXCHANGE` |
 
 For each bucket, follow these steps:
 
-1. **Create a custom policy** (IAM → Policies → Create Custom Policy) with the following JSON (replace `<bucket-name>`):
+1. **Create a custom policy** (*IAM* -> *Policies* -> *Create Custom Policy*) with the following JSON (replace `<bucket-name>`):
 
 ```json
 {
@@ -177,13 +173,14 @@ For each bucket, follow these steps:
     ]
 }
 ```
-2. **Create an IAM User** (IAM → Users → Create User) with **Programmatic access**.
-3. **Create a User Group** IAM → User Groups → Create User Group.
-4. **Add the IAM user** to the group.
-5. **Authorize the group** with the custom policy created in step 1 (IAM → User Groups → Authorize).
-6. **Create an AK/SK pair** for the user (IAM → Users → select user → Security Settings → Create Access Key) and download it.
 
-:::tip Verify OBS Connectivity
+2. **Create an IAM User** (*IAM* -> *Users* -> *Create User*) with **Programmatic access**.
+3. **Create a User Group** *IAM* -> *Users* -> *Create User Group*.
+4. **Add the IAM user** to the group.
+5. **Authorize the group** with the custom policy created in step 1 (*IAM* -> *User Groups* -> *Authorize*).
+6. **Create an AK/SK pair** for the user (*IAM* -> *Users*, select user and click *Security Settings* -> *Create Access Key*) and download it.
+
+:::tip Verifying OBS Connectivity
 
 After configuring credentials, verify bucket access using the [MinIO Client (`mc`)](https://min.io/docs/minio/linux/reference/minio-mc.html):
 
@@ -199,26 +196,26 @@ mc ls obs/<bucket-name> | grep opendesk
 :::
 ---
 
-## Configure Environment Variables
+## Configuring Environment Variables
 
-Clone the blueprints repository and navigate to the production environment directory:
+Clone the blueprints repository and navigate to the **production** environment directory:
 
 ```bash
 git clone https://github.com/opentelekomcloud-blueprints/opendesk.git
 cd opendesk/helmfile/environments/prod
 ```
 
-All credentials — database passwords, Redis password, and OBS access keys — flow into the deployment through a **single environment file** that is sourced before running both the bootstrap script and `helmfile apply`.
+All credentials, including database passwords, the Redis password, and OBS access keys, are provided to the deployment through a single environment file. This file is sourced before executing both the bootstrap script and `helmfile apply`.
 
-### Create the env file
+### Creating the `env` file
 
 ```bash
 cp files/bootstrap-external.env.example files/bootstrap-external.env
 ```
 
-### Fill in Environment Variables
+### Filling in the Environment Variables
 
-Open `files/bootstrap-external.env` and fill in every value:
+Open the file **files/bootstrap-external.env** and populate all required values accordingly:
 
 ```bash title="helmfile/environments/prod/files/bootstrap-external.env"
 # Kubernetes namespace where openDesk is deployed
@@ -286,33 +283,34 @@ done
 :::
 
 :::danger Keep this file secure
-`bootstrap-external.env` contains all your production credentials. **Never commit it to version control.**
+The file `bootstrap-external.env` contains all your production credentials.
+
+**NEVER COMMIT IT TO VERSION CONTROL.**
 :::
 
-### Source the env file
+### Sourcing the `env` file
 
-This is required **before every** `helmfile` command and before running the bootstrap script.
+This is required  before each `helmfile` command and prior to executing the bootstrap script.
 
 ```bash
 source files/bootstrap-external.env
 ```
 
-## Expose External Services Inside the Cluster
+## Exposing External Services Inside the Cluster
 
 The Helm charts expect database and cache services to be available via **in-cluster DNS names** (`postgresql`, `mariadb`, `redis-headless`). You must create Kubernetes Service and Endpoints resources that map these names to your external OTC managed service IPs.
 
-
-Apply `files/external-services.yaml` after filling in your actual RDS IPs and DCS Redis hostname:
+Apply **files/external-services.yaml** after filling in your actual RDS IPs and DCS Redis hostname:
 
 ```bash
 # Edit the file first, then apply:
 kubectl apply -f files/external-services.yaml
 ```
 
-:::info Why Headless Services?
-A headless Service (`clusterIP: None`) with an explicit Endpoints object creates a stable DNS A-record inside the cluster that resolves directly to the external IP. This is how openDesk components reach your RDS instance using the name `postgresql`.
+:::info Why Headless & ExternalName Services?
+A headless Service (`clusterIP: None`) with an explicit `Endpoints` object creates a stable DNS A-record inside the cluster that resolves directly to the external IP. This is how OpenDesk components reach your RDS instance using the name `postgresql`.
 
-For Redis, an `ExternalName` Service is used instead, which creates a DNS CNAME pointing to the DCS hostname. No Endpoints object is needed because DCS Redis is accessed via DNS hostname, not a raw IP.
+For Redis, an `ExternalName` Service is used instead, which creates a DNS CNAME pointing to the DCS hostname. No `Endpoints` object is needed because DCS Redis is accessed via DNS hostname, not a raw IP.
 :::
 
 The full content of `external-services.yaml` after editing should look like:
@@ -383,17 +381,16 @@ spec:
       protocol: TCP
 ```
 
-:::info Naming Convention
-Note that while the managed database engine on OTC is **MySQL**, the in-cluster Kubernetes Service name remains `mariadb`. This keeps the service name consistent with the upstream Helm charts, while the associated `Endpoints` resource points to your MySQL RDS instance.
+:::warning Naming Convention
+Note that while the managed database engine on T Cloud Public is **MySQL**, the in-cluster Kubernetes Service name remains `mariadb`. This keeps the service name consistent with the upstream Helm charts, while the associated `Endpoints` resource points to your MySQL RDS instance.
 :::
 
----
-
-## Bootstrap External Databases
+## Bootstrapping External Databases
 
 When using external managed databases instead of the bundled in-cluster PostgreSQL and MariaDB, you must **initialize users and databases before deployment**.
 
 The bootstrap creates:
+
 - **11 PostgreSQL users** and **11 databases** — one per openDesk application
 - **1 MariaDB user** (`openxchange_user`) and **1 database** (`openxchange_dummy`)
 
@@ -418,8 +415,9 @@ source files/bootstrap-external.env
 ```
 
 The script will:
-1. Read image versions from `helmfile/environments/default/images.yaml.gotmpl`
-2. Generate Kubernetes Secret, and Job manifests
+
+1. Read image versions from **helmfile/environments/default/images.yaml.gotmpl**
+2. Generate Kubernetes `Secret`, and `Job` manifests
 3. Apply them to your cluster via `kubectl`
 4. Wait for completion and stream logs
 
@@ -446,16 +444,15 @@ If you prefer a declarative approach, use the pre-generated static manifest file
 #   <MARIA_IMAGE>          → check helmfile/environments/default/images.yaml.gotmpl
 ```
 
-:::tip Generate manifests via DRY_RUN
+:::tip Generate manifests via `DRY_RUN`
 You can also generate the manifests from the bootstrap script and then apply them:
 
 ```bash
 DRY_RUN=true ./files/bootstrap-external.sh > files/bootstrap-external-manifests.yaml
 ```
 
-Review the generated `files/bootstrap-external-manifests.yaml` and then apply it to the cluster.
+Review the generated **files/bootstrap-external-manifests.yaml** and then apply it to the cluster.
 ::::
-
 
 ```bash
 kubectl apply -f files/bootstrap-external-manifests.yaml
@@ -468,9 +465,7 @@ kubectl logs -f job/postgresql-external-bootstrap -n opendesk
 kubectl logs -f job/mariadb-external-bootstrap -n opendesk
 ```
 
----
-
-## Verify Database Bootstrap
+### Verifying Database Bootstrap
 
 After the bootstrap jobs complete, verify the database state using the included verification script:
 
@@ -510,37 +505,36 @@ The script spins up short-lived Jobs inside the cluster that connect to PostgreS
 Do **not** proceed to deployment if any user or database is reported as `MISSING`. Re-run the bootstrap script or apply the missing resources manually.
 :::
 
----
+## Configuring DNS & Email Authentication
 
-## Configure DNS & Email Authentication
+For the purpose of this guide, the following placeholder values are used as examples:
 
-Production requires a complete set of DNS records.
+- Base domain: `opendesk.example.com`
+- ELB IP address: `1.2.3.4` (replace with your Elastic Load Balancer public IP)
 
-**Base Domain**: `opendesk.example.com`
-**ELB IP**: `1.2.3.4` (your ELB public IP)
 
-| Purpose | Hostname | Type | Value | Notes |
-|---------|----------|------|-------|-------|
-| **Portal** | `opendesk.example.com` | A | `1.2.3.4` | Base domain |
-| **Portal Components** | `*.opendesk.example.com` | A | `1.2.3.4` | Wildcard for all subdomains |
-| **Mail (MX)** | `opendesk.example.com` | MX | `10 opendesk.example.com` | Inbound mail |
-| **SPF** | `opendesk.example.com` | TXT | `v=spf1 ip4:1.2.3.4 ~all` | Authorize sending IP |
-| **DKIM** | `default._domainkey.opendesk.example.com` | TXT | `v=DKIM1; k=ed25519; p=<PUBLIC_KEY>` | [See below](#generate-dkim-keys) |
-| **DMARC** | `_dmarc.opendesk.example.com` | TXT | `v=DMARC1; p=none; rua=mailto:dmarc@opendesk.example.com` | Start in monitor mode |
+| Purpose               | Hostname                                  | Type | Value                                                     | Notes                            |
+| --------------------- | ----------------------------------------- | ---- | --------------------------------------------------------- | -------------------------------- |
+| **Portal**            | `opendesk.example.com`                    | A    | `1.2.3.4`                                                 | Base domain                      |
+| **Portal Components** | `*.opendesk.example.com`                  | A    | `1.2.3.4`                                                 | Wildcard for all subdomains      |
+| **Mail (MX)**         | `opendesk.example.com`                    | MX   | `10 opendesk.example.com`                                 | Inbound mail                     |
+| **SPF**               | `opendesk.example.com`                    | TXT  | `v=spf1 ip4:1.2.3.4 ~all`                                 | Authorize sending IP             |
+| **DKIM**              | `default._domainkey.opendesk.example.com` | TXT  | `v=DKIM1; k=ed25519; p=<PUBLIC_KEY>`                      | [See below](#generate-dkim-keys) |
+| **DMARC**             | `_dmarc.opendesk.example.com`             | TXT  | `v=DMARC1; p=none; rua=mailto:dmarc@opendesk.example.com` | Start in monitor mode            |
 
-### Generate DKIM Keys
+### Generating DKIM Keys
 
-:::info Self-Hosted Email Only
+:::important Self-Hosted Email Only
 The following DKIM key generation steps are required **only if you are self-hosting the email services and not using an external email relay service**.
 :::
 
-openDesk uses DKIM for email signing via the `dkimpy` component. In this step you will:
+OpenDesk uses [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail) for email signing via the `dkimpy` component. In this step you need to:
 
 - **Create an Ed25519 DKIM key pair** on your workstation.
 - **Extract the private key bytes (Base64)** to store in a Kubernetes Secret so the mail-sending component can sign messages.
 - **Extract the public key bytes (Base64)** to publish in DNS as the `p=` value of the DKIM TXT record.
 
-Run the following commands from a secure machine and keep the `dkim_ed25519.pem` file private:
+Run the following commands from a secure machine and keep the **dkim_ed25519.pem** file private:
 
 ```bash
 # 1. Generate the key pair
@@ -549,9 +543,9 @@ openssl genpkey -algorithm ed25519 -out dkim_ed25519.pem
 openssl pkey -in dkim_ed25519.pem -pubout -outform DER | tail -c 32 | base64
 ```
 
-### Create the DKIM Kubernetes Secret
+### Creating the DKIM Kubernetes Secret
 
-The DKIM private key is referenced in `values.yaml.gotmpl` as a Kubernetes Secret named `dkim-private-key`. We create this secret from the file:
+The DKIM private key is referenced in **values.yaml.gotmpl** as a Kubernetes Secret named `dkim-private-key`. We create this secret from the file:
 
 ```bash
 kubectl create secret generic dkim-private-key \
@@ -559,13 +553,11 @@ kubectl create secret generic dkim-private-key \
   --from-literal=dkim.key="$(openssl pkey -in dkim_ed25519.pem -outform DER | tail -c 32 | base64)"
 ```
 
----
+## Provisioning SFS Turbo Storage Class
 
-## Provision SFS Turbo Storage Class
+A production deployment of OpenDesk requires a `ReadWriteMany` (RWX) storage class for certain components. This requirement can be fulfilled using SFS Turbo.
 
-Production openDesk requires a `ReadWriteMany` (RWX) storage class for some openDesk components. SFS Turbo provides this.
-
-**Create an SFS Turbo instance** in the OTC Console (same VPC as the CCE cluster), then create a StorageClass named `csi-sfsturbo-opendesk`:
+Create an SFS Turbo instance in the T Cloud Public Console (must reside in the same VPC as the CCE cluster), and then create a `StorageClass` named `csi-sfsturbo-opendesk`:
 
 ```yaml title="helmfile/environments/prod/files/csi-sfsturbo-opendesk.yaml"
 apiVersion: storage.k8s.io/v1
@@ -597,27 +589,22 @@ Apply it:
 kubectl apply -f sfsturbo-storageclass.yaml
 ```
 
-The storage class name `csi-sfsturbo-opendesk` must match the `persistence.storageClassNames.RWX` value in `values.yaml.gotmpl`.
+The storage class name `csi-sfsturbo-opendesk` must match the `persistence.storageClassNames.RWX` value in **values.yaml.gotmpl**.
 
+## Configuring the Helmfile Environment
 
----
+All production-specific overrides are located in **helmfile/environments/prod/**. Each file addresses a specific configuration area:
 
-## Configure the Helmfile Environment
+| File                       | Purpose                                              |
+| -------------------------- | ---------------------------------------------------- |
+| **values.yaml.gotmpl**       | Global settings, apps, ingress, SMTP, cluster config |
+| **databases.yaml.gotmpl**    | External PostgreSQL / MySQL connection parameters    |
+| **cache.yaml.gotmpl**        | External Redis connection parameters                 |
+| **objectstores.yaml.gotmpl** | OBS bucket endpoints and AK/SK credentials           |
+| **secrets.yaml.gotmpl**      | Per-service passwords (read from env vars)           |
+| **replicas.yaml.gotmpl**     | HA replica counts for each component                 |
 
-All production-specific overrides live in `helmfile/environments/prod/`. Each file handles a distinct concern:
-
-| File | Purpose |
-|------|---------|
-| `values.yaml.gotmpl` | Global settings, apps, ingress, SMTP, cluster config |
-| `databases.yaml.gotmpl` | External PostgreSQL / MySQL connection parameters |
-| `cache.yaml.gotmpl` | External Redis connection parameters |
-| `objectstores.yaml.gotmpl` | OBS bucket endpoints and AK/SK credentials |
-| `secrets.yaml.gotmpl` | Per-service passwords (read from env vars) |
-| `replicas.yaml.gotmpl` | HA replica counts for each component |
-
-### Configure General Values 
-
-The main settings you must edit:
+### Configuring General Values
 
 ```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 global:
@@ -749,18 +736,18 @@ customization:
 ```
 
 ::::tip Further customization
-For further customization and fine‑tuning of your openDesk setup, you can use the default Helmfile environment under `helmfile/environments/default/` as a **reference** for all available configuration fields. For each real environment (such as `prod`), configure your own values under `helmfile/environments/` these overrides will replace the defaults at deploy time. 
+For further customization and fine‑tuning of your openDesk setup, you can use the default Helmfile environment under **helmfile/environments/default/** as a reference for all available configuration fields. For each real environment (such as `prod`), configure your own values under **helmfile/environments/** these overrides will replace the defaults at deploy time.
 
-In particular, `helmfile/environments/default/functional.yaml.gotmpl` lists many functional toggles (such as authentication, portal behavior, and app features).
+In particular, **helmfile/environments/default/functional.yaml.gotmpl** lists many functional toggles (such as authentication, portal behavior, and app features).
 ::::
 
-### Configure SMTP
+### Configuring SMTP
 
-:::warning Critical Decision
+:::warning Critical Checkpoint
 You must choose between **Option A (External Relay)** or **Option B (Direct Delivery)**. Mixing configurations leads to mail delivery failures.
 :::
 
-**Option A: External Relay (Recommended)**
+#### **Option A: External Relay (Recommended)**
 
 Use an external SMTP relay (e.g., [Mailgun](https://www.mailgun.com/), or a corporate SMTP relay) for reliable deliverability:
 
@@ -772,9 +759,9 @@ smtp:
   password: "{{ env "SMTP_RELAY_PASSWORD" | default "" | quote }}"
 ```
 
-**Option B: Direct Delivery (Self-Hosted)**
+#### **Option B: Direct Delivery (Self-Hosted)**
 
-Send directly from the cluster. 
+Send emails directly from the cluster:
 
 :::caution PTR Record is Mandatory for Direct Delivery
 Most major mail providers (Gmail, Outlook) **will reject** or spam-folder all email from IPs without a matching PTR record.
@@ -791,9 +778,9 @@ smtp:
     useED25519: true
 ```
 
-### Configure TURN Server
+### Configuring a TURN Server
 
-For reliable video calls (Jitsi / Element) for users behind corporate firewalls or strict NAT, configure an external TURN server:
+For reliable video calls (Jitsi/Element) for users behind corporate firewalls or strict NAT, you will need to configure an external TURN server:
 
 ```yaml title="helmfile/environments/prod/values.yaml.gotmpl"
 turn:
@@ -806,13 +793,14 @@ turn:
     host: "turn.example.com"
     port: "5349"
 ```
-::::caution TURN server is required for restricted networks
+
+::::caution A TURN server is required for restricted networks
 If you do not have a TURN server, video calls may fail for users on restricted or enterprise networks (e.g. with strict firewalls or NAT).
 ::::
 
-### Connection Parameters
+### Configuring Database Connections
 
-This file reads passwords from environment variables. Verify the `host` values match the Kubernetes Service names created in Step 5 (`postgresql` and `mariadb`):
+This file sources the passwords from environment variables. Ensure that the host values correspond to the Kubernetes Service names created in previous steps (`postgresql` and `mariadb`).
 
 ```yaml title="helmfile/environments/prod/databases.yaml.gotmpl"
 databases:
@@ -831,11 +819,11 @@ databases:
     password: {{ env "MARIA_ROOT_PASSWORD" | default "" | quote }}
 ```
 
-:::note OX App Suite requires root
-The OX App Suite chart requires the MariaDB `root` user. This is an upstream limitation.
+:::important OX App Suite requires a `root` user
+The OX App Suite chart requires the MariaDB `root` user. **This is an upstream limitation**.
 :::
 
-### Redis Connection
+### Configuring Redis Connections
 
 ```yaml title="helmfile/environments/prod/cache.yaml.gotmpl"
 cache:
@@ -861,9 +849,10 @@ cache:
     password: {{ env "CACHE_REDIS_PASSWORD" | default "" | quote }}
 ```
 
-### OBS Buckets
+### Configuring OBS Buckets
 
-The `username` field contains the **Access Key (AK)** — it is the OBS authentication credential, not a display label. The `secretKey` field contains the **Secret Key (SK)**:
+The `username` field must contain the Access Key (AK), which serves as the OBS authentication credential and is not merely a descriptive label. The `secretKey` field must contain the corresponding Secret Key (SK).
+Repeat for all 7 buckets!
 
 ```yaml title="helmfile/environments/prod/objectstores.yaml.gotmpl"
 {{- $endpoint := "obs.eu-de.otc.t-systems.com" }}
@@ -884,9 +873,9 @@ objectstores:
   # ... repeat for all 7 buckets
 ```
 
-### Password Mapping
+### Setting up Password Mapping
 
-This file maps environment variables to the Helm chart secret structure. It is automatically read by Helmfile — **no manual editing is needed** as long as your env file is correctly sourced:
+This file maps environment variables to the Helm chart secret structure. It is automatically read by Helmfile; **no manual editing is needed** as long as your env file is correctly sourced:
 
 ```yaml title="helmfile/environments/prod/secrets.yaml.gotmpl"
 secrets:
@@ -899,13 +888,9 @@ secrets:
     openxchangeUser: {{ env "DB_OX_PASSWORD" | default "" | quote }}
 ```
 
-### HA Replica Counts
+### Setting up HA Replica Counts
 
 The production configuration deploys multiple replicas of each stateless component. Review and adjust based on your needs and cluster capacity:
-
-::::caution Check replica capabilities first
-Before changing any replica counts in, review the reference file `helmfile/environments/default/replicas.yaml.gotmpl`. It documents which components **do not support scaling**. **Do not increase replicas** for components that are marked non-scalable or `tbd`.
-::::
 
 ```yaml title="helmfile/environments/prod/replicas.yaml.gotmpl"
 replicas:
@@ -919,15 +904,17 @@ replicas:
   nextcloud: 2             # one extra pod for failover & upgrades
 ```
 
-:::caution Mail replicas fixed at 1
-`dovecot`, `postfix`, and `freshclam` must remain at replica count `1` in the Community Edition. Scaling these is not supported.
+:::caution Check replica capabilities first
+
+1️⃣ Before changing any replica counts in, review the reference file **helmfile/environments/default/replicas.yaml.gotmpl**. It documents which components **do not support scaling**. **Do not increase replicas** for components that are marked non-scalable or `tbd`.  
+
+2️⃣ `dovecot`, `postfix`, and `freshclam` must remain at replica count `1` in the Community Edition. Scaling these is **not** supported by the **upstream** at the time being.
+
 :::
 
----
+## Deployment
 
-## Deploy
-
-Ensure your environment is fully sourced and all previous steps are complete:
+Ensure that your environment variables are properly sourced and that all preceding steps have been completed before proceeding.
 
 ```bash
 # Source credentials
@@ -937,20 +924,22 @@ source files/bootstrap-external.env
 helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install
 ```
 
-- **`-e prod`**: selects the production environment
-- **`-n opendesk`**: deploys into the `opendesk` namespace
-- **`--concurrency 0`**: unlimited concurrent Helm processes (0 = no limit; increases speed)
-- **`--skip-diff-on-install`**: skips the diff stage for new releases (speeds up initial install)
+- `-e prod`: selects the production environment
+- `-n opendesk`: deploys into the `opendesk` namespace
+- `--concurrency 0`: unlimited concurrent Helm processes (0 = no limit; increases speed)
+- `--skip-diff-on-install`: skips the diff stage for new releases (speeds up initial install)
 
 :::tip Monitor rollout progress
-In a separate terminal, watch the pod rollout:
+Open a separate terminal session and monitor the pod rollout,
+
 ```bash
 watch -n5 kubectl get pods -n opendesk
 ```
-The full stack takes approximately 15–20 minutes to become fully ready.
+
+The stack takes approximately **15–20min** to become fully operational.
 :::
 
-### Post-Deployment
+## Post-Deployment
 
 To access the OpenDesk **management portal**, retrieve the password for **Administrator** account:
 
@@ -961,41 +950,40 @@ kubectl get secret ums-nubus-credentials -n opendesk \
 
 Then log in at `https://portal.opendesk.example.com` with:
 
-- Username: `Administrator`
-- Password: the value returned by the command above
+- **Username**: `Administrator`
+- **Password**: the value returned by the command above
 
-The steps for the portal are the same as in the evaluation environment. See **Post-Deployment Steps** of the previous article: [Management Portal](./2_deploy-opendesk-on-cce.md#management-portal) and [Create a Test User and Validate Login](./2_deploy-opendesk-on-cce.md#create-a-test-user-and-validate-login).
-
----
+The steps for the portal are the same as in the evaluation environment. See **Post-Deployment Steps** of the previous article: [Management Portal](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#management-portal) and [Create a Test User and Validate Login](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#create-a-test-user-and-validate-login).
 
 ## Verification Checklist
 
-After deployment, run through these verification steps:
+Once the deployment is complete, perform the following verification steps:
 
 ### Database Connectivity
-Confirm all pods are `Running` and not restarting:
+
+Confirm that all pods are running. The following command should return **nothing** if all pods are in `Running` or `Completed` state:
+
 ```bash
 kubectl get pods -n opendesk | grep -v Running | grep -v Completed
-# Should return nothing (all pods Running or Completed)
 ```
 
 ### Email & DKIM
-Send a test email from the portal to a Gmail or Outlook address. Check the received email headers:
+
+Send a test email from the portal to an address hosted by a public email provider (e.g. Gmail, Outlook etc.) and review the full email headers of the received message:
+
 ```
 Authentication-Results: ... dkim=pass header.i=@opendesk.example.com
 ```
 
 ### Object Storage
-Upload a file in Nextcloud, then download it. Verify it round-trips correctly through OBS.
 
-
----
+Upload a file to Nextcloud and then download it again. Confirm that the file is stored and retrieved correctly via OBS.
 
 ## Troubleshooting
 
-### Step-by-step installation 
+### Step-by-step Installation
 
-If the full-stack installation fails, you can re-run the deployment **step by step** by deploy stage. 
+If the full-stack installation fails, you can re-run the deployment **step by step** by deploy stage.
 
 The main stages (in execution order) are:
 
@@ -1006,7 +994,7 @@ The main stages (in execution order) are:
 - **060-components**
 - **090-migrations-post**
 
-For example, to only deploy the `030-services-external` stage:
+For example, to only deploy the **030-services-external** stage:
 
 ```bash
 helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install -l deployStage=030-services-external
@@ -1018,9 +1006,7 @@ You can also deploy **component by component**. For example, to only deploy the 
 helmfile apply -e prod -n opendesk --concurrency 0 --skip-diff-on-install -l component=notes
 ```
 
-See `helmfile/apps` for the available deploy stages and components, and `helmfile_generic.yaml.gotmpl` for how these stages are wired into the main `helmfile` execution.
-
-
+See **helmfile/apps** for the available deploy stages and components, and **helmfile_generic.yaml.gotmpl** for how these stages are wired into the main `helmfile` execution.
 
 ### Emails Rejected / Sent to Spam
 
@@ -1036,12 +1022,9 @@ See `helmfile/apps` for the available deploy stages and components, and `helmfil
 
 ### Database Connection Errors at Startup
 
-- Verify the `postgresql` and `mariadb` Kubernetes Services/Endpoints are applied correctly: `kubectl get svc,ep -n opendesk`
-- Confirm RDS Security Group allows inbound traffic from the CCE node subnet on port 5432 / 3306.
-- Rerun `./files/verify-external.sh` to confirm all users and databases exist.
-
-
-
-
-
-  
+- Verify the `postgresql` and `mariadb` Kubernetes Services/Endpoints are applied correctly: 
+  ```bash
+  kubectl get svc,ep -n opendesk
+  ```
+- Confirm RDS Security Group allows inbound traffic from the CCE node subnet on port `5432`/`3306`.
+- Rerun **`**./files/verify-external.sh** to confirm all users and databases exist.
