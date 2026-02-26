@@ -332,7 +332,7 @@ const config: Config = {
         dataAutoTrack: true, // Optional
         dataDoNotTrack: true, // Optional
         dataCache: true, // Optional
-        dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
+        dataDomains: process.env.UMAMI_DATA_DOMAIN?.trim() || "opentelekomcloud.github.io" // comma separated list of domains, *Recommended*
       } as UmamiOptions,
     ],
   ],
