@@ -953,7 +953,10 @@ Then log in at `https://portal.opendesk.example.com` with:
 - **Username**: `Administrator`
 - **Password**: the value returned by the command above
 
-The steps for the portal are the same as in the evaluation environment. See **Post-Deployment Steps** of the previous article: [Management Portal](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#access-management-portal) and [Create a Test User and Validate Login](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#create-a-test-user).
+The steps for the portal are the same as in the evaluation environment. See **Post-Deployment Steps** of the [evaluation article](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public.md).
+
+
+<!-- [Management Portal](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#access-management-portal) and [Create a Test User and Validate Login](/docs/blueprints/by-use-case/sovereignty/opendesk/2_evaluate-opendesk-on-tcloud-public#create-a-test-user). -->
 
 ## Verification Checklist
 
@@ -1027,4 +1030,4 @@ See **helmfile/apps** for the available deploy stages and components, and **helm
   kubectl get svc,ep -n opendesk
   ```
 - Confirm RDS Security Group allows inbound traffic from the CCE node subnet on port `5432`/`3306`.
-- Rerun **`**./files/verify-external.sh** to confirm all users and databases exist.
+- Rerun **./files/verify-external.sh** to confirm all users and databases exist.

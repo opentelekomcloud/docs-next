@@ -1,0 +1,13 @@
+---
+id: opendesk-link
+title: OpenDesk
+sidebar_position: 2
+---
+
+import { Redirect } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export default function Nextcloud() {
+  const redirectToUrl = useBaseUrl('/docs/blueprints/by-use-case/sovereignty/opendesk');
+  return <Redirect to={redirectToUrl} />;
+}
