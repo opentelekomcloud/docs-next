@@ -21,7 +21,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: process.env.REACT_APP_DOCS_NEXT_ORG, // Usually your GitHub org/user name.
+  organizationName: process.env.REACT_APP_DOCS_NEXT_ORG?.trim() ?? "opentelekomcloud", // Usually your GitHub org/user name.
   projectName: 'docs-next', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -326,9 +326,9 @@ const config: Config = {
     [
       '@dipakparmar/docusaurus-plugin-umami',
       {
-        websiteID: process.env.UMAMI_WEBSITE_ID, // Required
-        analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN, // Required
-        dataHostURL: process.env.UMAMI_DATAHOST_URL, // Optional
+        websiteID: process.env.UMAMI_WEBSITE_ID?.trim() ?? "00000000-0000-0000-0000-000000000000", // Required
+        analyticsDomain: process.env.UMAMI_ANALYTICS_DOMAIN?.trim() ?? "opentelekomcloud.github.io", // Required
+        dataHostURL: process.env.UMAMI_DATAHOST_URL?.trim() ?? "opentelekomcloud-analytics.github.io", // Optional
         dataAutoTrack: true, // Optional
         dataDoNotTrack: true, // Optional
         dataCache: true, // Optional
