@@ -246,7 +246,7 @@ Here are some key points to note:
    :::important
    Server snippet annotations will not be validated unless specific flags are enabled in the ingress controller configuration. If you're using **Nginx** as your ingress controller, ensure that the following settings are present in the `ingress-controller` ConfigMap's `data` field:
 
-   - `allowSnippetAnnotations: true`
+   - `allow-snippet-annotations: "true"`
    - `annotations-risk-level: Critical`
 
    You may need to restart the **nginx-ingress-controller** pod after making these changes for them to take effect.
