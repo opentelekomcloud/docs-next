@@ -44,9 +44,9 @@ Before deploying openDesk, ensure that the CCE cluster meets the following prere
 
         ```yaml title="ingress-nginx-controller.configMap"
         data:
-          allowSnippetAnnotations: true
+          allow-snippet-annotations: "true"
           annotations-risk-level: Critical
-          strict-validate-path-type: false
+          strict-validate-path-type: "false"
         ```
     :::important
     If these settings are not configured, openDesk components that rely on configuration snippets or specific path types may fail to deploy correctly or may not route traffic as intended.
