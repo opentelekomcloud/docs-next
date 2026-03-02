@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -7,7 +6,8 @@ import BestPracticesSvg from '@site/static/img/best-practices.svg';
 import BlueprintsSvg from '@site/static/img/blueprints.svg';
 import TemplatesSvg from '@site/static/img/templates.svg';
 // import CafSvg from '@site/static/img/caf.svg';
-import { ODSButton, ODSCardContentBasic, ODSCardBasic, ODSCardImage } from '@telekom-ods/react-ui-kit';
+
+import { ODSCardContentBasic, ODSCardBasic } from '@telekom-ods/react-ui-kit';
 
 type FeatureItem = {
   title: string;
@@ -15,6 +15,7 @@ type FeatureItem = {
   description: JSX.Element;
   label?: string;
   link?: string;
+  scheme?: string;
 };
 
 const FeatureList: FeatureItem[] = [
@@ -29,7 +30,8 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
     label: 'Consult our',
-    link: '/docs/best-practices'
+    link: '/docs/best-practices',
+    scheme: 'grey'
   },
   {
     title: 'Blueprints',
@@ -38,23 +40,25 @@ const FeatureList: FeatureItem[] = [
       <>
         Discover tailored out-of-the-box solutions and
         practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal
-        application and infrastructure design using Open Telekom Cloud.
+        application and infrastructure design using T Cloud Public.
       </>
     ),
     label: 'Explore our',
-    link: '/docs/blueprints'
+    link: '/docs/blueprints',
+    scheme: 'grey'
   },
   {
     title: 'Templates',
     Svg: TemplatesSvg,
     description: (
       <>
-        Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on Open Telekom Cloud;
+        Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on T Cloud Public;
         whether with Cloud Create, Resource Formation Service, or directly using Terraform or OpenTofu.
       </>
     ),
     label: 'Browse the',
-    link: '/templates'
+    link: '/templates',
+    scheme: 'grey'
   },
   // {
   //   title: 'Cloud Adoption Framework',
@@ -69,7 +73,7 @@ const FeatureList: FeatureItem[] = [
   // },
 ];
 
-function Feature({ title, Svg, description, link }: FeatureItem) {
+function Feature({ title, Svg, description, link, scheme }: FeatureItem) {
   const href = /^https?:\/\//.test(link) ? link : useBaseUrl(link);
 
   const open = () => {
@@ -84,7 +88,8 @@ function Feature({ title, Svg, description, link }: FeatureItem) {
         href={href}
         role="link"
         size="large"
-        target="_blank"
+        target="_self"
+        data-scheme={scheme}
       />
     </div>
   );

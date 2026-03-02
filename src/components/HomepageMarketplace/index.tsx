@@ -18,6 +18,13 @@ export default function HomepageMarketplace(): JSX.Element {
             href="https://marketplace.otc.t-systems.com/"
             target="_blank"
           />
+          <ODSButton
+            variant="outline"
+            label="Become a Seller"
+            size="small"
+            href="https://marketplace.otc.t-systems.com/seller/sign-up?role=register/seller&route=/seller/sign-up/registration"
+            target="_blank"
+          />
         </div>}
       contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Find additional XaaS offerings provided either directly by the T Cloud Public or by sellers." heading="Get to know our partners" label="Marketplace" showContent size="small" />}
       href="https://www.telekom.com/"
@@ -25,6 +32,7 @@ export default function HomepageMarketplace(): JSX.Element {
       size="large"
       tabIndex={-1}
       target="_blank"
+      // data-scheme="basketball"
     />
     // </section>
   );

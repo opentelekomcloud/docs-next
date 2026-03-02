@@ -177,7 +177,7 @@ const config: Config = {
               to: 'https://www.open-telekom-cloud.com/en/support/release-notes',
             },
             {
-              label: 'Core Services Certifications',
+              label: 'Certifications & Attestations',
               to: 'https://www.open-telekom-cloud.com/en/products-services/core-services/certifications',
             },
           ],
@@ -200,6 +200,10 @@ const config: Config = {
             {
               label: 'Webinars',
               href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
+            },
+            {
+              label: 'Trainings & Certifications',
+              to: 'https://training.open-telekom-cloud.com/',
             },
             // {
             //   label: 'Medium',
@@ -226,10 +230,6 @@ const config: Config = {
               label: 'Ansible Collections',
               to: 'https://docs.otc.t-systems.com/ansible-collection-cloud/',
             },
-            {
-              label: 'Cloud Create',
-              to: 'https://designer.otc-service.com/',
-            },
           ],
         },
         {
@@ -252,6 +252,10 @@ const config: Config = {
         {
           title: 'Tools',
           items: [
+            {
+              label: 'Cloud Create',
+              to: 'https://designer.otc-service.com/',
+            },
             {
               label: 'Enterprise Dashboard',
               to: 'https://enterprise-dashboard.otc-service.com',
