@@ -193,14 +193,14 @@ const config: Config = {
               label: 'Community Portal',
               to: 'https://community.open-telekom-cloud.com/',
             },
+            // {
+            //   label: 'Webinars',
+            //   to: '/webinars',
+            // },
             {
               label: 'Webinars',
-              to: '/webinars',
+              href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-            // {
-            //   label: 'Webinars in YouTube',
-            //   href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
-            // },
             // {
             //   label: 'Medium',
             //   href: 'https://medium.com',
@@ -318,7 +318,6 @@ const config: Config = {
 
   customFields: {
     version: process.env.REACT_APP_VERSION,
-    youtube_api_key: process.env.REACT_APP_YOUTUBE_API_KEY
   },
 
   plugins: [

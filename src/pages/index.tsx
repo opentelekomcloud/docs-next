@@ -8,8 +8,8 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 // import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
-import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
 import HomepageContribute from '../components/HomepageContribute';
+import HomepageMarketplace from '../components/HomepageMarketplace';
 
 // function HomepageHeader() {
 //   const { siteConfig } = useDocusaurusContext();
@@ -49,7 +49,7 @@ export default function Home(): JSX.Element {
               <HomepageContribute />
             </div>
             <div className={clsx("col col--6")}>
-              <HomepageAskAQuestion />
+              <HomepageMarketplace />
             </div>
           </div>
         </section>

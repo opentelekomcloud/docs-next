@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { ODSButton, ODSCardContentBasic, ODSCardBasic } from '@telekom-ods/react-ui-kit';
 
-export default function HomepageAskAQuestion(): JSX.Element {
+export default function HomepageMarketplace(): JSX.Element {
   const webinarsUrl = useBaseUrl('/webinars');
 
   return (
@@ -13,20 +13,13 @@ export default function HomepageAskAQuestion(): JSX.Element {
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <ODSButton
             variant="outline"
-            label="Join the Community Forum"
+            label="Visit the Marketplace"
             size="small"
-            href="https://community.open-telekom-cloud.com/community/?id=community_home"
+            href="https://marketplace.otc.t-systems.com/"
             target="_blank"
           />
-          <ODSButton
-            variant="outline"
-            label="Past Webinars"
-            size="small"
-            href={webinarsUrl}
-            target="_self"
-          />
         </div>}
-      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Connect with people sharing the same passion for T Cloud Public. Discover our exciting upcoming Events and Webinars!" heading="Ask a Technical Question" label="Community" showContent size="small" />}
+      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Find additional XaaS offerings provided either directly by the T Cloud Public or by sellers." heading="Get to know our partners" label="Marketplace" showContent size="small" />}
       href="https://www.telekom.com/"
       role="link"
       size="large"
