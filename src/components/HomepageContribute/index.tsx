@@ -25,7 +25,7 @@ export default function HomepageContribute(): JSX.Element {
     <ODSCardBasic
       action={function jQ(){}}
       actionSlot={<ODSButton variant="outline" label="Join us on GitHub" onClick={function jQ(){}} onKeyDown={function jQ(){}} size="small" href="https://github.com/opentelekomcloud/docs-next" target='_blank'/>}
-      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content=" Share with our vibrant community all that cool staff you've built with Open Telekom Cloud." heading="Contribute" label="GitHub" showContent size="small"/>}
+      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Share with our vibrant community all that cool staff you've built with T Cloud Public." heading="Contribute" label="GitHub" showContent size="small"/>}
       href="https://www.telekom.com/"
       role="link"
       size="large"
