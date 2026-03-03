@@ -4,11 +4,16 @@ import type { Props } from '@theme/NotFound/Content';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
+import { ODSButton } from '@telekom-ods/react-ui-kit';
+import { ODSIcon } from '@telekom-ods/react-icons';
+
 export default function NotFoundContent({ className }: Props): JSX.Element {
   return (
     <main className={clsx('container margin-vert--xl', className)}>
       <div className="row">
-        <div className="col col--6 col--offset-3">
+        <div className="col col--6 col--offset-3 text--center">
+          <ODSIcon name="error-type-standard" size="126" />
+
           <Heading as="h1" className="hero__title">
             <Translate
               id="theme.NotFound.title"
@@ -16,6 +21,7 @@ export default function NotFoundContent({ className }: Props): JSX.Element {
               We are sorry...
             </Translate>
           </Heading>
+
           <p>
             <Translate
               id="theme.NotFound.p1"
@@ -23,41 +29,46 @@ export default function NotFoundContent({ className }: Props): JSX.Element {
               We could not find anything related to what you were looking for.
             </Translate>
           </p>
-          {/* <p>
-            <Translate
-              id="theme.NotFound.p2"
-              description="The 2nd paragraph of the 404 page">
-              Please contact the owner of the site that linked you to the
-              original URL and let them know their link is broken.
-            </Translate>
-          </p> */}
-          <scale-button size="small" variant="primary" href="/portfolio">
-            <scale-icon-navigation-map></scale-icon-navigation-map>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the portfolio navigator page">
-              Go to Portfolio Navigator
-            </Translate>
-          </scale-button>
-          <span className={styles.filtersSep} aria-hidden="true"></span>
-          <scale-button size="small" variant="secondary" href="/docs/tags">
-            <scale-icon-content-available-keychain></scale-icon-content-available-keychain>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the tag list page">
-              View All Tags
-            </Translate>
-          </scale-button>
 
-          <span className={styles.filtersSep} aria-hidden="true"></span>
-          <scale-button size="small" variant="secondary" href="/">
-            <scale-icon-home-home></scale-icon-home-home>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the portfolio navigator page">
-              Return Home
-            </Translate>
-          </scale-button>
+          <div className={styles.buttonGroup}>
+            <ODSButton
+              buttonIcon="map-type-standard"
+              buttonType="link"
+              href="/portfolio"
+              label="Go to Portfolio Navigator"
+              rel="noopener noreferrer"
+              leftIcon
+              size="small"
+              target="_self"
+              variant="primary"
+            />
+
+            <ODSButton
+              buttonIcon="price-tag-type-standard"
+              buttonType="link"
+              href="/docs/tags"
+              label="View All Tags"
+              rel="noopener noreferrer"
+              leftIcon
+              size="small"
+              target="_self"
+              variant="outline"
+            />
+
+            <ODSButton
+              buttonIcon="home-type-standard"
+              buttonType="link"
+              href="/"
+              label="Return Home"
+              rel="noopener noreferrer"
+              leftIcon
+              size="small"
+              target="_self"
+              variant="outline"
+            />
+          </div>
+
+
         </div>
       </div>
     </main>
