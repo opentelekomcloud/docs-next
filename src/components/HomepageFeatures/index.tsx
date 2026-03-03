@@ -60,17 +60,6 @@ const FeatureList: FeatureItem[] = [
     link: '/templates',
     scheme: 'grey'
   },
-  // {
-  //   title: 'Cloud Adoption Framework',
-  //   Svg: CafSvg,
-  //   description: (
-  //     <>
-  //       The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
-  //       Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
-  //     </>
-  //   ),
-  //   link: '/caf'
-  // },
 ];
 
 function Feature({ title, Svg, description, link, scheme }: FeatureItem) {

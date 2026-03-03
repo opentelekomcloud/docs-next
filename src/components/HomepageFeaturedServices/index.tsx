@@ -7,8 +7,8 @@ import { ODSButton } from '@telekom-ods/react-ui-kit';
 
 export default function HomepageFeaturedServices(): JSX.Element {
   return (
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-      <div className={clsx("row row--no-gutters", styles.item)}>
+    <section className="container" style={{ paddingTop: '20px', paddingBottom: '40px' }}>
+      <div className={clsx("row row--no-gutters", styles.item)} style={{ paddingBottom: '40px' }}>
         <div className={clsx("col col--4", styles.item__inner)}>
           <div>
             <h1 className={clsx("margin-bottom--md", styles.item__title)}>
@@ -50,7 +50,7 @@ export default function HomepageFeaturedServices(): JSX.Element {
             </a> */}
           </div>
         </div>
-        <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
+        <div className="col col--8" aria-hidden="true" style={{ paddingTop: '20px' }}>
           <NewServices />
         </div>
         <div className={clsx("col col--12", styles.btn2__inner)}>
