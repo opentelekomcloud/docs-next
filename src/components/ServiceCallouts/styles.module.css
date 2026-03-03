@@ -85,13 +85,19 @@ html[data-theme='dark'] .callout__shadow {
 }
 
 .odscard__feature_content :global(.ODSCardFeature-ImageContainer img) {
-  width: 100% !important;
+  width: 70% !important;
   height: 100% !important;
   object-fit: scale-down !important;
 }
 
 .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
-  background-color: #e20074 !important;
+  /* background-color: #4ad9cd !important; */
+    background-color: #fbfbfb;
+}
+
+html[data-theme='dark'] .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
+  /* background-color: #4ad9cd !important; */
+    background-color: var(--telekom-color-background-surface-subtle);
 }
 
 .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature) {
@@ -101,7 +107,11 @@ html[data-theme='dark'] .callout__shadow {
 }
 
 .odscard__feature_content :global(.ODSCardFeature-CardBg) {
-  background-color: #0e0e0f !important;
+  background-color: #fbfbfb;
+}
+
+html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg) {
+  background-color: var(--telekom-color-background-surface-subtle);
 }
 
 .odscard__feature_content :global(.ODSCardFeaturePreferredContent) {
