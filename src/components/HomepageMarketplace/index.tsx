@@ -26,7 +26,7 @@ export default function HomepageMarketplace(): JSX.Element {
             target="_blank"
           />
         </div>}
-      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Find additional XaaS offerings provided either directly by the T Cloud Public or by sellers." heading="Get to know our partners" label="Marketplace" showContent size="small" />}
+      contentSlot={<ODSCardContentBasic className="ods-card-content-basic-container" content="Find additional XaaS offerings provided either directly by the T Cloud Public or by sellers." heading="Find the right solution" label="Marketplace" showContent size="small" />}
       href="https://www.telekom.com/"
       role="link"
       size="large"
