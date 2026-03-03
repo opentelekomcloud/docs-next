@@ -10,6 +10,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageContribute from '../components/HomepageContribute';
 import HomepageMarketplace from '../components/HomepageMarketplace';
+import HomepageInlineSearch from '../components/HomepageInlineSearch';  
 
 // function HomepageHeader() {
 //   const { siteConfig } = useDocusaurusContext();
@@ -41,6 +42,7 @@ export default function Home(): JSX.Element {
       {/* <HomepageHeader /> */}
       <main>
         <HomepageFeatures />
+        <HomepageInlineSearch />
         <HomepageFeaturedServices />
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
