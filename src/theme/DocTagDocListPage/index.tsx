@@ -75,8 +75,6 @@ function DocItem({ doc }: { doc: Props['tag']['items'][number] }): JSX.Element {
               titleType="text"
             // tag1Props={{label: 'New props', type: 'strong'}} tag2Props={{label: 'V2', type: 'basic'}} 
             />
-                        {/* <p className={styles.description}>{doc.description}</p> */}
-
           </div>
         }
         filled
@@ -84,9 +82,7 @@ function DocItem({ doc }: { doc: Props['tag']['items'][number] }): JSX.Element {
         size="small"
         target="_self"
       />
-      
     </div>
-
   );
 }
 

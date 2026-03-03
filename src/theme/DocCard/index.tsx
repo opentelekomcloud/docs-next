@@ -20,6 +20,9 @@ import { File, FileStack } from 'lucide-react';
 
 import styles from './styles.module.css';
 
+import { ODSButton, ODSCardQuickAction, ODSQuickActionCardPreferredContent } from '@telekom-ods/react-ui-kit';
+
+
 function useCategoryItemsPlural() {
   const { selectMessage } = usePluralForm();
   return (count: number) =>
@@ -49,6 +52,7 @@ export type CardLayoutProps = {
   icon: ReactNode;
   title: string;
   description?: string;
+  internal?: boolean;
 };
 
 /**
@@ -83,22 +87,36 @@ export function CardLayout({
   icon,
   title,
   description,
+  internal,
 }: CardLayoutProps): JSX.Element {
-  return (
-    <CardContainer href={href}>
-      {/* Icon + one-line‐truncated title */}
-      <Heading as="h2" className={styles.cardTitle} title={title}>
-        <span className={styles.cardIcon}>{icon}</span>
-        <span className={styles.cardText}>{title}</span>
-      </Heading>
+  const target = internal || internal === undefined ? '_self' : '_blank';
 
-      {/* Description clamped to 3 lines (always 3 lines tall) */}
-      {description && (
-        <p className={styles.cardDescription}>
-          {description}
-        </p>
-      )}
-    </CardContainer>
+  console.log({ href, icon, title, internal, target });
+
+  return (
+    <div className={styles.quickActionWrapper__content}>
+      <ODSCardQuickAction
+        aria-label={title}
+        contentSlot={
+          <div>
+            <ODSQuickActionCardPreferredContent
+              subtitle={description}
+              title={
+              <div className={clsx(styles.quickActionHeader)}>
+                {icon}
+                {title}
+              </div>
+            }
+              titleType="text"
+            />
+          </div>
+        }
+        filled
+        href={href}
+        size="small"
+        target={target}
+      />
+    </div>
   );
 }
 
@@ -115,7 +133,7 @@ function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
   return (
     <CardLayout
       href={href}
-      icon={<FileStack />}
+      icon={<FileStack className={clsx(styles.iconComponent)} />}
       title={item.label}
       description={item.description ?? categoryItemsPlural(item.items.length)}
     />
@@ -126,12 +144,12 @@ function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
 
 function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
   const article = isInternalUrl(item.href)
-  const icon = article ? <File /> : '';
+  const icon = article ? <File className={clsx(styles.iconComponent)} /> : '';
   const doc = useDocById(item.docId ?? undefined);
 
   // temporarily suppress all sidebar links from being rendered 
   if (!article) {
-    item.description = "For more information consult the Service & API Reference manuals in Open Telekom Cloud Help Center."
+    item.description = "For more information consult the Service & API Reference manuals in T Cloud Public Help Center."
   }
 
   return (
@@ -140,6 +158,7 @@ function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
       icon={icon}
       title={item.label}
       description={item.description ?? doc?.description}
+      internal={article}
     />
   );
 }

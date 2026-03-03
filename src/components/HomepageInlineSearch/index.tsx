@@ -13,7 +13,7 @@ export default function HomepageInlineSearch(): JSX.Element {
           <div className={clsx('col col--12')}>
             <ODSInlineSearch
               containerProps={{}}
-              labelText="What are you building today?"
+              labelText="What do you build today?"
               // onChange={function jQ() { }}
               // onClear={function jQ() { }}
               // onSelectValue={function jQ() { }}

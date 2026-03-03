@@ -64,3 +64,40 @@ html[data-theme='dark'] .cardContainer:hover {
   overflow: hidden;
   word-break: break-word;
 }
+
+
+.quickActionWrapper__content {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.quickActionWrapper__content :global(.ODSCardQuickAction) {
+  --ODSCardQuickAction-width: 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.quickActionWrapper__content :global(.ODSQuickActionCardPreferredContent-Subtitle) {
+  font-weight: 400;
+  font-family: var(--ifm-font-family-base);
+  font-size: var(--ifm-code-font-size);
+  line-height: 1.3rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
+  min-height: calc(1.3rem * 3);
+}
+
+.quickActionWrapper__content :global(.ODSQuickActionCardPreferredContent-Title) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: larger !important;
+  margin-top: -5px !important;
+}
+
+.iconComponent {
+  margin-right: 8px;
+}
