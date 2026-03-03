@@ -167,17 +167,17 @@ OpenSearch itself does not require a public IP address for this setup. All commu
 
 ## Creating a Notification Channel
 
-Log in to the *Open Telekom Cloud Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Notifications* -> *Channels* in the sidebar menu and then click *Create Channel*. 
+Log in to the *Open Telekom Cloud Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Notifications* -> *Channels* in the sidebar menu and then click *Create Channel*.
 
-As **Channel Type** choose *Custom Webhook*, replace `<proxy-private-ip>` with the actual private IP address of the reverse proxy ECS and click *Send text message*.
+![image](/img/docs/best-practices/big-data-and-data-analysis/cloud-search-service/Screenshot_from_2026-03-03_16-15-38.png)
 
+Provide a **Channel Name** and select **Slack** as the **Channel Type**.
 
-| Field   | Value                                          |
-| ------- | ---------------------------------------------- |
-| Name    | `slack-notifications`                          |
-| Method  | POST                                           |
-| URL     | `http://<proxy-private-ip>:8080/slack-webhook` |
-| Headers | `Content-Type: application/json`               |
+In the **Slack webhook URL** field, enter your reverse proxy server url (for example, `http://<proxy-private-ip>:8080/slack-webhook`) that forwards requests to your Slack webhook endpoint.
+
+After filling in the required details, click **Create** to save the notification channel.
+
+![image](/img/docs/best-practices/big-data-and-data-analysis/cloud-search-service/Screenshot_from_2026-03-03_16-19-56.png)
 
 ### Message Template
 
