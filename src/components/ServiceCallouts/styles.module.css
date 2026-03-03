@@ -88,16 +88,21 @@ html[data-theme='dark'] .callout__shadow {
   width: 70% !important;
   height: 100% !important;
   object-fit: scale-down !important;
+  filter: invert(0);
+}
+
+html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-ImageContainer img) {
+  filter: invert(1);
 }
 
 .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
   /* background-color: #4ad9cd !important; */
-    background-color: #fbfbfb;
+  background-color: #fbfbfb;
 }
 
 html[data-theme='dark'] .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
   /* background-color: #4ad9cd !important; */
-    background-color: var(--telekom-color-background-surface-subtle);
+  background-color: var(--telekom-color-background-surface-subtle);
 }
 
 .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature) {
