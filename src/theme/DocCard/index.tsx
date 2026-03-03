@@ -91,8 +91,6 @@ export function CardLayout({
 }: CardLayoutProps): JSX.Element {
   const target = internal || internal === undefined ? '_self' : '_blank';
 
-  console.log({ href, icon, title, internal, target });
-
   return (
     <div className={styles.quickActionWrapper__content}>
       <ODSCardQuickAction
@@ -120,7 +118,6 @@ export function CardLayout({
   );
 }
 
-
 function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
   const href = findFirstSidebarItemLink(item);
   const categoryItemsPlural = useCategoryItemsPlural();
@@ -144,7 +141,7 @@ function CardCategory({ item }: { item: PropSidebarItemCategory }): ReactNode {
 
 function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
   const article = isInternalUrl(item.href)
-  const icon = article ? <File className={clsx(styles.iconComponent)} /> : '';
+  const icon = article ? <File size={24} className={clsx(styles.iconComponent)} /> : '';
   const doc = useDocById(item.docId ?? undefined);
 
   // temporarily suppress all sidebar links from being rendered 

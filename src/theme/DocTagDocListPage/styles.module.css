@@ -108,3 +108,9 @@ html[data-theme='dark'] .iconComponent {
   align-items: center !important;
   gap: 8px !important;
 }
+
+.quickActionWrapper__content :global(a),
+.quickActionWrapper__content :global(a:hover),
+.quickActionWrapper__content :global(a:focus) {
+  text-decoration: none !important;
+}
