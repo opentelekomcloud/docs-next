@@ -101,12 +101,13 @@ export function CardLayout({
               subtitle={description}
               title={
               <div className={clsx(styles.quickActionHeader)}>
-                {icon}
+                {/* {icon} */}
                 {title}
               </div>
             }
               titleType="text"
             />
+                      {/* <p>{description}</p> */}
           </div>
         }
         filled
