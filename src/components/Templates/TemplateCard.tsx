@@ -13,9 +13,10 @@ export type TemplateItem = {
   type?: string;
   link?: string;
   partner?: boolean;
+  banner?: string;
 };
 
-const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, link, partner }) => {
+const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, link, banner , partner }) => {
   const tags = type
     .split(',')
     .map(t => t.trim())
@@ -27,17 +28,18 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
 
   const { colorMode } = useColorMode(); // "light" | "dark"
 
-  const banner = useBaseUrl(
-    colorMode === 'dark' ? '/img/night_banner.png' : '/img/day_banner.png'
-  );
-
+  if (!banner) {
+    banner = useBaseUrl(
+      colorMode === 'dark' ? '/img/night_banner.png' : '/img/day_banner.png'
+    );
+  }
 
   return (
       <ODSCardImage className={styles.odsCardImageWrapper__content}
         action={open}
         imagePosition="top"
         backgroundImage={banner}
-        backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1' } }}
+        backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1', marginLeft: 'auto' } }}
         backgroundImageAspectRatio="31"
         customHeight={true}
         contentSlot={

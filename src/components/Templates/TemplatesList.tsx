@@ -2,6 +2,12 @@ import { TemplateItem } from './TemplateCard';
 
 import telekomPng from '@site/static/img/templates/logos/telekom.png';
 import iitsPng from '@site/static/img/templates/logos/iits.png';
+import nextCloudPng from '@site/static/img/templates/nextcloud.png';
+import prometheusPng from '@site/static/img/templates/prometheus.png';
+import openShiftPng from '@site/static/img/templates/openshift.png';
+import keycloakPng from '@site/static/img/templates/keycloak.png';
+import letsencrypt from '@site/static/img/templates/letsencrypt.png';
+
 
 export const TemplatesList: TemplateItem[] = [
     {
@@ -16,6 +22,7 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: openShiftPng,
     },
     {
         id: 'openshift-ha',
@@ -28,6 +35,7 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: openShiftPng,
     },
     {
         id: 'nextcloud',
@@ -40,6 +48,7 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: nextCloudPng,
     },
     {
         id: 'cce',
@@ -76,6 +85,7 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: prometheusPng,
     },
     {
         id: 'p2s-vpn',
@@ -106,6 +116,7 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-acme',
         partner: true,
+        banner: letsencrypt,
     },
     {
         id: 'cce',
@@ -280,7 +291,7 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-oidc',
         partner: true,
-
+        banner: keycloakPng,
     },
     {
         id: 'keycloak-saml',
@@ -296,7 +307,7 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-saml',
         partner: true,
-
+        banner: keycloakPng,
     },
     {
         id: 'elb',

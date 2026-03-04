@@ -92,6 +92,7 @@ export default function Templates() {
             </div>
 
             <scale-divider></scale-divider>
+            <br/>
 
             {filteredTemplates.length === 0 ? (
                 <div className={styles.emptyFill}>
@@ -111,6 +112,7 @@ export default function Templates() {
                                 type={tpl.type}
                                 link={tpl.link}
                                 partner={tpl.partner}
+                                banner={tpl.banner}
                             />
                         </div>
                     ))}
