@@ -6,6 +6,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export type TemplateItem = {
+  id: string;
   title: string;
   logo: string;
   description: JSX.Element;
@@ -15,15 +16,6 @@ export type TemplateItem = {
 };
 
 const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, link, partner }) => {
-  const Wrapper: React.ElementType = link ? 'a' : 'div';
-  const wrapperProps = link
-    ? {
-      href: link,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    }
-    : {};
-
   const tags = type
     .split(',')
     .map(t => t.trim())
@@ -41,41 +33,41 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
 
 
   return (
-    <ODSCardImage className={styles.odsCardImageWrapper__content}
-      action={open}
-      imagePosition="top"
-      backgroundImage={banner}
-      backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1' } }}
-      backgroundImageAspectRatio="31"
-      customHeight={true}
-      contentSlot={
-        <>
-          <div className="content-top">
-            <ODSCardContentBasic
-              className="ods-card-content-basic-container"
-              content={description}
-              heading={title}
-              showContent
-              size="small"
-              titleProps={{ tabIndex: -1 }}
-            />
-          </div>
+      <ODSCardImage className={styles.odsCardImageWrapper__content}
+        action={open}
+        imagePosition="top"
+        backgroundImage={banner}
+        backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1' } }}
+        backgroundImageAspectRatio="31"
+        customHeight={true}
+        contentSlot={
+          <>
+            <div className="content-top">
+              <ODSCardContentBasic
+                className="ods-card-content-basic-container"
+                content={description}
+                heading={title}
+                showContent
+                size="small"
+                titleProps={{ tabIndex: -1 }}
+              />
+            </div>
 
-          <div className="tags-container">
-            {tags.map((tag) => (
-              <ODSTagStatic label={tag} type="promotion" icon="checkmark-type-standard-size-small" disabled={false} />
-            ))}
-          </div>
-        </>
+            <div className="tags-container">
+              {tags.map((tag, i) => (
+                <ODSTagStatic key={i} label={tag} type="promotion" icon="checkmark-type-standard-size-small" disabled={false} />
+              ))}
+            </div>
+          </>
 
-      }
-      href={link}
-      logoProps={{ src: logo, title: 'Telekom/Partner Logo', style: { maxHeight: '56px', maxWidth: '56px', objectFit: 'contain', backgroundColor: '#f1f1f1' } }}
-      showLogo={true}
-      role="link"
-      size="medium"
-      target="_blank"
-    />
+        }
+        href={link}
+        logoProps={{ src: logo, title: 'Telekom/Partner Logo', style: { maxHeight: '56px', maxWidth: '56px', objectFit: 'contain', backgroundColor: '#f1f1f1' } }}
+        showLogo={true}
+        role="link"
+        size="medium"
+        target="_blank"
+      />
   );
 
 };

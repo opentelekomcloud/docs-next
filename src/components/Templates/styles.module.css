@@ -161,8 +161,9 @@ html[data-theme='dark'] .card {
 
 /* ===== Filters (toggle chips) ===== */
 .filtersLabel {
+  margin-top: 5px;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 800;
   opacity: 0.8;
 }
 
