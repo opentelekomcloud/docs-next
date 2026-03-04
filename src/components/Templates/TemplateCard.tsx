@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './styles.module.css';
 
 import { ODSCardImage, ODSCardContentBasic, ODSTagStatic } from '@telekom-ods/react-ui-kit';
+import { useColorMode } from '@docusaurus/theme-common';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export type TemplateItem = {
   title: string;
@@ -31,11 +33,18 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
     window.open(link, "_blank", "noopener");
   };
 
+  const { colorMode } = useColorMode(); // "light" | "dark"
+
+  const banner = useBaseUrl(
+    colorMode === 'dark' ? '/img/night_banner.png' : '/img/day_banner.png'
+  );
+
+
   return (
     <ODSCardImage className={styles.odsCardImageWrapper__content}
       action={open}
       imagePosition="top"
-      backgroundImage="/img/Screenshot_from_2026-03-04_09-23-10.png"
+      backgroundImage={banner}
       backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1' } }}
       backgroundImageAspectRatio="31"
       customHeight={true}
