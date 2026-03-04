@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './styles.module.css';
 
+import { ODSCardImage, ODSCardContentBasic, ODSTagStatic } from '@telekom-ods/react-ui-kit';
+
 export type TemplateItem = {
   title: string;
   logo: string;
@@ -25,37 +27,46 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
     .map(t => t.trim())
     .filter(Boolean)
 
-  return (
-    <Wrapper {...wrapperProps} className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <img
-            src={logo}
-            alt={`${title} logo`}
-            className={styles.logoImg}
-          />
-        </div>
-        {partner && (
-          <span className={styles.partnerLabel}>
-            Partner Template
-          </span>
-        )}
-      </div>
+  const open = () => {
+    window.open(link, "_blank", "noopener");
+  };
 
-      <div className={styles.content}>
-        <div className={styles.text}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.description}>{description}</div>
-        </div>
-        <div className={styles.tagsContainer}>
-          {tags.map((tag, i) => (
-            <scale-tag color="teal" key={i}>
-              <span className={styles.type}>{tag}</span>
-            </scale-tag>
-          ))}
-        </div>
-      </div>
-    </Wrapper>
+  return (
+    <ODSCardImage className={styles.odsCardImageWrapper__content}
+      action={open}
+      imagePosition="top"
+      backgroundImage="/img/Screenshot_from_2026-03-04_09-23-10.png"
+      backgroundImageProps={{ style: { objectFit: 'cover', backgroundColor: '#f1f1f1' } }}
+      backgroundImageAspectRatio="31"
+      customHeight={true}
+      contentSlot={
+        <>
+          <div className="content-top">
+            <ODSCardContentBasic
+              className="ods-card-content-basic-container"
+              content={description}
+              heading={title}
+              showContent
+              size="small"
+              titleProps={{ tabIndex: -1 }}
+            />
+          </div>
+
+          <div className="tags-container">
+            {tags.map((tag) => (
+              <ODSTagStatic label={tag} type="promotion" icon="checkmark-type-standard-size-small" disabled={false} />
+            ))}
+          </div>
+        </>
+
+      }
+      href={link}
+      logoProps={{ src: logo, title: 'Telekom/Partner Logo', style: { maxHeight: '56px', maxWidth: '56px', objectFit: 'contain', backgroundColor: '#f1f1f1' } }}
+      showLogo={true}
+      role="link"
+      size="medium"
+      target="_blank"
+    />
   );
 
 };

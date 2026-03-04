@@ -83,32 +83,40 @@ export default function Templates() {
                     })}
                 </div>
 
-                    <scale-button
-                        variant="secondary"
-                        className={styles.resetBtn}
-                        onClick={() => setActiveTypes(new Set())}
-                    >
-                        <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
-                    </scale-button>
+                <scale-button
+                    variant="secondary"
+                    className={styles.resetBtn}
+                    onClick={() => setActiveTypes(new Set())}
+                >
+                    <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
+                </scale-button>
             </div>
 
             <scale-divider></scale-divider>
 
-            <div className={styles.grid}>
-                {filteredTemplates.length === 0 ? (
-                    <div className={styles.emptyFill}>
-                        <div className={styles.emptyState}>
-                            <img src={noDataImg} />
-                            <h3>No results match your filters.</h3>
-                        </div>
+            {filteredTemplates.length === 0 ? (
+                <div className={styles.emptyFill}>
+                    <div className={styles.emptyState}>
+                        <img src={noDataImg} />
+                        <h3>No results match your filters.</h3>
                     </div>
-
-                ) : (
-                    filteredTemplates.map((tpl) => (
-                        <TemplateCard title={tpl.title} logo={tpl.logo} description={tpl.description} type={tpl.type} link={tpl.link} partner={tpl.partner} />
-                    ))
-                )}
-            </div>
+                </div>
+            ) : (
+                <div className="row">
+                    {filteredTemplates.map((tpl) => (
+                        <div key={tpl.title} className="col col--4 margin-bottom--lg ">
+                            <TemplateCard
+                                title={tpl.title}
+                                logo={tpl.logo}
+                                description={tpl.description}
+                                type={tpl.type}
+                                link={tpl.link}
+                                partner={tpl.partner}
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
