@@ -10,28 +10,8 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageContribute from '../components/HomepageContribute';
 import HomepageMarketplace from '../components/HomepageMarketplace';
-import HomepageInlineSearch from '../components/HomepageInlineSearch';  
-
-// function HomepageHeader() {
-//   const { siteConfig } = useDocusaurusContext();
-//   const navbarStyle = useThemeConfig().navbar.style;
-//   const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
-//   return (
-//     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-//       <div className="container">
-//         <Heading as="h1" className="hero__title">
-//           {siteConfig.title}
-//         </Heading>
-//         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
-//         <div className={styles.buttons}>
-//           <scale-button href={useBaseUrl("/docs/blueprints")} variant={buttonVariant}>
-//             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-//           </scale-button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
+import HomepageInlineSearch from '../components/HomepageInlineSearch';
+import HomeHeroPromo from '../components/HomeHeroPromo';
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -41,11 +21,16 @@ export default function Home(): JSX.Element {
       description={`${siteConfig.title}`}>
       {/* <HomepageHeader /> */}
       <main>
-        <HomepageFeatures />
-        <HomepageInlineSearch />
+        
+        <section className="container" style={{ paddingTop: '40px', paddingBottom: '0px' }}>
+          <div className={clsx("row")}>
+            <HomeHeroPromo />
+          </div>
+        </section>
+
         <HomepageFeaturedServices />
 
-        <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+        <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row")}>
             <div className={clsx("col col--6")}>
               <HomepageContribute />

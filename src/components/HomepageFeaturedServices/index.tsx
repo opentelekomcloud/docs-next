@@ -7,7 +7,7 @@ import { ODSButton } from '@telekom-ods/react-ui-kit';
 
 export default function HomepageFeaturedServices(): JSX.Element {
   return (
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '40px' }}>
+    <section className="container" style={{ paddingTop: '10px', paddingBottom: '40px' }}>
       <div className={clsx("row row--no-gutters", styles.item)} style={{ paddingBottom: '40px' }}>
         <div className={clsx("col col--4", styles.item__inner)}>
           <div>

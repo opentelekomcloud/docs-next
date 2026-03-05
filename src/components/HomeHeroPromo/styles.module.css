@@ -1,0 +1,21 @@
+.odsHeroWrapper__content :global(.ODSCarouselTimer) {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+.odsHeroWrapper__content :global(button[aria-label="button navigation right type standard"]) {
+  display: none;
+}
+
+.odsHeroWrapper__content :global(button[aria-label="button navigation left type standard"]) {
+  display: none;
+}
+
+.odsHeroWrapper__content :global(button[aria-label="play button resumed"]) {
+  display: none;
+}
+
+.odsHeroWrapper__content :global(button[aria-label="play button paused"]) {
+  display: none;
+}
