@@ -51,6 +51,13 @@ jobs:
           npm install
           npm run build
 
+      - name: Upload npm logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs/
+
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:
