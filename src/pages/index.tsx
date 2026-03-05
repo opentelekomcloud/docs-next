@@ -1,11 +1,6 @@
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-// import Heading from '@theme/Heading';
-// import { useThemeConfig } from '@docusaurus/theme-common';
-// import useBaseUrl from '@docusaurus/useBaseUrl';
-
-// import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageContribute from '../components/HomepageContribute';
 import HomepageMarketplace from '../components/HomepageMarketplace';

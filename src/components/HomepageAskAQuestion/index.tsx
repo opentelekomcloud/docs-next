@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { ODSButton, ODSCardContentBasic, ODSCardBasic } from '@telekom-ods/react-ui-kit';
 

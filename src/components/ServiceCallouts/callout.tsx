@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import { ComponentType, SVGProps } from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { ODSCardFeature, ODSCardFeaturePreferredContent } from "@telekom-ods/react-ui-kit";
 
