@@ -8,7 +8,7 @@ import blueprintsSegment1 from '@site/static/img/assets/video/T_background_wall.
 
 import templatesSegment1 from '@site/static/img/assets/video/T_pattern_2023_abstract_tec_topview_hd.mp4';
 
-export default function HomeHeroPromo(): JSX.Element {
+export default function HomePageHeroPromo(): JSX.Element {
 
   return (
     <div className={clsx("col col--12", styles.odsHeroWrapper__content)}>

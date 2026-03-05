@@ -1,0 +1,31 @@
+/* 1) Stop the “peek” */
+.carouselFix :global(*) {
+  box-sizing: border-box;
+}
+
+/* Try Embla-style first (very common) */
+.carouselFix :global(.embla__viewport) {
+  overflow: hidden !important;
+}
+
+.carouselFix :global(.embla__container) {
+  display: flex;
+}
+
+/* FORCE: each slide (direct child) = 100% width */
+.carouselFix :global(.embla__container > *) {
+  flex: 0 0 100% !important;
+  min-width: 0;
+}
+
+/* 2) Your 3-card layout inside a slide */
+.segmentRow {
+  display: block;
+  gap: 10px;
+  width: 52%;
+}
+
+.card {
+  flex: 0 0 calc((100% - 16px) / 3);
+  min-width: 0;
+}

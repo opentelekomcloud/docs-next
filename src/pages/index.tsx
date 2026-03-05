@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
 // import Heading from '@theme/Heading';
 // import { useThemeConfig } from '@docusaurus/theme-common';
 // import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -10,8 +9,8 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageContribute from '../components/HomepageContribute';
 import HomepageMarketplace from '../components/HomepageMarketplace';
-import HomepageInlineSearch from '../components/HomepageInlineSearch';
-import HomeHeroPromo from '../components/HomeHeroPromo';
+import HomePageHeroPromo from '../components/HomePageHeroPromo';
+import HomePageNewArticles from '../components/HomePageNewArticles';
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -24,11 +23,17 @@ export default function Home(): JSX.Element {
         
         <section className="container" style={{ paddingTop: '40px', paddingBottom: '0px' }}>
           <div className={clsx("row")}>
-            <HomeHeroPromo />
+            <HomePageHeroPromo />
           </div>
         </section>
 
         <HomepageFeaturedServices />
+
+        <section className="container" style={{ paddingTop: '10px', paddingBottom: '15px' }}>
+          <div className={clsx("row")}>
+            <HomePageNewArticles />
+          </div>
+        </section>
 
         <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row")}>
