@@ -26,6 +26,15 @@ jobs:
         id: commit_hash
         uses: prompt/actions-commit-hash@v3
 
+      - name: Create .npmrc (Artifactory Authentication)
+        run: |
+          cat > .npmrc <<'EOF'
+          @telekom-ods:registry=https://artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+          //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/:_authToken==${NPM_TOKEN}
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Install and Build
         if: github.event.action != 'closed' 
         env: 
