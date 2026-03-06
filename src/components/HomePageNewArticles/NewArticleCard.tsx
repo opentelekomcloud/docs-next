@@ -4,7 +4,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import { ODSCardImage, ODSCardContentBasic } from '@telekom-ods/react-ui-kit';
 
-export type NewsArticleItem = {
+export type NewArticleItem = {
     id: string;
     title: string;
     description: JSX.Element;
@@ -13,7 +13,7 @@ export type NewsArticleItem = {
     banner?: string;
 };
 
-const NewsArticleCard: React.FC<NewsArticleItem> = ({ title, description, type, link, banner }) => {
+const NewArticleCard: React.FC<NewArticleItem> = ({ title, description, type, link, banner }) => {
     const open = () => {
         window.open(link, "_self", "noopener");
     };
@@ -54,4 +54,4 @@ const NewsArticleCard: React.FC<NewsArticleItem> = ({ title, description, type, 
     );
 };
 
-export default NewsArticleCard;
+export default NewArticleCard;

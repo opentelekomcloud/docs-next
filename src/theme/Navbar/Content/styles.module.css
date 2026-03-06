@@ -7,9 +7,9 @@ Hide color mode toggle in small viewports
   }
 }
 
-.inner {
+/* .inner {
   max-width: var(--ifm-container-width-xl);
   margin: 0 auto;
   padding: 0 var(--ifm-spacing-horizontal);
   width: 100%;
-}
+} */
