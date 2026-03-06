@@ -223,13 +223,9 @@ const config: Config = {
               to: 'https://docs.otc.t-systems.com/developer/drivers.html',
             },
             {
-              label: 'Terraform Provider',
-              href: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
-            },
-            {
-              label: 'Ansible Collections',
-              to: 'https://docs.otc.t-systems.com/ansible-collection-cloud/',
-            },
+              label: 'Infrastructure as Code',
+              to: 'https://docs.otc.t-systems.com/developer/iac.html',
+            }
           ],
         },
         {
