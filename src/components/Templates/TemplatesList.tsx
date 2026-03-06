@@ -11,6 +11,19 @@ import letsencrypt from '@site/static/img/templates/letsencrypt.png';
 
 export const TemplatesList: TemplateItem[] = [
     {
+        id: 'argocdapp',
+        title: 'ArgoCD App',
+        logo: telekomPng,
+        description: (
+            <>
+                With this template, deploying your cloud-native applications to the cloud has never been easier or faster, no OpenStack expertise knowledge required. 
+                In just a few clicks, you can spin up a Cloud Container Engine (CCE) cluster and launch your apps using Argo CD, the leading GitOps tool.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
         id: 'openshift',
         title: 'OpenShift',
         logo: telekomPng,
