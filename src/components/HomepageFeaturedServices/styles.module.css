@@ -1,16 +1,16 @@
 
 .item {
-  box-shadow: 0 1px 3px gray;
-  background-color: var(--telekom-color-background-surface);
-  border-radius: 2rem;
+  /* box-shadow: 0 1px 3px gray; */
+  background-color: #f2f0f1;
+  border-radius: 1.5rem;
   color: black;
   overflow: hidden;
 }
 
 html[data-theme='dark'] .item {
-  box-shadow: 0px 1px 3px var(--ifm-color-primary);
+  /* box-shadow: 0px 1px 3px var(--ifm-color-primary); */
   background-color: var(--telekom-color-background-surface);
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   color: white;
   overflow: hidden;
 }
@@ -25,4 +25,15 @@ html[data-theme='dark'] .item {
 .item__title span {
   display: block;
   font-size: 1.25rem;
+}
+
+.btn__inner {
+  margin-top: -3.5rem;
+  margin-left: 3rem;
+}
+
+.btn2__inner {
+  margin-top: -5.5rem;
+  margin-left: 3rem;
+  margin-bottom: 3rem;
 }

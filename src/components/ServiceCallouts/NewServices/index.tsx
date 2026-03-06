@@ -12,19 +12,19 @@ import CfwSvg from '@site/static/img/services/cfw.svg'
       title: "ASM",
       text: "Application Service Mesh (Istio-Based)",
       link: "https://docs.otc.t-systems.com/application-service-mesh/index.html",
-      icon: AsmSvg
+      icon: "/img/services/asm.svg"
     },
     {
       title: "CCI",
       text: "Serverless Container Engine",
       link: "https://docs.otc.t-systems.com/cloud-container-instance/index.html",
-      icon: CciSvg
+      icon: "/img/services/cci.svg"
     },
     {
       title: "RFS",
       text: "Resource Formation Service",
       link: "https://docs.otc.t-systems.com/resource-formation-service/index.html",
-      icon: RfsSvg
+      icon: "/img/services/rfs.svg"
     },
     // {
     //   title: "Config",
@@ -36,19 +36,19 @@ import CfwSvg from '@site/static/img/services/cfw.svg'
       title: "OCR",
       text: "Optical Character Recognition",
       link: "https://docs.otc.t-systems.com/optical-character-recognition/index.html",
-      icon: OcrSvg
+      icon: "/img/services/ocr.svg"
     },
     {
       title: "FGS",
       text: "FunctionGraph",
       link: "https://docs.otc.t-systems.com/function-graph/index.html",
-      icon: FgSvg
+      icon: "/img/services/fg.svg"
     },
     {
       title: "CFW",
       text: "Cloud Firewall",
       link: "https://docs.otc.t-systems.com/cloud-firewall/index.html",
-      icon: CfwSvg
+      icon: "/img/services/cfw.svg"
     },
     // {
     //   title: "GeminiDB",

@@ -1,18 +1,21 @@
 // index.tsx
 
-import Link from '@docusaurus/Link';
+import { translate } from '@docusaurus/Translate';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
-import Translate, { translate } from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type { Props } from '@theme/DocTagDocListPage';
 import Heading from '@theme/Heading';
 import { File, FlaskConical, Factory, FileCheck } from 'lucide-react';
 import styles from './styles.module.css';
+import clsx from "clsx";
+
+import { ODSButton, ODSCardQuickAction, ODSQuickActionCardPreferredContent } from '@telekom-ods/react-ui-kit';
+
 
 // Custom pluralization hook
 function useNDocsTaggedPlural() {
@@ -56,21 +59,30 @@ function DocItem({ doc }: { doc: Props['tag']['items'][number] }): JSX.Element {
         : File;
 
   return (
-    <article className={styles.article}>
-      <div className={styles.itemRow}>
-        <div className={styles.icon}>
-          <IconComponent size={24} />
-        </div>
-        <div className={styles.content}>
-          <Link to={doc.permalink} className={styles.title}>
-            {doc.title}
-          </Link>
-          {doc.description && (
-            <p className={styles.description}>{doc.description}</p>
-          )}
-        </div>
-      </div>
-    </article>
+    <div className={styles.quickActionWrapper__content}>
+      <ODSCardQuickAction
+        aria-label={doc.title}
+        contentSlot={
+          <div>
+            <ODSQuickActionCardPreferredContent
+              subtitle={doc.description}
+              title={
+              <div className={clsx(styles.quickActionHeader)}>
+                <IconComponent size={24} className={clsx(styles.iconComponent)} />
+                {doc.title}
+              </div>
+            }
+              titleType="text"
+            // tag1Props={{label: 'New props', type: 'strong'}} tag2Props={{label: 'V2', type: 'basic'}} 
+            />
+          </div>
+        }
+        filled
+        href={doc.permalink}
+        size="small"
+        target="_self"
+      />
+    </div>
   );
 }
 
@@ -101,23 +113,30 @@ function DocTagDocListPageContent({
         <header className={styles.header}>
           <Heading as="h1">{title}</Heading>
           {tag.description && <p>{tag.description}</p>}
-          <scale-button size="small" variant="primary" href={tag.allTagsPath}>
-            <scale-icon-content-available-keychain></scale-icon-content-available-keychain>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the tag list page">
-              View All Tags
-            </Translate>
-          </scale-button>
-          <span className={styles.filtersSep} aria-hidden="true"></span>
-          <scale-button size="small" variant="secondary" href="/portfolio">
-            <scale-icon-navigation-map></scale-icon-navigation-map>
-            <Translate
-              id="theme.tags.tagsPageLink"
-              description="The label of the link targeting the portfolio navigator page">
-              Go to Portfolio Navigator
-            </Translate>
-          </scale-button>
+          <div className={styles.headerActions}>
+            <ODSButton
+              buttonIcon="price-tag-type-standard"
+              buttonType="link"
+              href="/docs/tags"
+              label="View All Tags"
+              rel="noopener noreferrer"
+              leftIcon
+              size="small"
+              target="_self"
+              variant="primary"
+            />
+            <ODSButton
+              buttonIcon="map-type-standard"
+              buttonType="link"
+              href="/portfolio"
+              label="Go to Portfolio Navigator"
+              rel="noopener noreferrer"
+              leftIcon
+              size="small"
+              target="_self"
+              variant="outline"
+            />
+          </div>
         </header>
         <section>
           {tag.items.map((doc) => (

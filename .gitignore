@@ -24,3 +24,6 @@ yarn-error.log*
 
 #Migration Folders
 /static/_static/images
+
+#JFrog
+/.npmrc

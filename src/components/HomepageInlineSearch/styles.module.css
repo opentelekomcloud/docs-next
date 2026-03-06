@@ -1,0 +1,28 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureSvg {
+  height: 200px;
+  width: 200px;
+}
+
+/* @media (max-width: 768px) {
+  .hideOnMobile {
+    display: none;
+  }
+} */
+
+@media (hover: none) and (pointer: coarse) {
+  .hideOnTouch {
+    display: none !important;
+  }
+}
+
+.scale-telekom-feature-card {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
