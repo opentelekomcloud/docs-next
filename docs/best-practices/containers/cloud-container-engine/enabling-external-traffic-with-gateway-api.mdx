@@ -183,6 +183,19 @@ helm upgrade --install envoy-gateway oci://docker.io/envoyproxy/gateway-helm \
 
 #### Deploying the Envoy Proxy
 
+The `EnvoyProxy` resource is used to control how Envoy Gateway deploys and configures the Envoy data plane that actually handles network traffic. Envoy Gateway itself acts as a controller. 
+It watches Gateway API resources such as `Gateway` and `HTTPRoute` and translates them into configuration for Envoy. However, the controller does not directly expose configuration options for 
+the underlying Envoy deployment through the standard Gateway API objects. The `EnvoyProxy` resource provides this additional configuration layer.
+
+Through the `EnvoyProxy` resource, operators can define how the Envoy proxy instances are created inside the cluster. This includes settings such as the number of replicas, resource limits, service type, 
+or infrastructure-specific annotations. For example, on CCE clusters the `EnvoyProxy` resource can be used to configure the Service that exposes Envoy with the correct 
+load balancer annotations required by the platform.
+
+The `EnvoyProxy` resource therefore separates two responsibilities. Gateway API resources define how traffic should be routed, while the `EnvoyProxy` resource defines how the Envoy 
+infrastructure that processes this traffic is deployed and integrated with the cluster environment. This separation allows platform operators to control the gateway infrastructure while application 
+teams focus on defining routing rules through the Gateway API.
+
+
 To deploy an `EnvoyProxy` resource, we create the following manifest, **envoyproxy.yaml**, and deploy with kubectl:
 
 ```yaml title="envoyproxy.yaml"
@@ -369,7 +382,12 @@ spec:
 :::important
 Replace the cluster issuers, certificate and secret references, and hostnames values with ones that match your environment.  
 
-🎬 Apply both manifests with `kubectl apply -f`. 
+🎬 Apply both manifests:   
+ 
+```
+kubectl apply -f whoami-shared-deployment.yaml
+kubectl apply -n demo-1 -f whoami-shared-deployment.yaml
+```
 :::
 
 ### Deploying a Dedicated Gateway
@@ -379,11 +397,10 @@ This allows applications to manage their own lifecycle and security configuratio
 between services, independent certificate management, or different network policies. They are also appropriate when applications are operated by separate teams or tenants and when each service 
 requires a separate external endpoint or load balancer.
 
-Create the **whoami-dedicated-gateway** manifest and apply it to your cluster. This manifest defines the dedicated Gateway for the `traefik/whoami` workload,
+Create the **whoami-dedicated-gateway.yaml** manifest and apply it to your cluster. This manifest defines the dedicated Gateway for the `traefik/whoami` workload,
 and will be used to handle and route incoming traffic **only** for that application:
 
-
-```yaml
+```yaml title="whoami-dedicated-gateway.yaml"
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -410,7 +427,7 @@ spec:
 
 Next, deploy a verification workload, `traefik/whoami`, to test the routing.
 
-```yaml
+```yaml title="whoami-dedicated-deployment.yaml"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -467,7 +484,13 @@ spec:
 :::important
 Replace the cluster issuers, certificate and secret references, and hostnames values with ones that match your environment.  
 
-🎬 Apply both manifests with `kubectl apply -f`. 
+🎬 Apply both manifests:   
+ 
+```
+kubectl apply -n demo-2 \
+  -f whoami-dedicated-gateway.yaml \
+  -f whoami-dedicated-deployment.yaml
+```
 :::
 
 ## Redirecting HTTP to HTTPS
