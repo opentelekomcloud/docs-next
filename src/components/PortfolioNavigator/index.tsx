@@ -75,26 +75,32 @@ export default function PortfolioServicesColumns() {
     if (region === "global") return <span key={region}>GLOBAL</span>;
     const cls =
       region === "eu-de" ? "fi fi-de" :
-      region === "eu-nl" ? "fi fi-nl" :
-      region === "eu-ch" ? "fi fi-ch fis" : "";
+        region === "eu-nl" ? "fi fi-nl" :
+          region === "eu-ch" ? "fi fi-ch fis" : "";
     return <span className={`${styles.flag} ${cls}`} key={region}></span>;
   };
 
   // Memoize filters so they only re-render when filter state actually changes
   const filtersContent = useMemo(() => (
     <>
-      <div className={styles.filterRow}>
-        <ODSDropdownSelect
-          icon="checkmark-type-standard"
-          size="small"
-          defaultValue="All Categories"
-          value={categoryFilter}
-          items={DROPDOWN_ITEMS}
-          mode="standard"
-          label="Filter by Category"
-          onValueChange={toggleCategoryFilter}
-          supportMessage="Support message"
-        />
+      <div className={styles.filterCategoriesRow}>
+        <div>
+          <ODSText as="h4" className={styles.odstext_label}>Filter by Category:</ODSText>
+        </div>
+        <div>
+          <ODSDropdownSelect
+            icon="checkmark-type-standard"
+            size="small"
+            defaultValue="All Categories"
+            value={categoryFilter}
+            items={DROPDOWN_ITEMS}
+            mode="standard"
+            label="Filter by Category"
+            onValueChange={toggleCategoryFilter}
+            supportMessage="Support message"
+          />
+        </div>
+
       </div>
 
       <div className={styles.filterChipsRow}>
@@ -153,7 +159,7 @@ export default function PortfolioServicesColumns() {
     <div className={styles.otcWrap}>
       <div className={styles.otcMax}>
 
-        <div className={styles.filterAccordionRow}>
+        <div className={clsx(styles.filterAccordionRow, styles.odsaccordion_filters)}>
           <ODSAccordion
             headerText="Filters"
             headingElement="h2"

@@ -823,6 +823,15 @@ html[data-theme='dark'] .sleeveFooterSingle {
   width: 100%;
 }
 
+.filterCategoriesRow {
+  display: grid;
+  grid-template-columns: 4.5fr 5.5fr;
+  /* 90% / 10% */
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
 .filterChipsRow {
   display: grid;
   grid-template-columns: 4.0fr 6.0fr;
@@ -947,6 +956,15 @@ html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg
 
 .odscard__feature_content :global(.ODSCardFeaturePreferredContent h2) {
   margin: 0 !important;
+}
+
+.odsaccordion_filters :global(.ODSAccordion-Heading) {
+  background-color: #a7a7a7 !important;
+  border-radius: 20px;
+}
+
+html[data-theme='dark'] .odsaccordion_filters :global(.Heading-Heading) {
+  background-color: red !important;
 }
 
 /* .odsbutton__reset_filters :global(.ODSButton--buttonType-standard ) {
