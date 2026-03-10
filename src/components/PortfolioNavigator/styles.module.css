@@ -580,35 +580,15 @@ html[data-theme='dark'] .sleeveBody {
   border-top: 1px solid var(--line);
 }
 
-.sleeveFooterSingle scale-button {
-  --width: 100%;
-  /* <- this is the key */
-  display: block;
-  /* optional, makes the host behave like a block */
-  justify-self: stretch;
-}
+
 
 html[data-theme='dark'] .sleeveFooter {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  padding: 14px 18px 18px 18px;
+
   border-top: 1px solid var(--ifm-color-emphasis-200);
 
-  /* safety: if an old rule set justify-content, kill it */
-  justify-content: initial;
-  justify-items: stretch;
-  /* ensure children stretch horizontally */
-  align-items: stretch;
 }
 
-html[data-theme='dark'] .sleeveFooter>* {
-  --width: 100%;
-  /* <- this is the key */
-  display: block;
-  /* optional, makes the host behave like a block */
-  justify-self: stretch;
-}
+
 
 html[data-theme='dark'] .sleeveFooterSingle {
   display: grid;

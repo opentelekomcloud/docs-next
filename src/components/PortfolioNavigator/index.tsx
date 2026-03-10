@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import 'flag-icons/css/flag-icons.min.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+import { ODSButton, ODSChipSet, ODSToggleChip } from '@telekom-ods/react-ui-kit';
 import { Chip, Region, PortfolioService, PortfolioServices } from "./PortfolioServices";
 import { ODSCardFeature, ODSCardFeaturePreferredContent } from "@telekom-ods/react-ui-kit";
 import clsx from "clsx";
@@ -245,31 +246,9 @@ export default function PortfolioServicesColumns() {
 
           ) : (
             filtered.map((s) => (
-              // <div
-              //   key={s.id}
-              //   className={styles.tile}
-              //   onClick={() => setOpen(s)}
-              //   onKeyDown={(e) => onTileKey(e, s)}
-              //   role="button"
-              //   tabIndex={0}
-              // >
-              //   <div className={styles.tileTop}>
-              //     <span className={styles.cat}>{s.category}</span>
-              //     <span className={styles.cat}>{s.chips}</span>
-              //   </div>
-              //   <div className={styles.name}>{s.name}</div>
-              //   <div className={styles.tileBottom}>
-              //     <div className={styles.flags}>
-              //       {s.regions.map((r) => (
-              //         <span className={styles.flag} key={r}>
-              //           {renderRegionFooter(r)}
-              //         </span>
-              //       ))}
-              //     </div>
-              //   </div>
-              // </div>
               <div className={clsx(styles.odscard__feature_content)}>
                 <ODSCardFeature
+                  id={s.symbol}
                   contentSlot={
                     <>
                       <ODSCardFeaturePreferredContent
@@ -287,16 +266,7 @@ export default function PortfolioServicesColumns() {
                   }
                   imageProps={{ src: useBaseUrl(s.icon), alt: s.name }}
                   buttonProps={{
-                    onClick: () => {
-                      const currentDomain = window.location.hostname;
-                      const linkDomain = window.location.hostname;
-
-                      if (currentDomain === linkDomain) {
-                        window.location.href = currentDomain;
-                      } else {
-                        window.open(currentDomain, '_blank');
-                      }
-                    }
+                    onClick: () => setOpen(s)
                   }}
                 />
               </div>
@@ -323,49 +293,70 @@ export default function PortfolioServicesColumns() {
 
             {open.category === "Finance Services" || open.category === "Sites" ? (
               <div className={styles.sleeveFooterSingle}>
-                <scale-button
+                {/* <scale-button
+                    href={open.hc_url || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="primary"
+                    size="small"
+                  >
+                    Go to {open.name}
+                    <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab" />
+                  </scale-button> */}
+                <ODSButton
+                  // className={styles.resetBtn}
+                  buttonIcon="arrow-right-type-standard"
+                  buttonType="standard"
+                  label={`Go to ${open.name}`}
+                  rel="noopener"
+                  rightIcon
+                  size="small"
+                  variant="primary"
                   href={open.hc_url || "#"}
                   target="_blank"
-                  rel="noreferrer"
-                  variant="primary"
-                  size="small"
-                >
-                  Go to {open.name}
-                  <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab" />
-                </scale-button>
+                />
               </div>
             ) : (
-              <div className={styles.sleeveFooter}>
-                <scale-button
-                  href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
-                  rel="noreferrer"
+            <div className={styles.sleeveFooter}>
+              <ODSButton
+                  // className={styles.resetBtn}
+                  buttonIcon="arrow-right-type-standard"
+                  buttonType="standard"
+                  label="Discover Best Practices & Blueprints"
+                  rel="noopener"
+                  rightIcon
+                  size="small"
                   variant="primary"
-                  size="small"
-                >
-                  Discover Best Practices & Blueprints
-                  <scale-icon-action-search accessibility-title="search" />
-                </scale-button>
-
-                <scale-button
-                  href={open.rn_url || "#"}
+                href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
                   target="_blank"
-                  variant="secondary"
+                />
+              
+              <ODSButton
+                  // className={styles.resetBtn}
+                  buttonIcon="navigation-external-link-type-standard"
+                  buttonType="standard"
+                  label="Release Notes"
+                  rel="noopener"
+                  rightIcon
                   size="small"
-                >
-                  Release Notes
-                  <scale-icon-content-history accessibility-title="history" />
-                </scale-button>
-
-                <scale-button
-                  href={open.hc_url || "#"}
+                  variant="outline"
+                href={open.rn_url || "#"}
                   target="_blank"
-                  variant="secondary"
+                />
+
+             <ODSButton
+                  // className={styles.resetBtn}
+                  buttonIcon="navigation-external-link-type-standard"
+                  buttonType="standard"
+                  label="Go to Help Center"
+                  rel="noopener"
+                  rightIcon
                   size="small"
-                >
-                  Go to Help Center
-                  <scale-icon-navigation-external-link accesibility-title="External link, opens in new tab" />
-                </scale-button>
-              </div>
+                  variant="outline"
+                href={open.hc_url || "#"}
+                  target="_blank"
+                />
+            </div>
             )}
           </div>
 
