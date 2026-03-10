@@ -124,14 +124,16 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 12px
+  margin-top: 12px;
+  align-items: center;
 }
 
 .bucketsRegions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 12px
+  margin-top: 12px;
+  align-items: center;
 }
 
 .chip {
@@ -583,12 +585,8 @@ html[data-theme='dark'] .sleeveBody {
 
 
 html[data-theme='dark'] .sleeveFooter {
-
   border-top: 1px solid var(--ifm-color-emphasis-200);
-
 }
-
-
 
 html[data-theme='dark'] .sleeveFooterSingle {
   display: grid;
@@ -656,10 +654,10 @@ html[data-theme='dark'] .sleeveFooterSingle {
 /* … your existing styles unchanged … */
 
 /* enable pointer + inline layout for SCALE chips */
-.buckets scale-chip {
+/* .buckets scale-chip {
   display: inline-flex;
   cursor: pointer
-}
+} */
 
 .filtersRow {
   display: flex;
@@ -676,14 +674,14 @@ html[data-theme='dark'] .sleeveFooterSingle {
 }
 
 /* Smaller font for filter chips only (pipe stays the same size) */
-.filtersRow .buckets {
+/* .filtersRow .buckets {
   font-size: 8px;
-}
+} */
 
 /* fallback */
-.buckets scale-chip {
+/* .buckets scale-chip {
   font-size: 8px;
-}
+} */
 
 /* the row you already have */
 .filtersRow {
@@ -816,7 +814,17 @@ html[data-theme='dark'] .sleeveFooterSingle {
 /* one-row layout with a 90/10 split */
 .filterRow {
   display: grid;
-  grid-template-columns: 8.5fr 1.5fr;
+  grid-template-columns: 10fr 0fr;
+  /* 90% / 10% */
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+/* one-row layout with a 90/10 split */
+.filterAccordionRow {
+  display: grid;
+  grid-template-columns: 10fr 0fr;
   /* 90% / 10% */
   gap: 10px;
   align-items: center;
@@ -827,13 +835,6 @@ html[data-theme='dark'] .sleeveFooterSingle {
 .fullWidthDropdown {
   width: 100%;
   display: block;
-}
-
-/* make the reset button fill its 10% column */
-.resetBtn {
-  width: 100%;
-  height: 44px;
-  /* match your input height if needed */
 }
 
 /* Span the full results grid and center content */
@@ -924,4 +925,28 @@ html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg
 
 .odscard__feature_content :global(.ODSCardFeaturePreferredContent h2) {
   margin: 0 !important;
+}
+
+/* .odsbutton__reset_filters :global(.ODSButton--buttonType-standard ) {
+  padding-top: 10px;
+} */
+
+.odstext_label {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.bucketsResetFilters {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px
+}
+
+.bucketsResetFilters :global(.ODSButton) {
+  width: 100%;
 }

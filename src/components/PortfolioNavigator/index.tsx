@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import 'flag-icons/css/flag-icons.min.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-import { ODSButton, ODSChipSet, ODSToggleChip } from '@telekom-ods/react-ui-kit';
+import { ODSButton, ODSChipSet, ODSToggleChip, ODSDropdownSelect, ODSAccordion, ODSText } from '@telekom-ods/react-ui-kit';
 import { Chip, Region, PortfolioService, PortfolioServices } from "./PortfolioServices";
 import { ODSCardFeature, ODSCardFeaturePreferredContent } from "@telekom-ods/react-ui-kit";
 import clsx from "clsx";
@@ -132,20 +132,15 @@ export default function PortfolioServicesColumns() {
   }
 
   const renderRegionChip = (region: Region) => {
-    if (region === "global") return null;
+    if (region === "global") return "🌐";
 
     const cls =
-      region === "eu-de" ? "fi fi-de" :
-        region === "eu-nl" ? "fi fi-nl" :
-          region === "eu-ch" ? "fi fi-ch fis" : "";
+      region === "eu-de" ? "🇩🇪" :
+        region === "eu-nl" ? "🇳🇱" :
+          region === "eu-ch" ? "🇨🇭" :
+            "🌐";
 
-    return (
-      <span
-        className={`${styles.flag} ${cls}`}
-        key={region}
-        title={region}
-      ></span>
-    );
+    return cls;
   };
 
   const renderRegionFooter = (region: Region) => {
@@ -166,73 +161,104 @@ export default function PortfolioServicesColumns() {
     );
   };
 
+  const renderFilters = () => {
+    return (
+      <>
+        <div className={styles.filterRow}>
+          <ODSDropdownSelect
+            icon="checkmark-type-standard"
+            size="small"
+            defaultValue="All Categories"
+            items={[
+              {
+                label: 'All Categories',
+                value: 'all'
+              },
+              {
+                label: 'Option 2',
+                value: 'Option 2'
+              },
+              {
+                label: 'Option 3',
+                value: 'Option 3'
+              },
+              {
+                disabled: true,
+                label: 'Option 4',
+                value: 'Option 4'
+              }
+            ]}
+            mode="standard"
+            label="Filter by Category"
+            onExpandedChange={function jQ() { }}
+            onValueChange={function jQ() { }}
+            supportMessage="Support message"
+          />
+
+
+        </div>
+        <div className={styles.filterRow}>
+          <div className={styles.bucketsChips} onClickCapture={onChipRowClickCapture}>
+            <ODSText as="h4" className={styles.odstext_label}>Filter by Service Type: </ODSText>
+            {(["IaaS", "PaaS", "SaaS", "Security", "Management"] as Chip[]).map((c) => (
+              <ODSToggleChip
+                key={c}
+                data-chip={c}
+                label={c}
+                selected={isChipActive(c) ? true : undefined}
+              />
+            ))}
+          </div>
+        </div>
+        <div className={styles.filterRow}>
+          <div className={styles.bucketsRegions} onClickCapture={onRegionRowClickCapture}>
+            <ODSText as="h4" className={styles.odstext_label}>Filter by Region: </ODSText>
+            {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
+              <ODSToggleChip
+                key={r}
+                data-region={r}
+                label={`${renderRegionChip(r)} ${r.toUpperCase()}`}
+                selected={isRegionActive(r) ? true : undefined}
+              />
+            ))}
+          </div>
+        </div>
+        <div className={styles.filterRow}>
+          <div className={styles.bucketsResetFilters}>
+            <ODSButton
+              className={styles.odsbutton__reset_filters}
+              buttonIcon="refresh-type-standard"
+              buttonType="standard"
+              onClick={resetFilters}
+              label="Refresh Filters"
+              rel="noopener"
+              leftIcon
+              size="small"
+              variant="secondary"
+            />
+          </div>
+
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className={styles.otcWrap}>
       <div className={styles.otcMax}>
         <div className={styles.header}>
           <div className={styles.titleBlock}>{/* heading removed intentionally */}</div>
         </div>
-        {/* Filters: categories (single line) */}
-        <div className={styles.filtersRow}>
-          <div className={styles.filterRow}>
-            <scale-dropdown-select
-              ref={categorySelectRef}
-              label="Filter by category"
-              value={categoryFilter}
-              className={styles.fullWidthDropdown}
-            >
-              {OTC_CATEGORY_OPTIONS.map((opt) => (
-                <scale-dropdown-select-item
-                  key={opt}
-                  value={opt}
-                  selected={categoryFilter === opt}
-                >
-                  {opt === "all" ? "All Categories" : opt}
-                </scale-dropdown-select-item>
-              ))}
-            </scale-dropdown-select>
-            <scale-button variant="secondary" className={styles.resetBtn} onClick={resetFilters}>
-              <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
-            </scale-button>
-          </div>
+
+        <div className={styles.filterAccordionRow}>
+          <ODSAccordion
+            headerText="Filters"
+            headingElement="h2"
+            contentSlot={renderFilters()}
+            size="large"
+          />
 
         </div>
-
-        {/* Filters: chips | regions (single line) */}
-        <div className={styles.filtersRow}>
-          {/* Capability chips (SCALE) */}
-          <div className={styles.bucketsChips} onClickCapture={onChipRowClickCapture}>
-            {(["IaaS", "PaaS", "SaaS", "Security", "Management"] as Chip[]).map((c) => (
-              <scale-chip
-                key={c}
-                data-chip={c}
-                size="small"
-                selected={isChipActive(c) ? true : undefined}
-              >
-                {c}
-              </scale-chip>
-            ))}
-          </div>
-
-          <span className={styles.filtersSep} aria-hidden="true"></span>
-
-          {/* Region chips (SCALE) */}
-          <div className={styles.bucketsRegions} onClickCapture={onRegionRowClickCapture}>
-            {(["eu-de", "eu-nl", "eu-ch", "global"] as Region[]).map((r) => (
-              <scale-chip
-                key={r}
-                data-region={r}
-                size="small"
-                selected={isRegionActive(r) ? true : undefined}
-                title={r.toUpperCase()}
-              >
-                {renderRegionChip(r)}
-                {` ${r.toUpperCase()}`}
-              </scale-chip>
-            ))}
-          </div>
-        </div>
-
         <scale-divider></scale-divider>
         {/* Grid */}
         <div className={styles.tileGrid}>
@@ -317,8 +343,8 @@ export default function PortfolioServicesColumns() {
                 />
               </div>
             ) : (
-            <div className={styles.sleeveFooter}>
-              <ODSButton
+              <div className={styles.sleeveFooter}>
+                <ODSButton
                   // className={styles.resetBtn}
                   buttonIcon="arrow-right-type-standard"
                   buttonType="standard"
@@ -327,11 +353,11 @@ export default function PortfolioServicesColumns() {
                   rightIcon
                   size="small"
                   variant="primary"
-                href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
+                  href={`/docs/tags/${encodeURIComponent(open.symbol)}`}
                   target="_blank"
                 />
-              
-              <ODSButton
+
+                <ODSButton
                   // className={styles.resetBtn}
                   buttonIcon="navigation-external-link-type-standard"
                   buttonType="standard"
@@ -340,11 +366,11 @@ export default function PortfolioServicesColumns() {
                   rightIcon
                   size="small"
                   variant="outline"
-                href={open.rn_url || "#"}
+                  href={open.rn_url || "#"}
                   target="_blank"
                 />
 
-             <ODSButton
+                <ODSButton
                   // className={styles.resetBtn}
                   buttonIcon="navigation-external-link-type-standard"
                   buttonType="standard"
@@ -353,10 +379,10 @@ export default function PortfolioServicesColumns() {
                   rightIcon
                   size="small"
                   variant="outline"
-                href={open.hc_url || "#"}
+                  href={open.hc_url || "#"}
                   target="_blank"
                 />
-            </div>
+              </div>
             )}
           </div>
 
