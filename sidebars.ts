@@ -441,6 +441,10 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              id: 'best-practices/containers/cloud-container-engine/enabling-external-traffic-with-gateway-api',
+            },
+            {
+              type: 'doc',
               id: 'best-practices/containers/cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns',
             },
             {

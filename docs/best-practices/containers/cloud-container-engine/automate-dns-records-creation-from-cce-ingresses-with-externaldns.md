@@ -97,7 +97,8 @@ sources:
   - crd
   - service
   - ingress
-
+  - gateway-httproute
+  
 provider:
   name: webhook
   webhook:
