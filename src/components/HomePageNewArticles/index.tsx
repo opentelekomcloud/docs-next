@@ -23,6 +23,7 @@ export default function HomePageNewArticles(): JSX.Element {
               id="1"
               title="Enabling External Traffic with Ingress API"
               description="In this guide, we'll install and configure essential prerequisites required to expose services securely such as an Ingress Controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads."
+              link="/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api"
               banner="img/templates/T_background_runway.jpg"
             />
           </div>
