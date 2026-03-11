@@ -959,12 +959,8 @@ html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg
 }
 
 .odsaccordion_filters :global(.ODSAccordion-Heading) {
-  background-color: #a7a7a7 !important;
+  background-color: #e20074 !important;
   border-radius: 20px;
-}
-
-html[data-theme='dark'] .odsaccordion_filters :global(.Heading-Heading) {
-  background-color: red !important;
 }
 
 /* .odsbutton__reset_filters :global(.ODSButton--buttonType-standard ) {
