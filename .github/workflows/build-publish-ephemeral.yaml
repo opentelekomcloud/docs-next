@@ -35,6 +35,10 @@ jobs:
           EOF
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Show .npmrc redacted
+        run: |
+          sed -E 's/(_authToken=).*/\1***REDACTED***/' .npmrc
 
       - name: Install and Build
         if: github.event.action != 'closed' 
