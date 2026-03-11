@@ -30,7 +30,7 @@ jobs:
         run: |
           cat > .npmrc <<'EOF'
           @telekom-ods:registry=https://artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
-          //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/:_authToken==${NPM_TOKEN}
+          //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/:_authToken=${NPM_TOKEN}
           always-auth=true
           EOF
         env:
