@@ -95,7 +95,7 @@ export default function PortfolioServicesColumns() {
             value={categoryFilter}
             items={DROPDOWN_ITEMS}
             mode="standard"
-            label="Filter by Category"
+            // label="Filter by Category"
             onValueChange={toggleCategoryFilter}
             supportMessage="Support message"
           />
