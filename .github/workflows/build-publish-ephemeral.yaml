@@ -27,10 +27,13 @@ jobs:
         uses: prompt/actions-commit-hash@v3
 
       - name: Create .npmrc (Artifactory Authentication)
-        uses: bduff9/use-npmrc@v1.2
+        uses: rajpal-se/configure-npmrc@v1
         with:
-          dot-npmrc: ${{ secrets.DOT_NPMRC }}
-          
+          scope: ${{ secrets.NPM_USER }}
+          registry: https://artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+          authToken: ${{ secrets.NPM_TOKEN }}
+          registryAuthUrl: //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+                    
       - name: Show .npmrc redacted
         run: |
           sed -E 's/(_authToken=).*/\1***REDACTED***/' .npmrc
