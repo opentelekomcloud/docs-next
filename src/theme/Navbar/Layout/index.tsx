@@ -52,19 +52,5 @@ export default function NavbarLayout({ children }: Props): JSX.Element {
       <NavbarBackdrop onClick={mobileSidebar.toggle} />
       <NavbarMobileSidebar />
     </nav>
-
-      // <scale-telekom-header
-      //   app-name={title}
-      //   app-name-link="https://example.com"
-      //   meta-nav-aria-label="Meta navigation section"
-      //   meta-nav-external-aria-label="External navigation section"
-      //   lang-switcher-aria-label="Language switcher section"
-      //   main-nav-aria-label="Main navigation section">
-      //   <scale-telekom-nav-list slot="main-nav" aria-label="Main Navigation Links">
-      //     <scale-telekom-nav-item aria-label="Topic One">
-      //       <a href="#">Topic One</a>
-      //     </scale-telekom-nav-item>
-      //   </scale-telekom-nav-list>
-      // </scale-telekom-header>
   );
 }

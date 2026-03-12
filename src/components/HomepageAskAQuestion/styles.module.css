@@ -27,10 +27,16 @@ html[data-theme='dark'] .item {
   align-items: center;
   display: flex;
 }
-.item__inner div {
+/* .item__inner div {
   padding: 3rem;
-}
+} */
 .item__title span {
   display: block;
   font-size: 1.25rem;
+}
+
+.action-slot {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

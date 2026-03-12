@@ -11,60 +11,60 @@ import SwrSvg from '@site/static/img/services/swr.svg'
 import CcSvg from '@site/static/img/services/cc.svg'
 
  const calloutsList: Callout[] = [
-    {
-      title: "VPC",
-      text: "Virtual Private Cloud",
-      link: "/docs/tags/vpc",
-      icon: VpcSvg
-    },
+    // {
+    //   title: "VPC",
+    //   text: "Virtual Private Cloud",
+    //   link: "/docs/tags/vpc",
+    //   icon: "/img/services/VPC.svg"
+    // },
     {
       title: "ECS",
       text: "Elastic Cloud Server",
       link: "/docs/tags/ecs",
-      icon: EcsSvg
+      icon: "/img/services/ECS.svg"
     },
     {
       title: "OBS",
       text: "Object Storage Service",
       link: "/docs/tags/obs",
-      icon: ObsSvg
+      icon: "/img/services/OBS.svg"
     },
     {
       title: "IAM",
       text: "Identity & Access Management",
       link: "/docs/tags/iam",
-      icon: IamSvg
+      icon: "/img/services/IAM.svg"
     },
     {
       title: "ELB",
       text: "Elastic Load Balancing",
       link: "/docs/tags/elb",
-      icon: ElbSvg
+      icon: "/img/services/ELB.svg"
     },
     {
       title: "DMS",
       text: "Distributed Message Service",
       link: "/docs/tags/dms",
-      icon: DmsSvg
+      icon: "/img/services/DMS.svg"
     },
     {
       title: "CCE",
       text: "Cloud Container Engine",
       link: "/docs/tags/cce",
-      icon: CceSvg
+      icon: "/img/services/CCE.svg"
     },
-    {
-      title: "SWR",
-      text: "Software Repository for Containers",
-      link: "/docs/tags/swr",
-      icon: SwrSvg
-    },
-    {
-      title: "Cloud Create",
-      text: "Multi-Cloud Management Platform",
-      link: "/docs/tags/cloud-create",
-      icon: CcSvg
-  },
+    // {
+    //   title: "SWR",
+    //   text: "Software Repository for Containers",
+    //   link: "/docs/tags/swr",
+    //   icon: "/img/services/swr.svg"
+    // },
+  //   {
+  //     title: "Cloud Create",
+  //     text: "Multi-Cloud Management Platform",
+  //     link: "/docs/tags/cloud-create",
+  //     icon: "/img/services/cc.svg"
+  // },
   ];
 
 export default function FeaturedServices(): JSX.Element {

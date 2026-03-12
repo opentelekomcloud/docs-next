@@ -26,6 +26,18 @@ jobs:
         id: commit_hash
         uses: prompt/actions-commit-hash@v3
 
+      - name: Create .npmrc (Artifactory Authentication)
+        uses: rajpal-se/configure-npmrc@v1
+        with:
+          scope: ${{ secrets.NPM_USER }}
+          registry: https://artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+          authToken: ${{ secrets.NPM_TOKEN }}
+          registryAuthUrl: //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+                    
+      - name: Show .npmrc redacted
+        run: |
+          sed -E 's/(_authToken=).*/\1***REDACTED***/' .npmrc
+
       - name: Install and Build
         if: github.event.action != 'closed' 
         env: 
@@ -41,6 +53,13 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: Upload npm logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs/
 
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1

@@ -21,3 +21,8 @@
     display: none !important;
   }
 }
+
+.scale-telekom-feature-card {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

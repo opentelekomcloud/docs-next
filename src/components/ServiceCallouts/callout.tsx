@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import { ComponentType, SVGProps } from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-
+import { ODSCardFeature, ODSCardFeaturePreferredContent } from "@telekom-ods/react-ui-kit";
 
 export interface Callout {
   title: string;
@@ -10,27 +9,34 @@ export interface Callout {
   link: string;
 
   // icon: (props: React.ComponentProps<"svg">) => JSX.Element;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  // icon: ComponentType<SVGProps<SVGSVGElement>>;
+  icon: string;
 }
 function Callout(props: Callout): JSX.Element {
   return (
-    <a href={useBaseUrl(props.link)} className={styles.callout__link}>
-      <div className={clsx("card", styles.callout, styles.callout__shadow)} style={{marginBottom: '30px'}}>
-        <div className="card__header">
-          <h3 style={{ fontWeight: 'bold', fontSize: 'medium', alignItems: 'center', display: 'flex', marginBottom: '0'}}>
-            <props.icon className={styles.callout__icon} stroke="currentColor" aria-hidden="true" role="img"/>
-            {props.title}
-          </h3>
-        </div>
-        <div className="card__body" style={{paddingTop: '0'}}>
-        <span className="link--inset" aria-hidden="true"></span>
-          <p>
-            {props.text}
-          </p>
-        </div>
-        <div className={styles.callout__bottom} />
-      </div>
-    </a>
+    <div className={clsx(styles.odscard__feature_content)}>
+      <ODSCardFeature
+        contentSlot={
+          <ODSCardFeaturePreferredContent
+            productName={props.title}
+            productPrice={props.text ?? ""}
+          />
+        }
+        imageProps={{ src: useBaseUrl(props.icon), alt: props.title }}
+        buttonProps={{
+          onClick: () => {
+            const currentDomain = window.location.hostname;
+            const linkDomain = new URL(props.link, window.location.origin).hostname;
+
+            if (currentDomain === linkDomain) {
+              window.location.href = props.link;
+            } else {
+              window.open(props.link, '_blank');
+            }
+          }
+        }}
+      />
+    </div>
   );
 }
 
@@ -40,10 +46,10 @@ export interface ServiceCalloutsProps {
 
 export default function ServiceCallouts({ callouts }: ServiceCalloutsProps): JSX.Element {
   return (
-    <section className="container">
+    <section className="container" style={{ marginTop: "30px" }}>
       <div className="row">
         {callouts.map((c) => (
-          <div key={c.title} className="col col--4">
+          <div key={c.title} className="col col--6">
             <Callout title={c.title} text={c.text} link={c.link} icon={c.icon} />
           </div>
         ))}

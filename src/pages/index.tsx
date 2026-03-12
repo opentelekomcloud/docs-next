@@ -1,36 +1,11 @@
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-// import Heading from '@theme/Heading';
-// import { useThemeConfig } from '@docusaurus/theme-common';
-// import useBaseUrl from '@docusaurus/useBaseUrl';
-
-// import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
-import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
 import HomepageContribute from '../components/HomepageContribute';
-
-// function HomepageHeader() {
-//   const { siteConfig } = useDocusaurusContext();
-//   const navbarStyle = useThemeConfig().navbar.style;
-//   const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
-//   return (
-//     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-//       <div className="container">
-//         <Heading as="h1" className="hero__title">
-//           {siteConfig.title}
-//         </Heading>
-//         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
-//         <div className={styles.buttons}>
-//           <scale-button href={useBaseUrl("/docs/blueprints")} variant={buttonVariant}>
-//             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-//           </scale-button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
+import HomepageMarketplace from '../components/HomepageMarketplace';
+import HomePageHeroPromo from '../components/HomePageHeroPromo';
+import HomePageNewArticles from '../components/HomePageNewArticles';
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -40,16 +15,28 @@ export default function Home(): JSX.Element {
       description={`${siteConfig.title}`}>
       {/* <HomepageHeader /> */}
       <main>
-        <HomepageFeatures />
+        
+        <section className="container" style={{ paddingTop: '40px', paddingBottom: '0px' }}>
+          <div className={clsx("row")}>
+            <HomePageHeroPromo />
+          </div>
+        </section>
+
         <HomepageFeaturedServices />
 
-        <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
+        <section className="container" style={{ paddingTop: '10px', paddingBottom: '15px' }}>
+          <div className={clsx("row")}>
+            <HomePageNewArticles />
+          </div>
+        </section>
+
+        <section className="container" style={{ paddingTop: '0px', paddingBottom: '45px' }}>
           <div className={clsx("row")}>
             <div className={clsx("col col--6")}>
               <HomepageContribute />
             </div>
             <div className={clsx("col col--6")}>
-              <HomepageAskAQuestion />
+              <HomepageMarketplace />
             </div>
           </div>
         </section>

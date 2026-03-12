@@ -2,9 +2,29 @@ import { TemplateItem } from './TemplateCard';
 
 import telekomPng from '@site/static/img/templates/logos/telekom.png';
 import iitsPng from '@site/static/img/templates/logos/iits.png';
+import nextCloudPng from '@site/static/img/templates/nextcloud.png';
+import prometheusPng from '@site/static/img/templates/prometheus.png';
+import openShiftPng from '@site/static/img/templates/openshift.png';
+import keycloakPng from '@site/static/img/templates/keycloak.png';
+import letsencrypt from '@site/static/img/templates/letsencrypt.png';
+
 
 export const TemplatesList: TemplateItem[] = [
     {
+        id: 'argocdapp',
+        title: 'ArgoCD App',
+        logo: telekomPng,
+        description: (
+            <>
+                With this template, deploying your cloud-native applications to the cloud has never been easier or faster, no OpenStack expertise knowledge required. 
+                In just a few clicks, you can spin up a Cloud Container Engine (CCE) cluster and launch your apps using Argo CD, the leading GitOps tool.
+            </>
+        ),
+        type: 'Cloud Create',
+        link: 'https://designer.otc-service.com/#/applications/list',
+    },
+    {
+        id: 'openshift',
         title: 'OpenShift',
         logo: telekomPng,
         description: (
@@ -15,8 +35,10 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: openShiftPng,
     },
     {
+        id: 'openshift-ha',
         title: 'OpenShift HA',
         logo: telekomPng,
         description: (
@@ -26,8 +48,10 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: openShiftPng,
     },
     {
+        id: 'nextcloud',
         title: 'Nextcloud',
         logo: telekomPng,
         description: (
@@ -37,8 +61,10 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: nextCloudPng,
     },
     {
+        id: 'cce',
         title: 'CCE',
         logo: telekomPng,
         description: (
@@ -50,6 +76,7 @@ export const TemplatesList: TemplateItem[] = [
         link: 'https://designer.otc-service.com/#/applications/list',
     },
     {
+        id: 'bastion-host',
         title: 'Bastion Host',
         logo: telekomPng,
         description: (
@@ -61,6 +88,7 @@ export const TemplatesList: TemplateItem[] = [
         link: 'https://designer.otc-service.com/#/applications/list',
     },
     {
+        id: 'prometheus',
         title: 'Prometheus',
         logo: telekomPng,
         description: (
@@ -70,8 +98,10 @@ export const TemplatesList: TemplateItem[] = [
         ),
         type: 'Cloud Create',
         link: 'https://designer.otc-service.com/#/applications/list',
+        banner: prometheusPng,
     },
     {
+        id: 'p2s-vpn',
         title: 'P2S VPN',
         logo: telekomPng,
         description: (
@@ -86,6 +116,7 @@ export const TemplatesList: TemplateItem[] = [
         link: 'https://github.com/opentelekomcloud-blueprints/ovpn',
     },
     {
+        id: 'acme',
         title: 'ACME',
         logo: iitsPng,
         description: (
@@ -98,8 +129,10 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-acme',
         partner: true,
+        banner: letsencrypt,
     },
     {
+        id: 'cce',
         title: 'CCE',
         logo: iitsPng,
         description: (
@@ -114,6 +147,7 @@ export const TemplatesList: TemplateItem[] = [
         partner: true,
     },
     {
+        id: 'cce-gpu',
         title: 'CCE GPU Node Pool',
         logo: iitsPng,
         description: (
@@ -141,6 +175,7 @@ export const TemplatesList: TemplateItem[] = [
     //     link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-cert-manager',
     // },
     {
+        id: 'crd-installer',
         title: 'CRD Installer',
         logo: iitsPng,
         description: (
@@ -155,6 +190,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'cts',
         title: 'CTS',
         logo: iitsPng,
         description: (
@@ -171,6 +207,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'dedicated-elb',
         title: 'Dedicated ELB',
         logo: iitsPng,
         description: (
@@ -186,6 +223,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'enterprise-vpn-connection',
         title: 'Enterprise VPN Connection',
         logo: iitsPng,
         description: (
@@ -202,6 +240,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'enterprise-vpn-gateway',
         title: 'Enterprise VPN Gateway',
         logo: iitsPng,
         description: (
@@ -218,6 +257,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'evs',
         title: 'EVS',
         logo: iitsPng,
         description: (
@@ -233,6 +273,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'jumphost',
         title: 'Jumphosts',
         logo: iitsPng,
         description: (
@@ -250,6 +291,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'keycloak-oidc',
         title: 'Keycloak SSO (OIDC)',
         logo: iitsPng,
         description: (
@@ -262,9 +304,10 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-oidc',
         partner: true,
-
+        banner: keycloakPng,
     },
     {
+        id: 'keycloak-saml',
         title: 'Keycloak SSO (SAML)',
         logo: iitsPng,
         description: (
@@ -277,9 +320,10 @@ export const TemplatesList: TemplateItem[] = [
         type: 'Terraform',
         link: 'https://github.com/iits-consulting/terraform-opentelekomcloud-keycloak-sso-saml',
         partner: true,
-
+        banner: keycloakPng,
     },
     {
+        id: 'elb',
         title: 'ELB',
         logo: iitsPng,
         description: (
@@ -295,6 +339,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+            id: 'obs-bucket',   
         title: 'Restricted OBS Bucket',
         logo: iitsPng,
         description: (
@@ -310,6 +355,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'obs-secrets-reader',
         title: 'OBS Secrets Reader',
         logo: iitsPng,
         description: (
@@ -325,6 +371,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'obs-secrets-writer',
         title: 'OBS Secrets Writer',
         logo: iitsPng,
         description: (
@@ -341,6 +388,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'private-dns',
         title: 'Private DNS',
         logo: iitsPng,
         description: (
@@ -356,6 +404,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'projects',
         title: 'Projects',
         logo: iitsPng,
         description: (
@@ -371,6 +420,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'public-dns',
         title: 'Public DNS',
         logo: iitsPng,
         description: (
@@ -387,6 +437,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'rds',
         title: 'RDS',
         logo: iitsPng,
         description: (
@@ -402,6 +453,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'sfs',
         title: 'SFS',
         logo: iitsPng,
         description: (
@@ -417,6 +469,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'snat',
         title: 'SNAT',
         logo: iitsPng,
         description: (
@@ -432,6 +485,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'terraform-remote-state',
         title: 'Encrypted Terraform Remote State',
         logo: iitsPng,
         description: (
@@ -447,6 +501,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'vpc-subnet',
         title: 'VPC/Subnet',
         logo: iitsPng,
         description: (
@@ -462,6 +517,7 @@ export const TemplatesList: TemplateItem[] = [
 
     },
     {
+        id: 'waf',
         title: 'WAF',
         logo: iitsPng,
         description: (

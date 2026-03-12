@@ -8,12 +8,17 @@
   --shadow-hover: rgba(0, 0, 0, 0.1);
 }
 
-:root { --ifm-background-surface-color: #fbfbfb; }
-html[data-theme='dark'] { --ifm-background-surface-color: #1c1c1e; } 
+:root {
+  --ifm-background-surface-color: #fbfbfb;
+}
+
+html[data-theme='dark'] {
+  --ifm-background-surface-color: #1c1c1e;
+}
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(480px, 3fr));
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -29,12 +34,12 @@ html[data-theme='dark'] { --ifm-background-surface-color: #1c1c1e; }
   color: var(--text-base, var(--ifm-font-color-base));
   transition: box-shadow 0.2s ease;
   height: 100%;
-  text-decoration: none;           
+  text-decoration: none;
 }
 
 .card:hover {
-  text-decoration: none;           
-  box-shadow: 
+  text-decoration: none;
+  box-shadow:
     0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
     0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover))
 }
@@ -47,8 +52,8 @@ html[data-theme='dark'] .card {
 
 html[data-theme='dark'] .card:hover {
   /* your Telekom-pink shadow */
-  box-shadow: 
-    0px 16px 64px 0px #e20074, 
+  box-shadow:
+    0px 16px 64px 0px #e20074,
     0px 8px 16px 0px #e20074;
 }
 
@@ -139,20 +144,26 @@ html[data-theme='dark'] .card {
 
 .tagsContainer {
   display: flex;
-  flex-wrap: nowrap;      /* never wrap onto a second line */
-  column-gap: 0.4rem;     /* horizontal gap only */
-  overflow-x: auto;       /* scroll if they overflow */
+  flex-wrap: nowrap;
+  /* never wrap onto a second line */
+  column-gap: 0.4rem;
+  /* horizontal gap only */
+  overflow-x: auto;
+  /* scroll if they overflow */
 }
 
 .tagsContainer :global(scale-tag) {
-  display: inline-flex;   /* reset any block-level margins */
-  margin: 0;              /* remove leftover bottom-margins */
+  display: inline-flex;
+  /* reset any block-level margins */
+  margin: 0;
+  /* remove leftover bottom-margins */
 }
 
 /* ===== Filters (toggle chips) ===== */
 .filtersLabel {
+  margin-top: 5px;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 800;
   opacity: 0.8;
 }
 
@@ -163,7 +174,8 @@ html[data-theme='dark'] .card {
   flex-wrap: wrap;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 16px auto; /* center like the grid */
+  margin: 0 auto 16px auto;
+  /* center like the grid */
 }
 
 .chip {
@@ -180,8 +192,10 @@ html[data-theme='dark'] .card {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  flex: 1 1 auto;     /* <-- this is the key */
-  min-width: 280px;   /* keeps some space before button wraps */
+  flex: 1 1 auto;
+  /* <-- this is the key */
+  min-width: 280px;
+  /* keeps some space before button wraps */
 }
 
 .chipActive {
@@ -206,7 +220,7 @@ html[data-theme='dark'] .card {
   height: 44px;
 }
 
-.tileGrid{
+.tileGrid {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -215,12 +229,15 @@ html[data-theme='dark'] .card {
 
 /* Span the full results grid and center content */
 .emptyFill {
-  grid-column: 1 / -1;     /* <-- key: occupy all grid columns */
+  grid-column: 1 / -1;
+  /* <-- key: occupy all grid columns */
   width: 100%;
 
-  display: grid;           /* center both axes */
+  display: grid;
+  /* center both axes */
   place-items: center;
-  min-height: 50vh;        /* or 100vh if you want true viewport centering */
+  min-height: 50vh;
+  /* or 100vh if you want true viewport centering */
 }
 
 .emptyState {
@@ -237,4 +254,32 @@ html[data-theme='dark'] .card {
   margin-bottom: 10px;
 }
 
+.odsCardImageWrapper__content :global(.ODSCardContentBasic-BodyText) {
+  font-weight: 400;
+  font-family: var(--ifm-font-family-base);
 
+  /* “adjust size if necessary” (pragmatic approach) */
+  font-size: clamp(0.8rem, 0.85rem + 0.2vw, 0.9rem);
+  line-height: 1.2rem;
+
+}
+
+.odsCardImageWrapper__content :global(.ODSContainer-basic--vertical .ODSCardImage-ContentWrapper) {
+  vertical-align: top;
+  /* padding-top: 20px; */
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+:global(.content-top) {
+  flex: 1;  /* Takes up available space */
+}
+
+
+:global(.tags-container) {
+  padding-top: 10px;
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+}

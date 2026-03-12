@@ -10,6 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create .npmrc (Artifactory Authentication)
+        uses: rajpal-se/configure-npmrc@v1
+        with:
+          scope: ${{ secrets.NPM_USER }}
+          registry: https://artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+          authToken: ${{ secrets.NPM_TOKEN }}
+          registryAuthUrl: //artifactory.devops.telekom.de/artifactory/api/npm/one-design-system-npm/
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:

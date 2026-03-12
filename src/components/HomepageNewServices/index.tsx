@@ -15,7 +15,7 @@ export default function HomepageNewServices(): JSX.Element {
             <h1 className={clsx("margin-bottom--md", styles.item__title)}>
               Meet the New Comers
             </h1>
-            <p className="margin-bottom--md">
+            <p className="margin-bottom--sm">
               Explore the new services added in Open Telekom Cloud portfolio.
             </p>
             <a className="button button--secondary" href={useBaseUrl("/docs/best-practices")}>

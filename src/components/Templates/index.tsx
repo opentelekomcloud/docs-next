@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import styles from "./styles.module.css";
 import TemplateCard from "./TemplateCard";
 import { TemplatesList } from "./TemplatesList";
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import { ODSButton, ODSChipSet, ODSToggleChip } from '@telekom-ods/react-ui-kit';
 
 const FILTERS = [
     { label: "Ansible", value: "ansible" },
@@ -12,7 +13,6 @@ const FILTERS = [
 ] as const;
 
 type FilterType = (typeof FILTERS)[number]["value"];
-
 const normalize = (v: string) => v.trim().toLowerCase();
 
 function splitTemplateTypes(typeField?: string): string[] {
@@ -38,27 +38,23 @@ export default function Templates() {
         });
     };
 
-    const onChipRowClickCapture = (e: React.MouseEvent) => {
-        const host = (e.target as HTMLElement)?.closest("scale-chip") as HTMLElement | null;
-        if (!host) return;
-
-        const value = host.getAttribute("data-chip") as FilterType | null;
-        if (!value) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-        toggleType(value);
-    };
+    const resetFilters = useCallback(() => {
+        setActiveTypes(new Set());
+    }, []);
 
     const filteredTemplates = useMemo(() => {
-        if (activeTypes.size === 0) return TemplatesList;
-
-        return TemplatesList.filter((tpl) => {
+        let templates = activeTypes.size === 0 ? TemplatesList : TemplatesList.filter((tpl) => {
             const tplTypes = splitTemplateTypes(tpl.type);
-            for (const t of activeTypes) {
-                if (tplTypes.includes(t)) return true;
-            }
-            return false;
+            return Array.from(activeTypes).some(t => tplTypes.includes(t));
+        });
+
+        // Deduplicate by id/link
+        const seen = new Set();
+        return templates.filter(tpl => {
+            const key = tpl.id || tpl.link;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
         });
     }, [activeTypes]);
 
@@ -67,48 +63,61 @@ export default function Templates() {
             <div className={styles.filtersRow}>
                 <span className={styles.filtersLabel}>Filter by type:</span>
 
-                <div className={styles.chipsRow} onClickCapture={onChipRowClickCapture}>
+                <ODSChipSet aria-label="template type filters">
                     {FILTERS.map(({ label, value }) => {
                         const isActive = activeTypes.has(value);
+
                         return (
-                            <scale-chip
+                            <ODSToggleChip
                                 key={value}
-                                data-chip={value}
-                                size="small"
+                                label={label}
                                 selected={isActive}
-                            >
-                                {label}
-                            </scale-chip>
+                                onClick={() => toggleType(value)}
+                            />
                         );
                     })}
-                </div>
+                </ODSChipSet>
 
-                    <scale-button
-                        variant="secondary"
-                        className={styles.resetBtn}
-                        onClick={() => setActiveTypes(new Set())}
-                    >
-                        <scale-icon-action-refresh></scale-icon-action-refresh> Reset Filters
-                    </scale-button>
+                <ODSButton
+                    className={styles.resetBtn}
+                    buttonIcon="refresh-type-standard"
+                    buttonType="standard"
+                    onClick={resetFilters}
+                    label="Refresh Filters"
+                    rel="noopener"
+                    leftIcon
+                    size="small"
+                    variant="secondary"
+                />
             </div>
 
             <scale-divider></scale-divider>
+            <br/>
 
-            <div className={styles.grid}>
-                {filteredTemplates.length === 0 ? (
-                    <div className={styles.emptyFill}>
-                        <div className={styles.emptyState}>
-                            <img src={noDataImg} />
-                            <h3>No results match your filters.</h3>
-                        </div>
+            {filteredTemplates.length === 0 ? (
+                <div className={styles.emptyFill}>
+                    <div className={styles.emptyState}>
+                        <img src={noDataImg} />
+                        <h3>No results match your filters.</h3>
                     </div>
-
-                ) : (
-                    filteredTemplates.map((tpl) => (
-                        <TemplateCard title={tpl.title} logo={tpl.logo} description={tpl.description} type={tpl.type} link={tpl.link} partner={tpl.partner} />
-                    ))
-                )}
-            </div>
+                </div>
+            ) : (
+                <div className="row">
+                    {filteredTemplates.map((tpl, idx) => (
+                        <div key={tpl.id ?? tpl.link ?? `${tpl.title}-${tpl.partner ?? "n/a"}-${idx}`} className="col col--4 margin-bottom--lg ">
+                            <TemplateCard
+                                title={tpl.title}
+                                logo={tpl.logo}
+                                description={tpl.description}
+                                type={tpl.type}
+                                link={tpl.link}
+                                partner={tpl.partner}
+                                banner={tpl.banner}
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

@@ -181,8 +181,13 @@ html[data-theme='dark'] .footer__link-item:hover {
 }
 
 .navbar__link {
-  /* font-size: larger; */
-  /* font-weight: 700; */
+  font-size: larger;
+  font-weight: 700;
+}
+
+.DocSearch-Button {
+  font-size: larger;
+  font-family: var(--ifm-font-family-base);
   font-weight: 700;
 }
 
