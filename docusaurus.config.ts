@@ -25,7 +25,6 @@ const config: Config = {
   projectName: 'docs-next', // Usually your repo name.
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -335,6 +334,12 @@ const config: Config = {
       } as UmamiOptions,
     ],
   ],
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 };
 
 export default config;

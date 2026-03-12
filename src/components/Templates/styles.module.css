@@ -264,8 +264,6 @@ html[data-theme='dark'] .card {
 
 }
 
-.odsCardImageWrapper__content :global(.ODSCardContentBasic-LabelHeading .ODSCardContentBasic-Heading--size-small) {}
-
 .odsCardImageWrapper__content :global(.ODSContainer-basic--vertical .ODSCardImage-ContentWrapper) {
   vertical-align: top;
   /* padding-top: 20px; */
