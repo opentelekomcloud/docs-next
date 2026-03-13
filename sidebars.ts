@@ -152,6 +152,10 @@ const sidebars: SidebarsConfig = {
           },
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/big-data-and-data-analysis/cloud-search-service/configure-css-slack-notifications',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-search-service/index.html',
