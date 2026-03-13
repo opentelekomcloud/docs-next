@@ -4,6 +4,9 @@ title: Issue an ACME Certificate with DNS01 Solver in CCE
 tags: [cce, acme, lets-encrypt, certificates, cert-manager, dns-solver, webhook]
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Issue an ACME Certificate with DNS01 Solver in CCE
 
 A DNS01 challenge is a type of challenge used in the Domain Name System (DNS) to verify ownership of a domain during the process of obtaining an SSL/TLS certificate, often through services like Let's Encrypt.
@@ -26,17 +29,36 @@ One of the tools, that can be employed in the context of Kubernetes, to secure c
 
 Only prerequisite is cert-manager. If you don't have it already installed on your CCE Cluster, this can be very easily done using a Helm Chart:
 
-```shell
-helm repo add jetstack https://charts.jetstack.io 
-helm repo update 
+<Tabs>
+    <TabItem value="ingress" label="Ingress API" default>
 
-helm install \
-  cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --create-namespace \
-  --version v1.15.3 \
-  --set crds.enabled=true
-```
+      ```shell
+      helm upgrade --install cert-manager oci://quay.io/jetstack/charts/cert-manager \
+        --namespace cert-manager \
+        --create-namespace \
+        --set crds.enabled=true
+      ```
+    </TabItem>
+    <TabItem value="gateway" label="Gateway API" default>
+
+:::warning
+1️⃣ It is recommended to install cert-manager's Ingress API support before enabling Gateway API support.  
+2️⃣ This feature can only be used after installing the [Gateway API bundle](https://gateway-api.sigs.k8s.io/guides/getting-started/#installing-gateway-api) and enabling an extra flag on the cert-manager controller.
+:::
+
+      ```shell
+      helm upgrade --install cert-manager oci://quay.io/jetstack/charts/cert-manager \
+      --namespace cert-manager \
+      --create-namespace \
+      --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
+      --set config.kind="ControllerConfiguration" \
+      --set config.enableGatewayAPI=true \
+      --reset-values
+      ```
+      
+    </TabItem>
+
+</Tabs>
 
 ## Installing the ACME DNS01 Solver
 
@@ -77,10 +99,6 @@ You are going to need one `ClusterIssuer` for the *production* and one for the *
 :::
 
     Create and deploy the following manifest:
-
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="staging" label="Staging" default>

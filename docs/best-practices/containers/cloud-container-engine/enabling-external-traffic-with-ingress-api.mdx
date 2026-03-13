@@ -6,16 +6,14 @@ tags: [cce, elb, externaldns, dns, acme, ingress, ingress-api, cert-manager, con
 
 # Enabling External Traffic with Ingress API
 
-Before deploying our workloads, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites 
-such as an [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) for routing external traffic, [cert-manager](https://cert-manager.io/) for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required 
-to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
+Before deploying our workloads, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as an [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) for routing external traffic, [cert-manager](https://cert-manager.io/) for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
 
 :::danger Ingress-NGINX Retirement
 
 As of March 2026, the [Ingress NGINX](https://github.com/kubernetes/ingress-nginx/) is retired; see [here](https://www.kubernetes.dev/blog/2025/11/12/ingress-nginx-retirement/) the announcement of the Kubernetes SIG Network and the Security Response Committee. 
 The Ingress API support is deprecated in favor of the more flexible and powerful Gateway API and any new future features development is frozen. 
 
-For that reason, it is recommended to transition to use the Gateway API for new deployments or when updating existing ones.
+For that reason, it is recommended to transition to use the Gateway API for new deployments or when updating existing ones. For more details consult the Best Practice: [Enabling External Traffic with Gateway API](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-gateway-api).
 :::
 
 ## Overview
@@ -241,7 +239,7 @@ Once deployed, Kubernetes Ingress resources referencing the `haproxy` class will
 </Tabs>
 
 
-## Installing the Open Telekom Cloud ACME DNS01 Solver
+## Installing the T Cloud Public DNS01 Solver
 
 :::caution
 This step only needs to be performed **once per cluster**.
