@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import styles from "./styles.module.css";
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { ODSCardFeature, ODSCardFeaturePreferredContent } from "@telekom-ods/react-ui-kit";
 
@@ -14,7 +13,7 @@ export interface Callout {
 }
 function Callout(props: Callout): JSX.Element {
   return (
-    <div className={clsx(styles.odscard__feature_content)}>
+    <div className={clsx("odscard__feature_content")}>
       <ODSCardFeature
         contentSlot={
           <ODSCardFeaturePreferredContent

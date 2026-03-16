@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './styles.module.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import { ODSCardImage, ODSCardContentBasic } from '@telekom-ods/react-ui-kit';
+import clsx from 'clsx';
 
 export type NewArticleItem = {
     id: string;
@@ -23,7 +23,7 @@ const NewArticleCard: React.FC<NewArticleItem> = ({ title, description, type, li
       }
 
     return (
-        <ODSCardImage className={styles.odsCardImageWrapper__content}
+        <ODSCardImage className={clsx("odsCardImageWrapper__content")}
             action={open}
             imagePosition="top"
             backgroundImage={banner}

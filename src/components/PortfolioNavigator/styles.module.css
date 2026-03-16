@@ -895,78 +895,6 @@ html[data-theme='dark'] .sleeveFooterSingle {
   margin-bottom: 10px;
 }
 
-
-.odscard__feature_content_padding {
-  padding-top: 10px !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeature-ImageContainer) {
-  width: 20% !important;
-  height: 100% !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeature-ImageContainer img) {
-  width: 70% !important;
-  height: 100% !important;
-  object-fit: scale-down !important;
-  filter: invert(0);
-}
-
-html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-ImageContainer img) {
-  filter: invert(1);
-}
-
-.odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
-  /* background-color: #4ad9cd !important; */
-  background-color: #f2f0f1;
-}
-
-html[data-theme='dark'] .odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature-ImageBg) {
-  /* background-color: #4ad9cd !important; */
-  background-color: var(--telekom-color-background-surface-subtle);
-}
-
-.odscard__feature_content :global(.ODSContainer-basic--horizontal.ODSCardFeature) {
-  height: 40px !important;
-  min-height: 96px !important;
-  margin-bottom: 10px !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeature-CardBg) {
-  background-color: #f2f0f1;
-}
-
-html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg) {
-  background-color: var(--telekom-color-background-surface-subtle);
-}
-
-.odscard__feature_content :global(.ODSCardFeaturePreferredContent) {
-  color: red !important;
-  font-size: medium !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeaturePreferredContent-ProductName) {
-  margin-top: 2px;
-  font-size: medium !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeaturePreferredContent-ProductPrice) {
-  font-size: small !important;
-}
-
-.odscard__feature_content :global(.ODSCardFeaturePreferredContent h2) {
-  margin: 0 !important;
-}
-
-.odsaccordion_filters :global(.ODSAccordion-Heading) {
-  background-color: #e20074 !important;
-  border-radius: 20px;
-}
-
-/* .odsbutton__reset_filters :global(.ODSButton--buttonType-standard ) {
-  padding-top: 10px;
-} */
-
 .odstext_label {
   padding: 0;
   margin: 0;
@@ -983,6 +911,7 @@ html[data-theme='dark'] .odscard__feature_content :global(.ODSCardFeature-CardBg
   margin-top: 12px
 }
 
-.bucketsResetFilters :global(.ODSButton) {
+.odsbutton__reset_filters {
   width: 100%;
+  display: block;
 }

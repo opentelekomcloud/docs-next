@@ -152,13 +152,6 @@ html[data-theme='dark'] .card {
   /* scroll if they overflow */
 }
 
-.tagsContainer :global(scale-tag) {
-  display: inline-flex;
-  /* reset any block-level margins */
-  margin: 0;
-  /* remove leftover bottom-margins */
-}
-
 /* ===== Filters (toggle chips) ===== */
 .filtersLabel {
   margin-top: 5px;
@@ -252,34 +245,4 @@ html[data-theme='dark'] .card {
   max-width: 220px;
   height: auto;
   margin-bottom: 10px;
-}
-
-.odsCardImageWrapper__content :global(.ODSCardContentBasic-BodyText) {
-  font-weight: 400;
-  font-family: var(--ifm-font-family-base);
-
-  /* “adjust size if necessary” (pragmatic approach) */
-  font-size: clamp(0.8rem, 0.85rem + 0.2vw, 0.9rem);
-  line-height: 1.2rem;
-
-}
-
-.odsCardImageWrapper__content :global(.ODSContainer-basic--vertical .ODSCardImage-ContentWrapper) {
-  vertical-align: top;
-  /* padding-top: 20px; */
-  display: flex;
-  flex-direction: column;
-  min-height: 250px;
-}
-
-:global(.content-top) {
-  flex: 1;  /* Takes up available space */
-}
-
-
-:global(.tags-container) {
-  padding-top: 10px;
-  margin-top: auto;
-  display: flex;
-  gap: 10px;
 }

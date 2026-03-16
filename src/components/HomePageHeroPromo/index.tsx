@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import styles from './styles.module.css';
 import { ODSCardCarousel, ODSCardPromo, ODSSheetTitleLabel } from '@telekom-ods/react-ui-kit';
 
 import bestPracticesSegment1 from '@site/static/img/assets/video/CardPromoVideo-CUxfusaj.mp4';
@@ -11,7 +10,7 @@ import templatesSegment1 from '@site/static/img/assets/video/T_pattern_2023_abst
 export default function HomePageHeroPromo(): JSX.Element {
 
   return (
-    <div className={clsx("col col--12", styles.odsHeroWrapper__content)}>
+    <div className={clsx("col col--12", "odsHeroWrapper__content")}>
       <ODSCardCarousel align='left' loop>
         <ODSCardPromo
           carouselTimerProps={{

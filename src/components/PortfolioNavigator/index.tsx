@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, KeyboardEvent } from "react";
+import { useMemo, useState, useCallback } from "react";
 import styles from "./styles.module.css";
 import 'flag-icons/css/flag-icons.min.css';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -159,7 +159,7 @@ export default function PortfolioServicesColumns() {
     <div className={styles.otcWrap}>
       <div className={styles.otcMax}>
 
-        <div className={clsx(styles.filterAccordionRow, styles.odsaccordion_filters)}>
+        <div className={clsx(styles.filterAccordionRow, "odsaccordion_filters")}>
           <ODSAccordion
             headerText="Filters"
             headingElement="h2"
@@ -180,7 +180,7 @@ export default function PortfolioServicesColumns() {
             </div>
           ) : (
             filtered.map((s) => (
-              <div key={s.id} className={clsx(styles.odscard__feature_content)}>
+              <div key={s.id} className={clsx("odscard__feature_content_pn")}>
                 <ODSCardFeature
                   id={s.symbol}
                   contentSlot={

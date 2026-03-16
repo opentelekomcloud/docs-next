@@ -1,0 +1,314 @@
+/* HomePageHeroPromo */
+
+.odsHeroWrapper__content .ODSCarouselTimer {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+.odsHeroWrapper__content button[aria-label="button navigation right type standard"] {
+  display: none;
+}
+
+.odsHeroWrapper__content button[aria-label="button navigation left type standard"] {
+  display: none;
+}
+
+.odsHeroWrapper__content button[aria-label="play button resumed"] {
+  display: none;
+}
+
+.odsHeroWrapper__content button[aria-label="play button paused"] {
+  display: none;
+}
+
+/* HomePageNewArticles */
+
+/* 1) Stop the “peek” */
+.carouselFix * {
+  box-sizing: border-box;
+}
+
+/* Try Embla-style first (very common) */
+.carouselFix .embla__viewport {
+  overflow: hidden !important;
+}
+
+.carouselFix .embla__container {
+  display: flex;
+}
+
+/* FORCE: each slide (direct child) = 100% width */
+.carouselFix .embla__container > * {
+  flex: 0 0 100% !important;
+  min-width: 0;
+}
+
+/* Portfolio Navigator */
+
+.odscard__feature_content_pn_padding {
+  padding-top: 10px !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeature-ImageContainer {
+  width: 20% !important;
+  height: 100% !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeature-ImageContainer img {
+  width: 70% !important;
+  height: 100% !important;
+  object-fit: scale-down !important;
+  filter: invert(0);
+}
+
+html[data-theme='dark'] .odscard__feature_content_pn .ODSCardFeature-ImageContainer img {
+  filter: invert(1);
+}
+
+.odscard__feature_content_pn .ODSContainer-basic--horizontal.ODSCardFeature-ImageBg {
+  /* background-color: #4ad9cd !important; */
+  background-color: #f2f0f1;
+}
+
+html[data-theme='dark'] .odscard__feature_content_pn .ODSContainer-basic--horizontal.ODSCardFeature-ImageBg {
+  /* background-color: #4ad9cd !important; */
+  background-color: var(--telekom-color-background-surface-subtle);
+}
+
+.odscard__feature_content_pn .ODSContainer-basic--horizontal.ODSCardFeature {
+  height: 40px !important;
+  min-height: 96px !important;
+  margin-bottom: 10px !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeature-CardBg {
+  background-color: #f2f0f1;
+}
+
+html[data-theme='dark'] .odscard__feature_content_pn .ODSCardFeature-CardBg {
+  background-color: var(--telekom-color-background-surface-subtle);
+}
+
+.odscard__feature_content_pn .ODSCardFeaturePreferredContent {
+  color: red !important;
+  font-size: medium !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeaturePreferredContent-ProductName {
+  margin-top: 2px;
+  font-size: medium !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeaturePreferredContent-ProductPrice {
+  font-size: small !important;
+}
+
+.odscard__feature_content_pn .ODSCardFeaturePreferredContent h2 {
+  margin: 0 !important;
+}
+
+.odsaccordion_filters .ODSAccordion-Heading {
+  background-color: #e20074 !important;
+  border-radius: 20px;
+}
+
+/* .odsbutton__reset_filters .ODSButton--buttonType-standard  {
+  padding-top: 10px;
+} */
+
+
+
+/* .bucketsResetFilters .ODSButton {
+  width: 100%;
+} */
+
+/* ServiceCallouts */
+
+
+.odscard__feature_content_padding {
+  padding-top: 10px !important;
+}
+
+.odscard__feature_content .ODSCardFeature-ImageContainer {
+  width: 20% !important;
+  height: 100% !important;
+}
+
+.odscard__feature_content .ODSCardFeature-ImageContainer img {
+  width: 70% !important;
+  height: 100% !important;
+  object-fit: scale-down !important;
+  filter: invert(0); /* Put this to 1 to discover which SVGs are grey */
+}
+
+html[data-theme='dark'] .odscard__feature_content .ODSCardFeature-ImageContainer img {
+  filter: invert(1);
+}
+
+.odscard__feature_content .ODSContainer-basic--horizontal.ODSCardFeature-ImageBg {
+  /* background-color: #4ad9cd !important; */
+  background-color: #fbfbfb;
+}
+
+html[data-theme='dark'] .odscard__feature_content .ODSContainer-basic--horizontal.ODSCardFeature-ImageBg {
+  /* background-color: #4ad9cd !important; */
+  background-color: var(--telekom-color-background-surface-subtle);
+}
+
+.odscard__feature_content .ODSContainer-basic--horizontal.ODSCardFeature {
+  height: 40px !important;
+  min-height: 96px !important;
+  margin-bottom: 10px !important;
+}
+
+.odscard__feature_content .ODSCardFeature-CardBg {
+  background-color: #fbfbfb;
+}
+
+html[data-theme='dark'] .odscard__feature_content .ODSCardFeature-CardBg {
+  background-color: var(--telekom-color-background-surface-subtle);
+}
+
+.odscard__feature_content .ODSCardFeaturePreferredContent {
+  color: red !important;
+  font-size: medium !important;
+}
+
+.odscard__feature_content .ODSCardFeaturePreferredContent-ProductName {
+  font-size: medium !important;
+}
+
+.odscard__feature_content .ODSCardFeaturePreferredContent-ProductPrice {
+  font-size: small !important;
+}
+
+.odscard__feature_content .ODSCardFeaturePreferredContent h2 {
+  margin: 0 !important;
+}
+
+/* Templates */
+
+
+.odsCardImageWrapper__content .ODSCardContentBasic-BodyText {
+  font-weight: 400;
+  font-family: var(--ifm-font-family-base);
+
+  /* “adjust size if necessary” (pragmatic approach) */
+  font-size: clamp(0.8rem, 0.85rem + 0.2vw, 0.9rem);
+  line-height: 1.2rem;
+
+}
+
+.odsCardImageWrapper__content .ODSContainer-basic--vertical .ODSCardImage-ContentWrapper {
+  vertical-align: top;
+  /* padding-top: 20px; */
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+.odsCardImageWrapper__content_top {
+  flex: 1;
+}
+
+.odsCardImageWrapper__tags_container {
+  padding-top: 10px;
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* DocCard */
+
+
+/* If the rendered element has class "ODSCardQuickAction" */
+.quickActionWrapper__content .ODSCardQuickAction {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* If it renders as a web component tag like <ods-card-quick-action> */
+.quickActionWrapper__content ods-card-quick-action {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+.quickActionWrapper__content .ODSQuickActionCardPreferredContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.quickActionWrapper__content .ODSQuickActionCardPreferredContent-Title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 0 6px 0 !important;
+  font-size: 1rem !important;
+  line-height: 1.2rem !important;
+}
+
+/* Subtitle clamps AND can shrink slightly if space is tight */
+.quickActionWrapper__content .ODSQuickActionCardPreferredContent-Subtitle {
+  font-weight: 400;
+  font-family: var(--ifm-font-family-base);
+
+  /* “adjust size if necessary” (pragmatic approach) */
+  font-size: clamp(0.8rem, 0.85rem + 0.2vw, 0.9rem);
+  line-height: 1.2rem;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
+
+  /* ensures consistent card heights even with short text */
+  min-height: calc(1.2rem * 3);
+}
+
+.quickActionWrapper__content a,
+.quickActionWrapper__content a:hover,
+.quickActionWrapper__content a:focus {
+  text-decoration: none !important;
+}
+
+/* DocCardList */
+
+
+.quickActionWrapper__content_list .ODSCardQuickAction {
+  --ODSCardQuickAction-width: 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 10px;
+}
+
+.quickActionWrapper__content_list .ODSQuickActionCardPreferredContent-Subtitle {
+  font-weight: 400;
+  font-family: var(--ifm-font-family-base);
+  font-size: var(--ifm-code-font-size);
+    line-height: 1.3rem;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.quickActionWrapper__content_list .ODSQuickActionCardPreferredContent-Title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.quickActionWrapper__content_list a,
+.quickActionWrapper__content_list a:hover,
+.quickActionWrapper__content_list a:focus {
+  text-decoration: none !important;
+}

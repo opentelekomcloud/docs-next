@@ -10,8 +10,7 @@
     gap: 0.75rem;
 }
 
-/* target ODS button root element */
-.buttonGroup :global(.ODSButton) {
+.buttonGroup .ODSButton {
     width: 100%;
 }
 

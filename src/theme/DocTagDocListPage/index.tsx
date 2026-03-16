@@ -59,7 +59,7 @@ function DocItem({ doc }: { doc: Props['tag']['items'][number] }): JSX.Element {
         : File;
 
   return (
-    <div className={styles.quickActionWrapper__content}>
+    <div className={clsx("quickActionWrapper__content_list")}>
       <ODSCardQuickAction
         aria-label={doc.title}
         contentSlot={

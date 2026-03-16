@@ -1,9 +1,8 @@
 import React from 'react';
-import styles from './styles.module.css';
-
 import { ODSCardImage, ODSCardContentBasic, ODSTagStatic } from '@telekom-ods/react-ui-kit';
 import { useColorMode } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import clsx from 'clsx';
 
 export type TemplateItem = {
   id: string;
@@ -35,7 +34,7 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
   }
 
   return (
-      <ODSCardImage className={styles.odsCardImageWrapper__content}
+      <ODSCardImage className={clsx("odsCardImageWrapper__content")}
         action={open}
         imagePosition="top"
         backgroundImage={banner}
@@ -44,7 +43,7 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
         customHeight={true}
         contentSlot={
           <>
-            <div className="content-top">
+            <div className={clsx("odsCardImageWrapper__content_top")}>
               <ODSCardContentBasic
                 className="ods-card-content-basic-container"
                 content={description}
@@ -55,7 +54,7 @@ const TemplateCard: React.FC<TemplateItem> = ({ title, logo, description, type, 
               />
             </div>
 
-            <div className="tags-container">
+            <div className={clsx("odsCardImageWrapper__tags_container")}>
               {tags.map((tag, i) => (
                 <ODSTagStatic key={i} label={tag} type="promotion" icon="checkmark-type-standard-size-small" disabled={false} />
               ))}

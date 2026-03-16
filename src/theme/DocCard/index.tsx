@@ -20,7 +20,7 @@ import { File, FileStack } from 'lucide-react';
 
 import styles from './styles.module.css';
 
-import { ODSButton, ODSCardQuickAction, ODSQuickActionCardPreferredContent } from '@telekom-ods/react-ui-kit';
+import { ODSCardQuickAction, ODSQuickActionCardPreferredContent } from '@telekom-ods/react-ui-kit';
 
 
 function useCategoryItemsPlural() {
@@ -92,7 +92,7 @@ export function CardLayout({
   const target = internal || internal === undefined ? '_self' : '_blank';
 
   return (
-    <div className={styles.quickActionWrapper__content}>
+    <div className={clsx("quickActionWrapper__content")}>
       <ODSCardQuickAction
         aria-label={title}
         contentSlot={
@@ -100,14 +100,13 @@ export function CardLayout({
             <ODSQuickActionCardPreferredContent
               subtitle={description}
               title={
-              <div className={clsx(styles.quickActionHeader)}>
+              <div className={clsx("quickActionHeader")}>
                 {/* {icon} */}
                 {title}
               </div>
             }
               titleType="text"
             />
-                      {/* <p>{description}</p> */}
           </div>
         }
         filled
