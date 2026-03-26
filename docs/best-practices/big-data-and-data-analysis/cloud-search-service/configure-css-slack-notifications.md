@@ -189,7 +189,7 @@ After filling in the required details, click **Create** to save the notification
 
 ---
 
-## Step 8: Create a Monitor and Trigger
+## Creating a Monitor and a Trigger
 
 Example:
 - Monitor type: Query-level monitor
@@ -210,7 +210,7 @@ Message example:
 
 ---
 
-## Step 9: Test the Integration
+## Testing the Integration
 
 - Use **Send test message** in the channel
 - Trigger the monitor manually
