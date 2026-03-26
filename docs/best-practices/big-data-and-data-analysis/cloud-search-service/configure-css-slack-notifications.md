@@ -187,8 +187,6 @@ After filling in the required details, click **Create** to save the notification
 }
 ```
 
----
-
 ## Creating a Monitor and a Trigger
 
 Example:
@@ -207,8 +205,6 @@ Message example:
   "text": "*Alert:* {{ctx.monitor.name}}\nTime: {{ctx.periodStart}}"
 }
 ```
-
----
 
 ## Testing the Integration
 
