@@ -12,6 +12,7 @@ concurrency: preview-${{ github.ref }}
 
 jobs:
   deploy-ephemeral-preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     name: Deploy or Remove Ephemeral Preview
     environment: 
       name: pull-requests-preview
