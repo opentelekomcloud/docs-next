@@ -220,6 +220,13 @@ Message example:
 
 - Check NGINX logs with `sudo tail -f /var/log/nginx/error.log`
 - Validate webhook URL
+```bash
+curl -X POST "http://<proxy-private-ip>:8080/slack-webhook" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Test message from curl"
+  }'
+```
 - Confirm OpenSearch can reach proxy IP
 
 #### HTTP 403 / 404
