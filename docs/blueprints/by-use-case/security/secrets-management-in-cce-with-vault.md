@@ -1,11 +1,11 @@
 ---
-id: cce-vault
-title: Secrets management with CCE and Hashicorp Vault
+id: secrets-management-in-cce-with-vault
+title: Secrets Management in CCE and Hashicorp Vault
 tags: [cce, vault, hashicorp, secrets]
 sidebar_position: 10
 ---
 
-# Secrets management with CCE and Hashicorp Vault
+# Secrets Management with CCE and Hashicorp Vault
 
 Most **modern** IT setups are composed of several subsystems like databases, object stores, master controller, node access, and more. To access one component from another, some form of credentials are required. Configuring and storing these secrets directly in the components is considered as an anti-pattern, since a vulnerability of one component may iteratively and transitively affect the security of the whole setup.
 
@@ -18,7 +18,7 @@ usually introduces a problem of the so-called [Secret
 Zero](https://www.hashicorp.com/resources/secret-zero-mitigating-the-risk-of-secret-introduction-with-vault)
 as a key to the key storage.
 
-## Solution Design
+## Solution Overview
 
 Vault is an open-source software, provided and maintained by Hashicorp,
 that addresses this very problem. It is considered one of the reference
