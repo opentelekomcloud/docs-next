@@ -33,18 +33,36 @@
 		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"privileged": true,
 
+	"containerEnv": {
+		"HTTP_PROXY": "${localEnv:HTTP_PROXY}",
+		"HTTPS_PROXY": "${localEnv:HTTPS_PROXY}",
+		"NO_PROXY": "${localEnv:NO_PROXY}",
+		"http_proxy": "${localEnv:HTTP_PROXY}",
+		"https_proxy": "${localEnv:HTTPS_PROXY}",
+		"no_proxy": "${localEnv:NO_PROXY}"
+	},
+	
+	"remoteEnv": {
+		"HTTP_PROXY": "${localEnv:HTTP_PROXY}",
+		"HTTPS_PROXY": "${localEnv:HTTPS_PROXY}",
+		"NO_PROXY": "${localEnv:NO_PROXY}",
+		"http_proxy": "${localEnv:HTTP_PROXY}",
+		"https_proxy": "${localEnv:HTTPS_PROXY}",
+		"no_proxy": "${localEnv:NO_PROXY}"
+	},
+	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install",
-
+	
 	"runArgs": [
-        "--env-file", "${localWorkspaceFolder}/.devcontainer/.env"
-    ]
+		"--env-file",
+		"${localWorkspaceFolder}/.devcontainer/.env"
+	]
 
 	// Configure tool-specific properties.
 	// "customizations": {},
