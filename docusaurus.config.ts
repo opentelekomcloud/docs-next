@@ -200,14 +200,6 @@ const config: Config = {
               label: 'Webinars',
               href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-            {
-              label: 'Trainings & Certifications',
-              to: 'https://training.open-telekom-cloud.com/',
-            },
-            // {
-            //   label: 'Medium',
-            //   href: 'https://medium.com',
-            // },
           ],
         },
         {
