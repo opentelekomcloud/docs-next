@@ -1,0 +1,136 @@
+name: Stale Docs Review
+description: Create review issues for markdown docs whose last Git update is older than or equal to a threshold.
+
+inputs:
+  docs_folder:
+    description: Folder to scan, relative to repository root
+    required: true
+
+  stale_after_days:
+    description: Create an issue when file age in days is older than or equal to this threshold
+    required: true
+
+  issue_title_prefix:
+    description: Prefix for created issue titles
+    required: false
+    default: "Stale Content Review:"
+
+  issue_label:
+    description: Label to apply to created issues
+    required: false
+    default: "stale-content-review"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure issue label exists
+      uses: actions/github-script@v7
+      env:
+        ISSUE_LABEL: ${{ inputs.issue_label }}
+      with:
+        github-token: ${{ github.token }}
+        script: |
+          const labelName = process.env.ISSUE_LABEL;
+
+          try {
+            await github.rest.issues.getLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: labelName,
+            });
+            core.info(`Label already exists: ${labelName}`);
+          } catch (error) {
+            if (error.status === 404) {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: labelName,
+                color: "FBCA04",
+                description: "Content review is required",
+              });
+              core.info(`Created label: ${labelName}`);
+            } else {
+              throw error;
+            }
+          }
+
+    - name: Find stale docs and create issues
+      shell: bash
+      env:
+        DOCS_FOLDER: ${{ inputs.docs_folder }}
+        STALE_AFTER_DAYS: ${{ inputs.stale_after_days }}
+        ISSUE_TITLE_PREFIX: ${{ inputs.issue_title_prefix }}
+        ISSUE_LABEL: ${{ inputs.issue_label }}
+        REPO: ${{ github.repository }}
+        SERVER_URL: ${{ github.server_url }}
+        SHA: ${{ github.sha }}
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+
+        if [ ! -d "$DOCS_FOLDER" ]; then
+          echo "Docs folder does not exist: $DOCS_FOLDER"
+          exit 1
+        fi
+
+        now_epoch="$(date -u +%s)"
+        threshold_days="$STALE_AFTER_DAYS"
+
+        find "$DOCS_FOLDER" -type f \( -name "*.md" -o -name "*.mdx" \) | while read -r file; do
+          rel_file="${file#./}"
+          
+          filename="$(basename "$rel_file")"
+          if [ "$filename" = "index.md" ] || [ "$filename" = "index.mdx" ]; then
+            continue
+          fi
+
+          if ! git log -1 --format='%ct|%cI|%cn|%ce' -- "$file" >/tmp/stale_doc_gitinfo.txt || [ ! -s /tmp/stale_doc_gitinfo.txt ]; then
+            echo "Skipping $file because no git history was found."
+            continue
+          fi
+
+          IFS='|' read -r commit_epoch commit_iso committer_name committer_email < /tmp/stale_doc_gitinfo.txt
+
+          age_days=$(( (now_epoch - commit_epoch) / 86400 ))
+
+          if [ "$age_days" -lt "$threshold_days" ]; then
+            echo "Skipping $file ($age_days days old, threshold is $threshold_days)."
+            continue
+          fi
+
+          file_url="$SERVER_URL/$REPO/blob/$SHA/$rel_file"
+          title="$ISSUE_TITLE_PREFIX $rel_file"
+
+          # Check if an open issue already exists with this exact title
+          existing_issue_count=$(gh issue list \
+            --search "$title in:title state:open" \
+            --json title \
+            --jq '. | length')
+
+          if [ "$existing_issue_count" -gt 0 ]; then
+            echo "Skipping issue creation for $rel_file (already exists)"
+            continue
+          fi
+
+          body_file="$(mktemp)"
+          cat > "$body_file" <<EOF
+        This documentation file should be reviewed.
+
+        - **File:** \`$rel_file\`
+        - **Last updated:** $commit_iso
+        - **Last committer:** $committer_name <$committer_email>
+        - **Current file link:** $file_url
+        - **Age:** $age_days days
+        - **Threshold:** $threshold_days days
+
+        Please review and update this document if needed.
+        EOF
+
+          gh issue create \
+            --title "$title" \
+            --body-file "$body_file" \
+            --label "$ISSUE_LABEL"
+
+          echo "Created issue for $rel_file"
+          rm -f "$body_file"
+        done

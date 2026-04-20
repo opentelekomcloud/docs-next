@@ -24,7 +24,8 @@
 				"TakumiI.markdowntable",
 				"Perkovec.emoji",
 				"fill-labs.dependi",
-				"howardzuo.vscode-npm-dependency"
+				"howardzuo.vscode-npm-dependency",
+				"GitHub.vscode-github-actions"
 			]
 		}
 	},
