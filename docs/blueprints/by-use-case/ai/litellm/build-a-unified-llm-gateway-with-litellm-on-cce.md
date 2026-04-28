@@ -18,7 +18,7 @@ Deployed on CCE, LiteLLM becomes the central ingress point for LLM workloads wit
 
 As already mentioned, LiteLLM routes requests not only to external providers but also to locally hosted inference backends running on GPU nodes inside the cluster (or even in ECS instances). In this setup, [Ollama](https://ollama.com/) and [vLLM](https://docs.vllm.ai/en/stable/) represent two different ways of serving models within that local layer. In this blueprint, Ollama is used as the initial local inference backend due to its simplicity and fast setup, making it well suited for demonstrating the architecture and validating the integration flow. A follow-up blueprint will cover a deployment based on vLLM, focusing on scenarios where higher performance and more efficient GPU utilization are required.
 
-![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_2026-04-28_102538.png)
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_2026-04-28_123312.png)
 
 [Open WebUI](https://docs.openwebui.com/) is the interface through which users interact **non-programmatically** with the models. It connects to LiteLLM using its OpenAI-compatible API and **does not communicate directly with any underlying inference backend**. This keeps the frontend decoupled from the actual model infrastructure.
 
@@ -52,7 +52,7 @@ To proceed with the setup, you'll need to provision a Cloud Container Engine (CC
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fp6.png)
 
-:::caution
+:::tip
 Decide on the access method you'll use to interact with the CCE cluster post-deployment. There are two main options:
 
 1. **Assigning an Elastic IP (EIP)** and allowing direct access over the public Internet.  
@@ -77,7 +77,11 @@ Do not continue with the next steps until ingress and TLS are correctly configur
 
 ### GPU Nodes & NVIDIA Drivers
 
+:::caution
+Adding GPU nodes and installing the respective NVIDIA drivers are only required if you plan to run inference on local backends within your CCE cluster. If your setup relies exclusively on external providers, such as commercial APIs or hosted inference services, you can skip this section. In that case, LiteLLM will route requests directly to those providers, and no local GPU-backed infrastructure or model runtimes are needed.
 
+Proceed with this steps only if you intend to deploy and operate local inference backends such as Ollama or vLLM on CCE GPU nodes.
+:::
 
 ## Creating PostgreSQL Clusters with RDS
 
