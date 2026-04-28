@@ -83,6 +83,16 @@ Adding GPU nodes and installing the respective NVIDIA drivers are only required 
 Proceed with this steps only if you intend to deploy and operate local inference backends such as Ollama or vLLM on CCE GPU nodes.
 :::
 
+It is essential to ensure that GPU-enabled nodes are properly configured in your CCE cluster. Follow the guidelines in the blueprint [Deploy the NVIDIA GPU Operator on CCE](/docs/blueprints/by-use-case/ai/deploy-the-nvidia-gpu-operator-on-cce). Complete all required steps in that guide before proceeding, as the deployment of any local inference backend depends on a functional GPU setup.
+
+:::tip
+If your cluster uses only GPU worker nodes running on Ubuntu (without any need for special configuration e.g. MIG, vGPUs activation etc), you can streamline the setup by executing the following script:
+
+```bash
+
+```
+:::
+
 ## Creating PostgreSQL Clusters with RDS
 
 LiteLLM and OpenWebUI are stateful components when used beyond simple testing scenarios, as they rely on persistent storage for configuration, session data, and operational metadata. To ensure this data is retained across pod restarts and upgrades, a PostgreSQL database is required.
