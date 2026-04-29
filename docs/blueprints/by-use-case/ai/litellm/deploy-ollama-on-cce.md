@@ -13,7 +13,7 @@ In the context of CCE, Ollama can be deployed on GPU-enabled nodes to provide lo
 
 ## Deploying with Helm Chart
 
-In this section, Ollama is going to be deployed using a community Helm chart. Helm provides a consistent way to define, install, and manage Kubernetes applications, allowing the deployment to be versioned and reproducible. Using the Helm chart simplifies the setup of Ollama on CCE, as configuration such as GPU usage, resource allocation, and networking can be managed through a single values file. This approach also makes it easier to adjust the deployment later as requirements evolve.
+In this section, Ollama is going to be deployed using a [community Helm chart](https://github.com/otwld/ollama-helm). Helm provides a consistent way to define, install, and manage Kubernetes applications, allowing the deployment to be versioned and reproducible. Using the Helm chart simplifies the setup of Ollama on CCE, as configuration such as GPU usage, resource allocation, and networking can be managed through a single values file. This approach also makes it easier to adjust the deployment later as requirements evolve.
 
 ```bash
 helm repo add ollama-helm https://otwld.github.io/ollama-helm/
@@ -89,6 +89,8 @@ spec:
 kubectl create namespace ollama
 kubectl apply -f pvc-ollama-models
 ```
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-29_10-34-53.png)
 
 Add the following in **ollama-values.yaml**:
 

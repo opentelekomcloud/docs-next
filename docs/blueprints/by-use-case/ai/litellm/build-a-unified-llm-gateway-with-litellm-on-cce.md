@@ -6,7 +6,7 @@ tags: [cce, sfs, sfs-turbo, llm, litellm, ollama, openwebui, ai]
 
 # Build a Unified LLM Gateway with LiteLLM on CCE
 
-An LLM gateway acts as a centralized entry point for all interactions between applications and large language models. Rather than binding applications to specific model APIs or providers, **the gateway introduces a stable interface that abstracts the underlying inference layer**. This separation allows platform teams to control how requests are routed, which models are used, and where inference is executed, without requiring changes at the application level. In environments where multiple model backends coexist, such as locally hosted models on GPU infrastructure and external inference services— the gateway becomes the control plane for traffic management, policy enforcement, and operational consistency.
+An LLM gateway acts as a centralized entry point for all interactions between applications and large language models. Rather than binding applications to specific model APIs or providers, **the gateway introduces a stable interface that abstracts the underlying inference layer**. This separation allows platform teams to control how requests are routed, which models are used, and where inference is executed, without requiring changes at the application level. In environments where multiple model backends coexist, such as locally hosted models on GPU infrastructure and external inference services, the gateway becomes the control plane for traffic management, policy enforcement, operational consistency and costs management.
 
 From a platform perspective, an LLM gateway is also where concerns such as **authentication**, **rate limiting**, **observability**, and **cost governance** are enforced. It enables strategies like provider failover, workload-based routing, and gradual adoption of new models. This is particularly relevant in regulated or cost-sensitive environments, where decisions about whether to process requests on sovereign infrastructure or external providers must be made dynamically and transparently.
 
@@ -24,7 +24,7 @@ As already mentioned, LiteLLM routes requests not only to external providers but
 
 In practical terms, Open WebUI serves as a lightweight chat and experimentation interface. It allows users to select models, send prompts, and view responses without needing to understand where or how the models are hosted. **All requests generated through the UI are forwarded to LiteLLM, which then decides whether to route them to a local backend such as Ollama or to an external provider**.
 
-This separation of concerns is intentional. Open WebUI focuses purely on interaction and usability, while LiteLLM handles routing, backend abstraction, and policy enforcement. As a result, changes to the inference layer—such as switching from Ollama to a vLLM-based deployment—do not impact the user interface or require reconfiguration on the client side.
+This separation of concerns is intentional. Open WebUI focuses purely on interaction and usability, while LiteLLM handles routing, backend abstraction, and policy enforcement. As a result, changes to the inference layer,such as switching from Ollama to a vLLM-based deployment,do not impact the user interface or require reconfiguration on the client side.
 
 :::info
 Ollama acts as a self-contained runtime for running and managing LLMs locally. It simplifies model lifecycle operations such as pulling, starting, and exposing models through an API. This makes it straightforward to get a local inference service running quickly, especially in environments where ease of deployment and operational simplicity are more important than squeezing out maximum throughput. In the context of this architecture, Ollama is the component that exposes locally hosted models to LiteLLM, which then treats it as just another backend.
@@ -34,7 +34,7 @@ vLLM, on the other hand, is designed as a high-performance inference engine opti
 From the perspective of LiteLLM, both Ollama and vLLM can be treated as interchangeable backends as long as they expose a compatible API (commonly OpenAI-style endpoints). LiteLLM abstracts the differences between these runtimes, allowing requests to be routed to either without changing the client-side integration. This means that the choice between Ollama and vLLM is primarily an operational decision rather than an architectural one.
 :::
 
-#### Prerequisites
+## Prerequisites
 
 1. a **Cloud Container Engine (CCE)** cluster, with at least one GPU node 
 2. A domain name with DNS management delegated to the T Cloud Public DNS service
@@ -42,6 +42,7 @@ From the perspective of LiteLLM, both Ollama and vLLM can be treated as intercha
 4. a **Distributed Cache Service (DCS)** Redis instance
 5. a **Relational Database Service (RDS)** PostgreSQL server
 6. an **SFS Turbo** file system 
+7. A Hugging Face read-only token
 
 ## Creating a CCE Cluster
 
@@ -102,6 +103,8 @@ While it is technically possible to deploy PostgreSQL as a workload within CCE, 
 
 In this step, will provision PostgreSQL instances using T Cloud Public RDS service. We will deploy one database per workload to keep concerns separated and simplify operations. LiteLLM uses the database to persist configuration such as model mappings, routing rules, and API key management. This ensures that routing logic and access control remain consistent across restarts and deployments. OpenWebUI requires a database to store user data, chat history, and application settings. Without persistent storage, user interactions and configurations would be lost on pod restarts.
 
+[image here]
+
 :::important
 When provisioning the PostgreSQL instances, ensure the following network and security configurations are in place:
 
@@ -117,6 +120,8 @@ Open WebUI requires a Redis instance to handle in-memory data such as user sessi
 
 Instead of deploying Redis within CCE, this blueprint uses the managed Distributed Cache Service (DCS) of T Cloud Public. DCS provides a fully managed Redis-compatible service with built-in high availability, replication, and monitoring. This removes the need to manage failover, patching, and scaling manually.
 
+[image here]
+
 :::important
 Deploy the DCS Redis cluster in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the cache.
 :::
@@ -131,10 +136,16 @@ Expandable up to 32 TB, SFS Turbo provides fully hosted shared file storage. It 
 For more information on SFS Turbo, refer to the [official documentation](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html).
 :::
 
-Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*:
+Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*. Choose the Size, Capacity and target VPC and click *Create Now*: 
 
-[image here]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-29_10-35-26.png)
 
 :::important
 Deploy the SFS Turbo file system in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the file systems.
 :::
+
+## Creating a Hugging Face Token
+
+[navigation text here]
+[images here]
+
