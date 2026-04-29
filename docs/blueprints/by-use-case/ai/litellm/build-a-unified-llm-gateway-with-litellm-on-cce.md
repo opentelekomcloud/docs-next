@@ -1,7 +1,7 @@
 ---
 id: litellm
 title: Build a Unified LLM Gateway with LiteLLM on CCE
-tags: [cce, llm, litellm, ollama, openwebui, ai]
+tags: [cce, sfs, sfs-turbo, llm, litellm, ollama, openwebui, ai]
 ---
 
 # Build a Unified LLM Gateway with LiteLLM on CCE
@@ -39,8 +39,9 @@ From the perspective of LiteLLM, both Ollama and vLLM can be treated as intercha
 1. a **Cloud Container Engine (CCE)** cluster, with at least one GPU node 
 2. A domain name with DNS management delegated to the T Cloud Public DNS service
 3. a bastion host in **Elastic Cloud Service (ECS)**; *optional but strongly recommended*
-4. a **Distributed Cache Service** Redis instance
-5. a **Relational Database Service** PostgreSQL server
+4. a **Distributed Cache Service (DCS)** Redis instance
+5. a **Relational Database Service (RDS)** PostgreSQL server
+6. an **SFS Turbo** file system 
 
 ## Creating a CCE Cluster
 
@@ -101,19 +102,39 @@ While it is technically possible to deploy PostgreSQL as a workload within CCE, 
 
 In this step, will provision PostgreSQL instances using T Cloud Public RDS service. We will deploy one database per workload to keep concerns separated and simplify operations. LiteLLM uses the database to persist configuration such as model mappings, routing rules, and API key management. This ensures that routing logic and access control remain consistent across restarts and deployments. OpenWebUI requires a database to store user data, chat history, and application settings. Without persistent storage, user interactions and configurations would be lost on pod restarts.
 
-:::tip
-Size each database instance based on the expected usage of the respective component. For production environments, choose an instance class that can handle the anticipated connection load and data growth, and configure storage to provide stable performance. This approach keeps both services reliable while maintaining clear separation of responsibilities.
-:::
-
+:::important
 When provisioning the PostgreSQL instances, ensure the following network and security configurations are in place:
 
 - Create a Security Group, namely `rds-instances`, as described in best practice: [Configure Security Groups for PostgreSQL RDS Instances and Clients](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances.md).
 - Deploy the RDS instance within the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the database.
 - Attach the previously created `rds-instances` Security Group to each RDS instance (replace the `default` one). This group must allow **inbound** traffic on port `5432` from the Subnet or Security Group associated with the CCE nodes to enable secure database access.
 - Add a rule allowing **outbound** traffic on port `5432` to the dedicated Security Groups of the worker nodes of the CCE cluster.
+:::
 
 ## Creating a Redis Cluster with DCS
 
 Open WebUI requires a Redis instance to handle in-memory data such as user sessions and caching. This is necessary to support responsive interactions in the web interface and to maintain session state across multiple requests, especially when the application is scaled across multiple replicas.
 
 Instead of deploying Redis within CCE, this blueprint uses the managed Distributed Cache Service (DCS) of T Cloud Public. DCS provides a fully managed Redis-compatible service with built-in high availability, replication, and monitoring. This removes the need to manage failover, patching, and scaling manually.
+
+:::important
+Deploy the DCS Redis cluster in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the cache.
+:::
+
+## Creating a SFS Turbo File System
+
+Ollama stores downloaded models on disk, and these can be large. When running multiple replicas, using shared storage avoids downloading the same models repeatedly for each pod. SFS Turbo on T Cloud Public provides a shared file system that can be mounted by multiple pods at the same time. This ensures consistent model availability and reduces startup time and storage duplication.
+
+:::note
+Expandable up to 32 TB, SFS Turbo provides fully hosted shared file storage. It features high availability and durability to support massive small files and applications requiring low latency and high IOPS. SFS Turbo is perfect to scenarios such as high-performance websites, log storage, compression and decompression, DevOps, enterprise offices, container applications and of course large language models serving.
+
+For more information on SFS Turbo, refer to the [official documentation](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html).
+:::
+
+Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*:
+
+[image here]
+
+:::important
+Deploy the SFS Turbo file system in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the file systems.
+:::
