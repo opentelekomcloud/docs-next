@@ -130,7 +130,7 @@ kubectl apply -f litellm-config.yaml -n litellm
 
 ## Creating the Deployment
 
-Create the following deployment manifest and save it as **litellm-deployment.yaml**. Replace `PROXY_BASE_URL` with your own external endpoint:
+Create the following deployment manifest and save it as **litellm-deployment.yaml**. Replace `LITELLM_PROXY_BASE_URL` with your own external endpoint:
 
 ```yaml title="litellm-deployment.yaml"
 apiVersion: apps/v1
@@ -179,7 +179,7 @@ spec:
                   name: litellm-secrets
                   key: DATABASE_URL
             - name: PROXY_BASE_URL
-              value: <PROXY_BASE_URL>
+              value: <LITELLM_PROXY_BASE_URL>
             - name: DOCS_URL
               value: "/docs"
             - name: ROOT_REDIRECT_URL
@@ -249,7 +249,7 @@ metadata:
 spec:
   ingressClassName: haproxy
   rules:
-    - host: <PROXY_BASE_URL>
+    - host: <LITELLM_PROXY_BASE_URL>
       http:
         paths:
           - path: /
@@ -261,7 +261,7 @@ spec:
                   number: 4000
   tls:
   - hosts:
-    - <PROXY_BASE_URL>
+    - <LITELLM_PROXY_BASE_URL>
     secretName: litellm-proxy-base-url-tls
 ```
 
@@ -273,7 +273,7 @@ kubectl apply -f litellm-service-ingress.yaml -n litellm
 
 ## Validation
 
-Navigate to `PROXY_BASE_URL` address from your browser and login to LiteLLM using the UI credentials we created in **litellm-secrets.yaml**. 
+Navigate to `LITELLM_PROXY_BASE_URL` address from your browser and login to LiteLLM using the UI credentials we created in **litellm-secrets.yaml**. 
 
 On the sidebar click *Models + Endpoints* -> *All Models* and inspect whether the models we configured in **config.yaml** are there:
 

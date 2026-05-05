@@ -21,7 +21,21 @@ kubectl create namespace openwebui
 
 ### Creating an LiteLLM API Key
 
-[todo][navigation][image]
+Open WebUI does not communicate in this blueprint directly with model providers. It does though expect an OpenAI-compatible API endpoint and uses an API key to authenticate its requests against. In this architecture, LiteLLM provides that endpoint and acts as the central access layer to all configured models. For this reason, Open WebUI must be configured with an API key that LiteLLM recognizes. This is typically done by creating a dedicated virtual API key in LiteLLM specifically for OpenWebUI.
+
+Open `LITELLM_PROXY_BASE_URL` in your browser and click *Virtual Keys* -> *Create new key*:
+
+[image]
+
+:::note
+The purpose of this key is not only authentication, but also control and isolation. LiteLLM uses API keys to identify clients and apply policies. By assigning a dedicated key to Open WebUI, all requests originating from the UI can be clearly attributed to a single client. This makes it possible to manage access centrally, for example by restricting which models can be used, applying rate limits, or tracking usage.
+
+Using a shared or provider-level key would bypass this control layer. Open WebUI would still function, but LiteLLM would no longer be able to distinguish its traffic from other clients. This reduces observability and makes it harder to enforce policies or investigate issues.
+
+A dedicated virtual key also aligns with how Open WebUI is designed. The application expects a single API key for its OpenAI-compatible backend and uses it for all user requests. By mapping this key to a LiteLLM virtual key, you ensure that Open WebUI integrates cleanly into the overall architecture without exposing underlying provider (e.g. OpenAI, Anthropic or other local or remote inference backend) credentials.
+
+This virtual key will be used as the value for the `OPENAI_API_KEY` variable in the next step.
+:::
 
 ### Creating the Secret
 
@@ -202,13 +216,33 @@ Add the following in **openwebui-values.yaml**:
 
 ```yaml
 enableOpenaiApi: true
-openaiApiKey: <OPENAI_API_KEY>
-openaiApiKeys:
-  - <OPENAI_API_KEY>
+
 openaiBaseApiUrl: "http://litellm.litellm-o.svc.cluster.local:4000/v1"
-openaiBaseApiUrls:
-  - "http://litellm.litellm-o.svc.cluster.local:4000/v1"
+
+openaiApiKey: ""
+openaiApiKeyExistingSecret: "openwebui-secrets"
+openaiApiKeyExistingSecretKey: <OPENAI_API_KEY>
 ```
+
+:::tip
+Your backend does not have to be limited to a single LiteLLM instance. Open WebUI can work with a mix of local and remote inference backends.
+
+If you enable pipelines, `pipelines.enabled: true`, you can configure multiple OpenAI-compatible endpoints directly. Each endpoint can represent a different backend, for example a LiteLLM instance, a local inference service, or an external provider exposed through an OpenAI-compatible API.
+
+```yaml
+enableOpenaiApi: true
+
+openaiBaseApiUrls:
+  - "http://litellm.namespace.svc.cluster.local:4000/v1"   # aggregated backends via LiteLLM
+  - "http://local-llm.namespace.svc.cluster.local:8000/v1" # local inference
+  - "https://api.external-provider.com/v1"                 # remote provider
+
+openaiApiKeys:
+  - <LITELLM_KEY>
+  - <LOCAL_KEY>
+  - <REMOTE_KEY>
+```
+:::
 
 ### Web Search Integration (Optional)
 
@@ -229,7 +263,7 @@ Web search is enabled using a self-hosted SearXNG instance in the cluster. This 
 
 #### Deploying SearchXNG (Optional)
 
-If you opted-in for SearchXNG integration, we need to additionally deploy it using an [unofficial community Helm Chart](https://charts.kubito.dev). We need to create a values file, namely **searchxng-values.yaml**, and replace `<SECRET_KEY>` with a random-generated value:
+If you opted-in for [SearchXNG](https://docs.searxng.org/) integration, we need to additionally deploy it using an [unofficial community Helm Chart](https://charts.kubito.dev). We need to create a values file, namely **searchxng-values.yaml**, and replace `<SECRET_KEY>` with a random-generated value:
 
 ```yaml title="searchxng-values.yaml"
 env:
@@ -287,3 +321,128 @@ helm upgrade --install searxng kubitodev/searxng \
   --create-namespace \
   --values searxng-values.yaml  
 ```
+
+:::note
+SearXNG is an open-source metasearch engine that aggregates results from multiple search providers. It does not track or profile users and can be accessed over Tor to support anonymous browsing. For additional details, refer to the [project’s GitHub repository](https://github.com/searxng/searxng).
+:::
+
+## Deploying Open WebUI
+
+After completing the configuration in the previous steps, your **openwebui-values.yaml** should look as follows:
+
+```yaml title="openwebui-values.yaml"
+logging:
+  level: "info"
+ollama:
+  enabled: false
+pipelines:
+  enabled: false
+tika:
+  enabled: false
+terminals:
+  enabled: false  
+databaseUrl: "postgresql://root:<RDS_OPENWEBUI_POSTGRESQL_PASSWORD>@<RDS_OPENWEBUI_POSTGRESQL_URL>:5432/openwebui?sslmode=require"
+websocket:
+  url: "redis://:<RDS_OPENWEBUI_REDIS_PASSWORD>@<RDS_OPENWEBUI_REDIS_URL>:6379"
+  redis:
+    enabled: false
+persistence:
+  enabled: true
+  storageClass: "csi-obs"
+  size: 500Gi
+  accessModes:
+    - ReadWriteMany
+  provider: "s3"
+  s3:
+    endpointUrl: "https://obs.eu-de.otc.t-systems.com"
+    region: "eu-de"
+    bucket: <BUCKET_NAME>
+    accessKey: <ACCESS_KEY>
+    secretKey: <SECRET_KEY>
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
+  class: haproxy
+  host: <OPENWEBUI_PUBLIC_URL>
+  tls: true
+replicaCount: 3
+workload:
+  kind: Deployment
+enableOpenaiApi: true
+openaiBaseApiUrl: "http://litellm.litellm-o.svc.cluster.local:4000/v1"
+openaiApiKey: ""
+openaiApiKeyExistingSecret: "openwebui-secrets"
+openaiApiKeyExistingSecretKey: <OPENAI_API_KEY>
+extraEnvVars:
+  - name: ENABLE_SIGNUP
+    value: "true"
+  - name: ENABLE_LOGIN_FORM
+    value: "true"
+  - name: ENABLE_PERSISTENT_CONFIG
+    value: "true"
+  - name: WEBUI_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: openwebui-secrets
+        key: WEBUI_SECRET_KEY
+  - name: HF_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: openwebui-secrets
+        key: HF_TOKEN
+  - name: ENABLE_WEB_SEARCH
+    value: "true"
+  - name: WEB_SEARCH_ENGINE
+    value: "searxng"
+  - name: WEB_SEARCH_RESULT_COUNT
+    value: "3"
+  - name: WEB_SEARCH_CONCURRENT_REQUESTS
+    value: "5"
+  - name: SEARXNG_QUERY_URL
+    value: "http://searxng-http.openwebui.svc.cluster.local:8080/search?q=<query>&format=json"
+```
+
+We can now deploy the chart:
+
+```bash
+helm upgrade --install openwebui open-webui/open-webui \
+    --namespace openwebui \
+    --create-namespace \
+    --values openwebui-values.yaml \
+    --reset-values
+```
+
+## Validation
+
+Once the installation is complete, open `OPENWEBUI_PUBLIC_URL` in your browser and create the initial admin user for this instance.
+
+### Connections
+
+After logging in, navigate to the Open WebUI *Settings* -> *Connections* . This is where the integration with the OpenAI-compatible backend is verified.
+
+[image]
+
+In this deployment, Open WebUI is already preconfigured to use LiteLLM as its backend. The connection should therefore appear automatically without requiring manual input. Confirm that the configured base URL points to the internal LiteLLM service and that the connection is marked as available.
+
+If the connection is not working, verify that the API key is correctly loaded from the Kubernetes Secret and that the LiteLLM service is reachable within the cluster.
+
+### Models
+
+Open WebUI retrieves the list of available models from the configured backend. In this setup, LiteLLM aggregates models from different inference providers and exposes them through a single API.
+
+Open the *Models* section and confirm that models are listed. The exact set of models depends on how LiteLLM is configured. If no models appear, this typically indicates an issue with the backend connection rather than Open WebUI itself.
+
+[image]
+
+Return back to the chat area, select a model and start a test conversation to validate that requests are correctly routed through LiteLLM to the underlying inference provider.
+
+### Web Search
+
+If web search is enabled, Open WebUI can augment responses with external search results. In this deployment, SearXNG is used as the search backend.
+
+Open the *Web Search* section or initiate a query that requires external information. Verify that search results are returned and integrated into the response. If no results are shown, check that the SearXNG service is reachable and that the query URL is correctly configured.
+
+[image]
+
+This step confirms that Open WebUI can access external data sources in addition to the configured LLM backends.
