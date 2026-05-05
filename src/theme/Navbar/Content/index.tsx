@@ -1,4 +1,5 @@
 import {type ReactNode} from 'react';
+import clsx from 'clsx';
 import {useThemeConfig, ErrorCauseBoundary} from '@docusaurus/theme-common';
 import {
   splitNavbarItems,
@@ -41,14 +42,17 @@ ${JSON.stringify(item, null, 2)}`,
 
 function NavbarContentLayout({
   left,
+  center,
   right,
 }: {
   left: ReactNode;
+  center: ReactNode;
   right: ReactNode;
 }) {
   return (
-    <div className="navbar__inner">
-      <div className="navbar__items">{left}</div>
+    <div className={clsx('navbar__inner', styles.navbarInner)}>
+      <div className={clsx('navbar__items', styles.navbarLeft)}>{left}</div>
+      <div className={clsx('navbar__items', styles.navbarCenter)}>{center}</div>
       <div className="navbar__items navbar__items--right">{right}</div>
     </div>
   );
@@ -64,27 +68,24 @@ export default function NavbarContent(): JSX.Element {
 
   return (
     <NavbarContentLayout
-      left={
-        // TODO stop hardcoding items?
-        <>
-          {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
-          <NavbarLogo />
-          <NavbarItems items={leftItems} />
-        </>
-      }
-      right={
-        // TODO stop hardcoding items?
-        // Ask the user to add the respective navbar items => more flexible
-        <>
-          <NavbarItems items={rightItems} />
-          <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {!searchBarItem && (
-            <NavbarSearch>
-              <SearchBar />
-            </NavbarSearch>
-          )}
-        </>
-      }
-    />
+  left={
+    <>
+      {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
+      <NavbarLogo />
+    </>
+  }
+  center={<NavbarItems items={leftItems} />}
+  right={
+    <>
+      <NavbarItems items={rightItems} />
+      <NavbarColorModeToggle className={styles.colorModeToggle} />
+      {!searchBarItem && (
+        <NavbarSearch>
+          <SearchBar />
+        </NavbarSearch>
+      )}
+    </>
+  }
+/>
   );
 }

@@ -81,9 +81,9 @@ const config: Config = {
     navbar: {
       // title: 't',
       logo: {
-        alt: 'Open Telekom Cloud Non-Logo',
-        src: 'img/logo_headline_kombination_m_s_m.png',
-        srcDark: 'img/logo_headline_kombination_m_w_m.png'
+        alt: 'Telekom Logo',
+        src: 'img/T_logo_carrier_surface_rgb_n.svg',
+        srcDark: 'img/T_logo_carrier_surface_rgb_n.svg'
       },
       items: [
         {
