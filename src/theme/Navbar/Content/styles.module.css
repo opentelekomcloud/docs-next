@@ -29,7 +29,7 @@
 }
 
 .navbarCenter :global(.navbar__link){
-  font-size: larger;
+  font-size: x-large;
 }
 
 .navbarLeft :global(.navbar__brand) {
@@ -64,4 +64,98 @@
   width: 44px;
   height: 44px;
   object-fit: contain;
+}
+
+@media (max-width: 996px) {
+  .navbarInner {
+    padding-left: 0;
+  }
+
+  .navbarLeft {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  /* burger first */
+  .navbarLeft :global(.navbar__toggle) {
+    order: 1;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
+
+  /* logo second */
+  .navbarLeft :global(.navbar__brand) {
+    position: static;
+    order: 2;
+
+    width: 72px;
+    height: 72px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e20074;
+  }
+
+  .navbarCenter {
+    display: none;
+  }
+
+  /* right side: theme toggle before search */
+  :global(.navbar__items--right) {
+    display: flex;
+    align-items: center;
+  }
+
+  .colorModeToggle {
+    order: 1;
+    margin-right: 0.5rem;
+  }
+
+  :global(.navbar__search) {
+    order: 2;
+  }
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* text next to logo */
+.brandText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-left: 0.75rem;
+
+  line-height: 1.1;
+}
+
+/* default (light theme) */
+.brandText span:first-child,
+.brandText span:last-child {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #e20074;
+}
+
+/* override in dark theme */
+:global([data-theme='dark']) .brandText span:first-child,
+:global([data-theme='dark']) .brandText span:last-child {
+  color: inherit; /* or white if you prefer */
+}
+
+
+@media (max-width: 996px) {
+  .brandText {
+    display: none;
+  }
 }
