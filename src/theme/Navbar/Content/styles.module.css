@@ -7,6 +7,7 @@
   height: 100%;
   position: relative;
   padding-left: 72px; /* same as logo block width */
+  padding-right: 1rem; 
 
   display: flex;
   align-items: center;
