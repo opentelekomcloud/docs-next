@@ -195,7 +195,7 @@ const config: Config = {
             },
             {
               label: 'Webinars',
-              to: '/webinars',
+              href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
             // {
             //   label: 'Webinars in YouTube',
