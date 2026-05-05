@@ -41,8 +41,9 @@ From the perspective of LiteLLM, both Ollama and vLLM can be treated as intercha
 3. a bastion host in **Elastic Cloud Service (ECS)**; *optional but strongly recommended*
 4. a **Distributed Cache Service (DCS)** Redis instance
 5. a **Relational Database Service (RDS)** PostgreSQL server
-6. an **SFS Turbo** file system 
-7. A Hugging Face read-only token
+6. an **Object Storage Service** bucket
+7. an **SFS Turbo** file system
+8. A Hugging Face read-only token
 
 ## Creating a CCE Cluster
 
@@ -91,8 +92,15 @@ It is essential to ensure that GPU-enabled nodes are properly configured in your
 If your cluster uses only GPU worker nodes running on Ubuntu (without any need for special configuration e.g. MIG, vGPUs activation etc), you can streamline the setup by executing the following script:
 
 ```bash
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
 
+helm install gpu-operator nvidia/gpu-operator \
+    --set driver.enabled=true \
+    --set toolkit.enabled=true \
+    -n gpu-operator --create-namespace 
 ```
+
 :::
 
 ## Creating PostgreSQL Clusters with RDS
@@ -103,7 +111,7 @@ While it is technically possible to deploy PostgreSQL as a workload within CCE, 
 
 In this step, will provision PostgreSQL instances using T Cloud Public RDS service. We will deploy one database per workload to keep concerns separated and simplify operations. LiteLLM uses the database to persist configuration such as model mappings, routing rules, and API key management. This ensures that routing logic and access control remain consistent across restarts and deployments. OpenWebUI requires a database to store user data, chat history, and application settings. Without persistent storage, user interactions and configurations would be lost on pod restarts.
 
-[image here]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_from_2026-05-04_13-04-19.png)
 
 :::important
 When provisioning the PostgreSQL instances, ensure the following network and security configurations are in place:
@@ -120,11 +128,15 @@ Open WebUI requires a Redis instance to handle in-memory data such as user sessi
 
 Instead of deploying Redis within CCE, this blueprint uses the managed Distributed Cache Service (DCS) of T Cloud Public. DCS provides a fully managed Redis-compatible service with built-in high availability, replication, and monitoring. This removes the need to manage failover, patching, and scaling manually.
 
-[image here]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_from_2026-05-04_13-08-03.png)
 
 :::important
 Deploy the DCS Redis cluster in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the cache.
 :::
+
+## Creating an Object Storage Service Bucket
+
+[todo][navigation][image]
 
 ## Creating a SFS Turbo File System
 
@@ -136,7 +148,7 @@ Expandable up to 32 TB, SFS Turbo provides fully hosted shared file storage. It 
 For more information on SFS Turbo, refer to the [official documentation](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html).
 :::
 
-Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*. Choose the Size, Capacity and target VPC and click *Create Now*: 
+Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*. Choose the Size, Capacity and target VPC and click *Create Now*:
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-29_10-35-26.png)
 
@@ -146,6 +158,18 @@ Deploy the SFS Turbo file system in the same Virtual Private Cloud (VPC) as your
 
 ## Creating a Hugging Face Token
 
-[navigation text here]
-[images here]
+Navigate to *[Hugging Face](https://huggingface.co/)* -> *Settings (or on your avatar)* -> *Access Tokens* and click *Create new token*:
 
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-30_12-18-27.png)
+
+Select **Token type** as Read, set a **Token name** and click *Create Token*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-30_12-20-15.png)
+
+:::important
+Make sure to record the token value now, as it will be required in the next steps and won’t be shown again afterward.
+:::
+
+## Choosing an Inference Backend
+
+[todo]
