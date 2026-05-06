@@ -8,7 +8,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 // import styles from './index.module.css';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
-import HomepageAskAQuestion from '../components/HomepageAskAQuestion';
+import HomepageMarketplace from '../components/HomepageMarketplace';
 import HomepageContribute from '../components/HomepageContribute';
 
 // function HomepageHeader() {
@@ -49,7 +49,7 @@ export default function Home(): JSX.Element {
               <HomepageContribute />
             </div>
             <div className={clsx("col col--6")}>
-              <HomepageAskAQuestion />
+              <HomepageMarketplace />
             </div>
           </div>
         </section>

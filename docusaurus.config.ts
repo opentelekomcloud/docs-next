@@ -190,7 +190,7 @@ const config: Config = {
               to: 'https://marketplace.otc.t-systems.com/',
             },
             {
-              label: 'Community Portal',
+              label: 'Community Forum',
               to: 'https://community.open-telekom-cloud.com/',
             },
             // {
