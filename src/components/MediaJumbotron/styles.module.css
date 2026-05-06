@@ -76,11 +76,12 @@ html[data-theme='dark'] .frame {
 
 .title {
   margin: 0;
-  white-space: pre-line;
-  font-size: clamp(1rem, 3.0vw, 5.75rem);
-  line-height: 0.95;
-  letter-spacing: -0.055em;
-  font-weight: 800;
+  font-size: clamp(2.6rem, 4vw, 2.6rem);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.005em;
+  color: #ffffff;
+  text-rendering: geometricPrecision;
 }
 
 .description {
