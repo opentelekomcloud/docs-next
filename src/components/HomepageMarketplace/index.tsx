@@ -15,7 +15,7 @@ export default function HomepageMarketplace(): JSX.Element {
             <a className="button button--secondary margin-right--md" href="https://marketplace.otc.t-systems.com/" target='_blank'>
               Visit the Marketplace
             </a>
-             <a className="button button--secondary" href="https://marketplace.otc.t-systems.com/seller/sign-up?role=register/seller&route=/seller/sign-up/registration">
+             <a className="button button--secondary" href="https://marketplace.otc.t-systems.com/seller/sign-up?role=register/seller&route=/seller/sign-up/registration" target='_blank'>
               Become a Seller
             </a>
           </div>
