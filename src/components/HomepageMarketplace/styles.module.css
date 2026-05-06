@@ -15,6 +15,10 @@
   box-shadow: var(--ifm-global-shadow-md);
 }
 
+/* html[data-theme='dark'] .marketplaceCard {
+      box-shadow: 0 4px 28px gray;
+} */
+
 .content {
   display: flex;
 }
