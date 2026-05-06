@@ -15,7 +15,7 @@ Ransomware attacks are developing rapidly these days. There are no tools can kil
 Before using the backup data to restore the service data of a server, check whether the backup is available. If the backup is available, restore the key service system first.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  In the navigation tree on the left, choose .
 4.  Click the **Protected Servers** tab.
 5.  In the **Operation** column of the target server, click **More** > **Restore Data**.
@@ -24,7 +24,7 @@ Before using the backup data to restore the service data of a server, check whet
 8.  In the displayed dialog page, confirm the server information and configure parameters such as the disk for storing data.
     
     *   **Restart Server**: If this option is selected, you agree to restart the server after data restoration.
-    *   **Advanced Options**: Click ![](/img/en-us_image_0000001911782770.png) to expand it. Select the location where the backup data is restored.
+    *   **Advanced Options**: Click ![](/img/docs/best-practices/en-us_image_0000001911782770.png) to expand it. Select the location where the backup data is restored.
     
     **Figure 1** Restoring a server  
     ![](/img/docs/best-practices/security-services/host-security-service/en-us_image_0000002107284956.png)

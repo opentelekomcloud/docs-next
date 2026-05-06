@@ -15,7 +15,7 @@ You can enable ransomware prevention and backup to defend against ransomware att
 Create a ransomware prevention policy and configure honeypot file directories, excluded directories, and protected file types based on service requirements.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  Choose **Prevention** > **Ransomware Prevention**.
 4.  Click the **Policies** tab. Click **Add Policy**. The **Add Policy** dialog box is displayed.
     
@@ -61,7 +61,7 @@ Create a ransomware prevention policy and configure honeypot file directories, e
 If the version of the agent installed on the Linux server is 3.2.8 or later or the version of the agent installed on the Windows server is 4.0.16 or later, ransomware prevention is automatically enabled with the HSS premium, WTP, or container edition. If the agent version does not support the automatic enabling of ransomware prevention, you can manually enable it.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  Choose **Prevention** > **Ransomware Prevention**.
 4.  Click the **Protected Servers** tab.
 5.  Select the target server and click **Enable Ransomware Prevention** above the list.
@@ -81,7 +81,7 @@ If you do not have available vaults, purchase one by referring to [Purchasing a 
 
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  Choose **Prevention** > **Ransomware Prevention**.
 4.  Click the **Protected Servers** tab.
 5.  Select a server and click **Enable Backup** in the upper part of the server list.
@@ -112,7 +112,7 @@ If you do not have available vaults, purchase one by referring to [Purchasing a 
 When an intruder bypasses the defense mechanism, if you can detect and block the intruder in a timely manner, a disaster can be avoided. When enabling ransomware protection, you need to handle intrusion alarms in a timely manner to prevent ransomware from running and spreading.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  In the navigation tree on the left, choose .
 4.  Click the **Events** tab to view ransomware alarms.
 5.  Click an alarm name to view its details.
