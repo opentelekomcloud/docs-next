@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 type Slide = {
     type: 'image' | 'video';
@@ -15,7 +16,7 @@ type Slide = {
 const slides: Slide[] = [
     {
         type: 'image',
-        src: '/img/T_background_runway.jpg',
+        src: useBaseUrl('/img/T_background_runway.jpg'),
         title: 'Best Practices',
         description: "Explore the recommended strategies for resource management, such as efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance to ensure robust system performance.",
         cta: "Let's go",
@@ -23,7 +24,7 @@ const slides: Slide[] = [
     },
     {
         type: 'image',
-        src: '/img/T_background_wall.jpg',
+        src: useBaseUrl('/img/T_background_wall.jpg'),
         title: 'Blueprints',
         description: 'Discover tailored out-of-the-box solutions and practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal application and infrastructure design using T Cloud Public.',
         cta: "Let's go",
@@ -31,7 +32,7 @@ const slides: Slide[] = [
     },
     {
         type: 'image',
-        src: '/img/T_background_bridge.jpg',
+        src: useBaseUrl('/img/T_background_bridge.jpg'),
         title: 'Templates',
         description: 'Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on T Cloud Public; whether with Cloud Create, Resource Formation Service, or directly using Terraform, OpenTofu or Crossplane.',
         cta: 'Discover them all',

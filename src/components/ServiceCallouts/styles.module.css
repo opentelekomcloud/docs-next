@@ -143,6 +143,7 @@ html[data-theme='dark'] .callout:hover .calloutIcon {
 
 @media (max-width: 996px) {
   .callout {
+    margin-left: 24px;
     margin-bottom: 16px;
   }
 }
