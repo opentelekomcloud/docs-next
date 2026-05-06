@@ -72,7 +72,7 @@ const config: Config = {
       { name: 'google-site-verification', content: 'J5ydYOkPAHSSQ-9J7Jo1EovhMxyw98MRqwCexyVGey0' },
     ],
     // Replace with your project's social card
-    image: 'img/open-telekom-cloud-social-card.png',
+    image: 'img/T_logo_carrier_surface_rgb_n.png',
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
