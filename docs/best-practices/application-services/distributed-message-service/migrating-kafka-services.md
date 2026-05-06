@@ -123,7 +123,7 @@ migrates data to the new Kafka instance. For details, see
 [Using MirrorMaker to Synchronize Data Across Clusters](#using-mirrormaker-to-synchronize-data-across-clusters).
 
 :::note
-Each Open Telekom Cloud Kafka instance stores data in three
+Each T Cloud Public Kafka instance stores data in three
 replicas. Therefore, the storage space of the new instance should be
 three times that of the original single-replica message storage.
 :::
@@ -300,5 +300,5 @@ clusters](https://kafka.apache.org/documentation/?spm=a2c4g.11186623.0.0.c82870a
     consumption progress in the target cluster, and check whether data
     has been synchronized from the source cluster to the target cluster.
 
-    If the target cluster is a Open Telekom Cloud Kafka instance, view
+    If the target cluster is a T Cloud Public Kafka instance, view
     the consumption progress on the *Consumer Groups* page.

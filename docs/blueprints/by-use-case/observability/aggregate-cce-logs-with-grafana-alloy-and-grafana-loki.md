@@ -27,7 +27,7 @@ The component-based architecture provides flexibility to adapt to changing requi
 
 ## Installing Grafana Loki
 
-If you don't already have a Grafana Loki instance running, you can set it up first before proceeding with log aggregation. The installation process is covered in detail in the companion blueprint [Deploy Grafana Loki on CCE](/docs/blueprints/by-use-case/observability/deploy-grafana-loki-on-cce), which explains how to deploy Loki in microservices mode on Cloud Container Engine (CCE) with Open Telekom Cloud Object Storage (OBS) as the backend. Once Loki is up and running, you can continue here to install and configure Grafana Alloy and start collecting and centralizing logs from your CCE workloads.
+If you don't already have a Grafana Loki instance running, you can set it up first before proceeding with log aggregation. The installation process is covered in detail in the companion blueprint [Deploy Grafana Loki on CCE](/docs/blueprints/by-use-case/observability/deploy-grafana-loki-on-cce), which explains how to deploy Loki in microservices mode on Cloud Container Engine (CCE) with T Cloud Public Object Storage (OBS) as the backend. Once Loki is up and running, you can continue here to install and configure Grafana Alloy and start collecting and centralizing logs from your CCE workloads.
 
 ## Installing Grafana Alloy
 

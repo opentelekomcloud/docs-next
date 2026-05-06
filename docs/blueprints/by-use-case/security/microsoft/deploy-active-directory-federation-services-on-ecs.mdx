@@ -33,7 +33,7 @@ For the rest of this blueprint we are going to assume:
 
 ## Creating an ECS Server
 
-Go to *Open Telekom Cloud Console* -> *Elastic Cloud Server* and click *Create ECS Server*. Choose :
+Go to *T Cloud Public Console* -> *Elastic Cloud Server* and click *Create ECS Server*. Choose :
 
   * **Flavor**: "*General-purpose s7n.large.2*"
   * **Image**: *Public Image* -> "*Windows*" -> "*Enterprise_Windows_Server_2025_STD_amd64_bios_latest*"
@@ -66,13 +66,13 @@ to get the credentials for the local Administrator account.
 
 ## Creating a Public DNS Endpoint
 
-When integrating AD FS as an Identity Provider (IdP) within your Open Telekom Cloud tenant—it is essential that the Elastic IP (EIP) assigned to your ECS Server 
+When integrating AD FS as an Identity Provider (IdP) within your T Cloud Public tenant—it is essential that the Elastic IP (EIP) assigned to your ECS Server 
 resolves to a valid and secure FQDN. This means the public DNS entry must point to the EIP and be backed by a properly issued TLS certificate.
 
-Without this, the Open Telekom Cloud platform will not accept the IdP registration due to trust and validation requirements. 
+Without this, the T Cloud Public platform will not accept the IdP registration due to trust and validation requirements. 
 Ensuring your AD FS endpoint is accessible over a recognized, secure URL is not just best practice—it's a prerequisite for federation scenarios with OTC's IAM services.
 
-To enable full DNS-based automation and allow for secure domain validation—especially when configuring AD FS as an Identity Provider—you need to delegate domain management to Open Telekom Cloud's Domain Name Service (DNS). This requires transferring authority over your domain's NS (Name Server) records to OTC.
+To enable full DNS-based automation and allow for secure domain validation—especially when configuring AD FS as an Identity Provider—you need to delegate domain management to T Cloud Public's Domain Name Service (DNS). This requires transferring authority over your domain's NS (Name Server) records to OTC.
 
 Start by logging into your domain registrar's control panel and ensure the following:
 
@@ -85,7 +85,7 @@ Start by logging into your domain registrar's control panel and ensure the follo
   ```
 
 Once the nameserver change propagates and OTC has authoritative control over your domain, you're ready to define DNS zones and records. 
-Create a Public DNS Zone in the Open Telekom Cloud DNS service, then define an **A record** that maps your AD FS public domain (e.g., `adfs.example.com`) to the EIP you've already assigned to your ECS Server.
+Create a Public DNS Zone in the T Cloud Public DNS service, then define an **A record** that maps your AD FS public domain (e.g., `adfs.example.com`) to the EIP you've already assigned to your ECS Server.
 
 ## Installing Active Directory Domain Services
 
@@ -165,11 +165,11 @@ Be sure to substitute every occurrence of `ThisIsNotASecurePassword!` with a str
 
 ### Creating Organization Unit, Users & Groups
 
-Before mapping roles in AD FS and Open Telekom Cloud, we need first to define our administrative scopes by provisioning a new Organization Unit (OU), 
+Before mapping roles in AD FS and T Cloud Public, we need first to define our administrative scopes by provisioning a new Organization Unit (OU), 
 two security groups,`Tenant-Admins` and `ECS-Admins`, and then create one user per group. 
 
 1. Open *Server Manager* -> *Tools* -> *Active Directory Users and Computers*, right-click on **mycompany.com** -> *New* -> *Organization Unit*.
-    Enter as name, the name of your Open Telekom Cloud Tenant and enable *"Protect container from accidental deletion"* and click *OK*.
+    Enter as name, the name of your T Cloud Public Tenant and enable *"Protect container from accidental deletion"* and click *OK*.
 2. Right-click the newly created OU -> *New* -> *Group*.
     - **Group name**: `Tenant-Admins`
     - **Group scope**: *"Global"*

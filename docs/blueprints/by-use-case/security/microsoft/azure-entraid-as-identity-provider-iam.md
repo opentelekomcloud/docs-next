@@ -6,22 +6,22 @@ tags: [security, iam, azure, entraid, microsoft, openid, oidc]
 
 # Azure Entra ID as Identity Provider for IAM
 
-In this guide, we'll walk you through the implemention of an Identity Provider (IdP) on Open Telekom Cloud, in order to enable authentication via Azure Entra ID. This allows users managed in Entra ID to access Open Telekom Cloud resources through federated login, without requiring separate user accounts on Open Telekom Cloud.
+In this guide, we'll walk you through the implemention of an Identity Provider (IdP) on T Cloud Public, in order to enable authentication via Azure Entra ID. This allows users managed in Entra ID to access T Cloud Public resources through federated login, without requiring separate user accounts on T Cloud Public.
 
 In order to achieve this:
 
-1. We need to register the necessary applications in Azure Entra ID, enabling OpenID Connect (OIDC) as the protocol for identity and token exchange with the Open Telekom Cloud environment.
-2. We need to use group assignments in Entra ID to control access: Entra ID groups are mapped to corresponding groups in Open Telekom Cloud, allowing fine-grained, role-based access control.
-3. We are **not** going to need local users in Open Telekom Cloud. Instead, virtual users (also called federated or transient users) are going to be used, derived from the identity and group claims in the OIDC tokens issued by Entra ID.
+1. We need to register the necessary applications in Azure Entra ID, enabling OpenID Connect (OIDC) as the protocol for identity and token exchange with the T Cloud Public environment.
+2. We need to use group assignments in Entra ID to control access: Entra ID groups are mapped to corresponding groups in T Cloud Public, allowing fine-grained, role-based access control.
+3. We are **not** going to need local users in T Cloud Public. Instead, virtual users (also called federated or transient users) are going to be used, derived from the identity and group claims in the OIDC tokens issued by Entra ID.
 
-This approach ensures centralized user management via Entra ID, reduces administrative overhead, and provides a secure and scalable identity integration between Azure and Open Telekom Cloud.
+This approach ensures centralized user management via Entra ID, reduces administrative overhead, and provides a secure and scalable identity integration between Azure and T Cloud Public.
 
 ## Prerequisites
 
 Before starting with the implementation of this blueprint, make sure you have:
 
 - An Azure Subscription/Tenant.
-- Administrative privileges on both Azure Entra ID of your tenant and your Open Telekom Cloud IAM system.
+- Administrative privileges on both Azure Entra ID of your tenant and your T Cloud Public IAM system.
 - Basic understanding of OpenID Connect concepts and flows.
 
 ## Registering an Application in Entra ID
@@ -111,7 +111,7 @@ Open [Azure Portal](https://portal.azure.com) and navigate to *Microsoft Entra I
 
 ### Creating a new Identity Provider
 
-Go to *Open Telekom Cloud Console* -> *IAM* -> *Identity Providers* and click *Create Identity Provider*:
+Go to *T Cloud Public Console* -> *IAM* -> *Identity Providers* and click *Create Identity Provider*:
 
 Set the following parameters and click *OK*.
 
@@ -134,7 +134,7 @@ and from **Application Essentials** the value of:
 
 ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-08-07_16-26-37.png)
 
-2. Go to *Open Telekom Cloud Console* -> *IAM* -> *Identity Providers* and click *Modify* on the Identity Provider we've just created and fill in the following information:
+2. Go to *T Cloud Public Console* -> *IAM* -> *Identity Providers* and click *Modify* on the Identity Provider we've just created and fill in the following information:
 
 :::tip
 Open in a browser the URL of the **OpenID Connect metadata document** you got in the previous step as we are going to need some values for the **Identity Provider URL** and **Signing Key**.
@@ -158,11 +158,11 @@ Click *OK* to apply changes and exit.
 
 ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-08-08_07-46-48.png)
 
-2. Go to *Open Telekom Cloud Console* -> *IAM* -> *User Groups* and click *Create User Group*. Enter as **Name** the **Object ID** value you acquired in the previous step and click *OK*. Open the newly created group and click *Authorize* under *Permissions* to grant the permissions you wish for this group; e.g. add **ECS Admin** and later, after your first successful login, try to perform an action on a non-authorized service to this group.
+2. Go to *T Cloud Public Console* -> *IAM* -> *User Groups* and click *Create User Group*. Enter as **Name** the **Object ID** value you acquired in the previous step and click *OK*. Open the newly created group and click *Authorize* under *Permissions* to grant the permissions you wish for this group; e.g. add **ECS Admin** and later, after your first successful login, try to perform an action on a non-authorized service to this group.
 
 ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-08-08_08-04-07.png)
 
-3. Go to *Open Telekom Cloud Console* -> *IAM* -> *Identity Providers* and click *Modify* on your Identity Provider. Under *Identity Conversion Rules* click *Edit Rule* and paste the following rule into the box. Click *Validate* and if the rule passed the validation, click *OK* twice to persist changes and exit:
+3. Go to *T Cloud Public Console* -> *IAM* -> *Identity Providers* and click *Modify* on your Identity Provider. Under *Identity Conversion Rules* click *Edit Rule* and paste the following rule into the box. Click *Validate* and if the rule passed the validation, click *OK* twice to persist changes and exit:
 
 ```json
 [
@@ -192,7 +192,7 @@ Click *OK* to apply changes and exit.
 ]
 ```
 
-4. Go to *Open Telekom Cloud Console* -> *IAM* -> *Identity Providers* and click *View* on your Identity Provider. Copy the *Login Link* under *Access Type* and access the URL from a brand new (preferrably incognito session) of your browser.
+4. Go to *T Cloud Public Console* -> *IAM* -> *Identity Providers* and click *View* on your Identity Provider. Copy the *Login Link* under *Access Type* and access the URL from a brand new (preferrably incognito session) of your browser.
 
 ![image](/img/docs/blueprints/by-use-case/security/microsoft/Screenshot_from_2025-08-08_08-15-03.png)
 

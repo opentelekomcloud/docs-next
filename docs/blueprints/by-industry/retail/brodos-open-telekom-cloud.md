@@ -6,11 +6,11 @@ tags: [retail, omnichannel, by-industry]
 
 # Omnichannel Platform by brodos.net
 
-With the help of resources from the Open Telekom Cloud, [brodos.net](#about-brodosnet) is now in a position to meet every customer request spontaneously, because the container-based platform can now be scaled spontaneously in a matter of minutes. According to the company, brodos.net was able to increase the performance of its systems by around 40 percent. The availability of the Open Telekom Cloud is 99.95 percent.
+With the help of resources from the T Cloud Public, [brodos.net](#about-brodosnet) is now in a position to meet every customer request spontaneously, because the container-based platform can now be scaled spontaneously in a matter of minutes. According to the company, brodos.net was able to increase the performance of its systems by around 40 percent. The availability of the T Cloud Public is 99.95 percent.
 
 “*The most important criterion for us, however, is the trust that both we and our customers have in the platform,*” says Managing Director Udo Latino. “*We process sensitive customer data. It is therefore essential for us to use an IT platform that leaves no questions unanswered. With Telekom's public cloud solution, we are on the safe side in every respect.*”
 
-As a result, brodos.net is now prepared for any growth. The omnichannel platform is increasingly establishing itself on the market. More than 1,000 customers from various industries such as telecommunications, fashion, furniture, bikes and electronics are currently using brodos.net to access the omnichannel platform from the Open Telekom Cloud. “*Next, we will expand our platform to other industries and then, in a second step, to other European markets,*“ says Dingermann. “*With the scalable cloud resources we use, nothing stands in the way of further expansion.*”
+As a result, brodos.net is now prepared for any growth. The omnichannel platform is increasingly establishing itself on the market. More than 1,000 customers from various industries such as telecommunications, fashion, furniture, bikes and electronics are currently using brodos.net to access the omnichannel platform from the T Cloud Public. “*Next, we will expand our platform to other industries and then, in a second step, to other European markets,*“ says Dingermann. “*With the scalable cloud resources we use, nothing stands in the way of further expansion.*”
 
 ## Customer Benefits
 
@@ -37,11 +37,11 @@ brodos.net is acutely aware of the growing need for these kinds of solutions: Th
 
 brodos.net initially operated the omnichannel platform exclusively in its own private data center to ensure maximum IT security and data protection. In order to meet the growing demand, brodos.net was looking for a way to be more flexible. “W*e wanted to expand our IT so that it could adapt flexibly and spontaneously to business development at any time without compromising security,*” said Felix Dingermann, Managing Director of Business Development at brodos.net.
 
-That's why the Bavarian company was looking for a cloud provider that could provide IT resources at the highest level of security and data protection. They found this at Telekom: brodos.net now hosts its omnichannel platform in the Open Telekom Cloud, Telekom's public cloud offering. For this purpose, the company uses virtual machines in the Elastic Cloud Server (ECS) category, the Relational Database Service (RDS), Object Storage Service (OBS) and the Elastic Load Balancer (ELB). For the further development of the platform, the software experts at brodos.net also rely on the container framework of the Open Telekom Cloud – the Cloud Container Engine. “*This is simply a question of convenience and efficiency,*” says Felix Dingermann. “*We could certainly have implemented our own container framework. But that would have taken a lot of effort.*”
+That's why the Bavarian company was looking for a cloud provider that could provide IT resources at the highest level of security and data protection. They found this at Telekom: brodos.net now hosts its omnichannel platform in the T Cloud Public, Telekom's public cloud offering. For this purpose, the company uses virtual machines in the Elastic Cloud Server (ECS) category, the Relational Database Service (RDS), Object Storage Service (OBS) and the Elastic Load Balancer (ELB). For the further development of the platform, the software experts at brodos.net also rely on the container framework of the T Cloud Public – the Cloud Container Engine. “*This is simply a question of convenience and efficiency,*” says Felix Dingermann. “*We could certainly have implemented our own container framework. But that would have taken a lot of effort.*”
 
 ## The Solution
 
-* Hosting of the omnichannel platform in the Open Telekom Cloud from highly secure German data centers in Biere and Magdeburg
+* Hosting of the omnichannel platform in the T Cloud Public from highly secure German data centers in Biere and Magdeburg
 * Use of Elastic Cloud Server (ECS), Relational Database Service (RDS), Object Storage Service (OBS) and Elastic Load Balancer (ELB)
 * Developers rely on Cloud Container Engine (CCE)
 

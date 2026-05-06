@@ -21,7 +21,7 @@ import HomepageContribute from '../components/HomepageContribute';
 //         <Heading as="h1" className="hero__title">
 //           {siteConfig.title}
 //         </Heading>
-//         <p className="hero__subtitle">Open Telekom Cloud {siteConfig.tagline}</p>
+//         <p className="hero__subtitle">T Cloud Public {siteConfig.tagline}</p>
 //         <div className={styles.buttons}>
 //           <scale-button href={useBaseUrl("/docs/blueprints")} variant={buttonVariant}>
 //             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>

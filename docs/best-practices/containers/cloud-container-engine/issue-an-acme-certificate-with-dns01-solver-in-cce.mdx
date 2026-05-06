@@ -23,7 +23,7 @@ When you request a certificate, the Certificate Authority (CA) needs to ensure t
 
 The DNS01 challenge is commonly used because it allows for domain validation without needing to serve files over HTTP, which can be advantageous in certain situations, such as when you don't have a web server configured or when you're managing multiple subdomains.
 
-One of the tools, that can be employed in the context of Kubernetes, to secure certificates from a Certificate Authority (CA) via the ACME protocol using the the DNS01 challenge, is [cert-manager](https://cert-manager.io). Specifically for Open Telekom Cloud, we can use an additional webhook that acts as an ACME DNS01 solver for Open Telekom Cloud's Domain Name Service, [cert-manager-webhook-opentelekomcloud](https://github.com/akyriako/cert-manager-webhook-opentelekomcloud).
+One of the tools, that can be employed in the context of Kubernetes, to secure certificates from a Certificate Authority (CA) via the ACME protocol using the the DNS01 challenge, is [cert-manager](https://cert-manager.io). Specifically for T Cloud Public, we can use an additional webhook that acts as an ACME DNS01 solver for T Cloud Public's Domain Name Service, [cert-manager-webhook-opentelekomcloud](https://github.com/akyriako/cert-manager-webhook-opentelekomcloud).
 
 ## Prerequisites
 
@@ -62,7 +62,7 @@ Only prerequisite is cert-manager. If you don't have it already installed on you
 
 ## Installing the ACME DNS01 Solver
 
-**cert-manager-webhook-opentelekomcloud** is an ACME DNS01 solver webhook for Open Telekom Cloud DNS written in Golang, and requires **cert-manager** to be installed first.
+**cert-manager-webhook-opentelekomcloud** is an ACME DNS01 solver webhook for T Cloud Public DNS written in Golang, and requires **cert-manager** to be installed first.
 
 ### Acquiring Access/Secret Keys
 
@@ -205,7 +205,7 @@ spec:
 
 :::note
 Replace the placeholder DNS name `*.example.com` with a domain you own, which will be used to obtain a certificate from Let's Encrypt. 
-Before applying the manifest ensure `*.example.com` can resolve to an actual public IP address via an A record in Open Telekom Cloud DNS service.
+Before applying the manifest ensure `*.example.com` can resolve to an actual public IP address via an A record in T Cloud Public DNS service.
 :::
 
 ```shell
@@ -277,10 +277,10 @@ spec:
 
 :::important
 1️⃣ If you have opted-in for automatic DNS records creation via ExternalDNS, as described in [Automate DNS Records Creation from CCE Ingresses with ExternalDNS](../cloud-container-engine/automate-dns-records-creation-from-cce-ingresses-with-externaldns),
-the required DNS A records will be created **automatically**. If not, before applying the manifest ensure the Elastic Load Balancer's Elastic IP is bound to `whoami.example.com` by creating manually an A record in Open Telekom Cloud DNS service.
+the required DNS A records will be created **automatically**. If not, before applying the manifest ensure the Elastic Load Balancer's Elastic IP is bound to `whoami.example.com` by creating manually an A record in T Cloud Public DNS service.
 
 2️⃣ Replace `INGRESS_CLASS_NAME` with the name of the ingress class you are using in your cluster. 
-If you are using Open Telekom Cloud's native ingress controller, this will be whatever value you have set during the NGINX Ingress Controller installation for the **Parameters.Controller Name** parameter, which defaults to `nginx`.
+If you are using T Cloud Public's native ingress controller, this will be whatever value you have set during the NGINX Ingress Controller installation for the **Parameters.Controller Name** parameter, which defaults to `nginx`.
 For [Contour](https://projectcontour.io/) the default value would be `contour` and for [HAProxy](https://www.haproxy.com/documentation/kubernetes-ingress/) `haproxy`. Refer to [Enabling External Traffic with Ingress API & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api.mdx).
 :::
 

@@ -5,14 +5,14 @@ tags: [security, saml, iam, zitadel]
 ---
 # ZITADEL as an Identity Provider for IAM
 
-This guide outlines the steps required to integrate ZITADEL with the Identity and Access Management (IAM) of Open Telekom Cloud using the [SAML 2.0](https://en.wikipedia.org/wiki/SAML_2.0) standard. The objective is to configure ZITADEL as a trusted external Identity Provider (IdP), enabling federated login for OTC users and services. This setup allows your ZITADEL-managed identities to authenticate against Open Telekom Cloud resources, forming a bridge between your custom IAM solution and the native authentication infrastructure of Open Telekom Cloud.
+This guide outlines the steps required to integrate ZITADEL with the Identity and Access Management (IAM) of T Cloud Public using the [SAML 2.0](https://en.wikipedia.org/wiki/SAML_2.0) standard. The objective is to configure ZITADEL as a trusted external Identity Provider (IdP), enabling federated login for OTC users and services. This setup allows your ZITADEL-managed identities to authenticate against T Cloud Public resources, forming a bridge between your custom IAM solution and the native authentication infrastructure of T Cloud Public.
 
 ## Prerequisites
 
 Before initiating the integration process, make sure the following prerequisites are met:
 
 - **A fully deployed and accessible ZITADEL instance**, reachable via a valid domain with HTTPS enabled. Otherwise, follow the guide: [Deploy ZITADEL on CCE](1_cce-zitadel.md).
-- **Administrator-level access** to both ZITADEL and Open Telekom Cloud's **Identity and Access Management (IAM)** console.  
+- **Administrator-level access** to both ZITADEL and T Cloud Public's **Identity and Access Management (IAM)** console.  
 - A **working knowledge of SAML 2.0**, particularly around concepts such as assertions, metadata exchange, and service provider (SP) vs. identity provider (IdP) roles. If needed, refer to the [SAML 2.0 specification](https://wiki.oasis-open.org/security/FrontPage#SAML_V2.0_Standard) for a foundational overview.
 
 These requirements ensure that you're equipped to configure and validate the trust relationship between the two platforms.
@@ -46,12 +46,12 @@ Go to the new *Organization Dashboard* -> *Projects* -> *Owned Projects* and cli
 
 ![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-14-24.png)
 
-and name it after your tenant in Open Telekom Cloud:
+and name it after your tenant in T Cloud Public:
 
 ![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-19-24.png)
 
 :::note
-While naming the ZITADEL project after your Open Telekom Cloud tenant isn't strictly required, it does offer clarity—especially in multi-tenant or federated environments. Aligning project names with your organizational structure or tenant identifiers helps maintain consistency, eases traceability, and simplifies access policy management. You're free to adapt naming conventions based on your broader application landscape, governance model, or internal naming standards. Prioritize what makes sense for your operational context.
+While naming the ZITADEL project after your T Cloud Public tenant isn't strictly required, it does offer clarity—especially in multi-tenant or federated environments. Aligning project names with your organizational structure or tenant identifiers helps maintain consistency, eases traceability, and simplifies access policy management. You're free to adapt naming conventions based on your broader application landscape, governance model, or internal naming standards. Prioritize what makes sense for your operational context.
 :::
 
 ## Creating a new Application
@@ -68,7 +68,7 @@ Go to the new *Project Dashboard* and click *New Application*:
 
     Set the metadata URL to: `https://auth.otc.t-systems.com/authui/saml/metadata.xml`
 
-    This URL points to the SAML metadata of Open Telekom Cloud’s Identity and Access Management system. After entering the URL, proceed by clicking Continue through the remaining steps of the wizard. No additional configuration is required at this point. Once you exit the wizard, the application will be created with the SP metadata preloaded and ready for further claim mapping and policy setup
+    This URL points to the SAML metadata of T Cloud Public’s Identity and Access Management system. After entering the URL, proceed by clicking Continue through the remaining steps of the wizard. No additional configuration is required at this point. Once you exit the wizard, the application will be created with the SP metadata preloaded and ready for further claim mapping and policy setup
 
 ![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_12-50-51.png)
 
@@ -91,7 +91,7 @@ However, it's important to stress that **bypassing email verification in a produ
 ### Creating Roles & Authorizations
 
 :::important
-This blueprint operates under the assumption that your Open Telekom Cloud IAM environment includes the following two User Groups:
+This blueprint operates under the assumption that your T Cloud Public IAM environment includes the following two User Groups:
 
 |Group|Policy/Role|Description
 |--|--|--|
@@ -100,9 +100,9 @@ This blueprint operates under the assumption that your Open Telekom Cloud IAM en
 ||Server Administrator|Server Administrator |
 |**ecs-admin**|ECS Admin|All permissions of ECS service.|
 
-These groups will later be used in the SAML attribute mapping process, where ZITADEL will assert a user’s group membership as part of the authentication response. The IAM service in Open Telekom Cloud will consume these SAML attributes and dynamically assign (virtual) users to the appropriate group. This enables fine-grained, role-based access control that aligns with your organizational structure and enforces least privilege principles across your cloud environment.
+These groups will later be used in the SAML attribute mapping process, where ZITADEL will assert a user’s group membership as part of the authentication response. The IAM service in T Cloud Public will consume these SAML attributes and dynamically assign (virtual) users to the appropriate group. This enables fine-grained, role-based access control that aligns with your organizational structure and enforces least privilege principles across your cloud environment.
 
-You can either create these groups directly in your Open Telekom Cloud tenant, or adapt the remainder of this blueprint to align with your own existing IAM group structure. The **key requirement** is that **the group names used in ZITADEL's SAML attribute mappings correspond exactly to the group names defined in your Open Telekom Cloud IAM configuration**. This ensures that access control decisions based on group membership are applied correctly during federated login. Whichever approach you choose, consistency between identity assertions and IAM group definitions is essential for maintaining a secure and predictable access model.
+You can either create these groups directly in your T Cloud Public tenant, or adapt the remainder of this blueprint to align with your own existing IAM group structure. The **key requirement** is that **the group names used in ZITADEL's SAML attribute mappings correspond exactly to the group names defined in your T Cloud Public IAM configuration**. This ensures that access control decisions based on group membership are applied correctly during federated login. Whichever approach you choose, consistency between identity assertions and IAM group definitions is essential for maintaining a secure and predictable access model.
 
 :::
 
@@ -126,14 +126,14 @@ Go to the *Project Dashboard* -> *Authorizations* and click *New*:
 
 ## Retrieving ZITADEL's SAML 2.0 Metadata
 
-At this point, ZITADEL has already been configured to trust Open Telekom Cloud by consuming its SAML metadata (as outlined in earlier steps). Now, we need to perform the reverse—extract ZITADEL’s own SAML metadata so that it can be registered as a trusted Identity Provider within OTC.
+At this point, ZITADEL has already been configured to trust T Cloud Public by consuming its SAML metadata (as outlined in earlier steps). Now, we need to perform the reverse—extract ZITADEL’s own SAML metadata so that it can be registered as a trusted Identity Provider within OTC.
 
 If you’ve deployed ZITADEL using the guide [Deploy ZITADEL on CCE](1_cce-zitadel.md), the metadata is served automatically at the following endpoint: `https://$ZITADEL_EXTERNALDOMAIN/saml/v2/metadata`
 
 Replace `$ZITADEL_EXTERNALDOMAIN` with the actual fully qualified domain name pointing to your ZITADEL instance. This URL exposes an XML-formatted metadata document containing ZITADEL’s SAML configuration, including its public signing key and SSO endpoints. You’ll use this metadata when registering ZITADEL as an Identity Provider in the OTC IAM console, so download and save it in your workspace as e.g. **metadata.xml**.
 
 :::info
-Exchanging SAML metadata between the identity provider (ZITADEL) and the service provider (Open Telekom Cloud IAM) is a foundational step in establishing mutual trust within a SAML-based authentication flow. The metadata files serve as structured, signed documents that contain the public key infrastructure (PKI) necessary to validate digital signatures on SAML assertions—ensuring that identity claims are authentic and have not been altered in transit.
+Exchanging SAML metadata between the identity provider (ZITADEL) and the service provider (T Cloud Public IAM) is a foundational step in establishing mutual trust within a SAML-based authentication flow. The metadata files serve as structured, signed documents that contain the public key infrastructure (PKI) necessary to validate digital signatures on SAML assertions—ensuring that identity claims are authentic and have not been altered in transit.
 
 Beyond cryptographic trust, SAML metadata also defines key operational endpoints such as the Single Sign-On (SSO) and Single Logout (SLO) endpoint. By exchanging this information up front, both systems can interoperate seamlessly, eliminating the need for manual configuration and significantly reducing the risk of misrouted authentication messages. This automation is critical for ensuring that authentication flows are reliable, secure, and standards-compliant.
 :::
@@ -158,12 +158,12 @@ If we examine the **metadata.xml** retrieved from ZITADEL, we will notice that i
 </AttributeAuthorityDescriptor>
 ```
 
-For Open Telekom Cloud IAM to make authorization decisions based on group membership or roles, we must explicitly configure ZITADEL to include custom SAML attributes in its assertions. To enrich the SAML response with role(s) information, we’ll define a custom **Action** in ZITADEL.
+For T Cloud Public IAM to make authorization decisions based on group membership or roles, we must explicitly configure ZITADEL to include custom SAML attributes in its assertions. To enrich the SAML response with role(s) information, we’ll define a custom **Action** in ZITADEL.
 
 :::info
 Actions in ZITADEL allow you to inject additional logic during the authentication flow, including modifying the SAML assertion payload before it is sent to the service provider.
 
-In this case, the Action will append one or more custom attribute statements to the SAML response—such as user roles, or other identity context information as e.g. the Organization ID—that Open Telekom Cloud can then map to IAM groups. This is the mechanism that bridges ZITADEL’s internal user model with Open Telekom Cloud's access control expectations, enabling dynamic role assignment based on federated identity.
+In this case, the Action will append one or more custom attribute statements to the SAML response—such as user roles, or other identity context information as e.g. the Organization ID—that T Cloud Public can then map to IAM groups. This is the mechanism that bridges ZITADEL’s internal user model with T Cloud Public's access control expectations, enabling dynamic role assignment based on federated identity.
 
 The Action will be triggered during SAML login and executed in the context of the authentication pipeline, ensuring all outbound assertions include the required metadata for authorization decisions downstream.
 :::
@@ -206,7 +206,7 @@ Go to *Organization Dashboard* -> *Actions* -> *Flows*, choose `Complement SAMLR
 
 ### Creating a new Identity Provider
 
-Go to *Open Telekom Cloud Console* -> *IAM* -> *Identity Providers* and click *Create Identity Provider*:
+Go to *T Cloud Public Console* -> *IAM* -> *Identity Providers* and click *Create Identity Provider*:
 
 Set the following parameters and click *OK*.
 
@@ -219,9 +219,9 @@ Choosing Virtual user allows OTC to create ephemeral user sessions based on SAML
 
 ### Configuring the new Identity Provider
 
-After your ZITADEL Action is in place and correctly injecting the necessary assertions and the Open Telekom Cloud Identity Provider has been created, navigate to the *Identity Providers* and click on *Modify* next to the provider to finalize the trust relationship by uploading ZITADEL's metadata to Open Telekom Cloud IAM. Under the *Metadata Configuration* section click *Upload* and select the `metadata.xml` file you retrieved earlier.
+After your ZITADEL Action is in place and correctly injecting the necessary assertions and the T Cloud Public Identity Provider has been created, navigate to the *Identity Providers* and click on *Modify* next to the provider to finalize the trust relationship by uploading ZITADEL's metadata to T Cloud Public IAM. Under the *Metadata Configuration* section click *Upload* and select the `metadata.xml` file you retrieved earlier.
 
-This file contains ZITADEL’s SAML configuration, including its public keys and SSO endpoints. Uploading it allows Open Telekom Cloud IAM to trust and process incoming authentication responses from ZITADEL securely, based on signed and validated assertions. Once uploaded, save the configuration to apply the changes.
+This file contains ZITADEL’s SAML configuration, including its public keys and SSO endpoints. Uploading it allows T Cloud Public IAM to trust and process incoming authentication responses from ZITADEL securely, based on signed and validated assertions. Once uploaded, save the configuration to apply the changes.
 
 Click twice *OK* to apply changes and exit.
 
@@ -229,11 +229,11 @@ Click twice *OK* to apply changes and exit.
 
 ### Configuring the Conversion Rules
 
-Now that the metadata exchange is complete and ZITADEL is trusted by Open Telekom Cloud IAM, the next step is to define conversion rules. These rules map incoming SAML attributes, such as custom roles, to IAM user groups within your Open Telekom Cloud tenant. This mapping is essential for authorization. It ensures that users federated through ZITADEL are granted the correct level of access in OTC based on the attributes included in the SAML assertions.
+Now that the metadata exchange is complete and ZITADEL is trusted by T Cloud Public IAM, the next step is to define conversion rules. These rules map incoming SAML attributes, such as custom roles, to IAM user groups within your T Cloud Public tenant. This mapping is essential for authorization. It ensures that users federated through ZITADEL are granted the correct level of access in OTC based on the attributes included in the SAML assertions.
 
-Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud IAM Console*, locate your configured ZITADEL SAML provider, and click *Modify*. Scroll to the bottom of the configuration page and click on the *Edit Rule* link under *Identity Conversion Rules*. This will open the rule editor where you can define how SAML attributes from ZITADEL are translated into Open Telekom Cloud IAM group memberships.
+Return to the *IAM* -> *Identity Providers* section in the *T Cloud Public IAM Console*, locate your configured ZITADEL SAML provider, and click *Modify*. Scroll to the bottom of the configuration page and click on the *Edit Rule* link under *Identity Conversion Rules*. This will open the rule editor where you can define how SAML attributes from ZITADEL are translated into T Cloud Public IAM group memberships.
 
-In the *Edit Rule* popup, remove the default rule and paste the following conversion logic. This rule maps users from ZITADEL to the appropriate Open Telekom Cloud IAM group(s) based on the `Roles` attribute included in the SAML assertion:
+In the *Edit Rule* popup, remove the default rule and paste the following conversion logic. This rule maps users from ZITADEL to the appropriate T Cloud Public IAM group(s) based on the `Roles` attribute included in the SAML assertion:
 
 This rule takes three SAML attributes from the incoming assertion:
 
@@ -243,7 +243,7 @@ This rule takes three SAML attributes from the incoming assertion:
 
 It then constructs a federated username in the format: `<NAMEID>@zitadel/<OrgID>`
 
-Simultaneously, it assigns the user to a, or more, local IAM group(s) based on the Roles attribute. This dynamic mapping allows for automatic group assignment and user identification in Open Telekom Cloud, based on the structure and semantics of the identity data asserted by ZITADEL.
+Simultaneously, it assigns the user to a, or more, local IAM group(s) based on the Roles attribute. This dynamic mapping allows for automatic group assignment and user identification in T Cloud Public, based on the structure and semantics of the identity data asserted by ZITADEL.
 
 Once pasted, click twice *OK* to apply the rule.
 
@@ -272,7 +272,7 @@ Once pasted, click twice *OK* to apply the rule.
 :::info
 These rules will be evaluated at login time, dynamically assigning federated users to the appropriate IAM groups based on the attributes delivered by ZITADEL. This ensures secure, policy-aligned access **without the need for manual user provisioning**.
 
-You can find more detailed information about **Conversion Rules** in Open Telekom Cloud Help Center:
+You can find more detailed information about **Conversion Rules** in T Cloud Public Help Center:
 
 - [Configure Identity Conversion Rules](https://docs.otc.t-systems.com/identity-access-management/umn/user_guide/identity_providers/virtual_user_sso_via_openid_connect/step_2_configure_identity_conversion_rules.html)
 - [Syntax of Identity Conversion Rules](https://docs.otc.t-systems.com/identity-access-management/umn/user_guide/identity_providers/syntax_of_identity_conversion_rules.html#en-us-topic-0079620340)
@@ -281,9 +281,9 @@ You can find more detailed information about **Conversion Rules** in Open Teleko
 
 ## Verification
 
-Return to the *IAM* -> *Identity Providers* section in the *Open Telekom Cloud IAM Console*, locate your configured ZITADEL SAML provider, Then click *View* next to your configured Identity Provider. In the details panel, locate the *Login Link*, copy its value, and open it in an incognito or private browsing session using your preferred browser.
+Return to the *IAM* -> *Identity Providers* section in the *T Cloud Public IAM Console*, locate your configured ZITADEL SAML provider, Then click *View* next to your configured Identity Provider. In the details panel, locate the *Login Link*, copy its value, and open it in an incognito or private browsing session using your preferred browser.
 
-Complete all first-time login steps as prompted, and if the SAML assertions and conversion rules were applied correctly, and the federation flow succeeded, you should be redirected to the Open Telekom Cloud Console, now logged in as a federated user. Your federated identity should reflect the mapped *username* and *organization membership* based on the SAML attributes provided by ZITADEL, confirming that the trust relationship and role mappings are functioning as intended.
+Complete all first-time login steps as prompted, and if the SAML assertions and conversion rules were applied correctly, and the federation flow succeeded, you should be redirected to the T Cloud Public Console, now logged in as a federated user. Your federated identity should reflect the mapped *username* and *organization membership* based on the SAML attributes provided by ZITADEL, confirming that the trust relationship and role mappings are functioning as intended.
 
 ![alt text](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-17_08-10-39.png)
 
@@ -335,9 +335,9 @@ Verify the following for your ZITADEL domain:
 - TLS certificate is valid and trusted
 - The domain is publicly accessible
 
-#### 6. Debug Open Telekom Cloud IdP Conversion Rules
+#### 6. Debug T Cloud Public IdP Conversion Rules
 
-In the Open Telekom Cloud IAM Console:
+In the T Cloud Public IAM Console:
 
 1. Go to *Identity Providers* -> *Modify* -> *Edit Rules*
 2. Verify that the rules match the SAML attributes returned by ZITADEL

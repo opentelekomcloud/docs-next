@@ -10,7 +10,7 @@ export default function HomepageContribute(): JSX.Element {
         <div>
           <h1 className="margin-bottom--md">Contribute</h1>
           <p className="margin-bottom--md">
-            Share with our vibrant community all that cool staff you've built with Open Telekom Cloud.
+            Share with our vibrant community all that cool staff you've built with T Cloud Public.
           </p>
           <a href='https://github.com/opentelekomcloud/docs-next' className="button button--secondary" style={{ marginRight: '10px', marginBottom: '10px' }} >
             Join us on GitHub

@@ -211,14 +211,14 @@ image repository. We are going to be accessing SWR through a **public** network.
 1. Configure a registry endpoint on Harbor.
 
     :::note
-    Open Telekom Cloud SWR has not yet integrated with Harbor. You need clone [this repo](https://github.com/akyriako/harbor/tree/opentelekomcloud_adapter) and build it from branch **opentelekomcloud\_adapter**.
+    T Cloud Public SWR has not yet integrated with Harbor. You need clone [this repo](https://github.com/akyriako/harbor/tree/opentelekomcloud_adapter) and build it from branch **opentelekomcloud\_adapter**.
     :::
 
     Add an endpoint and configure the following parameters.
 
     ![image2](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001418569120.png)
 
-    - `Provider`: Select `Open Telekom Cloud SWR`.
+    - `Provider`: Select `T Cloud Public SWR`.
     - `Name`: Enter a customized name.
     - `Endpoint URL`: Enter the public network domain name of
         SWR in the format of `https://{SWR image repository

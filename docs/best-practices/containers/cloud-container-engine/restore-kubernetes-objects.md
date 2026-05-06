@@ -6,17 +6,17 @@ tags: [cce, migration, velero, obs, wordpress, kubernetes, aws, eks]
 
 # Restoring Kubernetes Objects in a CCE Cluster
 
-In this part of the guide, we will demonstrate how to restore a WordPress backup created with Velero (FSB) onto a target Open Telekom Cloud CCE cluster. The process includes restoring both the namespace resources (Deployments, Services, Secrets, ConfigMaps) and the persistent volumes for MySQL and WordPress content, effectively migrating the workload into a new cluster.
+In this part of the guide, we will demonstrate how to restore a WordPress backup created with Velero (FSB) onto a target T Cloud Public CCE cluster. The process includes restoring both the namespace resources (Deployments, Services, Secrets, ConfigMaps) and the persistent volumes for MySQL and WordPress content, effectively migrating the workload into a new cluster.
 
 :::important
-The following actions have to be performed on the Open Telekom Cloud CCE cluster which is our migration target.
+The following actions have to be performed on the T Cloud Public CCE cluster which is our migration target.
 :::
 
 ## Creating StorageClass Mappings
 
 Since/If storage infrastructures differ between clusters, volumes cannot be mounted on the target cluster without adjustment. To address this, you must create a mapping between the source and target storage classes.
 
-Hence, you need to create a `StorageClass` in Open Telekom Cloud CCE **with the exact same name** as the one used in the source cloud provider, in this case AWS. In this case SSDs, as backend storage media, will be mapped to a new `StorageClass` that has the same name, namely `gp2`, as their equivalent in AWS.
+Hence, you need to create a `StorageClass` in T Cloud Public CCE **with the exact same name** as the one used in the source cloud provider, in this case AWS. In this case SSDs, as backend storage media, will be mapped to a new `StorageClass` that has the same name, namely `gp2`, as their equivalent in AWS.
 
 :::important
 Choose one of the two methods described below, and apply it **before** restoring the application in the target cluster. If no matching StorageClass exists at the target and the mapping is not configured in advance, persistent volumes will fail to restore.

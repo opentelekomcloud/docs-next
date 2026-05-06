@@ -6,7 +6,7 @@ tags: [cce, migration, velero, obs, wordpress, kubernetes, aws, eks]
 
 # Migrating Clusters from Other Clouds to CCE
 
-This best practices series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on Open Telekom Cloud. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging Open Telekom Cloud services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/) to provide a reliable and structured migration path for Kubernetes workloads.
+This best practices series showcase how to migrate Kubernetes workloads from other cloud or on-premises Kubernetes environments to the Cloud Container Engine (CCE) on T Cloud Public. It highlights the key considerations for moving applications, container images, and persistent data while ensuring compatibility and service continuity. This best practice focuses on leveraging T Cloud Public services such as [OBS](https://docs.otc.t-systems.com/object-storage-service/index.html) and [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html), along with established tools like [Velero](https://velero.io/) to provide a reliable and structured migration path for Kubernetes workloads.
 
 <center>
 ![image1](/img/docs/best-practices/containers/cloud-container-engine/en-us_image_0000001402114285.png)
@@ -16,7 +16,7 @@ This best practices series showcase how to migrate Kubernetes workloads from oth
 ## Prerequisites
 
 * The source and target Kubernetes clusters must run version **1.10 or higher**.
-* An **OBS bucket** on Open Telekom Cloud is required and **Access credentials (AK/SK)** with proper permissions. Same counts if any alternative S3-compliant object-storage instead of OBS.
+* An **OBS bucket** on T Cloud Public is required and **Access credentials (AK/SK)** with proper permissions. Same counts if any alternative S3-compliant object-storage instead of OBS.
 * Both the source and target clusters need network access to the chosen object storage.
 * The **source cluster must be healthy**, with no abnormal pods running.
 * The **target CCE cluster must not contain conflicting resources**, since Velero will not overwrite existing objects.
@@ -34,7 +34,7 @@ For more details on creating a bucket on OBS, see [Creating a Bucket](https://do
 
 ### Preparing Container Images (Optional)
 
-If you are going to use exclusively [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html) as the source of your container images in CCE, you need to upload the image files to the Open Telekom Cloud container registry. For details, see [Uploading an Image Through the Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
+If you are going to use exclusively [SWR](https://docs.otc.t-systems.com/software-repository-container/index.html) as the source of your container images in CCE, you need to upload the image files to the T Cloud Public container registry. For details, see [Uploading an Image Through the Client](https://docs.otc.t-systems.com/software-repository-container/umn/image_management/uploading_an_image_through_the_client.html).
 
 :::note
 Provisioning the source and target Kubernetes cluster(s) is out of the scope of this best practice article.
@@ -78,7 +78,7 @@ In practice, CSI mode is preferred when the underlying infrastructure supports i
     ```
 
     :::important
-    Replace **VELERO_S3_REGION** with the Open Telekom Cloud region that your bucket lives, and **VELERO_S3_URL** with the OBS address. Example for **eu-de**:  
+    Replace **VELERO_S3_REGION** with the T Cloud Public region that your bucket lives, and **VELERO_S3_URL** with the OBS address. Example for **eu-de**:  
 
     * **VELERO_S3_REGION** should be `eu-de` and
     * **VELERO_S3_URL** should be `https://obs.eu-de.otc.t-systems.com`.
@@ -166,7 +166,7 @@ The installation of Velero has to be performed in both source **and** target clu
 
 4. Install Velero Plugin for AWS:
 
-    The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3-compliant object store systems. Since Open Telekom Cloud’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (or any other S3-compliant object store). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
+    The [velero/velero-plugin-for-aws](https://github.com/vmware-tanzu/velero-plugin-for-aws) is a plugin that enables Velero to interact with AWS S3-compliant object store systems. Since T Cloud Public’s Object Storage Service (OBS) exposes an S3-compatible API, this plugin is required to allow Velero to store and retrieve backups from OBS (or any other S3-compliant object store). Without it, Velero would not be able to communicate with the storage backend, making the plugin a necessary component for backup and restore operations in ours environment.
 
     ```bash
     velero plugin add velero/velero-plugin-for-aws:v1.8.2
@@ -232,7 +232,7 @@ If a backup task involves storage of the `HostPath` type, **the storage volumes 
 
 ## Deploying a Demo Workload on AWS EKS
 
-We will deploy [WordPress](https://wordpress.com/) on an AWS EKS cluster as a demonstration workload to provide a realistic scenario for the migration examples that follow. This deployment serves as a practical workload to showcase how a live application, including its database and persistent data, can be backed up and migrated from AWS EKS to Open Telekom Cloud’s Cloud Container Engine (CCE) using Velero. By using WordPress, we can illustrate key migration concepts such as persistent volume handling, database replication, and service continuity in a controlled lab environment, allowing users to test backup, restore, and migration procedures safely before applying them to production workloads.
+We will deploy [WordPress](https://wordpress.com/) on an AWS EKS cluster as a demonstration workload to provide a realistic scenario for the migration examples that follow. This deployment serves as a practical workload to showcase how a live application, including its database and persistent data, can be backed up and migrated from AWS EKS to T Cloud Public’s Cloud Container Engine (CCE) using Velero. By using WordPress, we can illustrate key migration concepts such as persistent volume handling, database replication, and service continuity in a controlled lab environment, allowing users to test backup, restore, and migration procedures safely before applying them to production workloads.
 
 :::warning
 This deployment is provided solely for use in a lab context to support migration exercises and should not be considered a production-ready setup.

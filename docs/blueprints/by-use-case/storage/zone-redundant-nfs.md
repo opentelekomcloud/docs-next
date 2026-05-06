@@ -6,7 +6,7 @@ tags: [ecs, evs, sdrs, nfs, disaster-recovery, storage, failover]
 
 # Zone-redundant NFS Server
 
-The main target of this blueprint is to provide a zone-redundant NFS Server with the option to perform a failover. We are going to use ECS, EVS and Storage Disaster Recovery Service of Open Telekom Cloud for that. Additionally we will cover operational tasks like extending the size of the NFS Share.
+The main target of this blueprint is to provide a zone-redundant NFS Server with the option to perform a failover. We are going to use ECS, EVS and Storage Disaster Recovery Service of T Cloud Public for that. Additionally we will cover operational tasks like extending the size of the NFS Share.
 
 :::important
 This guide is to be treated as proposal and it's only intend is to
@@ -471,7 +471,7 @@ This concludes the decommissioning process of an NFS-share.
 1. **Preparation**
 
 In a real-outage scenario, when one AZ is declared as **down**, you must
-do a failover using the Open Telekom Cloud Console. Before we perform a test failover,
+do a failover using the T Cloud Public Console. Before we perform a test failover,
 let's have a client mounting the actual NFS Share:
 
 ```bash
@@ -500,7 +500,7 @@ itself)
 
 2. **Performing failover**
 
-In the Open Telekom Cloud Console  -> *SDRS* -> Select protection group and click *More* ->
+In the T Cloud Public Console  -> *SDRS* -> Select protection group and click *More* ->
 *Fail Over*:
 
 ![image](/img/docs/blueprints/by-use-case/storage/zone-redundant-nfs/Bild3.png)

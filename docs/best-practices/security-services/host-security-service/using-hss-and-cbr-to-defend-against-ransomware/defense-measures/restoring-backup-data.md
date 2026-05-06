@@ -8,7 +8,7 @@ tags: [hss, cbr,ransomware]
 
 # Restoring Backup Data
 
-Ransomware attacks are developing rapidly these days. There are no tools can kill them absolutely. So once a system was attacked by ransomware, restoring the victim system from backups in a timely manner is the best remedies to minimize losses. After enabling ransomware backup, you can use Open Telekom Cloud CBR to quickly restore services, keeping your services stable.
+Ransomware attacks are developing rapidly these days. There are no tools can kill them absolutely. So once a system was attacked by ransomware, restoring the victim system from backups in a timely manner is the best remedies to minimize losses. After enabling ransomware backup, you can use T Cloud Public CBR to quickly restore services, keeping your services stable.
 
 ## Restoring Backup Data
 

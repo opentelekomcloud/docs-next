@@ -6,7 +6,7 @@ tags: [devops, ci, cd, cicd, devtron, swr, cce]
 
 # Build a CI/CD Pipeline with Devtron, SWR and CCE
 
-This blueprint covers integrating Devtron with Open Telekom Cloud Container Engine (CCE) for efficient CI/CD pipelines. It details installing Devtron in CCE clusters, emphasizing using containerized Masters and dynamic Agents managed by Kubernetes for optimal resource utilization and self-healing. The Master schedules jobs, which Agents execute within Kubernetes pods. This setup enhances security and maintenance efficiency.
+This blueprint covers integrating Devtron with T Cloud Public Container Engine (CCE) for efficient CI/CD pipelines. It details installing Devtron in CCE clusters, emphasizing using containerized Masters and dynamic Agents managed by Kubernetes for optimal resource utilization and self-healing. The Master schedules jobs, which Agents execute within Kubernetes pods. This setup enhances security and maintenance efficiency.
 
 ## What is Devtron?
 
@@ -59,7 +59,7 @@ tools. Below are the primary components of Devtron:
 ![](https://raw.githubusercontent.com/devtron-labs/devtron/main/assets/Architecture.jpg)
 
 :::caution
-Open Telekom Cloud, and CCE in its extent, **do not** provide official maintenance and support for Devtron. The maintenance is provided exclusively by the developers of the Devtron. You can read more in the documentation of the platform [here](https://docs.devtron.ai/).
+T Cloud Public, and CCE in its extent, **do not** provide official maintenance and support for Devtron. The maintenance is provided exclusively by the developers of the Devtron. You can read more in the documentation of the platform [here](https://docs.devtron.ai/).
 :::
 
 ## Prerequisites

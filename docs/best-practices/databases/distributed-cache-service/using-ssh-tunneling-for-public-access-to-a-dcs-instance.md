@@ -10,7 +10,7 @@ VPCs are used to ensure network security of public cloud services, such as DCS. 
 
 ## Solution Design
 
-If an EIP is bound to a Open Telekom Cloud ECS, you can remotely access
+If an EIP is bound to a T Cloud Public ECS, you can remotely access
 the ECS from a local computer. You can create an SSH tunnel as a proxy to connect 
 your DCS instance and local computer to achieve proxy forwarding.
 

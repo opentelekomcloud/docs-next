@@ -7,7 +7,7 @@ tags: [hss, cbr,ransomware]
 # Identifying and Fixing Ransomware
 
 
-According to the Open Telekom Cloud statistics on security intrusion events, 90% of ransomware attacks result from weak passwords, vulnerability exploits, and unsafe baseline settings. Identifying and fixing risks before real intrusions can significantly improve the system security. Open Telekom Cloud HSS helps you quickly identify risks and provides the one-click fix function to reduce O&M costs.
+According to the T Cloud Public statistics on security intrusion events, 90% of ransomware attacks result from weak passwords, vulnerability exploits, and unsafe baseline settings. Identifying and fixing risks before real intrusions can significantly improve the system security. T Cloud Public HSS helps you quickly identify risks and provides the one-click fix function to reduce O&M costs.
 
 ## Increasing Password Strength
 

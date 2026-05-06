@@ -6,7 +6,7 @@ tags: [umami, analytics, cce, postgresql]
 
 # Deploy Umami on CCE
 
-In this blueprint we are going to set up Umami on Open Telekom Cloud's Cloud Container Engine (CCE), leveraging Kubernetes for scalability and flexibility. For the database backend, we will use the Zalando PostgreSQL Operator to provision and manage a PostgreSQL cluster within the CCE environment.
+In this blueprint we are going to set up Umami on T Cloud Public's Cloud Container Engine (CCE), leveraging Kubernetes for scalability and flexibility. For the database backend, we will use the Zalando PostgreSQL Operator to provision and manage a PostgreSQL cluster within the CCE environment.
 
 ## Prerequisites
 

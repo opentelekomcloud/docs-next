@@ -1,14 +1,14 @@
 ---
 id: brain-plus-german-cloud-for-dementia-therapy-app
-title: Open Telekom Cloud for Dementia Therapy App 
+title: T Cloud Public for Dementia Therapy App 
 tags: [healthcare, by-industry]
 ---
 
-# Open Telekom Cloud for Dementia Therapy App
+# T Cloud Public for Dementia Therapy App
 
-To meet the strict guidelines for the German digital health market, the team from [Brain+](#about-brain) wanted to provide the backend for its app from a German cloud, and Brain+ chose the Open Telekom Cloud. In addition to that, with a growing focus on the UK market, Open Telekom Cloud can provide a framework allowing the team to scale to the UK and later to the rest of Europe.
+To meet the strict guidelines for the German digital health market, the team from [Brain+](#about-brain) wanted to provide the backend for its app from a German cloud, and Brain+ chose the T Cloud Public. In addition to that, with a growing focus on the UK market, T Cloud Public can provide a framework allowing the team to scale to the UK and later to the rest of Europe.
 
- <!-- ![Doctor explains dementia therapy app to a patient](https://www.t-systems.com/resource/image/700748/ratio3x2/1440/960/942d3442067a770073e737587fd9d21f/E5F1DBFCD4A09DCFDC02F7E33EE2E913/im-brain-plus-german-cloud-for-new-dementia-therapy-app.jpg "Denmark-based Brain+ uses Open Telekom Cloud to enter new markets") -->
+ <!-- ![Doctor explains dementia therapy app to a patient](https://www.t-systems.com/resource/image/700748/ratio3x2/1440/960/942d3442067a770073e737587fd9d21f/E5F1DBFCD4A09DCFDC02F7E33EE2E913/im-brain-plus-german-cloud-for-new-dementia-therapy-app.jpg "Denmark-based Brain+ uses T Cloud Public to enter new markets") -->
 
 ## The Challenge
 
@@ -18,16 +18,16 @@ To meet the strict guidelines for the German digital health market, the team fro
 
 ## The Solution
 
-* Transferring the backend to the [Open Telekom Cloud](https://www.t-systems.com/de/en/cloud-services/solutions/public-cloud/open-telekom-cloud)
-* Content Management System operated from the Open Telekom Cloud, using relational database service, elastic cloud server, elastic volume storage, caching, and backup
+* Transferring the backend to the [T Cloud Public](https://www.t-systems.com/de/en/cloud-services/solutions/public-cloud/open-telekom-cloud)
+* Content Management System operated from the T Cloud Public, using relational database service, elastic cloud server, elastic volume storage, caching, and backup
 * Full scalability and compliance with regulatory framework conditions
 
 ## Customer Benefits
 
-* Open Telekom Cloud enables Brain+ to expand into Germany with its offerings and tap into the market potential for dementia
+* T Cloud Public enables Brain+ to expand into Germany with its offerings and tap into the market potential for dementia
 * The platform allows Brain+ to deliver the services they offer in compliance with German regulatory requirements for health apps
-* Open Telekom Cloud offers full scalability for further business growth, fully supporting cloud-native technologies and expansion into other markets such as the UK
-* Support as an Open Telekom Cloud Circle Partner
+* T Cloud Public offers full scalability for further business growth, fully supporting cloud-native technologies and expansion into other markets such as the UK
+* Support as an T Cloud Public Circle Partner
 
 ## About Brain+
 

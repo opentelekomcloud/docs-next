@@ -1,26 +1,26 @@
 ---
 id: establish-a-site-to-site-vpn-from-open-telekom-cloud-to-aws-using-enterprise-router-and-bgp-routing
-title: Establish a Site-to-Site VPN from Open Telekom Cloud to AWS using Enterprise Router and BGP Routing
+title: Establish a Site-to-Site VPN from T Cloud Public to AWS using Enterprise Router and BGP Routing
 tags: [vpc, vpn, enterprise-router,bgp,aws]
 ---
 
-# Establish a Site-to-Site VPN from Open Telekom Cloud to AWS using Enterprise Router and BGP Routing
+# Establish a Site-to-Site VPN from T Cloud Public to AWS using Enterprise Router and BGP Routing
 
-This article shows the process of establishing a Site-to-Site Virtual Private Network (VPN) between Open Telekom Cloud and Amazon Web Services (AWS) using BGP routing for dynamic and efficient network connectivity. The setup is designed to provide high availability, redundancy, and security features essential for enterprise environments where data integrity and seamless communication are paramount.
+This article shows the process of establishing a Site-to-Site Virtual Private Network (VPN) between T Cloud Public and Amazon Web Services (AWS) using BGP routing for dynamic and efficient network connectivity. The setup is designed to provide high availability, redundancy, and security features essential for enterprise environments where data integrity and seamless communication are paramount.
 
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/diagram.png)
 
 ## Solution Overview
-This setup connects different Virtual Private Clouds (VPCs) in Open Telekom Cloud to a specified VPC in AWS.
+This setup connects different Virtual Private Clouds (VPCs) in T Cloud Public to a specified VPC in AWS.
 
-- **Establishment of VPN Tunnels:** Four VPN tunnels are created between Open Telekom Cloud and AWS, each configured with distinct peer IP addresses and pre-shared keys. These tunnels serve as the secure channels through which data is transmitted between the two networks.
+- **Establishment of VPN Tunnels:** Four VPN tunnels are created between T Cloud Public and AWS, each configured with distinct peer IP addresses and pre-shared keys. These tunnels serve as the secure channels through which data is transmitted between the two networks.
 - **BGP Routing Protocol:** Once the customer gateways and VPN tunnels are established, BGP sessions are initiated on both ends using the respective ASNs ([Autonomous System Numbers](https://www.arin.net/resources/guide/asn/)). This allows for dynamic routing of network traffic across the connection, optimizing path selection based on performance metrics such as latency and bandwidth utilization.
-- **High Availability and Failover:** To maintain high availability and ensure minimal disruption in case one or more tunnels fail, four VPN tunnels are created between Open Telekom Cloud and AWS.
+- **High Availability and Failover:** To maintain high availability and ensure minimal disruption in case one or more tunnels fail, four VPN tunnels are created between T Cloud Public and AWS.
 
 ## Concepts and Terminology
 
 - **VPN Gateway** is a managed gateway that makes it easy to set up and scale Virtual Private Networks (VPNs). It functions as a target network gateway through which all traffic destined for the connected network will pass.
-- **Customer Gateway** is a physical or software device that represents your side of a network connection. A Customer Gateway is configured with an external IP address and a BGP ASN; both are provided by the other side of the connection (e.g., AWS if you are creating it on Open Telekom Cloud). This provides the necessary information to the VPN connection.
+- **Customer Gateway** is a physical or software device that represents your side of a network connection. A Customer Gateway is configured with an external IP address and a BGP ASN; both are provided by the other side of the connection (e.g., AWS if you are creating it on T Cloud Public). This provides the necessary information to the VPN connection.
 - **VPN Connection** refers to the network connection that is established between two networks over an encrypted link facilitated by a VPN Gateway and customer gateway. It includes all configurations related to encryption (using AES 256-bit encryption as standard), authentication mechanisms, and monitoring tools that track health status and performance metrics.
 
 :::tip Tip
@@ -32,7 +32,7 @@ You can find more information about Site-to-Site VPN and its related components 
 
 ## Prerequisites
 
-Before setting up VPN tunnels between Open Telekom Cloud and AWS, you must configure an Enterprise Router on the Open Telekom Cloud side, to be able to bind the VPN Gateway to it and also manage Virtual Private Cloud (VPC) traffic. This section will guide you through creating a basic configuration of such a router and attaching necessary VPCs for VPN connectivity.
+Before setting up VPN tunnels between T Cloud Public and AWS, you must configure an Enterprise Router on the T Cloud Public side, to be able to bind the VPN Gateway to it and also manage Virtual Private Cloud (VPC) traffic. This section will guide you through creating a basic configuration of such a router and attaching necessary VPCs for VPN connectivity.
 
 :::note
 If you already have an Enterprise Router set up and the VPC that you want to share with the AWS side is attached to it, then skip this section.
@@ -42,7 +42,7 @@ If you already have an Enterprise Router set up and the VPC that you want to sha
 Make sure that the ASN of your Enterprise Router matches the ASN of the VPN Gateway that is attached to the router.
 :::
 
-### Creating an Enterprise Router on Open Telekom Cloud
+### Creating an Enterprise Router on T Cloud Public
 
 1. Log in to the Open Telekom Management Console.
 2. Navigate to **Network -> Enterprise Router**.
@@ -69,7 +69,7 @@ Make sure that the ASN of your Enterprise Router matches the ASN of the VPN Gate
 
 ## Configuring VPN Gateways
 
-#### On Open Telekom Cloud
+#### On T Cloud Public
 
 1. Navigate to **Network -> Virtual Private Network**.
 2. In the right panel of the page, expand **Virtual Private Network**, click on **Enterprise – VPN Gateways**, and then click on **Create VPN Gateway** to create a new VPN Gateway with the following details:
@@ -95,7 +95,7 @@ Make sure that the ASN of the VPN Gateway **matches** the ASN of the Enterprise 
 1. Log in to your AWS account and navigate to **VPC -> Virtual Private Network (VPN) -> Virtual Private Gateways**.
 2. Click on **Create virtual private gateway** and create a new VPN Gateway with the following details:
    - **Name:** Name of your VPN Gateway.
-   - **Autonomous System Number (ASN):** Configure this as Custom ASN. The value should be different from what is configured in Open Telekom Cloud (e.g., 65000).
+   - **Autonomous System Number (ASN):** Configure this as Custom ASN. The value should be different from what is configured in T Cloud Public (e.g., 65000).
 3. Click on **Create virtual private gateway**.
 
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/create-vgw-aws.png)
@@ -110,14 +110,14 @@ Make sure that the ASN of the VPN Gateway **matches** the ASN of the Enterprise 
 #### On AWS
 
 1. Navigate to **VPC -> Virtual Private Network (VPN) -> Customer Gateways**.
-2. Click on **Create customer gateway** and for each public **Gateway IP Address** generated for the created **VPN Gateway** in Open Telekom Cloud, create a **Customer Gateway** with the following details:
+2. Click on **Create customer gateway** and for each public **Gateway IP Address** generated for the created **VPN Gateway** in T Cloud Public, create a **Customer Gateway** with the following details:
    - **Name:** Name of your customer gateway.
-   - **BGP ASN:** The BGP ASN configured in the VPN Gateway in Open Telekom Cloud.
-   - **IP Address:** The public IP address of the VPN Gateway in Open Telekom Cloud.
+   - **BGP ASN:** The BGP ASN configured in the VPN Gateway in T Cloud Public.
+   - **IP Address:** The public IP address of the VPN Gateway in T Cloud Public.
 
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/create-cgw-aws.png)
 
-#### On Open Telekom Cloud
+#### On T Cloud Public
 
 :::important
 This step should be done **after** the **Site-to-Site VPN connections** in AWS are created (visit [Configuring VPN Connections on AWS](#aws-vpn-connections)).
@@ -154,10 +154,10 @@ This step should be done **after** the **Site-to-Site VPN connections** in AWS a
 4. Click **Create VPN connection**.
 5. Click on each **VPN connection** and download the configuration, with **Vendor** set to *Generic*.
 
-#### On Open Telekom Cloud
+#### On T Cloud Public
 
 1. Navigate to **Network -> Virtual Private Network**.
-2. In the right panel of the page, expand **Virtual Private Network**, click on **Enterprise – VPN Connection**, and then click on **Create VPN Connection**. Create a VPN connection for each **Customer Gateway** created in Open Telekom Cloud. Use the downloaded configuration file from the last step to configure the VPN connections:
+2. In the right panel of the page, expand **Virtual Private Network**, click on **Enterprise – VPN Connection**, and then click on **Create VPN Connection**. Create a VPN connection for each **Customer Gateway** created in T Cloud Public. Use the downloaded configuration file from the last step to configure the VPN connections:
    - **Name:** Name of the connection.
    - **VPN Gateway:** Select the VPN Gateway created earlier.
    - **Gateway IP Address:** Enter the value of the `Outside IP Addresses -> Customer Gateway` field from the configuration file.
@@ -173,7 +173,7 @@ This step should be done **after** the **Site-to-Site VPN connections** in AWS a
 
 After a few minutes, you should be able to see connections established, and their status should be normal on both sides.
 
-#### On Open Telekom Cloud 
+#### On T Cloud Public 
 
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/vpn-connection-list.png)
 
@@ -200,7 +200,7 @@ Note that under **Details** we see `1 BGP ROUTES` are propagated, but in the rou
 
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/bgp-route-pro-aws.png)
 
-#### On Open Telekom Cloud 
+#### On T Cloud Public 
 
 1. Navigate to **Network -> Enterprise Router** and click on **Manage Route Table** of the router you created.
 2. Select the **Route Tables** tab and select the default route table, then select the **Routes** tab.
@@ -227,7 +227,7 @@ Once you've created and configured both sets of VMs:
 #### On AWS
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/ping-aws.png)
 
-#### On Open Telekom Cloud
+#### On T Cloud Public
 ![image](/img/docs/blueprints/by-use-case/networking/site-to-site-vpn-with-enterprise-router/ping-otc.png)
 
 By successfully pinging between these two endpoints, you'll confirm that your site-to-site VPN connection is operational and functioning as expected.

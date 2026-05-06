@@ -14,14 +14,14 @@ One key reason to set up such a connection is to enhance security. By using a P2
 
 ## Prerequisites
 
-Before we begin setting up a Point-to-Site (P2S) VPN connection between your development machine and an Open Telekom Cloud Virtual Private Cloud (VPC), we are going to need:
+Before we begin setting up a Point-to-Site (P2S) VPN connection between your development machine and an T Cloud Public Virtual Private Cloud (VPC), we are going to need:
 
 1. an **ECS Server (Ubuntu 22.04)**: A General-purpose (1 vCPU, 2 GiB) `s3.medium.2` instance will suffice.
 2. an **OpenVPN** server: You need to install OpenVPN on the ECS server. OpenVPN serves as the backbone for setting up the P2S VPN by allowing secure encrypted communication between your development machine and the VPC.
 
 ## Creating an ECS Server
 
-1. In *Open Telekom Cloud Console* -> *Elastic Cloud Server*, click *Create ECS*. Choose the **Flavor** and **Image** as depicted below and assign a `40GB` as the **System Disk** size.
+1. In *T Cloud Public Console* -> *Elastic Cloud Server*, click *Create ECS*. Choose the **Flavor** and **Image** as depicted below and assign a `40GB` as the **System Disk** size.
 
 ![image](/img/docs/blueprints/by-use-case/networking/establish-a-p2s-vpn-connection-with-a-vpc/Screenshot_from_2025-01-24_08-26-41.png)
 
@@ -65,7 +65,7 @@ Click *Next: Configure Network*.
 
     :::important Make sure:
 
-       1. you declare as IP address the EIP of the ECS Server. If you don't know the EIP, either look it up in the Open Telekom Cloud Console or simply run the following command in the terminal:
+       1. you declare as IP address the EIP of the ECS Server. If you don't know the EIP, either look it up in the T Cloud Public Console or simply run the following command in the terminal:
 
             ```shell
             curl ifconfig.me

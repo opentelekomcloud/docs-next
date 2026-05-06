@@ -6,7 +6,7 @@ tags: [cce, python, jupyter, jupyterhub, jupyterlab, ml, machine-learning]
 
 # Deploy JupyterHub on CCE
 
-This article explains how to deploy JupyterHub on Cloud Container Engine (CCE) as a multi-user service on Open Telekom Cloud. It focuses on the platform and architectural considerations required to run JupyterHub reliably on Kubernetes, including integration with Open Telekom Cloud services and commonly used components from the open source ecosystem.
+This article explains how to deploy JupyterHub on Cloud Container Engine (CCE) as a multi-user service on T Cloud Public. It focuses on the platform and architectural considerations required to run JupyterHub reliably on Kubernetes, including integration with T Cloud Public services and commonly used components from the open source ecosystem.
 
 [**JupyterHub**](https://jupyter.org/hub) is a multi-user platform that provides centralized access to Jupyter Notebooks through a shared infrastructure. It manages user authentication, resource isolation, and lifecycle management, while spawning individual notebook environments for each user. [**JupyterLab**](https://jupyterlab.readthedocs.io/en/latest/) and the classic [**Jupyter Notebook**](https://jupyter-notebook.readthedocs.io/en/stable/) are the user-facing interfaces that run inside these environments. In practice, JupyterHub acts as the control plane, while JupyterLab or Notebooks are the tools users interact with to write code, analyze data, and document results.
 
@@ -17,7 +17,7 @@ JupyterHub is primarily aimed at data scientists, machine learning engineers, re
 ## Prerequisites
 
 1. a **Cloud Container Engine (CCE) cluster** 
-2. A domain name with DNS management delegated to the Open Telekom Cloud DNS service
+2. A domain name with DNS management delegated to the T Cloud Public DNS service
 2. a publicly accessible **Keycloak** instance
 3. a bastion host in **Elastic Cloud Service (ECS)**; *optional but strongly recommended*
 
@@ -27,7 +27,7 @@ We are assuming that you will host Keycloak at *keycloak.example.com* and Jupyte
 
 ## Creating a CCE Cluster
 
-To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the Open Telekom Cloud wizard for cluster creation, and pay close attention to the following configuration specifics:
+To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the T Cloud Public wizard for cluster creation, and pay close attention to the following configuration specifics:
 
 - **High Availability (HA)**: For this blueprint, a non HA-cluster was used **which is not advised for production workloads**. However, if your workload demands fault tolerance and availability guarantees, consider enabling HA during creation, as this setting is immutable post-deployment.
 - **Network Placement**: Ensure the CCE cluster is provisioned within the **same VPC** as the RDS instance to facilitate secure and low-latency communication.

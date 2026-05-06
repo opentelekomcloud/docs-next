@@ -29,7 +29,7 @@ servers.
 ### Prerequisites
 
 :::note
-To calculate the fees you can visit Open Telekom Cloud [Price
+To calculate the fees you can visit T Cloud Public [Price
 calculator](https://open-telekom-cloud.com/en/prices/price-calculator).
 :::
 

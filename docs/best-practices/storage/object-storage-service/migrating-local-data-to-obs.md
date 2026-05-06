@@ -13,11 +13,11 @@ Conventional on-premises storage servers cannot meet the storage demands for mas
 
 In contrast, OBS provides massive, stable, and secure cloud storage capabilities. With OBS, you do not need to worry about the storage capacity because it can be expanded infinitely. OBS can store unstructured data of any type and size. OBS ensures high stability and security for your data, featuring a multi-level reliability architecture, server-side encryption, log management, and permission control. In terms of the cost, OBS is available upon service subscription, eliminating the need for the investment in physical server deployment and maintenance.
 
-Open Telekom Cloud provides diverse [migration solutions](#migration-solutions) to help you migrate data from your on-premises storage servers to OBS in a cost-effective, secure, and efficient manner. You can select a suitable migration solution according to your data volume, time arrangement, and budget.
+T Cloud Public provides diverse [migration solutions](#migration-solutions) to help you migrate data from your on-premises storage servers to OBS in a cost-effective, secure, and efficient manner. You can select a suitable migration solution according to your data volume, time arrangement, and budget.
 
 ## Migration Solutions
 
-[Table 1](#table1) describes the migration solutions provided by Open Telekom Cloud.
+[Table 1](#table1) describes the migration solutions provided by T Cloud Public.
  
 <a id="table1">Table 1 Migration solutions</a>
 
@@ -27,7 +27,7 @@ Open Telekom Cloud provides diverse [migration solutions](#migration-solutions) 
 | [Using a Direct Connect Connection to Migrate Data](#using-a-direct-connect-connection-to-migrate-data) (real-time) | More than 100 TB data that needs real-time online transmission every month | A Direct Connect connection must be deployed.                                                                            | Depends on the bandwidth of the Direct Connect connection. | Fees are charged based on the distance and bandwidth of the connection. For details, see  [Direct Connect Pricing Details](https://open-telekom-cloud.com/en/prices/price-calculator). |
 <!-- | [Using CDM to Migrate Data](#using-cdm-to-migrate-data) (online)                                                    | Less than 8 TB at a time                                                   | Cloud Data Migration (CDM) must be subscribed to.                                                                        | One day for 1 TB to 8 TB (depending on the network condition and read and write performance of the data source) | Fees are charged based on CDM instance specifications and the running duration. | -->
 <!-- | [Using Disk-based DES to Migrate Data](#using-disk-based-des-to-migrate-data) (offline)                             | Less than 30 TB at a time                                                  | Users must prepare disks by themselves.                                                                                  | See DES documentation for timeline details                                                                      | Fees are charged based on the number of disks and the running duration.         | -->
-<!-- | [Using Teleport-based DES to Migrate Data](#using-teleport-based-des-to-migrate-data) (offline)                     | 30 TB to 500 TB at a time                                                  | Open Telekom Cloud data centers mail Teleports to users.                                                                             | See DES documentation for timeline details                                                                      | Fees are charged based on the number of disks and the running duration.         | -->
+<!-- | [Using Teleport-based DES to Migrate Data](#using-teleport-based-des-to-migrate-data) (offline)                     | 30 TB to 500 TB at a time                                                  | T Cloud Public data centers mail Teleports to users.                                                                             | See DES documentation for timeline details                                                                      | Fees are charged based on the number of disks and the running duration.         | -->
 
 ## Using OBS Tools to Migrate Data
 
@@ -37,7 +37,7 @@ For details about the scenarios and operation guidelines of each tool, see [OBS 
 
 ## Using a Direct Connect Connection to Migrate Data
 
-Direct Connect connects your data center to Open Telekom Cloud, so that you can upload local data directly to Open Telekom Cloud OBS. Direct Connect provides low-latency and high-bandwidth services, which is suitable for you to upload data to OBS at any time, and is therefore recommended when local data needs to be migrated to OBS frequently or in real time.
+Direct Connect connects your data center to T Cloud Public, so that you can upload local data directly to T Cloud Public OBS. Direct Connect provides low-latency and high-bandwidth services, which is suitable for you to upload data to OBS at any time, and is therefore recommended when local data needs to be migrated to OBS frequently or in real time.
 
 **Figure 4** Migrating data to OBS using a Direct Connect connection  
 ![](/img/docs/best-practices/storage/object-storage-service/migrating-local-data-to-obs-direct-connect.png)
@@ -48,7 +48,7 @@ Direct Connect connects your data center to Open Telekom Cloud, so that you can 
     
 2.  Enable Direct Connect.
     
-    Log in to Direct Connect Console, fill in the application form and submit an order. After the administrator approves the application, you can pay for the order and contact the carrier for physical line connections. Open Telekom Cloud engineers will assist in configuring the connection. For details, see [Enabling Direct Connect](https://docs.otc.t-systems.com/direct-connect/umn/getting_started/enabling_direct_connect/index.html#dc-02-0200).
+    Log in to Direct Connect Console, fill in the application form and submit an order. After the administrator approves the application, you can pay for the order and contact the carrier for physical line connections. T Cloud Public engineers will assist in configuring the connection. For details, see [Enabling Direct Connect](https://docs.otc.t-systems.com/direct-connect/umn/getting_started/enabling_direct_connect/index.html#dc-02-0200).
     
 3.  Start data transmission.
     

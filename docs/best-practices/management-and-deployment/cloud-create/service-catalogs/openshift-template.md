@@ -12,7 +12,7 @@ last_update:
 The following tutorial shows you how to register a (trial) subscription key from Red Hat and uses it to create an OpenShift cluster using the OpenShift template.
 
 :::important
-*   The OpenShift template deploys a [Self-managed OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) on Open Telekom Cloud with Bring Your Own License (BYOL).
+*   The OpenShift template deploys a [Self-managed OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) on T Cloud Public with Bring Your Own License (BYOL).
 *   Your license/subscription will cover technical support from Red Hat as well as upgrades between OpenShift versions. [Read more](https://www.redhat.com/en/about/value-of-Red-Hat).
 *   Supported versions: 4.12.39 and 4.13.x.
 :::
@@ -29,7 +29,7 @@ How to use
 
 #### Specify base\_domain
 
-Specify the **base\_domain** (e.g., `tri-test.com`). This is the domain name that you will use to access the OpenShift console after the deployment completes. A DNS Public Zone will be created on Open Telekom Cloud with this name. Therefore this domain name **must be unique** in the Domain Name Service of Open Telekom Cloud.
+Specify the **base\_domain** (e.g., `tri-test.com`). This is the domain name that you will use to access the OpenShift console after the deployment completes. A DNS Public Zone will be created on T Cloud Public with this name. Therefore this domain name **must be unique** in the Domain Name Service of T Cloud Public.
 
 [![../_images/openshift_config1.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_config1.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_config1.png)
 
@@ -61,7 +61,7 @@ We do not store your password but the OpenShift install needs it one time for th
 #### (Optional) Specify ssh\_public\_key
 
 *   Specify the **ssh\_public\_key** with your SSH public key (e.g., `ssh-ed25519 AAAAC3N...`). This public key will be injected in the bastion host, master and worker nodes so that you can SSH to them later on.
-*   If ssh\_public\_key is **not specified**, we will auto-select one of your **existing key pair** from the Open Telekom Cloud console instead.
+*   If ssh\_public\_key is **not specified**, we will auto-select one of your **existing key pair** from the T Cloud Public console instead.
     
 [![../_images/openshift_config2.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_config2.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_config2.png)
 
@@ -80,7 +80,7 @@ Figure 4. Specify your SSH public key
 Expect result
 ----------------------------------------------------------------
 
-*   It takes about 2 minutes to create all compute resources on Open Telekom Cloud. Afterwards, the OpenShift bootstrap process continues to setup the master and worker nodes.    
+*   It takes about 2 minutes to create all compute resources on T Cloud Public. Afterwards, the OpenShift bootstrap process continues to setup the master and worker nodes.    
 *   After about 31 minutes, the **CheckOpenShiftStatus** job checks the OpenShift boostrap process and reports the status.
     
 [![../_images/openshift_check_result.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_check_result.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_check_result.png)
@@ -199,7 +199,7 @@ How to create storages
 
 ### Elastic Volume Service (EVS)
 
-In OpenShift you can provision an EVS on Open Telekom Cloud dynamically:
+In OpenShift you can provision an EVS on T Cloud Public dynamically:
 
 1.  Create a new **storage class** (e.g., `ssd-csi`) with a volume type (e.g., `SSD`):
     
@@ -297,7 +297,7 @@ spec:
 
 Figure 9. Pod example is running
 
-5.  On Open Telekom Cloud, see EVS is created:
+5.  On T Cloud Public, see EVS is created:
     
 ![../_images/openshift_evs.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_evs.png)
 
@@ -305,9 +305,9 @@ Figure 10. A new EVS is created with the volume type "Ultra High I/O"
 
 ### Scalable File Service & SFS Turbo
 
-You can create a SFS on Open Telekom Cloud manually and create a [PersistentVolume using NFS](https://docs.openshift.com/container-platform/4.13/storage/persistent_storage/persistent-storage-nfs.html) in OpenShift, which connects to SFS via NFS protocol:
+You can create a SFS on T Cloud Public manually and create a [PersistentVolume using NFS](https://docs.openshift.com/container-platform/4.13/storage/persistent_storage/persistent-storage-nfs.html) in OpenShift, which connects to SFS via NFS protocol:
 
-1.  Go to the [webconsole of Open Telekom Cloud](https://console.otc.t-systems.com/) and create a SFS or SFS Turbo:
+1.  Go to the [webconsole of T Cloud Public](https://console.otc.t-systems.com/) and create a SFS or SFS Turbo:
     
 [![../_images/openshift_sfs.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_sfs.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/openshift_sfs.png)
 

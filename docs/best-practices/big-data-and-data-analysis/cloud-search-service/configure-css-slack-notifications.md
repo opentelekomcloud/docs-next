@@ -6,7 +6,7 @@ tags: [css, opensearch, elasticsearch, slack]
 
 # Configure Cloud Search Service Slack Notifications
 
-Open Telekom Cloud provides **Cloud Search Service (CSS)**, a fully managed **OpenSearch** offering used widely for log analytics, observability, and security monitoring.
+T Cloud Public provides **Cloud Search Service (CSS)**, a fully managed **OpenSearch** offering used widely for log analytics, observability, and security monitoring.
 
 A very common requirement is to **send alerts and notifications to Slack** when certain conditions are met, such as:
 
@@ -18,7 +18,7 @@ However, there is an important architectural constraint: **Cloud Search Service 
 
 Because Slack webhooks are hosted on the public internet, OpenSearch **cannot directly call Slack endpoints**. To solve this, we introduce an **internal relay component** (reverse proxy or webhook service) deployed inside the same VPC.
 
-This guide explains a **clean, production-ready approach** to integrate OpenSearch notifications with Slack in Open Telekom Cloud.
+This guide explains a **clean, production-ready approach** to integrate OpenSearch notifications with Slack in T Cloud Public.
 
 ## Solution Overview
 
@@ -33,7 +33,7 @@ OpenSearch communicates exclusively within the VPC, so it is not directly expose
 For this guide, we are going to need:
 
 - a **VPC** where our artefacts are going to be deployed
-- an Open Telekom Cloud **Cloud Search Service (CSS)** cluster
+- an T Cloud Public **Cloud Search Service (CSS)** cluster
 - an **ECS VM** or **CCE cluster** in the same VPC with the Cloud Search Service (CSS) cluster
 - Network access between Cloud Search Service (CSS) cluster and proxy
 - Slack workspace admin or app permissions
@@ -69,7 +69,7 @@ This URL must not be exposed publicly. Keep it restricted to trusted systems and
 
 ## Enabling Slack Notifications in CSS
 
-Log in to the *Open Telekom Cloud Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Dev tools*, paste the snippet below to the console 
+Log in to the *T Cloud Public Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Dev tools*, paste the snippet below to the console 
 and click *Send request*. This will enable Slack and webhook-based notification channels.
 
 
@@ -167,7 +167,7 @@ OpenSearch itself does not require a public IP address for this setup. All commu
 
 ## Creating a Notification Channel
 
-Log in to the *Open Telekom Cloud Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Notifications* -> *Channels* in the sidebar menu and then click *Create Channel*.
+Log in to the *T Cloud Public Console* -> *Cloud Search Service* -> *Clusters* -> *OpenSearch* pick your cluster and then go to *Dashboards*. Click *Notifications* -> *Channels* in the sidebar menu and then click *Create Channel*.
 
 ![image](/img/docs/best-practices/big-data-and-data-analysis/cloud-search-service/Screenshot_from_2026-03-03_16-15-38.png)
 

@@ -15,10 +15,10 @@ This guide covers the environment setup required for implementing auto scaling b
 ![**Figure 1** ELB traffic flows and monitoring
 data](/img/docs/best-practices/containers/cloud-container-engine/auto-scaling-based-on-elb-monitoring-metrics/overal.png)
 
-In this guide, we’ll use [cloudeye-exporter](https://github.com/opentelekomcloud-blueprints/cloudeye-exporter), a custom Prometheus exporter designed to collect metrics from Open Telekom Cloud’s Cloud Eye service. The exporter retrieves monitoring data, converts it into Prometheus-compatible format, and exposes it through an endpoint that Prometheus can scrape at regular intervals.
+In this guide, we’ll use [cloudeye-exporter](https://github.com/opentelekomcloud-blueprints/cloudeye-exporter), a custom Prometheus exporter designed to collect metrics from T Cloud Public’s Cloud Eye service. The exporter retrieves monitoring data, converts it into Prometheus-compatible format, and exposes it through an endpoint that Prometheus can scrape at regular intervals.
 
 :::tip
-Additional metrics can be gathered in the same manner by extending the exporter’s configuration to include other service metrics. By adjusting the metric definitions and endpoints, the same workflow (data retrieval, conversion to Prometheus format, and periodic scraping) can be applied to monitor different resources such as ECS instances, EVS volumes, RDS databases, or networking components. This approach provides a consistent and scalable method for integrating a wide range of Open Telekom Cloud metrics into Prometheus.
+Additional metrics can be gathered in the same manner by extending the exporter’s configuration to include other service metrics. By adjusting the metric definitions and endpoints, the same workflow (data retrieval, conversion to Prometheus format, and periodic scraping) can be applied to monitor different resources such as ECS instances, EVS volumes, RDS databases, or networking components. This approach provides a consistent and scalable method for integrating a wide range of T Cloud Public metrics into Prometheus.
 :::
 
 ## Prerequisites

@@ -12,7 +12,7 @@ As the business grows, you may need to upgrade your application. Both the old an
 
 ### Prerequisites
 
-- An Open Telekom Cloud account is available and real-name
+- An T Cloud Public account is available and real-name
     authentication has been completed.
 - The account balance is sufficient to pay for the resources involved
     in this best practice.

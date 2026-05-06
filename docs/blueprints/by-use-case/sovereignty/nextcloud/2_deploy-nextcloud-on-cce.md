@@ -6,7 +6,7 @@ tags: [nextcloud,storage,office,collaboration,sovereignty]
 
 # Deploy Nextcloud on CCE
 
-This guide walks through deploying a highly available Nextcloud setup on an Open Telekom Cloud Cloud Container Engine (CCE) cluster, using Object Storage Service (OBS) for file storage and Relational Database Service (RDS) for Nextcloud's database. We will use the [Nextcloud Helm charts](https://github.com/nextcloud/helm/tree/main/charts/nextcloud) for that matter.
+This guide walks through deploying a highly available Nextcloud setup on an T Cloud Public Cloud Container Engine (CCE) cluster, using Object Storage Service (OBS) for file storage and Relational Database Service (RDS) for Nextcloud's database. We will use the [Nextcloud Helm charts](https://github.com/nextcloud/helm/tree/main/charts/nextcloud) for that matter.
 
 ## Prerequisites
 

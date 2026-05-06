@@ -13,7 +13,7 @@ export default function HomepageAskAQuestion(): JSX.Element {
               Ask a Technical Question
             </h1>
             <p className="margin-bottom--md">
-              Connect with people sharing the same passion for Open Telekom Cloud. 
+              Connect with people sharing the same passion for T Cloud Public. 
               Discover our exciting upcoming Events and Webinars!
             </p>
             <a className="button button--secondary margin-right--md" href="https://community.open-telekom-cloud.com/community/?id=community_home" target='_blank'>

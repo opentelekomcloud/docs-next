@@ -6,7 +6,7 @@ tags: [umami, analytics, ecs, rds, postgresql]
 
 # Using RDS for PostgreSQL to Set Up Umami on ECS
 
-In this blueprint we are going to set up Umami on Open Telekom Cloud leveraging an Elastic Cloud Server (ECS), while using Relational Database Service (RDS) for PostgreSQL to manage the database.
+In this blueprint we are going to set up Umami on T Cloud Public leveraging an Elastic Cloud Server (ECS), while using Relational Database Service (RDS) for PostgreSQL to manage the database.
 
 ## Prerequisites
 

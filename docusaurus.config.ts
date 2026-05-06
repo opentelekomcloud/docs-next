@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Open Telekom Cloud Architecture Center',
-  tagline: 'Official reference architectures, blueprints, and best practices for Open Telekom Cloud',
+  title: 'T Cloud Public Architecture Center',
+  tagline: 'Official reference architectures, blueprints, and best practices for T Cloud Public',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -67,8 +67,8 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     metadata: [
-      { name: 'description', content: 'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.' },
-      { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, open telekom cloud, opentelekomcloud, otc, t-systems' },
+      { name: 'description', content: 'T Cloud Public Architecture Center — official reference architectures, blueprints, and best practices.' },
+      { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, T Cloud Public, opentelekomcloud, otc, t-systems' },
       { name: 'google-site-verification', content: 'J5ydYOkPAHSSQ-9J7Jo1EovhMxyw98MRqwCexyVGey0' },
     ],
     // Replace with your project's social card
@@ -119,7 +119,7 @@ const config: Config = {
           href: 'https://auth.otc.t-systems.com/',
           position: 'right',
           className: 'navbar--terminal-link',
-          "aria-label": 'Open Telekom Cloud Console',
+          "aria-label": 'T Cloud Public Console',
         },
         // {
         //   href: 'https://status.otc-service.com/',
@@ -150,7 +150,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       logo: {
-        alt: 'Open Telekom Cloud Logo',
+        alt: 'T Cloud Public Logo',
         src: 'img/telekom-logo.svg',
         href: 'https://www.open-telekom-cloud.com',
         width: 72,

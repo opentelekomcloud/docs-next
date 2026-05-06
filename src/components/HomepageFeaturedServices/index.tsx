@@ -14,7 +14,7 @@ export default function HomepageFeaturedServices(): JSX.Element {
               Explore our Featured Services
             </h1>
             <p className="margin-bottom--md">
-              Check out our collection of technical solutions, best practices and cool tips for the most popular services of Open Telekom Cloud.
+              Check out our collection of technical solutions, best practices and cool tips for the most popular services of T Cloud Public.
             </p>
             <a className="button button--secondary" href={useBaseUrl("/portfolio")}>
               Open Portfolio Navigator
