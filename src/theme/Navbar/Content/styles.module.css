@@ -30,7 +30,7 @@
 }
 
 .navbarCenter :global(.navbar__link){
-  font-size: x-large;
+  font-size: larger;
 }
 
 .navbarLeft :global(.navbar__brand) {
