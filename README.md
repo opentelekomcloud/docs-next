@@ -28,6 +28,152 @@ This command starts a local development server and opens up a browser window. Ch
 > No typesense installation is provided out-of-the-box, you need to come with you own instance. A Helm Chart is already provided for that matter and you can easily
 > install a typesense-bundle in your local enviroment using KinD or K3d.
 
+### WSL Development
+
+Ensure that WSL2 is installed and properly configured on your machine. Once it is available, proceed with deploying an Ubuntu 22.04 instance:
+
+```Powershell
+wsl --install Ubuntu-22.04
+```
+
+> [!NOTE]
+> You will be prompted to provide an account name. If you are an employee of the Deutsche Telekom Group, use your corporate account.
+
+Next you need to configure your environment to use the appropriate proxy, if any, so that both system package management and command-line tools can access external resources.
+
+Start by creating an APT configuration file under `/etc/apt/apt.conf.d/` to ensure that all **apt** operations are routed through the proxy. This is required for package installation and updates in restricted network environments.
+
+Next, define the proxy environment variables in your user configuration files. Add them to both `~/.bashrc` and `~/.profile` so that they are available in interactive and login shells. This allows common tools such as curl, wget, and other CLI-based applications to use the proxy automatically.
+
+After updating the configuration files, reload your shell environment by sourcing `~/.bashrc`. This applies the changes immediately without requiring you to open a new session.
+
+> [!IMPORTANT]
+> In the following scripts, replace all occurrences of `PROXY_ADDRESS:PORT` with the value that matches your environment.
+
+```shell
+sudo tee /etc/apt/apt.conf.d/proxy.conf <<EOF 
+Acquire::http::Proxy "http://PROXY_ADDRESS:PORT/"; 
+Acquire::https::Proxy "http://PROXY_ADDRESS:PORT/"; 
+EOF 
+
+sudo tee ~/.bashrc <<EOF 
+export http_proxy=http://PROXY_ADDRESS:PORT 
+export HTTP_PROXY=http://PROXY_ADDRESS:PORT 
+export https_proxy=http://PROXY_ADDRESS:PORT 
+export HTTPS_PROXY=http://PROXY_ADDRESS:PORT 
+EOF 
+
+sudo tee ~/.profile <<EOF 
+export http_proxy=http://PROXY_ADDRESS:PORT 
+export HTTP_PROXY=http://PROXY_ADDRESS:PORT 
+export https_proxy=http://PROXY_ADDRESS:PORT 
+export HTTPS_PROXY=http://PROXY_ADDRESS:PORT 
+EOF 
+
+source ~/.bashrc
+```
+
+> [!NOTE]
+> You can skip the previous step if you are not an employee of the Deutsche Telekom Group or you are not working behind a proxy.
+
+Ensure that proxy environment variables are preserved when running commands with `sudo`, as they are not forwarded by default.
+
+Start by creating the `/etc/sudoers.d` directory if it does not already exist. Then add a dedicated configuration file that instructs `sudo` to retain the proxy-related environment variables. This allows elevated commands, such as package installations or remote downloads, to continue using the configured proxy.
+
+Set the correct permissions on the file to `440`, as required by `sudoers` configurations. This prevents unauthorized modifications while keeping the file readable by the system.
+
+Finally, validate the configuration using `visudo` in check mode. This step ensures that the syntax is correct and avoids breaking `sudo` access due to misconfiguration.
+
+```shell
+sudo mkdir -p /etc/sudoers.d
+
+printf '%s\n' 'Defaults env_keep += "http_proxy https_proxy ftp_proxy no_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY"' | sudo tee /etc/sudoers.d/proxy-env-keep >/dev/null
+
+sudo chmod 440 /etc/sudoers.d/proxy-env-keep
+sudo visudo -cf /etc/sudoers.d/proxy-env-keep
+sudo visudo -c
+```
+Install Docker from the official repository to ensure you are using a supported and up-to-date version.
+
+Begin by updating the package index and installing the required dependencies, including tools for handling certificates, GPG keys, and repository metadata. Then create a dedicated keyring directory and download Docker’s official GPG key. This key is used by APT to verify the authenticity of the packages.
+
+Next, add the Docker repository to your APT sources. The configuration dynamically selects the correct Ubuntu release codename and system architecture, ensuring compatibility with your environment. Once the repository is in place, update the package index again so the new source is taken into account.
+
+Proceed with installing the Docker Engine, CLI, container runtime, and additional plugins such as Buildx and Docker Compose. These components provide the full container management and build capabilities required for most workloads.
+
+Finally, configure user permissions by adding your user to the `docker` group. This allows you to run Docker commands without `sudo`. Apply the change to your current session using `newgrp docker`, so you can use Docker immediately without logging out.
+
+```shell
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl gnupg lsb-release -y
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+# Install packages
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+# Add user to group
+sudo addgroup docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Configure Docker to use the corporate proxy so that it can pull images and communicate with external registries in a restricted network environment.
+
+Start by creating a systemd drop-in directory for the Docker service. In this directory, define a configuration file that sets the `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables. This ensures that the Docker daemon itself, not only the client, routes its traffic through the proxy.
+
+After creating the configuration, reload the systemd daemon to apply the changes. Then restart the Docker service so that it picks up the new environment variables.
+
+Once completed, Docker will use the configured proxy for all outbound network operations, such as pulling images from remote repositories.
+
+```shell
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
+[Service]
+Environment="HTTP_PROXY=http://PROXY_ADDRESS:PORT"
+Environment="HTTPS_PROXY=http://PROXY_ADDRESS:PORT"
+Environment="NO_PROXY=localhost,127.0.0.1"
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+> [!NOTE]
+> You can skip the previous step if you are not working behind a proxy.
+
+And close the installation by installing the `binfmt-support` package, which enables the system to recognize and handle foreign binary formats.
+
+```shell
+sudo apt update
+sudo apt install binfmt-support -y
+```
+
+You can then close the repo inside WSL and open Visual Studio Code:
+
+```shell
+git clone https://github.com/opentelekomcloud/docs-next
+
+cd docs-next
+code .
+```
+
+Once Visual Studio Code opens, you will be prompted to choose whether to work directly within the WSL instance or to create a container-based environment using the `devcontainer.json` configuration (see next chapter).
+
 ### Remote Container Development
 
 Any IDE that supports [Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers), but in this case everything is tailored for Visual Studio Code, will build a container with all the necessary prerequisites to get you started creating content immediately based on the extensions
