@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import MediaJumbotron from '@site/src/components/MediaJumbotron'
 // import Heading from '@theme/Heading';
 // import { useThemeConfig } from '@docusaurus/theme-common';
 // import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -11,27 +12,6 @@ import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageMarketplace from '../components/HomepageMarketplace';
 import HomepageContribute from '../components/HomepageContribute';
 
-// function HomepageHeader() {
-//   const { siteConfig } = useDocusaurusContext();
-//   const navbarStyle = useThemeConfig().navbar.style;
-//   const buttonVariant = navbarStyle === 'dark' ? "primary" : "secondary-white"
-//   return (
-//     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-//       <div className="container">
-//         <Heading as="h1" className="hero__title">
-//           {siteConfig.title}
-//         </Heading>
-//         <p className="hero__subtitle">T Cloud Public {siteConfig.tagline}</p>
-//         <div className={styles.buttons}>
-//           <scale-button href={useBaseUrl("/docs/blueprints")} variant={buttonVariant}>
-//             Get Started <scale-icon-navigation-right></scale-icon-navigation-right>
-//           </scale-button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
-
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -40,7 +20,8 @@ export default function Home(): JSX.Element {
       description={`${siteConfig.title}`}>
       {/* <HomepageHeader /> */}
       <main>
-        <HomepageFeatures />
+        {/* <HomepageFeatures /> */}
+        <MediaJumbotron />
         <HomepageFeaturedServices />
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
