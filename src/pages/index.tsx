@@ -1,15 +1,11 @@
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import MediaJumbotron from '@site/src/components/MediaJumbotron'
-// import Heading from '@theme/Heading';
-// import { useThemeConfig } from '@docusaurus/theme-common';
-// import useBaseUrl from '@docusaurus/useBaseUrl';
-
-// import styles from './index.module.css';
+import MediaJumbotron from '@site/src/components/MediaJumbotron';
 import HomepageFeaturedServices from '../components/HomepageFeaturedServices';
 import HomepageMarketplace from '../components/HomepageMarketplace';
 import HomepageContribute from '../components/HomepageContribute';
+import ArticleHighlights from '../components/ArticleHighlights';
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -22,6 +18,8 @@ export default function Home(): JSX.Element {
         {/* <HomepageFeatures /> */}
         <MediaJumbotron />
         <HomepageFeaturedServices />
+
+        <ArticleHighlights />
 
         <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
           <div className={clsx("row")}>
