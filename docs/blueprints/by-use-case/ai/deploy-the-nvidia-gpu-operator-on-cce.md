@@ -35,7 +35,7 @@ Use the following values to configure the newly created GPU Node Pool:
     - **Name**: Assign a meaningful name to your GPU node pool, such as `gpu-workers`.
     - **Flavor Selection**: Choose a flavor that includes GPU resources. Look for options like `pi2.2xlarge` or similar GPU-accelerated instances available.
     - **Annotations**: If required by your cluster's configuration, add any necessary annotations.
-    - **Taints or Tolerations**: Set taints or tolerations to manage pod scheduling. For GPU nodes, you might set a taint like `nvidia.com/gpu=true:NoExecute` and ensure pods requiring GPUs have the appropriate toleration.
+    - **Taints or Tolerations**: Set taints or tolerations to manage pod scheduling. For GPU nodes, you might set a taint like `nvidia.com/gpu=true:NoSchedule` and ensure pods requiring GPUs have the appropriate toleration.
     
     ![image](/img/docs/blueprints/by-use-case/ai/nvidia-operator/create-node-pool.png)
 
@@ -225,7 +225,7 @@ spec:
   - key: nvidia.com/gpu
     operator: Equal
     value: "true"
-    effect: NoExecute
+    effect: NoSchedule
   containers:
   - name: cuda-vectoradd
     image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
@@ -294,7 +294,7 @@ spec:
   - key: nvidia.com/gpu
     operator: Equal
     value: "true"
-    effect: NoExecute
+    effect: NoSchedule
   containers:
   - name: cuda-vectoradd
     image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
@@ -429,7 +429,7 @@ Ensure that the requested number of GPUs does not exceed what’s available **on
   - If multiple pods are scheduled with GPU resource requests, ensure that the overall demand does not exceed the cluster’s capacity.
   - Overcommitting resources might lead to scheduling failures.
 - **Taints and Tolerations:**  
-  - GPU nodes may have specific taints (e.g., `nvidia.com/gpu=true:NoExecute`).
+  - GPU nodes may have specific taints (e.g., `nvidia.com/gpu=true:NoSchedule`).
   - Verify that your GPU-enabled pods include the proper tolerations so that the scheduler can place the pods on the GPU nodes.
 
 ### Checking Operator Status
