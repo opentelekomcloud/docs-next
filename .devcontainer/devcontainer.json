@@ -57,7 +57,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install",
+	"postCreateCommand": "npm install --save-dev dotenv-cli yarn && npm install",
 	
 	"runArgs": [
 		"--env-file",
