@@ -17,7 +17,7 @@ npm install --save-dev dotenv-cli yarn && npm install
 The command `npm run start` is used to start a Node.js application as defined in the scripts section of the **package.json** file in the development environment and starts locally an http server serving you app and giving you a hot-reload live environment to observe the changes you've done in your code.
 
 ```bash
-export $(cat .env | xargs)
+export $(cat .devcontainer/.env | xargs)
 npm run start
 ```
 
