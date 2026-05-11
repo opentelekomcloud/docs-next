@@ -45,7 +45,7 @@ export default function MediaJumbotron(): JSX.Element {
             title: 'Best Practices',
             description: "Explore the recommended strategies for resource management, such as efficient utilization of compute and storage resources. Gain insights into designing for high availability and fault tolerance to ensure robust system performance.",
             cta: "Let's go",
-            target: "/docs/best-practices"
+            target: useBaseUrl("/docs/best-practices")
         },
         {
             type: 'image',
@@ -53,7 +53,7 @@ export default function MediaJumbotron(): JSX.Element {
             title: 'Blueprints',
             description: 'Discover tailored out-of-the-box solutions and practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal application and infrastructure design using T Cloud Public.',
             cta: "Let's go",
-            target: "/docs/blueprints"
+            target: useBaseUrl("/docs/blueprints")
         },
         {
             type: 'image',
@@ -61,7 +61,7 @@ export default function MediaJumbotron(): JSX.Element {
             title: 'Templates',
             description: 'Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on T Cloud Public; whether with Cloud Create, Resource Formation Service, or directly using Terraform, OpenTofu or Crossplane.',
             cta: 'Discover them all',
-            target: "/templates"
+            target: useBaseUrl("/templates")
         },
     ];
 
@@ -71,7 +71,6 @@ export default function MediaJumbotron(): JSX.Element {
                 <div className={styles.mediaArea}>
                     {slides.map((slide, index) => {
                         const isActive = index === current;
-                        const targetUrl = useBaseUrl(slide.target || '#');
 
                         return (
                             <article
@@ -101,7 +100,7 @@ export default function MediaJumbotron(): JSX.Element {
                                 <div className={styles.contentCard}>
                                     <h1 className={styles.title}>{slide.title}</h1>
                                     <p className={styles.description}>{slide.description}</p>
-                                    <a className={styles.button} href={targetUrl}>
+                                    <a className={styles.button} href={slide.target}>
                                         {slide.cta}
                                     </a>
                                 </div>
