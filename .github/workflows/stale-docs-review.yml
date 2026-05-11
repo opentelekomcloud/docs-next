@@ -11,9 +11,9 @@ on:
         description: Stale threshold in days
         required: true
         default: "360"
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   stale-docs-scan:
