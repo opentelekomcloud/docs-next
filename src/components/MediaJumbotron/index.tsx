@@ -71,6 +71,7 @@ export default function MediaJumbotron(): JSX.Element {
                 <div className={styles.mediaArea}>
                     {slides.map((slide, index) => {
                         const isActive = index === current;
+                        const targetUrl = useBaseUrl(slide.target || '#');
 
                         return (
                             <article
@@ -100,7 +101,7 @@ export default function MediaJumbotron(): JSX.Element {
                                 <div className={styles.contentCard}>
                                     <h1 className={styles.title}>{slide.title}</h1>
                                     <p className={styles.description}>{slide.description}</p>
-                                    <a className={styles.button} href={slide.target}>
+                                    <a className={styles.button} href={targetUrl}>
                                         {slide.cta}
                                     </a>
                                 </div>
