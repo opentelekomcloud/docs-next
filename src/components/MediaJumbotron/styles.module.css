@@ -60,7 +60,7 @@ html[data-theme='dark'] .frame {
 
 .contentCard {
   position: absolute;
-  top: 32px;
+  top: 16px;
   left: 42px;
   width: min(390px, calc(100% - 84px));
   min-height: 520px;
