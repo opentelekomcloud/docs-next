@@ -163,7 +163,15 @@ Deploy the DCS Redis cluster in the same Virtual Private Cloud (VPC) as your CCE
 
 ## Creating an Object Storage Service Bucket
 
-[todo][navigation][image]
+Open WebUI requires an S3-compatible object storage backend to persist uploaded files, knowledge base documents, and generated assets outside the application containers. In this deployment, T Cloud Public Object Storage Service (OBS) fulfills this role through its S3-compatible API.
+
+This separation is necessary because Open WebUI containers in Kubernetes environments use ephemeral filesystems. Data stored locally inside a pod is not guaranteed to survive pod recreation, rescheduling, scaling events, or application upgrades. Relying on container-local storage would therefore introduce a risk of losing uploaded documents and user-generated content.
+
+Using OBS as the centralized storage backend ensures that uploaded content remains persistent and accessible independently of the lifecycle of individual OpenWebUI pods. It also enables multiple OpenWebUI replicas to access the same documents and attachments consistently in highly available deployments.
+
+Navigate to *T Cloud Public Console* -> *Object Storage Service* and click *Create Bucket*. Choose the respective **Region** under *General Configuration*, set the **Storage Class** as **Standard** in *Bucket Settings*, choose **Private** in *Bucket Policies* and click *Create Now*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-45-11.png)
 
 ## Creating a SFS Turbo File System
 
