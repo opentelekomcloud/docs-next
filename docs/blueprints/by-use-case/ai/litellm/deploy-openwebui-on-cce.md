@@ -25,7 +25,7 @@ Open WebUI does not communicate in this blueprint directly with model providers.
 
 Open `LITELLM_PROXY_BASE_URL` in your browser and click *Virtual Keys* -> *Create new key*:
 
-[image]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-14-49.png)
 
 :::note
 The purpose of this key is not only authentication, but also control and isolation. LiteLLM uses API keys to identify clients and apply policies. By assigning a dedicated key to Open WebUI, all requests originating from the UI can be clearly attributed to a single client. This makes it possible to manage access centrally, for example by restricting which models can be used, applying rate limits, or tracking usage.
@@ -421,7 +421,7 @@ Once the installation is complete, open `OPENWEBUI_PUBLIC_URL` in your browser a
 
 After logging in, navigate to the Open WebUI *Settings* -> *Connections* . This is where the integration with the OpenAI-compatible backend is verified.
 
-[image]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-13-53.png)
 
 In this deployment, Open WebUI is already preconfigured to use LiteLLM as its backend. The connection should therefore appear automatically without requiring manual input. Confirm that the configured base URL points to the internal LiteLLM service and that the connection is marked as available.
 
@@ -433,7 +433,7 @@ Open WebUI retrieves the list of available models from the configured backend. I
 
 Open the *Models* section and confirm that models are listed. The exact set of models depends on how LiteLLM is configured. If no models appear, this typically indicates an issue with the backend connection rather than Open WebUI itself.
 
-[image]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-14-03.png)
 
 Return back to the chat area, select a model and start a test conversation to validate that requests are correctly routed through LiteLLM to the underlying inference provider.
 
@@ -443,6 +443,6 @@ If web search is enabled, Open WebUI can augment responses with external search 
 
 Open the *Web Search* section or initiate a query that requires external information. Verify that search results are returned and integrated into the response. If no results are shown, check that the SearXNG service is reachable and that the query URL is correctly configured.
 
-[image]
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-14-19.png)
 
 This step confirms that Open WebUI can access external data sources in addition to the configured LLM backends.

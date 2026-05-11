@@ -186,6 +186,8 @@ spec:
               value: "/ui"
             - name: FORCE_HTTPS
               value: "true"
+            - name: STORE_MODEL_IN_DB
+              value: "true"
           volumeMounts:
             - name: litellm-config
               mountPath: /app/proxy_config.yaml
@@ -215,6 +217,10 @@ spec:
           configMap:
             name: litellm-config
 ```
+
+:::warning
+To add or manage models through the LiteLLM Admin UI, enable database-backed model storage by setting `STORE_MODEL_IN_DB` to `true`. Without this setting, LiteLLM only loads models from the static configuration and UI-based model creation fails with. This setting requires a configured PostgreSQL database connection for the LiteLLM proxy (in our case we use an RDS PostgreSQL instance).
+:::
 
 Ensure that the **litellm-deployment.yaml** file has been created and reviewed based on the previous steps. Once the configuration is in place, apply it to the cluster using the following command:
 
