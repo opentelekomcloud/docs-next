@@ -3,6 +3,9 @@ name: Build and Deploy Staging Runtime Docker Images
 on:    
     workflow_dispatch:   
 
+permissions:
+  contents: read
+
 jobs:
     build-preview:
       name: Build Staging Artifacts
