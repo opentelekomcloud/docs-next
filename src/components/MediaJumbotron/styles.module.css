@@ -66,7 +66,7 @@ html[data-theme='dark'] .frame {
   min-height: 520px;
   padding: 42px;
   border-radius: 36px;
-  background: rgba(0, 0, 0, 0.96);
+  background: rgba(0, 0, 0, 0.85);
   color: #fff;
   display: flex;
   flex-direction: column;
