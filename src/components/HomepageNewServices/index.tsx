@@ -16,7 +16,7 @@ export default function HomepageNewServices(): JSX.Element {
               Meet the New Comers
             </h1>
             <p className="margin-bottom--md">
-              Explore the new services added in Open Telekom Cloud portfolio.
+              Explore the new services added in T Cloud Public portfolio.
             </p>
             <a className="button button--secondary" href={useBaseUrl("/docs/best-practices")}>
               Check the Roadmap Portfolio

@@ -1,6 +1,6 @@
-# Open Telekom Cloud Architecture Center
+# T Cloud Public Architecture Center
 
-This project (*docs-next*) is serving as the documentation site of Open Telekom Cloud Architecture Center and is built using [Docusaurus](https://docusaurus.io/), a modern static website generator created by [Meta](https://opensource.fb.com/).
+This project (*docs-next*) is serving as the documentation site of T Cloud Public Architecture Center and is built using [Docusaurus](https://docusaurus.io/), a modern static website generator created by [Meta](https://opensource.fb.com/).
 
 ## Development
 
@@ -257,7 +257,7 @@ npm run serve
 ## Deployment
 
 You can deploy docs-next in a various infrastructure (as every React/TS application). You can just spin a docker container, or deploy it directly on
-an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter at [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts) repository.
+an ECS Server or on a CCE Kubernetes Cluster (recommended). Check the architecture and provided Helm Charts for the latter at [T Cloud Public Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts) repository.
 
 ### Manual
 
@@ -282,7 +282,7 @@ The repository is already employed with a GitHub Release Workflow that will do t
 
 1. Builds the application for production (`npm run build`)
 2. Builds and tags a container image and push the image to a predefined docker hub organization
-3. Updates the Helm Charts with new versions and image tags in [Open Telekom Cloud Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts)
+3. Updates the Helm Charts with new versions and image tags in [T Cloud Public Architecture Center Helm Charts](https://github.com/opentelekomcloud-infra/docs-next-charts)
 
 ArgoCD (deployed on the same CCE Cluster) will pick up the changes, within its `timeout.reconciliation` value (default is *180s*), and provision
 the changes without any human intervention.
@@ -314,8 +314,8 @@ All text content should adhere to the guidelines provided by official [Markdown 
 
 Use one of the following tools for creating diagramms:
 
-* [draw.io](https://www.drawio.com/). You can find the Open Telekom Cloud stencils [here](https://www.t-systems.com).
-* [Diagrams for Open Telekom Cloud](https://github.com/akyriako/diagrams)
+* [draw.io](https://www.drawio.com/). You can find the T Cloud Public stencils [here](https://www.t-systems.com).
+* [Diagrams for T Cloud Public](https://github.com/akyriako/diagrams)
 
 > [!NOTE]
 > No licence required for any of the aformentioned tools!

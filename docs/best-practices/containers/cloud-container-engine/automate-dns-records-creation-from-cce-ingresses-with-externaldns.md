@@ -14,12 +14,12 @@ The most common use cases that ExternalDNS comes to apply are the following:
 
 | Scenario | Description | Use Case |
 |---------|-------------|------------------|
-| Exposing Services via Custom DNS Names | ExternalDNS automates DNS record creation for Kubernetes services, removing the need to manually manage DNS entries in providers like Open Telekom Cloud DNS, AWS Route 53, Google Cloud DNS, or Azure DNS. | You deploy an app and want it reachable at `app.example.com`. ExternalDNS automatically points the domain to the service’s Elastic IP. |
+| Exposing Services via Custom DNS Names | ExternalDNS automates DNS record creation for Kubernetes services, removing the need to manually manage DNS entries in providers like T Cloud Public DNS, AWS Route 53, Google Cloud DNS, or Azure DNS. | You deploy an app and want it reachable at `app.example.com`. ExternalDNS automatically points the domain to the service’s Elastic IP. |
 | Automating DNS for Load Balancers | When using LoadBalancer-type services, the cloud provider assigns an Elastic IP. ExternalDNS creates DNS records that map your chosen FQDN to that IP. | A CCE LoadBalancer service is created, and ExternalDNS generates a DNS record mapping `api.example.com` to the public Elastic IP. |
-| Multi-Cluster or Multi-Region Deployments | ExternalDNS manages DNS records across clusters and regions, enabling routing strategies like geo-routing or latency-based routing. | An app runs in both Open Telekom Cloud regions (eu-de & eu-nl), and DNS automatically directs users to the closest cluster. |
+| Multi-Cluster or Multi-Region Deployments | ExternalDNS manages DNS records across clusters and regions, enabling routing strategies like geo-routing or latency-based routing. | An app runs in both T Cloud Public regions (eu-de & eu-nl), and DNS automatically directs users to the closest cluster. |
 | Managing Dynamic or Short-Lived Services | In environments with frequent scaling or service churn (e.g., microservices or CI/CD), ExternalDNS keeps DNS records up to date. | As microservices scale or new versions roll out, ExternalDNS updates DNS records to reflect the current state. |
 | Integrating with Ingress Controllers | ExternalDNS manages DNS for hostnames defined in Ingress resources, ensuring DNS points to the correct Ingress endpoints. | An Ingress exposes `blog.example.com`, and ExternalDNS creates or updates the DNS record automatically. |
-| Cloud-Native DNS Management | Provides automated DNS management integrated with Open Telekom Cloud DNS for scalable, cloud-native Kubernetes workloads. | DNS entries for applications are automatically kept in sync with cluster state. |
+| Cloud-Native DNS Management | Provides automated DNS management integrated with T Cloud Public DNS for scalable, cloud-native Kubernetes workloads. | DNS entries for applications are automatically kept in sync with cluster state. |
 | Managing Wildcard DNS Records | ExternalDNS can handle wildcard DNS entries useful for multi-tenant or subdomain-based routing scenarios. | A wildcard DNS entry like `*.tenant.example.com` routes different tenants based on subdomains, with ExternalDNS maintaining required records. |
 
 ## Configuring your registar
@@ -27,13 +27,13 @@ The most common use cases that ExternalDNS comes to apply are the following:
 We have to transfer the management of the NS-Records of your domain to the Domain Name Service of Open Telekom
 Cloud. Go on the site of your registar and make sure you configure the following:
 
-- Turn off any Dynamic DNS service for the domain or the subdomains you are going to bind with Open Telekom Cloud DNS.
+- Turn off any Dynamic DNS service for the domain or the subdomains you are going to bind with T Cloud Public DNS.
 - Change the NS-Records of your domain or the subdomains to point to:`ns1.open-telekom-cloud.com` **and** `ns2.open-telekom-cloud.com`
 
 If those two prerequisites are met, then you are ready to configure a new DNS Public Zone and Record Sets for your domain in Open Telekom
 Cloud. We do have two mutually exclusive options to do that:
 
-- Create manually from Open Telekom Cloud Console, a new Public DNS Zone that binds to your domain and an A-Record in that zone that
+- Create manually from T Cloud Public Console, a new Public DNS Zone that binds to your domain and an A-Record in that zone that
     points to the EIP of the Elastic Load Balancer.
 - Automate everything using
     [ExternalDNS](https://github.com/kubernetes-sigs/external-dns).
@@ -41,7 +41,7 @@ Cloud. We do have two mutually exclusive options to do that:
 ## Creating a dedicated DNS Service Account
 
 Go to *IAM management console*, and create a new User that permits
-**programmatic access** to Open Telekom Cloud resources:
+**programmatic access** to T Cloud Public resources:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-dfp.png)
 
@@ -139,7 +139,7 @@ helm upgrade --install external-dns external-dns/external-dns \
 ## Verification
 
 :::important
-If you completed all these steps on a cluster that already exposes services through [NGINX Ingress Controllers](#option-2-configuring-an-ingress), and all components were configured correctly, ExternalDNS **will automatically create the corresponding A records** in the Open Telekom Cloud DNS service.
+If you completed all these steps on a cluster that already exposes services through [NGINX Ingress Controllers](#option-2-configuring-an-ingress), and all components were configured correctly, ExternalDNS **will automatically create the corresponding A records** in the T Cloud Public DNS service.
 :::
 
 ### Option 1: Creating a DNSEndpoint
@@ -224,7 +224,7 @@ kubectl create namespace demo
 kubectl apply -f whoami.yaml
 ```
 
-2. Before proceeding, ensure that the [ACME DNS‑01 solver](../cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce/#installing-the-acme-dns01-solver) for Open Telekom Cloud is installed, along with the required [ClusterIssuer for Let's Encrypt](../cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce/#installing-cluster-issuers).
+2. Before proceeding, ensure that the [ACME DNS‑01 solver](../cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce/#installing-the-acme-dns01-solver) for T Cloud Public is installed, along with the required [ClusterIssuer for Let's Encrypt](../cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce/#installing-cluster-issuers).
    
 3. Next, we’ll expose this workload using an `Ingress`:
 
@@ -260,6 +260,6 @@ Replace the placeholder `whoami.example.de` with your own FQDN. After completing
 
 :white_check_mark: A **whoami** `Deployment` and `Service`  
 :white_check_mark: A **whoami** `Ingress` served by the Ingress Controller with class name `nginx`  
-:white_check_mark: A `whoami-example-de-tls` certificate automatically created by the Open Telekom Cloud ACME DNS-01 solver  
+:white_check_mark: A `whoami-example-de-tls` certificate automatically created by the T Cloud Public ACME DNS-01 solver  
 :white_check_mark: An A record and a TXT record in your `example.de` public zone, binding the EIP to `whoami.example.de`  
 :::

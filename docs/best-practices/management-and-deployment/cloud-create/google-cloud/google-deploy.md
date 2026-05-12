@@ -99,7 +99,7 @@ If no projects are dislayed, it means you do not have the roles mentioned in the
 Figure 6. Choose a zone and keypair
 
 :::tip
-If the keypair dropbox is empty, you can create a keypair from the Open Telekom Cloud console and refresh the page to display it.
+If the keypair dropbox is empty, you can create a keypair from the T Cloud Public console and refresh the page to display it.
 :::
 
 ### Deploy

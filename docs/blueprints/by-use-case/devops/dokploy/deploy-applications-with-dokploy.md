@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Deploy Applications with Dokploy
 
-The final part of this blueprint describes how to deploy highly available user workloads with Dokploy on Open Telekom Cloud, positioning it as an open-source alternative to platforms such as Vercel, Netlify, Azure App Services and AWS Elastic Beanstalk.
+The final part of this blueprint describes how to deploy highly available user workloads with Dokploy on T Cloud Public, positioning it as an open-source alternative to platforms such as Vercel, Netlify, Azure App Services and AWS Elastic Beanstalk.
 
 Before we deploy any application with Dokploy we first need to create a Project. Go to *Dokploy Console* -> *Home* -> *Projects* and click *Create Project*, give it a name and click *Create*.
 

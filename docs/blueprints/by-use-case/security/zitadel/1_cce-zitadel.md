@@ -5,7 +5,7 @@ tags: [security, iam, zitadel, cce]
 ---
 # Deploy ZITADEL on CCE
 
-This guide walks through the deployment of [ZITADEL](https://zitadel.com/) within a Cloud Container Engine (CCE) Kubernetes cluster on Open Telekom Cloud. It covers the necessary configuration steps, from preparing the environment to running ZITADEL as a production-ready identity management service within your Kubernetes workload.
+This guide walks through the deployment of [ZITADEL](https://zitadel.com/) within a Cloud Container Engine (CCE) Kubernetes cluster on T Cloud Public. It covers the necessary configuration steps, from preparing the environment to running ZITADEL as a production-ready identity management service within your Kubernetes workload.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ Before proceeding with the deployment, make sure you have control over a publicl
 
 You'll need a Virtual Private Cloud (VPC) along with at least one Subnet to host the required infrastructure—specifically, the RDS instances and the CCE worker nodes. For improved security isolation and more granular network control, consider provisioning separate Subnets for compute (CCE) and database (RDS) resources. This separation allows for tighter access policies and better segmentation within the VPC.
 
-Go to *Open Telekom Cloud Console* -> *Virtual Private Cloud* and click *Create VPC*:
+Go to *T Cloud Public Console* -> *Virtual Private Cloud* and click *Create VPC*:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231208-ezg.png)
 
@@ -26,7 +26,7 @@ This deployment model assumes that both the RDS instances and the CCE nodes are 
 
 ## Creating a RDS PostgreSQL Database
 
-Since ZITADEL is a stateful application, it requires persistent storage to retain data and configuration across pod restarts. While it's technically feasible to deploy a PostgreSQL instance directly within the CCE cluster, this approach introduces operational complexity and shifts responsibility for database management to the application team. A more efficient solution is to leverage Open Telekom Cloud's Relational Database Service (RDS). It provides a scalable, fully managed PostgreSQL backend that integrates seamlessly with other managed services on the platform, significantly reducing administrative overhead and ensuring high availability and operational resilience.
+Since ZITADEL is a stateful application, it requires persistent storage to retain data and configuration across pod restarts. While it's technically feasible to deploy a PostgreSQL instance directly within the CCE cluster, this approach introduces operational complexity and shifts responsibility for database management to the application team. A more efficient solution is to leverage T Cloud Public's Relational Database Service (RDS). It provides a scalable, fully managed PostgreSQL backend that integrates seamlessly with other managed services on the platform, significantly reducing administrative overhead and ensuring high availability and operational resilience.
 
 ### Creating Security Groups
 
@@ -40,7 +40,7 @@ The second Security Group will be assigned to the client nodes—in this case, t
 
 ### Provisioning a Database
 
-The next step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that ZITADEL operates reliably under load and can scale as demand increases.
+The next step involves provisioning a PostgreSQL database instance via T Cloud Public’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that ZITADEL operates reliably under load and can scale as demand increases.
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
@@ -53,9 +53,9 @@ When provisioning the PostgreSQL instance, ensure the following network and secu
 
 ### Exporting Database SSL Certificate
 
-Navigate to the *Open Telekom Cloud Console* -> *Relational Database Service* from the service menu. Locate the PostgreSQL instance you just provisioned and click on it to open its details page. From there, go to the *Basic Information* tab. This section provides critical configuration data, including the instance's private IP address, connection endpoint, port, and associated security groups—information you’ll need to configure application-level connectivity from your CCE workloads.
+Navigate to the *T Cloud Public Console* -> *Relational Database Service* from the service menu. Locate the PostgreSQL instance you just provisioned and click on it to open its details page. From there, go to the *Basic Information* tab. This section provides critical configuration data, including the instance's private IP address, connection endpoint, port, and associated security groups—information you’ll need to configure application-level connectivity from your CCE workloads.
 
-Secure Socket Layer (SSL) is a protocol designed to establish encrypted communication between clients and servers over the Internet. It plays a critical role in maintaining confidentiality, authenticity, and integrity of data in transit. In the context of RDS on Open Telekom Cloud, enabling SSL ensures:
+Secure Socket Layer (SSL) is a protocol designed to establish encrypted communication between clients and servers over the Internet. It plays a critical role in maintaining confidentiality, authenticity, and integrity of data in transit. In the context of RDS on T Cloud Public, enabling SSL ensures:
 
 - **Server and client authentication**, verifying that connections are established with legitimate endpoints.  
 - **End-to-end encryption**, protecting sensitive data from eavesdropping or tampering during transmission.  
@@ -67,7 +67,7 @@ To establish the necessary SSL connection between your database connection and Z
 
 ## Provisioning a CCE Cluster
 
-To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the Open Telekom Cloud wizard for cluster creation, and pay close attention to the following configuration specifics:
+To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the T Cloud Public wizard for cluster creation, and pay close attention to the following configuration specifics:
 
 - **High Availability (HA)**: For this blueprint, a non HA-cluster was used which is not advised for production workloads. However, if your workload demands fault tolerance and availability guarantees, consider enabling HA during creation—as this setting is immutable post-deployment.
 - **Network Placement**: Ensure the CCE cluster is provisioned within the **same VPC** as the RDS instance to facilitate secure and low-latency communication.
@@ -94,7 +94,7 @@ While the first option is quicker to set up, **the recommended approach is to us
 
 The first step in preparing the environment is to provision an Elastic Load Balancer (ELB), which will serve as the external entry point for traffic into the CCE cluster. Setting up an ELB setup is critical for handling external traffic and forwarding requests to services within the cluster, such as the Ingress Controller.
 
-Go to *Open Telekom Cloud Console* -> *Network* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Ensure that the Elastic Load Balancer is provisioned within the same VPC and Subnet as your CCE cluster. This network alignment is essential to allow the load balancer to reach the CCE worker nodes directly using their private IP addresses. Misplacing the ELB in a different network segment would result in unreachable backends and broken ingress routing.
+Go to *T Cloud Public Console* -> *Network* -> *Elastic Load Balancing* and click *Create Elastic Load Balancer*. Ensure that the Elastic Load Balancer is provisioned within the same VPC and Subnet as your CCE cluster. This network alignment is essential to allow the load balancer to reach the CCE worker nodes directly using their private IP addresses. Misplacing the ELB in a different network segment would result in unreachable backends and broken ingress routing.
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_08-06-28.png)
 
@@ -104,11 +104,11 @@ Once the Elastic Load Balancer is provisioned, make sure to **note down the ELB 
 
 ## Creating a Public DNS Endpoint
 
-As we’ll address in a later stage—when integrating this ZITADEL instance as an Identity Provider (IdP) within your Open Telekom Cloud tenant—it is essential that the Elastic IP (EIP) assigned to your ELB resolves to a valid and secure **FQDN**. This means the public DNS entry must point to the EIP and be backed by a properly issued TLS certificate.
+As we’ll address in a later stage—when integrating this ZITADEL instance as an Identity Provider (IdP) within your T Cloud Public tenant—it is essential that the Elastic IP (EIP) assigned to your ELB resolves to a valid and secure **FQDN**. This means the public DNS entry must point to the EIP and be backed by a properly issued TLS certificate.
 
-Without this, the Open Telekom Cloud platform will not accept the IdP registration due to trust and validation requirements. Ensuring your ZITADEL endpoint is accessible over a recognized, secure URL is not just best practice—it’s a prerequisite for federation scenarios with OTC’s IAM services.
+Without this, the T Cloud Public platform will not accept the IdP registration due to trust and validation requirements. Ensuring your ZITADEL endpoint is accessible over a recognized, secure URL is not just best practice—it’s a prerequisite for federation scenarios with OTC’s IAM services.
 
-To enable full DNS-based automation and allow for secure domain validation—especially when configuring ZITADEL as an Identity Provider—you need to delegate domain management to Open Telekom Cloud's Domain Name Service (DNS). This requires transferring authority over your domain’s **NS (Name Server) records** to OTC.
+To enable full DNS-based automation and allow for secure domain validation—especially when configuring ZITADEL as an Identity Provider—you need to delegate domain management to T Cloud Public's Domain Name Service (DNS). This requires transferring authority over your domain’s **NS (Name Server) records** to OTC.
 
 Start by logging into your domain registrar’s control panel and ensure the following:
 
@@ -123,7 +123,7 @@ Start by logging into your domain registrar’s control panel and ensure the fol
 Once the nameserver change propagates and OTC has authoritative control over your domain, you’re ready to define DNS zones and records. You have two paths forward, depending on your operational model:
 
 1. **Manual Configuration via the OTC Console**  
-   Create a **Public DNS Zone** in the Open Telekom Cloud DNS service, then define an **A record** that maps your ZITADEL domain (e.g., `zitadel.example.com`) to the **EIP** of the external load balancer.
+   Create a **Public DNS Zone** in the T Cloud Public DNS service, then define an **A record** that maps your ZITADEL domain (e.g., `zitadel.example.com`) to the **EIP** of the external load balancer.
 
 2. **Automated Configuration with ExternalDNS**  
    Integrate the [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) controller into your Kubernetes cluster. It monitors Ingress resources and automatically creates and updates DNS records in your OTC DNS zone based on annotations. This option is ideal for dynamic environments or production setups that benefit from infrastructure-as-code and reduced manual intervention.
@@ -186,7 +186,7 @@ This will set up the Ingress Controller with your custom configuration, includin
 
 Cert-manager DNS providers are integrations with various DNS (Domain Name System) service providers that allow cert-manager, a Kubernetes add-on, to automate the management of SSL/TLS certificates. DNS providers enable cert-manager to automatically perform challenges to prove domain ownership and obtain certificates from certificate authorities like Let's Encrypt.
 
-By configuring cert-manager with the compatible Open Telekom Cloud DNS provider, we can set up automatic certificate issuance and renewal for our Open Telekom Cloud CCE workloads without manual intervention. This automation is crucial for securing web applications and services deployed on CCE clusters.
+By configuring cert-manager with the compatible T Cloud Public DNS provider, we can set up automatic certificate issuance and renewal for our T Cloud Public CCE workloads without manual intervention. This automation is crucial for securing web applications and services deployed on CCE clusters.
 
 To enable automated TLS provisioning for workloads in your CCE cluster, follow the recommended approach for as in the Best Practice: [Issue an ACME Certificate with DNS01 Solver in CCE](../../../../best-practices/containers/cloud-container-engine/issue-an-acme-certificate-with-dns01-solver-in-cce).
 
@@ -209,7 +209,7 @@ This will create a Secret named `zitadel-rds-ssl-cert` in the specified namespac
 ## Installing ZITADEL Using Helm
 
 :::important
-For detailed documentation on the ZITADEL Helm chart and its configurable parameters, refer to the official repository at [https://github.com/zitadel/zitadel-charts](https://github.com/zitadel/zitadel-charts). This blueprint does not cover the internal concepts, deployment modes, or configuration options of ZITADEL itself. It assumes that readers are already familiar with ZITADEL's architecture and operational model, and are primarily focused on integrating it into a CCE-based infrastructure on Open Telekom Cloud.
+For detailed documentation on the ZITADEL Helm chart and its configurable parameters, refer to the official repository at [https://github.com/zitadel/zitadel-charts](https://github.com/zitadel/zitadel-charts). This blueprint does not cover the internal concepts, deployment modes, or configuration options of ZITADEL itself. It assumes that readers are already familiar with ZITADEL's architecture and operational model, and are primarily focused on integrating it into a CCE-based infrastructure on T Cloud Public.
 :::
 
 Since Helm does not render the values file as a template by default, we need to pre-process our values in a **values.yaml.tpl** and then interpolate the actual values to **values.yaml** using a tool like `envsubst`:

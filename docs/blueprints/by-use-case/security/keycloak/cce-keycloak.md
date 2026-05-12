@@ -20,12 +20,12 @@ Keycloak, as a stateful workload, requires the presence of a persistent
 storage in order to maintain its data and configuration during pod
 restarts. We could deploy a PostgreSQL database as a CCE workload, but
 this would require additional administrative overhead from your side.
-The Managed Relational Database Service of Open Telekom Cloud is a
+The Managed Relational Database Service of T Cloud Public is a
 perfect fit for this scenario. A scalable turn-key solution, that fully
 integrated with the rest of managed services of the platform without
 demanding from the consumer additional administrative effort.
 
-This step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload; consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Keycloak operates reliably under load and can scale as demand increases.
+This step involves provisioning a PostgreSQL database instance via T Cloud Public’s RDS service. Select an instance class and storage configuration that align with your anticipated workload; consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Keycloak operates reliably under load and can scale as demand increases.
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
@@ -40,10 +40,10 @@ When provisioning the PostgreSQL instance, ensure the following network and secu
 ### Creating a Private DNS Zone
 
 We are provisioning PostgreSQL in order to support the functionality of
-Keycloak. For that matter, although Open Telekom Cloud employs this RDS
+Keycloak. For that matter, although T Cloud Public employs this RDS
 instance with a floating IP address, it would be better that we connect
 the RDS instance with Keycloak via a fully qualified domain name and let
-the Open Telekom Cloud's DNS service to manage the resolution of that
+the T Cloud Public's DNS service to manage the resolution of that
 endpoints. In the Domain Name Service management panel click *Private
 Zone* and create a new one that points to the VPC that CCE and RDS nodes
 are placed:
@@ -137,7 +137,7 @@ Replace `<RDS_ADMIN_PASSWORD>` and `<FQDN_PRIVATE_ZONE>` with the values you con
 
 ## Provisioning a CCE Cluster
 
-To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the Open Telekom Cloud wizard for cluster creation, and pay close attention to the following configuration specifics:
+To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the T Cloud Public wizard for cluster creation, and pay close attention to the following configuration specifics:
 
 - **High Availability (HA)**: For this blueprint, a non HA-cluster was used which is not advised for production workloads. However, if your workload demands fault tolerance and availability guarantees, consider enabling HA during creation—as this setting is immutable post-deployment.
 - **Network Placement**: Ensure the CCE cluster is provisioned within the same VPC as the RDS instance to facilitate secure and low-latency communication.

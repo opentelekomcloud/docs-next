@@ -7,14 +7,14 @@ tags: [hss, cbr,ransomware]
 # Identifying and Fixing Ransomware
 
 
-According to the Open Telekom Cloud statistics on security intrusion events, 90% of ransomware attacks result from weak passwords, vulnerability exploits, and unsafe baseline settings. Identifying and fixing risks before real intrusions can significantly improve the system security. Open Telekom Cloud HSS helps you quickly identify risks and provides the one-click fix function to reduce O&M costs.
+According to the T Cloud Public statistics on security intrusion events, 90% of ransomware attacks result from weak passwords, vulnerability exploits, and unsafe baseline settings. Identifying and fixing risks before real intrusions can significantly improve the system security. T Cloud Public HSS helps you quickly identify risks and provides the one-click fix function to reduce O&M costs.
 
 ## Increasing Password Strength
 
 HSS automatically scans servers every early morning for common weak passwords and [the passwords you banned](https://docs.otc.t-systems.com/host-security-service/umn/security_operations/policy_management/configuring_policies.html). You can then ask the weak password users to set stronger passwords. HSS can detect weak passwords in SSH, FTP, and MySQL.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  In the navigation pane on the left, choose **Prediction** > **Baseline Checks**.
 4.  Click the **Common Weak Password Detection** tab to view the weak passwords of the server.
     
@@ -31,7 +31,7 @@ HSS automatically scans servers every early morning for common weak passwords an
 HSS scans your software for unsafe settings every early morning and provides suggestions. You can modify your settings accordingly to enhance server security.
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  In the navigation pane on the left, choose **Prediction** > **Baseline Checks**.
 4.  Click the **Unsafe Configurations** tab to view the unsafe configurations of the server.
 5.  Click the target baseline name. The baseline details page is displayed.
@@ -57,7 +57,7 @@ By default, HSS automatically performs a comprehensive vulnerability detection e
 :::
 
 1.  [Log in to the management console](https://console.otc.t-systems.com/console/).
-2.  In the upper left corner of the page, select a region, click ![](/img/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
+2.  In the upper left corner of the page, select a region, click ![](/img/docs/best-practices/en-us_image_0000001312049497.png), and choose **Security** > **HSS**.
 3.  In the navigation pane on the left, choose **Prediction** > **Vulnerabilities**. The vulnerability management page is displayed.
 4.  Click the **Linux Vulnerabilities**, **Windows Vulnerabilities**, **Web-CMS Vulnerabilities**, **Application Vulnerabilities**, and **Emergency Vulnerabilities** tabs to view the vulnerabilities of the server.
 5.  Fix vulnerabilities based on vulnerability types.

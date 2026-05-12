@@ -6,11 +6,11 @@ tags: [cloud-create]
 
 # Cloud Create
 
-Cloud Create is a **free-to-use** Development and Management Platform, which enables cloud developers to create applications on Open Telekom Cloud **fast**.
+Cloud Create is a **free-to-use** Development and Management Platform, which enables cloud developers to create applications on T Cloud Public **fast**.
 
 1.  Cloud architects create applications from premade templates.
 2.  They can visually design and adjust the application to fit their needs.
-3.  An administrator deploys and updates the application on Open Telekom Cloud.
+3.  An administrator deploys and updates the application on T Cloud Public.
 4.  Cloud architects can save a design as a private template for personal use or share it public with other users.
     
 
@@ -20,7 +20,7 @@ Figure 1. Overview
 
 :::note
 *   Cloud architects and administrators can be the same user.
-*   Deployment on Swiss Open Telekom Cloud and the function "Save & Share templates" are upcoming features.
+*   Deployment on Swiss T Cloud Public and the function "Save & Share templates" are upcoming features.
 :::
 
 ### How cloud architects design the application
@@ -53,11 +53,11 @@ Figure 4. An application example with network, compute, ansible, bash scripts, a
 
 ### How administrators deploy the application
 
-Before the deployment can start, administrators select a **Version**, provide **Inputs**, which were designed by the cloud architects, and select a cloud provider (e.g., Open Telekom Cloud) to deploy. In addition, administrators can review the auto-generated workflow before it starts.
+Before the deployment can start, administrators select a **Version**, provide **Inputs**, which were designed by the cloud architects, and select a cloud provider (e.g., T Cloud Public) to deploy. In addition, administrators can review the auto-generated workflow before it starts.
 
 [![_images/overview-deploy.png](https://docs.otc.t-systems.com/cloud-create/umn/_images/overview-deploy.png)](https://docs.otc.t-systems.com/cloud-create/umn/_images/overview-deploy.png)
 
-Figure 5. Administrators select Open Telekom Cloud (OTC) to deploy
+Figure 5. Administrators select T Cloud Public (OTC) to deploy
 
 During the deployment, administrators can interactively click on a workflow step and see **Terraform** is applied for the infrastructure components. For the service components, the deployment script of the service (e.g., Ansible) is applied on the target compute.
 
@@ -83,7 +83,7 @@ New features
 
 ### OpenShift template (v2.13)
 
-Users can create a [Self-managed OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) on Open Telekom Cloud from the [OpenShift template](https://docs.otc.t-systems.com/cloud-create/umn/service_catalogs/openshift.html#openshift).
+Users can create a [Self-managed OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) on T Cloud Public from the [OpenShift template](https://docs.otc.t-systems.com/cloud-create/umn/service_catalogs/openshift.html#openshift).
 
 FAQ
 --------------------------------------------
@@ -106,7 +106,7 @@ An overview of all supported components is available in Section [Components over
 
 ### Is Cloud Create opensource
 
-Cloud Create is based on two opensource projects Application Lifecycle Enablement for Cloud (Alien4cloud) and Ystia Orchestrator (Yorc). At Open Telekom Cloud, we further integrate it with OpenStack and Google Cloud, provide an easy-to-use UI, added features (e.g., secrets management, deployment update, OpenShift template, etc.), and enforce the strictest Privacy and Security Assessment (PSA) process of Deutsche Telekom.
+Cloud Create is based on two opensource projects Application Lifecycle Enablement for Cloud (Alien4cloud) and Ystia Orchestrator (Yorc). At T Cloud Public, we further integrate it with OpenStack and Google Cloud, provide an easy-to-use UI, added features (e.g., secrets management, deployment update, OpenShift template, etc.), and enforce the strictest Privacy and Security Assessment (PSA) process of Deutsche Telekom.
 
 All premade templates and service components are opensource and available on [our Github](https://github.com/opentelekomcloud-blueprints/tosca-service-catalogs). You can create pull requests to add more components and fix bugs.
 

@@ -1,0 +1,87 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-secondary);
+
+  text-decoration: none;
+
+  font-size: 0.82rem;
+  line-height: 1;
+  font-weight: 700;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.tag:hover {
+  background: var(--ifm-card-background-color);
+  color: var(--ifm-font-color-base);
+
+  text-decoration: none;
+  transform: translateY(-1px);
+
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+html[data-theme='dark'] .tag:hover {
+  color: #ffffff;
+
+  box-shadow:
+    0 0 0 1px rgba(226, 0, 116, 0.24),
+    0 0 18px rgba(226, 0, 116, 0.30),
+    0 10px 30px rgba(226, 0, 116, 0.34),
+    0 22px 54px rgba(226, 0, 116, 0.24),
+    0 36px 80px rgba(226, 0, 116, 0.16);
+}
+
+.tagRegular {
+  padding: 9px 13px;
+}
+
+.tagWithCount {
+  padding: 8px 8px 8px 13px;
+}
+
+.tagWithCount::before,
+.tagWithCount::after {
+  display: none;
+}
+
+.tagWithCount span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 22px;
+  height: 22px;
+
+  padding: 0 7px;
+
+  border-radius: 999px;
+
+  background: var(--ifm-card-background-color);
+  color: var(--ifm-font-color-secondary);
+
+  font-size: 0.72rem;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.tag:hover span {
+  background: #e20074;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .tag:hover span {
+  background: #ffffff;
+  color: #111111;
+}

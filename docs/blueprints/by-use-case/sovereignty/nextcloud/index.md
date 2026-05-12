@@ -33,12 +33,12 @@ Data and technology sovereignty is non-negotiable for European organizations: it
 
 In the current digital and political environment, the importance of cloud and tech sovereignty has grown significantly. For European companies, retaining control over their data and technology infrastructure is vital. Relying on non-European cloud solutions can lead to potential conflicts with local data protection laws and expose sensitive data to foreign authorities.
 
-Deploying Nextcloud on the Open Telekom Cloud aligns businesses with stringent European data-security mandates while delivering a scalable, high-performance cloud platform.
+Deploying Nextcloud on the T Cloud Public aligns businesses with stringent European data-security mandates while delivering a scalable, high-performance cloud platform.
 
-Throughout this series, we’ll guide you through implementing a highly available Nextcloud deployment using Open Telekom Cloud services.
+Throughout this series, we’ll guide you through implementing a highly available Nextcloud deployment using T Cloud Public services.
 
 :::tip See Also
-Alternatively you can deploy Nextcloud on Open Telekom Cloud via [Cloud Create](https://www.open-telekom-cloud.com/en/products-services/core-services/cloud-create), our multi-cloud management tool, and avoid the a daunting complexity related to infrastructure management. 
+Alternatively you can deploy Nextcloud on T Cloud Public via [Cloud Create](https://www.open-telekom-cloud.com/en/products-services/core-services/cloud-create), our multi-cloud management tool, and avoid the a daunting complexity related to infrastructure management. 
 
 *  [Nextcloud App in Cloud Create](https://docs.otc.t-systems.com/cloud-create/umn/service_catalogs/nextcloud.html)
 *  [How Nextcloud web application is modelled in TOSCA format](https://github.com/opentelekomcloud-blueprints/tosca-service-catalogs/blob/main/nextcloud/types.yml)

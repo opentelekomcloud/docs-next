@@ -6,9 +6,9 @@ tags: [formbricks, collaboration, cce, surveys, feedback]
 
 # Deploy Formbricks on CCE
 
-This blueprint shows how to run Formbricks on Open Telekom Cloud Cloud Container Engine, giving you a turnkey path to a self-hosted, scalable feedback platform. [Formbricks](https://formbricks.com/) is an open-source, [AGPLv3-licensed](https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0) suite (with a free and a commercial counterpart) that lets you build and deliver in-app, web-embedded, link-based or email surveys without sacrificing data privacy.
+This blueprint shows how to run Formbricks on T Cloud Public Cloud Container Engine, giving you a turnkey path to a self-hosted, scalable feedback platform. [Formbricks](https://formbricks.com/) is an open-source, [AGPLv3-licensed](https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0) suite (with a free and a commercial counterpart) that lets you build and deliver in-app, web-embedded, link-based or email surveys without sacrificing data privacy.
 
-Formbricks includes a no-code survey editor, real-time response tracking and analysis, and the flexibility to target user groups based on their actions or attributes. Hosting on CCE combines those benefits with the operational simplicity and enterprise-grade SLAs of Open Telekom Cloud, so you can focus on gathering insights rather worrying where your data is saved.
+Formbricks includes a no-code survey editor, real-time response tracking and analysis, and the flexibility to target user groups based on their actions or attributes. Hosting on CCE combines those benefits with the operational simplicity and enterprise-grade SLAs of T Cloud Public, so you can focus on gathering insights rather worrying where your data is saved.
 
 ## Prerequisites
 
@@ -19,9 +19,9 @@ Formbricks includes a no-code survey editor, real-time response tracking and ana
 
 ## Creating a PostgreSQL Database
 
-Formbricks requires persistent storage to retain data and configuration across pod restarts. While it's technically feasible to deploy a PostgreSQL instance directly within the CCE cluster, this approach introduces operational complexity and shifts responsibility for database management to the application team. A more efficient solution is to leverage Open Telekom Cloud's Relational Database Service (RDS). It provides a scalable, fully managed PostgreSQL backend that integrates seamlessly with other managed services on the platform, significantly reducing administrative overhead and ensuring high availability and operational resilience.
+Formbricks requires persistent storage to retain data and configuration across pod restarts. While it's technically feasible to deploy a PostgreSQL instance directly within the CCE cluster, this approach introduces operational complexity and shifts responsibility for database management to the application team. A more efficient solution is to leverage T Cloud Public's Relational Database Service (RDS). It provides a scalable, fully managed PostgreSQL backend that integrates seamlessly with other managed services on the platform, significantly reducing administrative overhead and ensuring high availability and operational resilience.
 
-This step involves provisioning a PostgreSQL database instance via Open Telekom Cloud’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Formbricks operates reliably under load and can scale as demand increases.
+This step involves provisioning a PostgreSQL database instance via T Cloud Public’s RDS service. Select an instance class and storage configuration that align with your anticipated workload—consider factors such as expected connection volume, data growth, and performance requirements. For production environments, it's recommended to opt for a compute-optimized or memory-optimized instance class, along with provisioned IOPS storage if consistent performance is critical. This ensures that Formbricks operates reliably under load and can scale as demand increases.
 
 ![image](/img/docs/blueprints/by-use-case/security/zitadel/Screenshot_from_2025-04-16_10-54-16.png)
 
@@ -35,7 +35,7 @@ When provisioning the PostgreSQL instance, ensure the following network and secu
 
 ### Installing pgvector Plugin
 
-Navigate to *Open Telekom Cloud Console* -> *Relational Database Service*, choose your instance and then click *Plugins*. Search for the plugin **vector** and click *Install*.
+Navigate to *T Cloud Public Console* -> *Relational Database Service*, choose your instance and then click *Plugins*. Search for the plugin **vector** and click *Install*.
 
 ![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-07-01_08-47-52.png)
 
@@ -62,7 +62,7 @@ psql -h <RDS_INSTANCE_FLOATING_IP> -U root -d formbricks -c "SELECT control_exte
 
 ## Creating a Redis Instance
 
-1. Navigate to *Open Telekom Cloud Console* -> *Distributed Cache Service (for Redis)* -> *Cache Manager* and click *Create DCS Instance*. Choose the desirable **Engine** and **Instance Specifications** (a `redis.ha.xu1.large.r2.1` flavor will suffice for this blueprint, but for production environments
+1. Navigate to *T Cloud Public Console* -> *Distributed Cache Service (for Redis)* -> *Cache Manager* and click *Create DCS Instance*. Choose the desirable **Engine** and **Instance Specifications** (a `redis.ha.xu1.large.r2.1` flavor will suffice for this blueprint, but for production environments
 adjust to your needs estimations.)
 
 ![image](/img/docs/blueprints/by-use-case/collaboration/formbricks/Screenshot_from_2025-06-30_11-27-46.png)
@@ -80,7 +80,7 @@ adjust to your needs estimations.)
 
 ## Creating a CCE Cluster
 
-To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the Open Telekom Cloud wizard for cluster creation, and pay close attention to the following configuration specifics:
+To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the T Cloud Public wizard for cluster creation, and pay close attention to the following configuration specifics:
 
 - **High Availability (HA)**: For this blueprint, a non HA-cluster was used which is not advised for production workloads. However, if your workload demands fault tolerance and availability guarantees, consider enabling HA during creation—as this setting is immutable post-deployment.
 - **Network Placement**: Ensure the CCE cluster is provisioned within the **same VPC** as the RDS instance to facilitate secure and low-latency communication.

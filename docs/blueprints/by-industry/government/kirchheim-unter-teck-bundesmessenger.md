@@ -6,9 +6,9 @@ tags: [government, bundesmessenger, by-industry]
 
 # Sovereign Digitalization for the City of Kirchheim unter Teck
 
-The City of [Kirchheim unter Teck](#about-the-city-of-kirchheim-unter-teck) uses the [BundesMessenger](https://docs.bundesmessenger.info/de/start/overview/) from the Open Telekom Cloud. Kirchheim unter Teck has recognized the value of digitalization when it comes to mastering the challenges the city faces. With its strong focus on sovereign IT solutions, T-Systems proved to be the right partner for driving the digitalization of government administration forward in Kirchheim unter Teck.
+The City of [Kirchheim unter Teck](#about-the-city-of-kirchheim-unter-teck) uses the [BundesMessenger](https://docs.bundesmessenger.info/de/start/overview/) from the T Cloud Public. Kirchheim unter Teck has recognized the value of digitalization when it comes to mastering the challenges the city faces. With its strong focus on sovereign IT solutions, T-Systems proved to be the right partner for driving the digitalization of government administration forward in Kirchheim unter Teck.
 
-## BundesMessenger from Open Telekom Cloud
+## BundesMessenger from T Cloud Public
 
 ### The Challenge
 
@@ -20,7 +20,7 @@ The City of [Kirchheim unter Teck](#about-the-city-of-kirchheim-unter-teck) uses
 
 * [BundesMessenger](https://docs.bundesmessenger.info/de/start/overview/) open-source software from [BWI](https://www.bwi.de/) offers secure, encrypted communication (as a device-independent app)
 * The software is offered **exclusively** to public institutions (community approach)
-* T-Systems provides the BundesMessenger as SaaS from the Open Telekom Cloud
+* T-Systems provides the BundesMessenger as SaaS from the T Cloud Public
 * The SaaS is enriched with managed services (including updates and new releases)
 * T-Systems offers additional integration options for using internal IAM systems for user administration
 
@@ -35,7 +35,7 @@ The City of [Kirchheim unter Teck](#about-the-city-of-kirchheim-unter-teck) uses
 
 [Kirchheim unter Teck](https://www.kirchheim-teck.de/3134), a county seat in the foothills of the Swabian Mountains, is part of the greater Stuttgart region. The city is home to more than 40,000 residents. It serves as a middle center to the surrounding communities.
 
-<!-- ![Teck Castle at Kirchheim/Teck: town uses the BundesMessenger from the Open Telekom Cloud](https://www.t-systems.com/resource/image/996980/ratio3x2/1440/960/33a121609c509833392b3bf5496907d7/094F83A198408BBBB098F9EC31441C3A/im-combining-digitalization-and-sovereignty.jpg "Kirchheim unter Teck uses the BundesMessenger from the Open Telekom Cloud") -->
+<!-- ![Teck Castle at Kirchheim/Teck: town uses the BundesMessenger from the T Cloud Public](https://www.t-systems.com/resource/image/996980/ratio3x2/1440/960/33a121609c509833392b3bf5496907d7/094F83A198408BBBB098F9EC31441C3A/im-combining-digitalization-and-sovereignty.jpg "Kirchheim unter Teck uses the BundesMessenger from the T Cloud Public") -->
 
 ## See Also
 

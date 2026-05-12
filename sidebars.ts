@@ -1218,7 +1218,7 @@ const sidebars: SidebarsConfig = {
             type: 'generated-index',
             slug: '/best-practices/security-services/iam',
             keywords: ['iam'],
-            description: 'Identity and Access Management (IAM) provides a public cloud system (Open Telekom Cloud) with user identity management and access control.You can use IAM to manage user accounts (such as employee, system or application program accounts) and control the operation permissions of these user accounts on your resources (such as computing, storage, and network resources). In this way, IAM prevents these accounts from sharing your password or access key with other users. IAM also ensures user account security and reduces security risks for your enterprise information by allowing you to set login verification policies, password policies, and an access control list (ACL).'
+            description: 'Identity and Access Management (IAM) provides a public cloud system (T Cloud Public) with user identity management and access control.You can use IAM to manage user accounts (such as employee, system or application program accounts) and control the operation permissions of these user accounts on your resources (such as computing, storage, and network resources). In this way, IAM prevents these accounts from sharing your password or access key with other users. IAM also ensures user account security and reduces security risks for your enterprise information by allowing you to set login verification policies, password policies, and an access control list (ACL).'
           },
           items: [
             {

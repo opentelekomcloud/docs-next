@@ -6,43 +6,58 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function HomepageFeaturedServices(): JSX.Element {
   return (
-    <section className="container" style={{ paddingTop: '20px', paddingBottom: '45px' }}>
-      <div className={clsx("row row--no-gutters", styles.item)}>
-        <div className={clsx("col col--4", styles.item__inner)}>
-          <div>
-            <h1 className={clsx("margin-bottom--md", styles.item__title)}>
+    <section className={styles.featuredSection}>
+      <div className={clsx('row row--no-gutters', styles.featuredCard)}>
+        <div className={clsx('col col--4', styles.contentBlock)}>
+          <div className={styles.inner}>
+            {/* <span className={styles.eyebrow}>Featured</span> */}
+
+            <h2 className={styles.title}>
               Explore our Featured Services
-            </h1>
-            <p className="margin-bottom--md">
-              Check out our collection of technical solutions, best practices and cool tips for the most popular services of Open Telekom Cloud.
+            </h2>
+
+            <p className={styles.description}>
+              Check out our collection of technical solutions, best practices and cool tips
+              for the most popular services of T Cloud Public.
             </p>
-            <a className="button button--secondary" href={useBaseUrl("/portfolio")}>
+
+            <a className={styles.primaryButton} href={useBaseUrl('/portfolio')}>
               Open Portfolio Navigator
             </a>
           </div>
         </div>
-        <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
+
+        <div className={clsx('col col--8', styles.servicesBlock)} aria-hidden="true">
           <FeaturedServices />
         </div>
-        {/* <scale-divider></scale-divider> */}
-        <div className={clsx("col col--4", styles.item__inner)}>
-          <div>
-            <h1 className={clsx("margin-bottom--md", styles.item__title)}>
-              What's new?
-            </h1>
-            <p className="margin-bottom--md">
+
+        <div className={clsx('col col--4', styles.contentBlock)}>
+          <div className={styles.inner}>
+            {/* <span className={styles.eyebrow}>New</span> */}
+
+            <h2 className={styles.title}>
+              What&apos;s new?
+            </h2>
+
+            <p className={styles.description}>
               Explore the technical documentation of our brand new services in Help Center.
             </p>
-            <a className="button button--secondary" href="https://www.open-telekom-cloud.com/en/products-services/roadmap" target="_blank">
+
+            <a
+              className={styles.primaryButton}
+              href="https://www.open-telekom-cloud.com/en/products-services/roadmap"
+              target="_blank"
+              rel="noreferrer"
+            >
               Check the Portfolio Roadmap
             </a>
           </div>
         </div>
-        <div className="col col--8" aria-hidden="true" style={{ paddingTop: '40px' }}>
+
+        <div className={clsx('col col--8', styles.servicesBlock)} aria-hidden="true">
           <NewServices />
         </div>
-
       </div>
-    </section >
+    </section>
   );
 }

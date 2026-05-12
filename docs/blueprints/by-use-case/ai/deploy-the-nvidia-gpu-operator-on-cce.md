@@ -26,7 +26,7 @@ This blueprint requires:
 
 ## Preparing & Configuring a GPU Node Pool
 
-Go to the *Open Telekom Cloud console* and choose the specific cluster you want to add the GPU node pool to. At the left sidebar select *Nodes* and click  *Create Node Pool*.
+Go to the *T Cloud Public console* and choose the specific cluster you want to add the GPU node pool to. At the left sidebar select *Nodes* and click  *Create Node Pool*.
 
 ### Node Pool Configuration
 

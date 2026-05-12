@@ -12,7 +12,7 @@ In some cases, you may need to use a fixed IP address to access OBS. For
 security purposes, some enterprises need to set a blacklist and a
 whitelist of external IP addresses. In this case, a fixed IP address is
 required. Also for security purposes, an OBS bucket does not have a
-fixed IP address, because the DNS service of Open Telekom Cloud resolves
+fixed IP address, because the DNS service of T Cloud Public resolves
 the bucket access domain name to different IP addresses.
 
 In this case, you can set up an NGINX reverse proxy server on an ECS so
@@ -237,7 +237,7 @@ f.  Configure the following parameters.
                                     <p><em>Elastic IP address of the ECS</em></p>
                                 </li>
                                 <li>
-                                    <p>If the ECS uses a Open Telekom Cloud private DNS, the value is as follows:</p>
+                                    <p>If the ECS uses a T Cloud Public private DNS, the value is as follows:</p>
                                     <p><strong>100.64.0.0/10,214.0.0.0/7,</strong><em>Private IP address of the ECS</em></p>
                                 </li>
                             </ul>

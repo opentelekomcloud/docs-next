@@ -1,12 +1,12 @@
 ---
 id: cloud-particulate
-title: "Particulate: Donation Platform on Open Telekom Cloud"
+title: "Particulate: Donation Platform on T Cloud Public"
 tags: [finance, by-industry]
 ---
 
-# Particulate: Donation Platform on Open Telekom Cloud
+# Particulate: Donation Platform on T Cloud Public
 
-Around 5,000 people in the Rhine-Main region are already so-called “Radgeber” or cyclist donors: Together with the start-up [Particulate Solutions](#about-particulate-solutions-gmbh), Deutsche Bahn (DB) has developed the platform, which allows every cyclist participating in the campaign to become a donor. The technology for the platform is based on the Open Telekom Cloud, Telekom's public cloud offering.
+Around 5,000 people in the Rhine-Main region are already so-called “Radgeber” or cyclist donors: Together with the start-up [Particulate Solutions](#about-particulate-solutions-gmbh), Deutsche Bahn (DB) has developed the platform, which allows every cyclist participating in the campaign to become a donor. The technology for the platform is based on the T Cloud Public, Telekom's public cloud offering.
 
 ## Digital Donation Currency: Cyclists Collect SocialCoins
 
@@ -18,7 +18,7 @@ The rental bike donation platform is by no means the start-up’s only project. 
 
 ## Data Protection and Data Security as Top Priority
 
-All data is stored in the secure and inexpensive Object Based Storage (OBS). “*The partnership with Deutsche Telekom is always a winning argument for our customers,*” says Pandorf. “*Deutsche Telekom simply has a good reputation when it comes to data protection and data security. This helps us a lot when it comes to marketing our idea.*” And if questions ever arise about the architecture of the Open Telekom Cloud, the start-up can get in touch with a competent Deutsche Telekom contact person at any time.
+All data is stored in the secure and inexpensive Object Based Storage (OBS). “*The partnership with Deutsche Telekom is always a winning argument for our customers,*” says Pandorf. “*Deutsche Telekom simply has a good reputation when it comes to data protection and data security. This helps us a lot when it comes to marketing our idea.*” And if questions ever arise about the architecture of the T Cloud Public, the start-up can get in touch with a competent Deutsche Telekom contact person at any time.
 
 ## Customer Benefits
 
@@ -32,9 +32,9 @@ All data is stored in the secure and inexpensive Object Based Storage (OBS). “
 ## Secure Data Storage in the Cloud
 
 
-Many of Particulate's customers come from the energy or financial sector. “*That's why our customers always ask first about data protection and data security,*” says Pandorf. Initially, the Koblenz-based company worked with the German cloud provider ProfitBricks and tested the infrastructure of Amazon Web Services (AWS). But due to the high expectations of customers regarding the secure storage of their data, Particulate looked for another solution that could meet these requirements. “*In addition, we needed a solution that we could scale flexibly, for example, if the number of those accessing the platform suddenly increased sharply,*” says Pandorf. The founders got to know about the Open Telekom Cloud through Deutsche Telekom's TechBoost program.
+Many of Particulate's customers come from the energy or financial sector. “*That's why our customers always ask first about data protection and data security,*” says Pandorf. Initially, the Koblenz-based company worked with the German cloud provider ProfitBricks and tested the infrastructure of Amazon Web Services (AWS). But due to the high expectations of customers regarding the secure storage of their data, Particulate looked for another solution that could meet these requirements. “*In addition, we needed a solution that we could scale flexibly, for example, if the number of those accessing the platform suddenly increased sharply,*” says Pandorf. The founders got to know about the T Cloud Public through Deutsche Telekom's TechBoost program.
 
-There are already plans to expand the platform. Particulate not only wants to extend the project with Deutsche Bahn to the whole of Germany. The start-up also wants to approach other large international companies in the future with a view to developing other donation platforms in the Open Telekom Cloud.
+There are already plans to expand the platform. Particulate not only wants to extend the project with Deutsche Bahn to the whole of Germany. The start-up also wants to approach other large international companies in the future with a view to developing other donation platforms in the T Cloud Public.
 
 ## The Challenge
 
@@ -46,7 +46,7 @@ There are already plans to expand the platform. Particulate not only wants to ex
 
 ## The Solution
 
-* Particulate uses IT capacity from the Open Telekom Cloud as part of the TechBoost program.
+* Particulate uses IT capacity from the T Cloud Public as part of the TechBoost program.
 * Open Stack provides many ready-made solutions.
 * The data storage takes place in the safe and favorable Object Based Storage (OBS).
 * As user access increases, the auto-scaling service automatically posts resources.

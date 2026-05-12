@@ -25,8 +25,8 @@ Cloud Trace Service (CTS) collects real-time records of operations on cloud reso
 Configure a tracker, and the system immediately starts recording operations based on the new rule.
 
 1. Log in to the console.
-2. Click ![](/img/en-us_image_0000001264369622.png) in the upper left corner of the console and select a region and a project.
-3. Click ![](/img/en-us_image_0000001312049497.png) in the upper left corner and choose *Management & Governance* -> *Cloud Trace Service*.
+2. Click ![](/img/docs/best-practices/en-us_image_0000001264369622.png) in the upper left corner of the console and select a region and a project.
+3. Click ![](/img/docs/best-practices/en-us_image_0000001312049497.png) in the upper left corner and choose *Management & Governance* -> *Cloud Trace Service*.
 4. On the displayed page, choose *Tracker List* in the navigation pane on the left.
 5. Locate a data tracker and click *Configure* in the *Operation* column.
     * **Operation**: Select the data operations that need to be recorded.

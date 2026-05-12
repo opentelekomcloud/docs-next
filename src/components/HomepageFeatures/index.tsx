@@ -35,7 +35,7 @@ const FeatureList: FeatureItem[] = [
       <>
         Discover tailored out-of-the-box solutions and
         practical implementations for a range of scenarios. Explore real-world examples demonstrating the versatility and optimal
-        application and infrastructure design using Open Telekom Cloud.
+        application and infrastructure design using T Cloud Public.
       </>
     ),
     link: '/docs/blueprints'
@@ -45,7 +45,7 @@ const FeatureList: FeatureItem[] = [
     Svg: TemplatesSvg,
     description: (
       <>
-        Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on Open Telekom Cloud; 
+        Use our turnkey solutions in Terraform and TOSCA to streamline both simple and complex infrastructure scenarios on T Cloud Public; 
         whether with Cloud Create, Resource Formation Service, or directly using Terraform or OpenTofu.
       </>
     ),
@@ -57,7 +57,7 @@ const FeatureList: FeatureItem[] = [
   //   description: (
   //     <>
   //       The Cloud Adoption Framework provides a structured approach for organizations to transition their business to 
-  //       Open Telekom Cloud. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
+  //       T Cloud Public. It covers various stages such as strategy, planning, readiness, migration, governance, and management. 
   //     </>
   //   ),
   //   link: '/caf'

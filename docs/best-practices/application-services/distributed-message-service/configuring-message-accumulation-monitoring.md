@@ -12,12 +12,12 @@ Unprocessed messages accumulate if the client's consumption is slower than the s
 
 ### Creating a Topic
 
-- Log in to the *Open Telekom Cloud Console* -> *Simple Message Notification* -> *Topics* and click *Create Topic*.
+- Log in to the *T Cloud Public Console* -> *Simple Message Notification* -> *Topics* and click *Create Topic*.
 - Give it a name, e.g. **test_topic** and click *OK*.
 
 ### Creating a Subscription
 
-- Go to the *Open Telekom Cloud Console* -> *Simple Message Notification* -> *Subscriptions* and click *Add Subscription*.
+- Go to the *T Cloud Public Console* -> *Simple Message Notification* -> *Subscriptions* and click *Add Subscription*.
 
 <center>
 ![](/img/docs/best-practices/application-services/distributed-message-service/Screenshot_from_2025-02-05_07-24-03.png "Click to enlarge")
@@ -44,7 +44,7 @@ and click *Confirm Subscription* in the "SMN-Confirming Your Subcription" email:
 
 ## Configuring Cloud Eye
 
-- Log in to the *Open Telekom Cloud Console* -> *Cloud Eye* -> *Distributed Message Service* -> *Kafka Platinum*.
+- Log in to the *T Cloud Public Console* -> *Cloud Eye* -> *Distributed Message Service* -> *Kafka Platinum*.
 - Find your Kafka instance in the list  and click *Create Alarm Rule*.
 
 <center>
@@ -105,7 +105,7 @@ func newConsumer(ctx context.Context, consumerId int, wg *sync.WaitGroup) {
 	config.Consumer.MaxWaitTime = 1000 * time.Millisecond
 ```
 
-3. Start the simulation and go to *Open Telekom Cloud Console* -> *Distributed Message Service* -> *Monitoring* -> *Monitoring Details* 
+3. Start the simulation and go to *T Cloud Public Console* -> *Distributed Message Service* -> *Monitoring* -> *Monitoring Details* 
     and you will notice that the consumers they start lagging behind and unprocessed messages begin to accumulate:
 
 <center>

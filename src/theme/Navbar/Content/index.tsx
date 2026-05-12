@@ -1,10 +1,11 @@
-import {type ReactNode} from 'react';
-import {useThemeConfig, ErrorCauseBoundary} from '@docusaurus/theme-common';
+import { type ReactNode } from 'react';
+import clsx from 'clsx';
+import { useThemeConfig, ErrorCauseBoundary } from '@docusaurus/theme-common';
 import {
   splitNavbarItems,
   useNavbarMobileSidebar,
 } from '@docusaurus/theme-common/internal';
-import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
+import NavbarItem, { type Props as NavbarItemConfig } from '@theme/NavbarItem';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import SearchBar from '@theme/SearchBar';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
@@ -18,7 +19,7 @@ function useNavbarItems() {
   return useThemeConfig().navbar.items as NavbarItemConfig[];
 }
 
-function NavbarItems({items}: {items: NavbarItemConfig[]}): JSX.Element {
+function NavbarItems({ items }: { items: NavbarItemConfig[] }): JSX.Element {
   return (
     <>
       {items.map((item, i) => (
@@ -29,7 +30,7 @@ function NavbarItems({items}: {items: NavbarItemConfig[]}): JSX.Element {
               `A theme navbar item failed to render.
 Please double-check the following navbar item (themeConfig.navbar.items) of your Docusaurus config:
 ${JSON.stringify(item, null, 2)}`,
-              {cause: error},
+              { cause: error },
             )
           }>
           <NavbarItem {...item} />
@@ -41,14 +42,17 @@ ${JSON.stringify(item, null, 2)}`,
 
 function NavbarContentLayout({
   left,
+  center,
   right,
 }: {
   left: ReactNode;
+  center: ReactNode;
   right: ReactNode;
 }) {
   return (
-    <div className="navbar__inner">
-      <div className="navbar__items">{left}</div>
+    <div className={clsx('navbar__inner', styles.navbarInner)}>
+      <div className={clsx('navbar__items', styles.navbarLeft)}>{left}</div>
+      <div className={clsx('navbar__items', styles.navbarCenter)}>{center}</div>
       <div className="navbar__items navbar__items--right">{right}</div>
     </div>
   );
@@ -65,16 +69,19 @@ export default function NavbarContent(): JSX.Element {
   return (
     <NavbarContentLayout
       left={
-        // TODO stop hardcoding items?
         <>
           {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
-          <NavbarLogo />
-          <NavbarItems items={leftItems} />
+          <div className={styles.brandBlock}>
+            <NavbarLogo />
+            <div className={styles.brandText}>
+              <span>T Cloud Public</span>
+              <span>Architecture Center</span>
+            </div>
+          </div>
         </>
       }
+      center={<NavbarItems items={leftItems} />}
       right={
-        // TODO stop hardcoding items?
-        // Ask the user to add the respective navbar items => more flexible
         <>
           <NavbarItems items={rightItems} />
           <NavbarColorModeToggle className={styles.colorModeToggle} />

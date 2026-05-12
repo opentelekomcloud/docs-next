@@ -6,7 +6,7 @@ tags: [keycloak, security, github, oauth2, iam, federation]
 
 # Identity Federation with GitHub
 
-Identity Federation in Keycloak refers to the ability to use external identity providers to authenticate users in your application. In this context, GitHub can be used as an identity provider, allowing users to log in to your Open Telekom Cloud tenant using their GitHub credentials. Users can choose to log in with their GitHub accounts and Keycloak takes care of the authentication process, providing a seamless experience for users while ensuring security and centralized identity management for external accounts that are not actively managed in your tenant's IAM.
+Identity Federation in Keycloak refers to the ability to use external identity providers to authenticate users in your application. In this context, GitHub can be used as an identity provider, allowing users to log in to your T Cloud Public tenant using their GitHub credentials. Users can choose to log in with their GitHub accounts and Keycloak takes care of the authentication process, providing a seamless experience for users while ensuring security and centralized identity management for external accounts that are not actively managed in your tenant's IAM.
 
 ## Prerequisites
 
@@ -90,7 +90,7 @@ grab some values from it, for our the next steps.
 
 ## Creating a new IAM Identity Provider
 
-For this step we will change to Open Telekom Cloud Console and particularly to IAM and Identity Providers. Create a new
+For this step we will change to T Cloud Public Console and particularly to IAM and Identity Providers. Create a new
 one, and set **Protocol** to `OpenID Connect`, **SSO Type** to `Virtual User` and **Status** to `Enabled`:
 
 ![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231212-nq7.png)
@@ -173,7 +173,7 @@ the following values:
 
 ## Configuring the IAM Identity Provider Conversion Rules
 
-By default federated users are named `FederationUser` in the Open Telekom Cloud platform. These users can only log in to
+By default federated users are named `FederationUser` in the T Cloud Public platform. These users can only log in to
 the cloud platform and they do not have **any** other permissions. You can configure identity conversion rules on the
 IAM console to achieve the following:
 

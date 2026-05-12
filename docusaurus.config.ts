@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type { Options as UmamiOptions } from '@dipakparmar/docusaurus-plugin-umami';
 
 const config: Config = {
-  title: 'Open Telekom Cloud Architecture Center',
-  tagline: 'Official reference architectures, blueprints, and best practices for Open Telekom Cloud',
+  title: 'T Cloud Public Architecture Center',
+  tagline: 'Official reference architectures, blueprints, and best practices for T Cloud Public',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -25,7 +25,12 @@ const config: Config = {
   projectName: 'docs-next', // Usually your repo name.
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+
+  markdown: {
+    hooks: {
+        onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -67,12 +72,12 @@ const config: Config = {
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     metadata: [
-      { name: 'description', content: 'Open Telekom Cloud Architecture Center — official reference architectures, blueprints, and best practices.' },
-      { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, open telekom cloud, opentelekomcloud, otc, t-systems' },
+      { name: 'description', content: 'T Cloud Public Architecture Center — official reference architectures, blueprints, and best practices.' },
+      { name: 'keywords', content: 'reference architectures, cloud architecture patterns, best practices, cloud blueprints, T Cloud Public, opentelekomcloud, otc, t-systems' },
       { name: 'google-site-verification', content: 'J5ydYOkPAHSSQ-9J7Jo1EovhMxyw98MRqwCexyVGey0' },
     ],
     // Replace with your project's social card
-    image: 'img/open-telekom-cloud-social-card.png',
+    image: 'img/T_logo_carrier_surface_rgb_n.png',
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
@@ -81,9 +86,9 @@ const config: Config = {
     navbar: {
       // title: 't',
       logo: {
-        alt: 'Open Telekom Cloud Non-Logo',
-        src: 'img/logo_headline_kombination_m_s_m.png',
-        srcDark: 'img/logo_headline_kombination_m_w_m.png'
+        alt: 'Telekom Logo',
+        src: 'img/T_logo_carrier_surface_rgb_n.svg',
+        srcDark: 'img/T_logo_carrier_surface_rgb_n.svg'
       },
       items: [
         {
@@ -119,7 +124,7 @@ const config: Config = {
           href: 'https://auth.otc.t-systems.com/',
           position: 'right',
           className: 'navbar--terminal-link',
-          "aria-label": 'Open Telekom Cloud Console',
+          "aria-label": 'T Cloud Public Console',
         },
         // {
         //   href: 'https://status.otc-service.com/',
@@ -150,7 +155,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       logo: {
-        alt: 'Open Telekom Cloud Logo',
+        alt: 'T Cloud Public Logo',
         src: 'img/telekom-logo.svg',
         href: 'https://www.open-telekom-cloud.com',
         width: 72,
@@ -177,7 +182,7 @@ const config: Config = {
               to: 'https://www.open-telekom-cloud.com/en/support/release-notes',
             },
             {
-              label: 'Core Services Certifications',
+              label: 'Certifications & Attestations',
               to: 'https://www.open-telekom-cloud.com/en/products-services/core-services/certifications',
             },
           ],
@@ -190,21 +195,17 @@ const config: Config = {
               to: 'https://marketplace.otc.t-systems.com/',
             },
             {
-              label: 'Community Portal',
+              label: 'Community Forum',
               to: 'https://community.open-telekom-cloud.com/',
             },
+            // {
+            //   label: 'Webinars',
+            //   to: '/webinars',
+            // },
             {
               label: 'Webinars',
-              to: '/webinars',
+              href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
             },
-            // {
-            //   label: 'Webinars in YouTube',
-            //   href: 'https://www.youtube.com/playlist?list=PLS60dhorR-hgQ5n5L1boEQh0oVD-_k75p',
-            // },
-            // {
-            //   label: 'Medium',
-            //   href: 'https://medium.com',
-            // },
           ],
         },
         {
@@ -219,17 +220,9 @@ const config: Config = {
               to: 'https://docs.otc.t-systems.com/developer/drivers.html',
             },
             {
-              label: 'Terraform Provider',
-              href: 'https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs',
-            },
-            {
-              label: 'Ansible Collections',
-              to: 'https://docs.otc.t-systems.com/ansible-collection-cloud/',
-            },
-            {
-              label: 'Cloud Create',
-              to: 'https://designer.otc-service.com/',
-            },
+              label: 'Infrastructure as Code',
+              to: 'https://docs.otc.t-systems.com/developer/iac.html',
+            }
           ],
         },
         {
@@ -252,6 +245,10 @@ const config: Config = {
         {
           title: 'Tools',
           items: [
+            {
+              label: 'Cloud Create',
+              to: 'https://designer.otc-service.com/',
+            },
             {
               label: 'Enterprise Dashboard',
               to: 'https://enterprise-dashboard.otc-service.com',

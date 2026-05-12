@@ -7,13 +7,13 @@ sidebar_position: 3
 
 # Aggregate CCE Logs with Fluent Bit & Grafana Loki
 
-This blueprint explains how to collect and centralize logs from Cloud Container Engine (CCE) workloads using [Fluent Bit](https://fluentbit.io/) and [Grafana Loki](https://grafana.com/oss/loki/). It covers the end-to-end setup for forwarding logs from CCE nodes and containers to a centralized Loki instance, enabling efficient querying, visualization, and troubleshooting through Grafana dashboards. The goal is to provide a consistent and scalable logging approach for Kubernetes environments running on Open Telekom Cloud.
+This blueprint explains how to collect and centralize logs from Cloud Container Engine (CCE) workloads using [Fluent Bit](https://fluentbit.io/) and [Grafana Loki](https://grafana.com/oss/loki/). It covers the end-to-end setup for forwarding logs from CCE nodes and containers to a centralized Loki instance, enabling efficient querying, visualization, and troubleshooting through Grafana dashboards. The goal is to provide a consistent and scalable logging approach for Kubernetes environments running on T Cloud Public.
 
 [Fluent Bit](https://fluentbit.io/) is a lightweight, high-performance log and metrics processor designed for cloud and containerized environments. It collects data from various sources, processes and filters it, and then forwards it to multiple destinations such as Loki, Elasticsearch, or cloud logging services. Built with minimal resource consumption in mind, Fluent Bit integrates seamlessly with Kubernetes through `DaemonSets`, making it an efficient choice for aggregating logs from all nodes and containers in a cluster.
 
 ## Installing Grafana Loki
 
-If you don’t already have a Grafana Loki instance running, you can set it up first before proceeding with log aggregation. The installation process is covered in detail in the companion blueprint [Deploy Grafana Loki on CCE](/docs/blueprints/by-use-case/observability/deploy-grafana-loki-on-cce), which explains how to deploy Loki in microservices mode on Cloud Container Engine (CCE) with Open Telekom Cloud Object Storage (OBS) as the backend. Once Loki is up and running, you can continue here to install and configure Fluent-Bit and start collecting and centralizing logs from your CCE workloads.
+If you don’t already have a Grafana Loki instance running, you can set it up first before proceeding with log aggregation. The installation process is covered in detail in the companion blueprint [Deploy Grafana Loki on CCE](/docs/blueprints/by-use-case/observability/deploy-grafana-loki-on-cce), which explains how to deploy Loki in microservices mode on Cloud Container Engine (CCE) with T Cloud Public Object Storage (OBS) as the backend. Once Loki is up and running, you can continue here to install and configure Fluent-Bit and start collecting and centralizing logs from your CCE workloads.
 
 ## Installing Fluent Bit as Log Forwarder
 

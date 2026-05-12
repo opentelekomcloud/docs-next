@@ -1,66 +1,152 @@
 .cardContainer {
-  --ifm-link-color: var(--ifm-color-emphasis-800);
-  /* --ifm-link-hover-color: var(--ifm-color-emphasis-700); */
   --ifm-link-hover-decoration: none;
 
-  color: var(--text-base, var(--ifm-font-color-base));
-  border: 1px solid var(--card-border, var(--ifm-color-emphasis-200));
-  transition: all var(--ifm-transition-fast) ease;
-  transition-property: border, box-shadow;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  min-height: 132px;
+
+  padding: 22px !important;
+
+  border-radius: 24px;
+
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+
+  overflow: hidden;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
 }
 
-html[data-theme='dark'] .cardContainer {
-  background-color: var(--ifm-background-surface-color);
-  border-color: var(--ifm-color-emphasis-200);
-  color: var(--ifm-font-color-base);
+.cardContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 4px;
+
+  background: #e20074;
+
+  opacity: 0;
+  transform: scaleY(0.4);
+  transform-origin: center;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 
 .cardContainer:hover {
-  color: var(--text-base, var(--ifm-font-color-base));
-  box-shadow:
-    0px 16px 64px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover)),
-    0px 8px 16px 0px var(--shadow-hover, var(--telekom-shadow-raised-hover))
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+
+  transform: translateY(-2px);
+
+  background: var(--ifm-card-background-color);
+  border-color: var(--ifm-color-emphasis-300);
+
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.cardContainer:hover::before {
+  opacity: 1;
+  transform: scaleY(1);
 }
 
 html[data-theme='dark'] .cardContainer:hover {
-  /* your Telekom-pink shadow */
-  box-shadow: 
-    0px 16px 64px 0px #e20074, 
-    0px 8px 16px 0px #e20074;
+  border-color: rgba(226, 0, 116, 0.55);
+
+  box-shadow:
+    0 0 0 2px rgba(226, 0, 116, 0.22),
+    0 8px 24px rgba(226, 0, 116, 0.45),
+    0 24px 64px rgba(226, 0, 116, 0.38),
+    0 36px 72px rgba(226, 0, 116, 0.28);
+}
+
+html[data-theme='dark'] .cardContainer:hover::before {
+  background: #ffffff;
 }
 
 .cardContainer *:last-child {
   margin-bottom: 0;
 }
 
-/* styles.module.css */
 .cardTitle {
-  font-size: 1.0rem;
+  margin: 0 0 14px;
+
   display: flex;
   align-items: center;
+  gap: 10px;
+
+  color: var(--ifm-font-color-base);
+
+  font-size: 1rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
-/* keep icon at its intrinsic size */
 .cardIcon {
   flex: 0 0 auto;
-  margin-right: 0.5rem;
+
+  width: 1.25rem;
+  height: 1.25rem;
+
+  color: var(--ifm-font-color-secondary);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: color 180ms ease;
 }
 
-/* allow text to shrink & truncate */
+.cardIcon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cardContainer:hover .cardIcon {
+  color: #e20074;
+}
+
+html[data-theme='dark'] .cardContainer:hover .cardIcon {
+  color: #ffffff;
+}
+
 .cardText {
   flex: 1 1 auto;
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .cardDescription {
+  margin: 0;
+
+  color: var(--ifm-font-color-secondary);
+
   font-size: 0.85rem;
-  line-height: 1.3rem;                 /* match your theme’s line-height */
-  min-height: calc(1.3rem * 3);        /* force exactly three lines’ height */
+  line-height: 1.35rem;
+  font-weight: 500;
+
+  min-height: calc(1.35rem * 3);
+
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+
   overflow: hidden;
   word-break: break-word;
 }

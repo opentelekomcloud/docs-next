@@ -131,7 +131,7 @@ function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
 
   // temporarily suppress all sidebar links from being rendered 
   if (!article) {
-    item.description = "For more information consult the Service & API Reference manuals in Open Telekom Cloud Help Center."
+    item.description = "For more information consult the Service & API Reference manuals in T Cloud Public Help Center."
   }
 
   return (

@@ -43,7 +43,7 @@ Additionally, having such an endpoint exposed can make it a target for Distribut
 
 From a compliance perspective, direct internet exposure might violate certain regulatory requirements that mandate strict data protection and access controls, depending on the industry or region.
 
-On the other hand, using a Point-to-Site (P2S) VPN to connect to the VPC where the Ollama VM resides is often viewed as a secure solution and aligns with best practices for several reasons. A P2S VPN establishes an encrypted tunnel between your local machine(s) and the respective Open Telekom Cloud VPC, ensuring that transmitted data remains secure from eavesdropping.
+On the other hand, using a Point-to-Site (P2S) VPN to connect to the VPC where the Ollama VM resides is often viewed as a secure solution and aligns with best practices for several reasons. A P2S VPN establishes an encrypted tunnel between your local machine(s) and the respective T Cloud Public VPC, ensuring that transmitted data remains secure from eavesdropping.
 
 Moreover, a P2S VPN provides flexibility for multiple users to securely connect from different locations without needing complex infrastructure changes. This approach also facilitates compliance with data protection regulations since access can be restricted to authorized users only and connections can be monitored and logged for auditing and incident response purposes.
 

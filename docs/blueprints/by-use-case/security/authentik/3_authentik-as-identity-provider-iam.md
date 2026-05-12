@@ -5,7 +5,7 @@ tags: [security, oauth2, iam, authentik]
 ---
 # Authentik as an Identity Provider for IAM
 
-This guide will walk you through the process of integrating authentik, with Identity and Access Management (IAM) of Open Telekom Cloud using OAuth 2.0.
+This guide will walk you through the process of integrating authentik, with Identity and Access Management (IAM) of T Cloud Public using OAuth 2.0.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ Before starting the integration, ensure you have:
 
 ### Create a new IAM Identity Provider
 
-1. Log in to your Open Telekom Cloud Console
+1. Log in to your T Cloud Public Console
 2. Navigate to *IAM and Identity Providers* under *Management & Deployment*
 3. Select *Identity Providers* and click *Create Identity Provider* to create a new identity provider with the following values:
    - Name: Give your provider a descriptive name
@@ -92,9 +92,9 @@ To enable users to authenticate, you need to create an application in Authentik 
 
 ## Configure the IAM Identity Provider Conversion Rules
 
-You can use [identity conversion rules](https://docs.otc.t-systems.com/identity-access-management/umn/user_guide/identity_providers/virtual_user_sso_via_openid_connect/step_2_configure_identity_conversion_rules.html) to map the identities of existing users to Open Telekom Cloud and control their access to cloud resources.
+You can use [identity conversion rules](https://docs.otc.t-systems.com/identity-access-management/umn/user_guide/identity_providers/virtual_user_sso_via_openid_connect/step_2_configure_identity_conversion_rules.html) to map the identities of existing users to T Cloud Public and control their access to cloud resources.
 
-By default federated users are named *FederationUser* in the Open Telekom Cloud platform. These users can only log in to
+By default federated users are named *FederationUser* in the T Cloud Public platform. These users can only log in to
 the cloud platform and they do not have **any** other permissions. You can configure identity conversion rules on the
 IAM console to achieve the following:
 

@@ -7,11 +7,11 @@ sidebar_position: 1
 
 # Deploy Grafana Loki on CCE
 
-Deploying [Grafana Loki](https://grafana.com/docs/loki/latest/) on Cloud Container Engine (CCE) enables a scalable, cloud-native log aggregation and monitoring solution within the Open Telekom Cloud environment. Loki integrates seamlessly with Grafana to collect, index, and visualize log data without the high storage costs associated with traditional log management systems. By running Loki on CCE, users can take advantage of Kubernetes-native deployments, simplified scaling, and secure, managed infrastructure. This approach provides an efficient foundation for observability, supporting modern DevOps practices and improving operational insights across distributed applications.
+Deploying [Grafana Loki](https://grafana.com/docs/loki/latest/) on Cloud Container Engine (CCE) enables a scalable, cloud-native log aggregation and monitoring solution within the T Cloud Public environment. Loki integrates seamlessly with Grafana to collect, index, and visualize log data without the high storage costs associated with traditional log management systems. By running Loki on CCE, users can take advantage of Kubernetes-native deployments, simplified scaling, and secure, managed infrastructure. This approach provides an efficient foundation for observability, supporting modern DevOps practices and improving operational insights across distributed applications.
 
 ## Architecture
 
-Grafana Loki is built around a modular architecture that separates log ingestion, storage, and querying to achieve scalability and cost efficiency. When logs are collected from applications or system components, they are first received by the **distributor**, which authenticates and validates the data before *routing* it to the **ingesters**. The ingesters *temporarily hold log streams in memory*, compress them into chunks, and then *push these chunks to long-term storage* such as S3 or in our case, Open Telekom Cloud Object Storage (OBS). At the same time, they write small index files that map log labels to their corresponding chunks, stored either in a key-value database or alongside the chunks in object storage.
+Grafana Loki is built around a modular architecture that separates log ingestion, storage, and querying to achieve scalability and cost efficiency. When logs are collected from applications or system components, they are first received by the **distributor**, which authenticates and validates the data before *routing* it to the **ingesters**. The ingesters *temporarily hold log streams in memory*, compress them into chunks, and then *push these chunks to long-term storage* such as S3 or in our case, T Cloud Public Object Storage (OBS). At the same time, they write small index files that map log labels to their corresponding chunks, stored either in a key-value database or alongside the chunks in object storage.
 
 When a user runs a query from Grafana or directly through the Loki API, the querier reads the index to locate the relevant chunks, retrieves them from storage, and returns the combined results. In larger or production setups, a **query frontend** can be added to optimize performance by caching and parallelizing requests. This division of responsibilities—distributors for routing, ingesters for writing, and queriers for reading, ensures Loki remains efficient even at scale. On Cloud Container Engine (CCE), this architecture integrates naturally with Kubernetes, providing a reliable and cost-effective platform for log aggregation and analysis.
 
@@ -31,11 +31,11 @@ Installing Grafana Loki on Cloud Container Engine (CCE) using Helm is the most s
 
 3. And finally, the [microservices](https://grafana.com/docs/loki/latest/get-started/deployment-modes/#microservices-mode) mode (also referred in the past as the distributed mode) separates Loki’s components into individual services. Each component can scale independently, offering higher performance and fault tolerance. This setup suits production workloads and larger clusters where log volume and query traffic vary significantly.
 
-In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in microservices mode as it is the only one that provides the flexibility and performance needed for large production-grade environments where reliability and throughput are critical. For backend storage, the deployment will use Open Telekom Cloud Object Storage (OBS).
+In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in microservices mode as it is the only one that provides the flexibility and performance needed for large production-grade environments where reliability and throughput are critical. For backend storage, the deployment will use T Cloud Public Object Storage (OBS).
 
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/microservices-mode.png)
 
-1. Go to *Open Telekom Cloud Console* -> *Object Storage Service* and click *Create Bucket* to create an OBS bucket for Loki.
+1. Go to *T Cloud Public Console* -> *Object Storage Service* and click *Create Bucket* to create an OBS bucket for Loki.
 
     :::note
     A single bucket is sufficient for [boltdb-shipper](https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/) or [TSDB](https://grafana.com/docs/loki/latest/operations/storage/tsdb/) modes.
@@ -44,7 +44,7 @@ In this blueprint, Loki will be deployed on Cloud Container Engine (CCE) in micr
     :pushpin: Keep the bucket private.
     :::
 
-2. **Optionally**, if no access key pair exists, open the *Open Telekom Cloud Console* -> *Identity & Access Management (IAM)*. In the IAM dashboard, select *Users*, choose the user you intend to work with, and open the *Security Settings* tab. Scroll down to the *Access Keys* section and select *Create Access Key* to generate a new Access Key and Secret Key pair.
+2. **Optionally**, if no access key pair exists, open the *T Cloud Public Console* -> *Identity & Access Management (IAM)*. In the IAM dashboard, select *Users*, choose the user you intend to work with, and open the *Security Settings* tab. Scroll down to the *Access Keys* section and select *Create Access Key* to generate a new Access Key and Secret Key pair.
 
 3. Create a namespace and provision the Access Key and Secret Key pair as a Kubernetes Secret:
 
@@ -306,5 +306,5 @@ along with the **loki_cluster_seed.json** file created in your OBS bucket:
 ![image](/img/docs/blueprints/by-use-case/observability/kubernetes-logging-with-loki/Screenshot_from_2025-10-09_10-07-54.png)
 
 :::note
-The **loki_cluster_seed.json** file is a metadata file generated by Loki to help manage and identify the state of the cluster. It contains information such as the cluster’s unique identifier, deployment configuration, and references to index and storage metadata. This file acts as a seed record that allows Loki components to coordinate and recognize each other during startup or recovery. In setups using object storage, such as Open Telekom Cloud OBS, the file is stored in the bucket defined for Loki’s backend and ensures consistent initialization of the cluster after restarts or scaling events.
+The **loki_cluster_seed.json** file is a metadata file generated by Loki to help manage and identify the state of the cluster. It contains information such as the cluster’s unique identifier, deployment configuration, and references to index and storage metadata. This file acts as a seed record that allows Loki components to coordinate and recognize each other during startup or recovery. In setups using object storage, such as T Cloud Public OBS, the file is stored in the bucket defined for Loki’s backend and ensures consistent initialization of the cluster after restarts or scaling events.
 :::

@@ -6,7 +6,7 @@ tags: [vpc, ecs, docker]
 
 # Deploying Containers that Can Communicate with Each Other on ECSs
 
-You can deploy containers, that are not provided by Open Telekom Cloud's Container Services (CCE or CCI), on Elastic Cloud Servers (ECS) and enable the containers on different ECSs, but in the same subnet, to communicate with each other.
+You can deploy containers, that are not provided by T Cloud Public's Container Services (CCE or CCI), on Elastic Cloud Servers (ECS) and enable the containers on different ECSs, but in the same subnet, to communicate with each other.
 
 ## Solution Advantages
 
