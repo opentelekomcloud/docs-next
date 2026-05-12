@@ -1,0 +1,37 @@
+name: Stale Content Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      docs_folder:
+        description: Folder to scan
+        required: true
+        default: "docs"
+      stale_after_days:
+        description: Stale threshold in days
+        required: true
+        default: "360"
+  # push:
+  #   branches:
+  #     - main
+
+jobs:
+  stale-docs-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Stale Content Scan
+        uses: ./.github/actions/stale-docs-review
+        with:
+          docs_folder: ${{ inputs.docs_folder || 'docs' }}
+          stale_after_days: ${{ inputs.stale_after_days || '360' }}
+          issue_title_prefix: "Stale Content Review:"
+          issue_label: "stale-content-review"
