@@ -2,22 +2,22 @@
 
 This project (*docs-next*) is serving as the documentation site of Open Telekom Cloud Architecture Center and is built using [Docusaurus](https://docusaurus.io/), a modern static website generator created by [Meta](https://opensource.fb.com/).
 
-
 ## Development
 
 ### Installation
 
 `npm install` is a command used in the Node Package Manager (npm) for Node.js. It will install all the dependencies listed in the dependencies and devDependencies sections of the **package.json** file and  will create a **node_modules** directory (if it doesn't already exist) and install all the packages specified in **package.json**.
 
-```
-npm install
+```bash
+npm install --save-dev dotenv-cli yarn && npm install
 ```
 
 ### Local Development
 
 The command `npm run start` is used to start a Node.js application as defined in the scripts section of the **package.json** file in the development environment and starts locally an http server serving you app and giving you a hot-reload live environment to observe the changes you've done in your code.
 
-```
+```bash
+export $(cat .devcontainer/.env | xargs)
 npm run start
 ```
 
