@@ -235,7 +235,88 @@ helm install haproxy-ingress haproxytech/kubernetes-ingress \
 This will set up the HAProxy Ingress Controller for Kubernetes with your custom configuration, including the ELB binding. 
 Once deployed, Kubernetes Ingress resources referencing the `haproxy` class will route traffic through this controller.
 
+
 </TabItem>
+  <TabItem value="haproxy-edge-llm" label="Edge Proxy Configuration for LLM Streaming">
+
+For workloads that require low latency and high throughput, such as LLM streaming applications, it is recommended to configure the HAProxy Ingress Controller in an edge proxy mode. This configuration optimizes the handling of long-lived connections and streaming data, ensuring efficient resource utilization and improved performance.
+Modern AI chat platforms rely heavily on real-time token streaming to provide responsive conversational experiences. Instead of waiting for the full model
+response to be generated, Large Language Models (LLMs) typically stream tokens incrementally to the client using Server-Sent Events (SSE). This 
+interaction pattern significantly improves perceived latency and creates the interactive “typing” experience expected from modern AI assistants.
+
+In Kubernetes-native deployments, however, SSE traffic introduces additional considerations at the ingress and edge networking layer. Many ingress 
+controllers and reverse proxies default to HTTP/2 communication, connection multiplexing, response buffering, or aggressive connection management 
+strategies that are optimized for traditional web workloads. While these behaviors improve efficiency for standard HTTP applications, they can negatively affect long-lived streaming connections required by AI inference APIs.
+
+To ensure reliable token delivery and stable bidirectional communication between the browser and the inference backend, a dedicated HAProxy ingress 
+layer was introduced in front of the AI chat serving stack. The proxy was configured to enforce HTTP/1.1 communication for both client-facing and 
+upstream connections. This approach avoids buffering-related side effects and preserves uninterrupted SSE streams during model inference.
+
+This design pattern is particularly relevant for Kubernetes-hosted LLM serving architectures using frameworks such as Open WebUI, LiteLLM, vLLM, 
+or other OpenAI-compatible inference gateways where streaming responses are a critical part of the user experience. Introducing a streaming-aware 
+edge proxy provides deterministic behavior for SSE workloads while isolating protocol-specific optimizations from the rest of the platform ingress 
+infrastructure.
+
+For this scenario we will install again HAProxy Ingress Controller but with a different configuration, optimized for handling long-lived streaming 
+connections. The main difference in the configuration will be the enforcement of HTTP/1.1 communication and the disabling of features that could 
+interfere with streaming, such as response buffering.
+
+```yaml title="overrides.yaml"
+controller:
+  service:
+    type: LoadBalancer
+    annotations:
+      kubernetes.io/elb.class: performance
+      kubernetes.io/elb.http-redirect: "true"
+      kubernetes.io/elb.listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
+      kubernetes.io/elb.autocreate: >-
+        {
+          "type": "public",
+          "bandwidth_name": "cce-bandwidth-haproxy-ingress",
+          "bandwidth_chargemode": "traffic",
+          "bandwidth_size": 5,
+          "bandwidth_sharetype": "PER",
+          "eip_type": "5_bgp",
+          "l7_flavor_name": "L7_flavor.elb.s1.small",
+          "l4_flavor_name": "L4_flavor.elb.s1.small",
+          "available_zone": ["eu-de-01"]
+        }
+
+  extraArgs:
+    - --disable-http2
+
+  config:
+    frontend: |
+      no option http-use-htx
+      no http-use-htx
+      no option http-keep-alive
+      no option httpclose
+
+    backend: |
+      option http-server-close
+      option dontlognull
+      http-reuse always
+```
+
+:::note
+Adjust the `service` stanza as described in the previous section if you provisioned the ELB manually or if you are in the `eu-nl` region.
+:::
+
+Once the overrides.yaml file is ready, you can install the controller using Helm. This will deploy all necessary components into a dedicated namespace called haproxy-ingress. Execute the following commands:
+
+```shell
+helm repo add haproxytech https://haproxytech.github.io/helm-charts
+helm repo update
+
+helm install haproxy-ingress haproxytech/kubernetes-ingress \
+  -n haproxy-ingress --create-namespace \
+  -f values.yaml
+```
+
+This will set up the HAProxy Ingress Controller for Kubernetes with your custom configuration, including the ELB binding and streaming optimizations. 
+Once deployed, Kubernetes Ingress resources referencing the `haproxy` class will route traffic through this controller, **providing an optimized path for LLM streaming workloads**.
+
+  </TabItem>
 </Tabs>
 
 
