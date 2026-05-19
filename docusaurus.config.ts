@@ -315,7 +315,6 @@ const config: Config = {
 
   customFields: {
     version: process.env.REACT_APP_VERSION,
-    youtube_api_key: process.env.REACT_APP_YOUTUBE_API_KEY
   },
 
   plugins: [
