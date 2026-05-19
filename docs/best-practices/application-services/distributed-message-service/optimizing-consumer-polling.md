@@ -8,7 +8,7 @@ tags: [kafka, dms, golang]
 
 While consuming messages from DMS, consumers can customize the duration for pulling messages. To pull messages for a long time, consumers only need to set the parameter of the poll(long) method to a proper value. However, such persistent connections may cause pressure on the client and the server, especially when the number of partitions is large and multiple threads are enabled for each consumer.
 
-As shown in [Figure 1](#kafka-bp-190605001__fig6820724153018), the topic contains multiple partitions, and multiple consumers in the consumer group consume the resources at the same time. Each thread is in a persistent connection. When there are few or no messages in the topic, the connection persists, and all consumers pull messages continuously, which causes a waste of resources.
+As shown in [Figure 1], the topic contains multiple partitions, and multiple consumers in the consumer group consume the resources at the same time. Each thread is in a persistent connection. When there are few or no messages in the topic, the connection persists, and all consumers pull messages continuously, which causes a waste of resources.
 
 <center>
 **Figure 1** Multi-thread consumption of Kafka consumers  
@@ -17,7 +17,7 @@ As shown in [Figure 1](#kafka-bp-190605001__fig6820724153018), the topic contain
 
 ## Solution
 
-When multiple threads are enabled for concurrent access, if there is no message in the topic, only one thread is required to poll for messages in each partition. When a message is found by the polling thread, other threads can be woken up to consume the message for quick responses, as shown in [Figure 2](#kafka-bp-190605001__fig2089525512304).
+When multiple threads are enabled for concurrent access, if there is no message in the topic, only one thread is required to poll for messages in each partition. When a message is found by the polling thread, other threads can be woken up to consume the message for quick responses, as shown in [Figure 2].
 
 This solution is applicable to scenarios with low requirements on real-time message consumption. If quasi-real-time message consumption is required, it is recommended that all consumers be in the active state.
 

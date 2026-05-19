@@ -6,7 +6,7 @@ tags: [cts, cts-trigger, functiongraph, events, logs]
 
 # Auditing and Analyzing Logins and Logouts with Functiongraph
 
-Cloud Trace Service (CTS) collects real-time records of operations on cloud resources. You can create a CTS trigger to obtain records of subscribed cloud resource operations, analyze and process the operation records, and report alarms. You can use Simple Message Notification (SMN) to push alarm messages to service personnel by SMS message or email. [Figure 1](#figure-1) shows the procedure.
+Cloud Trace Service (CTS) collects real-time records of operations on cloud resources. You can create a CTS trigger to obtain records of subscribed cloud resource operations, analyze and process the operation records, and report alarms. You can use Simple Message Notification (SMN) to push alarm messages to service personnel by SMS message or email. [Figure 1] shows the procedure.
 
 ## Solution Design
 
@@ -286,7 +286,7 @@ On the *Configuration* tab page of the function, set the environment variables a
 
 **Table 1** Environment variable description
 
-For details about how to set environment variables, see [Using Environment Variables](https://docs.otc.t-systems.com/function-graph/umn/configuring_functions/configuring_environment_variables.html), as shown in [Figure 2](#figure-2).
+For details about how to set environment variables, see [Using Environment Variables](https://docs.otc.t-systems.com/function-graph/umn/configuring_functions/configuring_environment_variables.html), as shown in [Figure 2].
 
 <a id="figure-2"></a>
 
@@ -308,7 +308,7 @@ CTS records the logins and logouts of users on IAM.
 
 ## Processing Operation Records
 
-When a user performs login or logout using an account, the subscription service log will be triggered and a function will be directly invoked. The system then checks whether the IP address of the current login or logout account is in the whitelist based on function code. If the IP address is not in the whitelist, SMN will send notifications, as shown in [Figure 4](#figure-4).
+When a user performs login or logout using an account, the subscription service log will be triggered and a function will be directly invoked. The system then checks whether the IP address of the current login or logout account is in the whitelist based on function code. If the IP address is not in the whitelist, SMN will send notifications, as shown in [Figure 4].
 
 <a id="figure-4"></a>
 
@@ -318,7 +318,7 @@ When a user performs login or logout using an account, the subscription service 
 
 The email contains the unauthorized IP address and user operation (login or logout).
 
-On the *Monitoring* tab page of the function, check the number of invocations, as shown in [Figure 5](#figure-5).
+On the *Monitoring* tab page of the function, check the number of invocations, as shown in [Figure 5].
 
 <a id="figure-"></a>
 

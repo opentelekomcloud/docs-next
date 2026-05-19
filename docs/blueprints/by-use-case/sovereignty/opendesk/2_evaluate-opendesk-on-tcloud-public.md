@@ -285,7 +285,7 @@ customization:
 
 :::note
 
-1️⃣ **Single Elastic Load Balancer**: This evaluation setup uses a single Elastic Load Balancer to handle all openDesk traffic, including HTTP and HTTPS via Ingress, UDP for Jitsi, and TCP for mail services. Ensure that you specify the `<ELB_ID>` of the same load balancer whose IP address (`<ELB_IP_ADDRESS>`) was configured during the [Configure DNS](#configure-dns) step.
+1️⃣ **Single Elastic Load Balancer**: This evaluation setup uses a single Elastic Load Balancer to handle all openDesk traffic, including HTTP and HTTPS via Ingress, UDP for Jitsi, and TCP for mail services. Ensure that you specify the `<ELB_ID>` of the same load balancer whose IP address (`<ELB_IP_ADDRESS>`) was configured during the [Configure DNS](#configuring-dns-records) step.
 
 2️⃣ **Why we need to set** `cluster.networking.cidr`: By default, some openDesk components assume a standard `10.0.0.0/8` pod network. If this setting mismatches your actual cluster CIDR, internal network policies or Postfix trusted networks may fail, causing connectivity issues.
 

@@ -29,7 +29,7 @@ This solution describes how to use HSS and CBR to implement three-phase protecti
 
 Enterprises or individuals can use HSS to detect ransomware and identify system risks. CBR can be used to back up service data and plan and control account permissions and organizational structures.
 
-The following figure [HSS+CBR ransomware protection](#figure2) shows the protection principle.
+The following figure [HSS+CBR ransomware protection] shows the protection principle.
 
 <a id="figure2"></a>
 **Figure 2** HSS+CBR ransomware protection
