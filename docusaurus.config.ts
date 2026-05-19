@@ -24,11 +24,10 @@ const config: Config = {
   organizationName: process.env.REACT_APP_DOCS_NEXT_ORG, // Usually your GitHub org/user name.
   projectName: 'docs-next', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
-
   markdown: {
     hooks: {
         onBrokenMarkdownLinks: 'warn',
+        onBrokenMarkdownImages: 'warn',
     },
   },
 
