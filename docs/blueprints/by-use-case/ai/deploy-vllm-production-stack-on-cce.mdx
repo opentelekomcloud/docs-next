@@ -126,11 +126,20 @@ The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is config
 
 ### Single-Node, Standalone Serving
 
-In this scenario, we deploy the [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) model as a standalone inference service on CCE using a single NVIDIA L4 GPU. The objective is to establish a minimal production-ready deployment pattern that exposes the model through the OpenAI-compatible vLLM API without introducing distributed execution or multi-node orchestration complexity.
+In this scenario, we deploy the [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) model as a standalone inference service on CCE using a 
+single NVIDIA L4 GPU. The objective is to establish a minimal production-ready deployment pattern that exposes the model through the OpenAI-compatible vLLM API 
+without introducing distributed execution or multi-node orchestration complexity.
 
-`gpt-oss-20b` is an open-weight large Mixture of Experts (MoE) model from OpenAI designed for general-purpose text generation, reasoning, code generation and agentic workloads. With approximately 20 billion parameters (3.6B active), the model provides substantially higher reasoning and language generation capability than smaller instruction-tuned models while still remaining deployable on modern enterprise GPU hardware with careful memory utilization tuning and quantization-aware serving strategies.
+:::note
+`openai/gpt-oss-20b` is an open-weight large Mixture of Experts (MoE) model from OpenAI designed for general-purpose text generation, reasoning, code generation and 
+agentic workloads. With approximately 20 billion parameters (3.6B active), the model provides substantially higher reasoning and language generation capability 
+than smaller instruction-tuned models while still remaining deployable on modern enterprise GPU hardware with careful memory utilization tuning and 
+quantization-aware serving strategies.
+:::
 
-Within this deployment, vLLM acts as the inference runtime responsible for loading the model, optimizing GPU memory usage, managing request batching, and exposing the serving endpoint through an OpenAI-compatible API interface. This allows existing AI applications, SDKs, and automation frameworks to consume the model using familiar OpenAI API semantics without requiring model-specific integrations.
+Within this deployment, vLLM acts as the inference runtime responsible for loading the model, optimizing GPU memory usage, managing request batching, and 
+exposing the serving endpoint through an OpenAI-compatible API interface. This allows existing AI applications, SDKs, and automation frameworks to consume the 
+model using familiar OpenAI API semantics without requiring model-specific integrations.
 
 :::tip Can GPT-OSS 20B run on NVIDIA L4 24GB?
 The `gpt-oss-20b` model can operate on a single NVIDIA L4 GPU with 24 GB VRAM, as the model requires approximately 18.6 GB of GPU memory in this configuration. When deployed with Q4_K_M quantization, inference throughput can reach roughly 35 tokens per second on NVIDIA L4 hardware.
@@ -243,6 +252,13 @@ local GPUs.
 A model of this size exceeds the practical capacity of a single 15 GB T4 accelerator once runtime overhead, KV cache allocation, and inference buffers are 
 taken into account. By enabling tensor parallelism, vLLM distributes the model weights across both local GPUs and exposes the deployment through a single 
 OpenAI-compatible inference endpoint.
+
+:::note
+`Qwen/Qwen2.5-32B-Instruct-AWQ` is a 32-billion-parameter instruction-tuned language model from Alibaba Cloud optimized for conversational AI, reasoning, code 
+generation, and multilingual inference workloads. The AWQ INT4 quantized variant significantly reduces GPU memory consumption while maintaining strong inference 
+performance and instruction-following quality. This allows the model to be deployed efficiently on smaller accelerator classes such as dual NVIDIA Tesla T4 GPUs 
+using tensor parallelism through vLLM.
+:::
 
 The T4 platform is particularly well suited for this type of deployment because it supports AWQ quantization acceleration directly. This allows the model to 
 run efficiently in its native AWQ INT4 format while maintaining a relatively small memory footprint compared to full-precision deployments. In practice, the 
@@ -359,8 +375,15 @@ This scenario demonstrates how vLLM can serve a large language model that does n
 on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llam/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) 
 model in a GPTQ INT4 quantized format.
 
+:::note
+`hugging-quants/Meta-Llama-3.1-70B-Instruct-GPTQ-INT4` is a GPTQ INT4 quantized variant of Meta's Llama 3.1 70B Instruct model designed for high-quality 
+conversational AI, reasoning, summarization, and advanced instruction-following workloads. With approximately 70 billion parameters, the original FP16 model 
+exceeds the memory capacity of most standard enterprise GPU deployments. The GPTQ INT4 quantized checkpoint substantially reduces the memory footprint while 
+preserving most of the model's inference quality, making it suitable for tensor-parallel deployments on multi-GPU Kubernetes nodes using vLLM.
+:::
+
 :::tip Can LLama-3.1-70B-Instruct run on NVIDIA V100 32GB?
-The selected GPTQ INT4 model still requires approximately 35–40 GB of effective GPU memory during inference once model weights, runtime overhead, 
+The selected GPTQ INT4 model still requires approximately 35-40 GB of effective GPU memory during inference once model weights, runtime overhead, 
 and KV cache allocation are taken into account. While this is significantly smaller than the original FP16 variant of Llama 3.1 70B, it still exceeds 
 the practical capacity of a single V100 32 GB GPU, which is why tensor parallelism across both local GPUs is required for this deployment scenario.
 :::
