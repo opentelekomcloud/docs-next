@@ -34,7 +34,6 @@ vLLM, on the other hand, is designed as a high-performance inference engine opti
 From the perspective of LiteLLM, both Ollama and vLLM can be treated as interchangeable backends as long as they expose a compatible API (commonly OpenAI-style endpoints). LiteLLM abstracts the differences between these runtimes, allowing requests to be routed to either without changing the client-side integration. This means that the choice between Ollama and vLLM is primarily an operational decision rather than an architectural one.
 :::
 
-
 ## Choosing Inference Backend
 
 :::important
@@ -58,8 +57,6 @@ For production deployments, inference backends such as vLLM, SGLang, or Kubernet
 | [vLLM](https://docs.vllm.ai/en/stable/)      | Production GPU inference with high throughput                                                                                  | OpenAI-compatible serving; optimized for efficient GPU utilization; strong fit for centralized model serving behind LiteLLM; widely used for serving transformer-based LLMs                                     | Requires GPU capacity and operational tuning; Kubernetes deployment still needs careful design; less focused on structured generation workflows than SGLang                        |
 | [SGLang](https://www.sglang.io/)    | High-performance serving for LLMs and multimodal models, especially where structured generation or runtime control is required | OpenAI-compatible API; designed for low-latency and high-throughput inference; supports single-node and distributed serving; strong fit for structured generation and multimodal use cases                      | More complex than Ollama or llama.cpp; requires GPU-aware operational planning; may be unnecessary for simple deployments where vLLM or Ollama is sufficient                       |
 | [llm-d](https://llm-d.ai/)     | Kubernetes-native distributed inference at scale                                                                               | Designed for production Kubernetes environments; builds on vLLM; provides distributed serving patterns, scheduling, and platform-level inference architecture; suitable for large multi-accelerator deployments | Highest operational complexity in this group; best suited for platform teams; unnecessary for small, single-node, or experimental deployments                                      |
-
-
 
 ## Prerequisites
 

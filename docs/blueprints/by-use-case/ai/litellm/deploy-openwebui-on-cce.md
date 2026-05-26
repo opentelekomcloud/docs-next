@@ -64,7 +64,7 @@ In this blueprint, the `Secret` separates sensitive runtime credentials from the
 :::
 
 ```bash
-kubectl apply -f openwebui-secrets.yaml -n openwebui-secrets.yaml
+kubectl apply -f openwebui-secrets.yaml -n openwebui
 ```
 
 ### Creating the Database in PostgreSQL
