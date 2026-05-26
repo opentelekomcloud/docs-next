@@ -113,9 +113,20 @@ These parameters determine how the model itself is partitioned and executed acro
 
 The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is configured, the deployment must provide at least two GPUs because the model is split into two execution stages.
 
-## Scenario 1: Single-GPU, No Parallelism
+## Scenarios
 
-In this scenario, we deploy the [`openai/gpt-oss-20b`](https://willitrunai.com/models/gpt-oss-20b) model as a standalone inference service on CCE using a single NVIDIA L4 GPU. The objective is to establish a minimal production-ready deployment pattern that exposes the model through the OpenAI-compatible vLLM API without introducing distributed execution or multi-node orchestration complexity.
+| Scenario | Pattern                                            | Use Case                                                                                                                      | Prerequisites                                                                                | Limitations                                                                                   |
+| :------: | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| A        | Single GPU, standalone serving                     | Baseline inference deployment where the model fits entirely into one GPU                                                      | One GPU-enabled CCE worker node, vLLM Production Stack, optional Hugging Face token          | Limited by the VRAM and throughput of a single GPU                                            |
+| B        | Multi-node distributed serving                     | Serving a model across GPUs located on different Kubernetes worker nodes                                                      | Ray/KubeRay, distributed networking between nodes, compatible vLLM distributed configuration | Cross-node GPU communication introduces network overhead                                      |
+| C        | Single-node tensor parallelism                     | Serving a large model on a multi-GPU node by splitting tensor operations across GPUs                                          | One Kubernetes worker node with multiple GPUs, fast GPU interconnect preferred               | Performance depends heavily on GPU topology and interconnect bandwidth                        |
+| D        | Disaggregated prefill/decode serving               | Separating prompt ingestion and token generation workloads for higher serving efficiency                                      | Multiple coordinated vLLM instances, KV cache transfer support, routing layer                | Operationally more complex than standard distributed inference                                |
+| E        | Multi-node pipeline parallelism                    | Splitting model layers into sequential execution stages distributed across nodes                                              | Ray/KubeRay, multiple GPU-enabled nodes, pipeline stage configuration                        | Sequential stage execution can introduce additional latency                                   |
+| F        | Hybrid parallelism (Tensor + Pipeline Parallelism) | Large-scale inference deployments where tensor parallelism is used within nodes and pipeline parallelism is used across nodes | Multi-GPU nodes, Ray/KubeRay, distributed networking, aligned TP/PP configuration            | Most operationally complex deployment model; requires careful GPU topology and scaling design |
+
+### Single-Node, Standalone Serving
+
+In this scenario, we deploy the [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) model as a standalone inference service on CCE using a single NVIDIA L4 GPU. The objective is to establish a minimal production-ready deployment pattern that exposes the model through the OpenAI-compatible vLLM API without introducing distributed execution or multi-node orchestration complexity.
 
 `gpt-oss-20b` is an open-weight large Mixture of Experts (MoE) model from OpenAI designed for general-purpose text generation, reasoning, code generation and agentic workloads. With approximately 20 billion parameters (3.6B active), the model provides substantially higher reasoning and language generation capability than smaller instruction-tuned models while still remaining deployable on modern enterprise GPU hardware with careful memory utilization tuning and quantization-aware serving strategies.
 
@@ -129,9 +140,7 @@ For a more detailed report check [here](https://willitrunai.com/can-run/gpt-oss-
 
 Persistent model caching is enabled through a mounted Kubernetes persistent volume so that downloaded Hugging Face artifacts survive pod restarts and redeployments. This significantly reduces model initialization times and avoids repeated downloads during operational lifecycle events.
 
-### Configuring the Helm Chart Values
-
-```yaml title="vllm-values-simple.yaml"
+```yaml title="vllm-values-single-node.yaml"
 servingEngineSpec:
   vllmApiKey: 
     secretName: vllm-prodstack-secrets
@@ -206,11 +215,166 @@ helm repo update
 
 helm upgrade --install vllm vllm/vllm-stack \
   -n vllm --create-namespace \
-  -f vllm-values-simple.yaml \
+  -f vllm-values-single-node.yaml \
   --reset-values
 ```
 
-### Adding Model in LiteLLM (Optional)
+### Multi-Node, Distributed Serving
+
+### Single-Node, Tensor Parallelism
+
+#### Running on NVIDIA Volta Series (V100)
+
+This scenario demonstrates how vLLM can serve a large language model that does not fit into a single GPU by using tensor parallelism across multiple GPUs on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llam/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) model in a GPTQ INT4 quantized format.
+
+:::tip Can LLama-3.1-70B-Instruct run on NVIDIA V100 32GB?
+The selected GPTQ INT4 model still requires approximately 35–40 GB of effective GPU memory during inference once model weights, runtime overhead, and KV cache allocation are taken into account. While this is significantly smaller than the original FP16 variant of Llama 3.1 70B, it still exceeds the practical capacity of a single V100 32 GB GPU, which is why tensor parallelism across both local GPUs is required for this deployment scenario.
+:::
+
+A standard FP16 deployment of a 70B model would exceed the available memory of a single V100 GPU. To make the deployment possible on this hardware class, the model is loaded using GPTQ quantization and distributed across both GPUs through:
+
+```yaml
+tensorParallelSize: 2
+```
+
+With this configuration, vLLM splits the model tensors between the two local GPUs while exposing a single inference endpoint to the client application. 
+
+:::important
+Several configuration adjustments were required to make the deployment compatible with V100 GPUs:
+
+- The AWQ quantized model variant cannot be used and has to be replaced with a GPTQ INT4 checkpoint because AWQ kernels require newer GPU architectures than Volta-based V100 cards.
+  
+- The blueprint also uses `vllm/vllm-openai:v0.8.5`, which proved more stable for Volta-class hardware than newer runtime combinations.
+
+- To reduce GPU memory pressure during model initialization and KV cache allocation, we lower the GPU memory utilization threshold and limits the maximum context length:
+
+  ```yaml
+  --gpu-memory-utilization 0.75
+  --max-model-len 2048
+  ```
+
+- We additionally disable the Hugging Face Xet transfer backend, in order to avoid interrupted large-model downloads in environments where long-running Xet/CAS connections may be unstable or affected by enterprise network controls.
+
+  ```yaml
+  HF_HUB_DISABLE_XET=1
+  ```
+
+:::
+
+:::note
+Since both GPUs are attached to the same Kubernetes worker node, no Ray or KubeRay components are required for this scenario.
+:::
+
+The final configuration should look like this:
+
+```yaml title="values-single-node-tp-v100.yaml"
+servingEngineSpec:
+  vllmApiKey:
+    secretName: vllm-prodstack-secrets
+    secretKey: VLLM_MASTER_KEY
+
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+  modelSpec:
+    - name: llama3-1-70b-instruct-gptq-int4
+      repository: vllm/vllm-openai
+      tag: v0.8.5
+      modelURL: hugging-quants/Meta-Llama-3.1-70B-Instruct-GPTQ-INT4
+
+      hf_token:
+        secretName: vllm-prodstack-secrets
+        secretKey: HF_TOKEN
+
+      replicaCount: 1
+
+      requestCPU: 8
+      requestMemory: "96Gi"
+      requestGPU: 2
+
+      extraEnv:
+        - name: HF_HUB_DISABLE_XET
+          value: "1"
+
+      extraVolumes:
+        - name: vllm-model-cache
+          persistentVolumeClaim:
+            claimName: pvc-vllm-models
+
+      extraVolumeMounts:
+        - name: vllm-model-cache
+          mountPath: /models
+
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: accelerator
+              operator: In
+              values:
+                - nvidia-v100-pcie-32gb
+
+      vllmConfig:
+        tensorParallelSize: 2
+        pipelineParallelSize: 1
+        extraArgs:
+          - "--served-model-name"
+          - "llama3-1-70b-instruct-gptq-int4"
+          - "--gpu-memory-utilization"
+          - "0.75"
+          - "--max-model-len"
+          - "2048"
+          - "--download-dir"
+          - "/models/vllm-downloads"
+          - "--quantization"
+          - "gptq"
+
+      shmSize: "32Gi"
+```
+
+We can now deploy the vLLM Production Stack with the Helm chart:
+
+```bash
+helm repo add vllm https://vllm-project.github.io/production-stack
+helm repo update
+
+helm upgrade --install vllm vllm/vllm-stack \
+  -n vllm --create-namespace \
+  -f vllm-values-single-node-tp-v100.yaml \
+  --reset-values
+```
+
+After deployment, we can confirm from the vLLM logs that tensor parallelism initialized successfully with two tensor-parallel ranks, and via **nvidia-smi** we can see that model memory allocated across both V100 devices while serving inference requests through the OpenAI-compatible API endpoint. Open a shell on the pod that host the model and execute the following command, after replacing the value of `VLLM_MASTER_KEY`:
+
+```bash
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <VLLM_MASTER_KEY>" \
+  -d '{
+    "model": "llama3-1-70b-instruct-gptq-int4",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain tensor parallelism in one paragraph."
+      }
+    ]
+  }'
+```
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_14-00-38.png)
+
+
+
+#### Running on newer NVIDIA GPUs (L4/A100/H100)
+
+
+
+### Disaggregated Prefill/Decode Serving
+### Multi-Node, Pipeline Parallelism
+### Hybrid Parallelism
+
+## Adding Model in LiteLLM (Optional)
 
 Navigate to *LiteLLM Dashboard* -> *Models + Endpoints* -> *Add Model* and fill in the following values:
 
@@ -228,6 +392,7 @@ and click *Add Model*:
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_09-51-26.png)
 
+<!-- 
 ## Scenario 2: Tensor Parallelism
 
 The objective in this scenario, is to enable a single model-serving workload to utilize multiple GPUs through tensor parallelism instead of running entirely on a single GPU device. In practice, this allows larger language models to be distributed across several GPUs when the memory requirements exceed the capacity of a single accelerator. The configuration also improves inference scalability for workloads that require higher throughput or larger context windows.
@@ -330,4 +495,4 @@ Total                      2 GPUs
 
 :::
 
-## Scenario 3: Pipeline Parallelism
+## Scenario 3: Pipeline Parallelism -->
