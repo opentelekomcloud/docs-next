@@ -223,15 +223,150 @@ helm upgrade --install vllm vllm/vllm-stack \
 
 ### Single-Node, Tensor Parallelism
 
-#### Running on NVIDIA Volta Series (V100)
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-This scenario demonstrates how vLLM can serve a large language model that does not fit into a single GPU by using tensor parallelism across multiple GPUs on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llam/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) model in a GPTQ INT4 quantized format.
 
-:::tip Can LLama-3.1-70B-Instruct run on NVIDIA V100 32GB?
-The selected GPTQ INT4 model still requires approximately 35–40 GB of effective GPU memory during inference once model weights, runtime overhead, and KV cache allocation are taken into account. While this is significantly smaller than the original FP16 variant of Llama 3.1 70B, it still exceeds the practical capacity of a single V100 32 GB GPU, which is why tensor parallelism across both local GPUs is required for this deployment scenario.
+<Tabs>
+  <TabItem value="newer" label="Running on compact NVIDIA GPUs (T4/L4)" default>
+
+This scenario demonstrates how vLLM can use tensor parallelism to deploy larger instruction-tuned models on compact GPU configurations commonly used for edge 
+inference, development environments, or cost-sensitive AI platforms. The deployment uses a CCE worker node equipped with two NVIDIA Tesla T4 GPUs and 
+serves [`Qwen/Qwen2.5-32B-Instruct-AWQ`](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-AWQ), a 32-billion-parameter model provided in AWQ INT4 format.
+
+:::tip Can Qwen2.5-32B-Instruct-AWQ run on NVIDIA T4 16GB?
+The AWQ INT4 checkpoint requires approximately 18-22 GB of effective GPU memory during inference, before additional memory is reserved for KV cache and 
+runtime overhead. This exceeds the capacity of a single 15 GB Tesla T4 GPU, so the deployment uses tensor parallelism to distribute the model across both 
+local GPUs.
 :::
 
-A standard FP16 deployment of a 70B model would exceed the available memory of a single V100 GPU. To make the deployment possible on this hardware class, the model is loaded using GPTQ quantization and distributed across both GPUs through:
+A model of this size exceeds the practical capacity of a single 15 GB T4 accelerator once runtime overhead, KV cache allocation, and inference buffers are 
+taken into account. By enabling tensor parallelism, vLLM distributes the model weights across both local GPUs and exposes the deployment through a single 
+OpenAI-compatible inference endpoint.
+
+The T4 platform is particularly well suited for this type of deployment because it supports AWQ quantization acceleration directly. This allows the model to 
+run efficiently in its native AWQ INT4 format while maintaining a relatively small memory footprint compared to full-precision deployments. In practice, the 
+quantized model requires approximately 18-22 GB of effective GPU memory during inference, making a dual-T4 configuration a realistic target for this 
+deployment topology.
+
+:::note
+Since both GPUs are attached to the same Kubernetes worker node, no Ray or KubeRay components are required for this scenario.
+:::
+
+The final configuration should look like this:
+
+```yaml title="values-single-node-tp-t4.yaml"Running on compact NVIDIA GPUs (T4/L4)
+servingEngineSpec:
+  vllmApiKey:
+    secretName: vllm-prodstack-secrets
+    secretKey: VLLM_MASTER_KEY
+
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+  modelSpec:
+    - name: qwen2-5-32b-instruct-awq
+      repository: vllm/vllm-openai
+      tag: v0.8.5
+      modelURL: Qwen/Qwen2.5-32B-Instruct-AWQ
+
+      hf_token:
+        secretName: vllm-prodstack-secrets
+        secretKey: HF_TOKEN
+
+      replicaCount: 1
+
+      requestCPU: 8
+      requestMemory: "48Gi"
+      requestGPU: 2
+
+      extraEnv:
+        - name: HF_HUB_DISABLE_XET
+          value: "1"
+
+      extraVolumes:
+        - name: vllm-model-cache
+          persistentVolumeClaim:
+            claimName: pvc-vllm-models
+
+      extraVolumeMounts:
+        - name: vllm-model-cache
+          mountPath: /models
+
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: accelerator
+              operator: In
+              values:
+                - nvidia-t4
+
+      vllmConfig:
+        tensorParallelSize: 2
+        pipelineParallelSize: 1
+
+        extraArgs:
+          - "--served-model-name"
+          - "qwen2-5-32b-instruct-awq"
+          - "--gpu-memory-utilization"
+          - "0.80"
+          - "--max-model-len"
+          - "2048"
+          - "--download-dir"
+          - "/models/vllm-downloads"
+          - "--quantization"
+          - "awq"
+
+      shmSize: "32Gi"
+```
+
+We can now deploy the vLLM Production Stack with the Helm chart:
+
+```bash
+helm repo add vllm https://vllm-project.github.io/production-stack
+helm repo update
+
+helm upgrade --install vllm vllm/vllm-stack \
+  -n vllm --create-namespace \
+  -f vllm-values-single-node-tp-t4.yaml \
+  --reset-values
+```
+
+After deployment, we can confirm from the vLLM logs that tensor parallelism initialized successfully with two tensor-parallel ranks, and via **nvidia-smi** we can see that model memory allocated across both V100 devices while serving inference requests through the OpenAI-compatible API endpoint. Open a shell on the pod that host the model and execute the following command, after replacing the value of `VLLM_MASTER_KEY`:
+
+```bash
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <VLLM_MASTER_KEY>" \
+  -d '{
+    "model": "qwen2-5-32b-instruct-awq",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain tensor parallelism in one paragraph."
+      }
+    ]
+  }'
+```
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_15-20-01.png)
+
+  </TabItem>
+  <TabItem value="v100" label="Running on NVIDIA Volta Series (V100)">
+This scenario demonstrates how vLLM can serve a large language model that does not fit into a single GPU by using tensor parallelism across multiple GPUs 
+on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llam/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) 
+model in a GPTQ INT4 quantized format.
+
+:::tip Can LLama-3.1-70B-Instruct run on NVIDIA V100 32GB?
+The selected GPTQ INT4 model still requires approximately 35–40 GB of effective GPU memory during inference once model weights, runtime overhead, 
+and KV cache allocation are taken into account. While this is significantly smaller than the original FP16 variant of Llama 3.1 70B, it still exceeds 
+the practical capacity of a single V100 32 GB GPU, which is why tensor parallelism across both local GPUs is required for this deployment scenario.
+:::
+
+A standard FP16 deployment of a 70B model would exceed the available memory of a single V100 GPU. To make the deployment possible on this hardware class, 
+the model is loaded using GPTQ quantization and distributed across both GPUs through:
 
 ```yaml
 tensorParallelSize: 2
@@ -242,18 +377,21 @@ With this configuration, vLLM splits the model tensors between the two local GPU
 :::important
 Several configuration adjustments were required to make the deployment compatible with V100 GPUs:
 
-- The AWQ quantized model variant cannot be used and has to be replaced with a GPTQ INT4 checkpoint because AWQ kernels require newer GPU architectures than Volta-based V100 cards.
+- The AWQ quantized model variant cannot be used and has to be replaced with a GPTQ INT4 checkpoint because AWQ kernels require newer GPU architectures 
+than Volta-based V100 cards.
   
 - The blueprint also uses `vllm/vllm-openai:v0.8.5`, which proved more stable for Volta-class hardware than newer runtime combinations.
 
-- To reduce GPU memory pressure during model initialization and KV cache allocation, we lower the GPU memory utilization threshold and limits the maximum context length:
+- To reduce GPU memory pressure during model initialization and KV cache allocation, we lower the GPU memory utilization threshold and limits the 
+maximum context length:
 
   ```yaml
   --gpu-memory-utilization 0.75
   --max-model-len 2048
   ```
 
-- We additionally disable the Hugging Face Xet transfer backend, in order to avoid interrupted large-model downloads in environments where long-running Xet/CAS connections may be unstable or affected by enterprise network controls.
+- We additionally disable the Hugging Face Xet transfer backend, in order to avoid interrupted large-model downloads in environments where 
+long-running Xet/CAS connections may be unstable or affected by enterprise network controls.
 
   ```yaml
   HF_HUB_DISABLE_XET=1
@@ -267,7 +405,7 @@ Since both GPUs are attached to the same Kubernetes worker node, no Ray or KubeR
 
 The final configuration should look like this:
 
-```yaml title="values-single-node-tp-v100.yaml"
+```yaml title="values-single-node-tp-v100.yaml"Running on newer NVIDIA GPUs (L4/A100/H100)
 servingEngineSpec:
   vllmApiKey:
     secretName: vllm-prodstack-secrets
@@ -364,17 +502,15 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_14-00-38.png)
 
-
-
-#### Running on newer NVIDIA GPUs (L4/A100/H100)
-
+  </TabItem>
+</Tabs>
 
 
 ### Disaggregated Prefill/Decode Serving
 ### Multi-Node, Pipeline Parallelism
 ### Hybrid Parallelism
 
-## Adding Model in LiteLLM (Optional)
+## Adding Model(s) in LiteLLM (Optional)
 
 Navigate to *LiteLLM Dashboard* -> *Models + Endpoints* -> *Add Model* and fill in the following values:
 
