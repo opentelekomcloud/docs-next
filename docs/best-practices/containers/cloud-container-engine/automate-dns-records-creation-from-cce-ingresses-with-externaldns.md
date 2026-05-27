@@ -327,8 +327,8 @@ Supported values are:
 
 For example:
 
-`external-dns.alpha.kubernetes.io/set-identifier: private`, targets the private DNS zone  
-`external-dns.alpha.kubernetes.io/set-identifier: public`, targets the public DNS zone
+- `external-dns.alpha.kubernetes.io/set-identifier: private`, targets the private DNS zone  
+- `external-dns.alpha.kubernetes.io/set-identifier: public`, targets the public DNS zone
 
 This ensures that the ExternalDNS webhook can correctly distinguish between zones with identical names and create the DNS records in the intended zone.
 :::
