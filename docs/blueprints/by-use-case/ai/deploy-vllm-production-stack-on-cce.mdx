@@ -1,13 +1,11 @@
 ---
 id: deploy-vllm-production-stack-on-cce
 title: Deploy vLLM Production Stack on CCE
-tags: [cce, llm, vllm, vllm-production-stack, kuberay, ai]
+tags: [cce, llm, vllm, vllm-production-stack, kuberay, ray, litellm, ai, tensor-parallelism, pipeline-parallelism, distributed-serving]
 sidebar_position: 3
 ---
 
 # Deploy vLLM Production Stack on CCE
-
-// TODO: Overview missing
 
 [vLLM](https://docs.vllm.ai/en/stable/) is an open-source inference and serving engine for large language models. It is designed to improve serving throughput and GPU memory efficiency, mainly through [PagedAttention](https://huggingface.co/docs/text-generation-inference/en/conceptual/paged_attention), continuous batching, prefix caching, and an OpenAI-compatible serving interface.
 
@@ -54,75 +52,105 @@ kubectl apply -f vllm-prodstack-secrets.yaml -n vllm
 ```
 
 ### Creating the Persistence Volume Claim
+vLLM persists model artifacts locally once they are pulled. In a single-replica setup, a node-local or `ReadWriteOnce` volume is sufficient. However, when scaling to multiple replicas, each pod would otherwise 
+maintain its own copy of the models. This leads to redundant storage consumption, increased network usage during model downloads, and longer initialization times.
 
-// TODO: copy the snippet from ollama
+To address this, a shared storage backend is required. SFS Turbo provides a managed, POSIX-compliant file system with `ReadWriteMany` semantics, allowing multiple pods across nodes to access the same data concurrently. 
+By mounting SFS Turbo as the persistent volume for Ollama, all replicas can reuse a single set of model files. This approach improves operational efficiency by reducing duplication and ensuring consistency across replicas. 
+It also simplifies scaling, as new pods can immediately access preloaded models without requiring additional initialization steps. 
 
-## Explaining the Helm Chart Values
- 
-### Tensor and Pipeline Parallelism
+First we need to create a `PersistentVolumeClaim`, namely pvc-vllm-models.yaml and mount the SFS Turbo file system we created in the previous step:
 
-Under `vllmConfig` stanza we find `tensorParallelSize` and `pipelineParallelSize` which control **how a model is distributed across multiple GPUs**. These settings are important **when a model is too large for a single GPU or when inference throughput needs to scale beyond the capacity of one accelerator**.
-
-*Tensor parallelism* splits the mathematical operations of individual neural network layers across multiple GPUs. Instead of storing and processing the full tensor operations on one GPU, the computation is divided between several GPUs that work on the same layer simultaneously. This approach is commonly used for very large models because it reduces the memory pressure on individual GPUs while allowing the model to execute in parallel.
-
-With `tensorParallelSize: 2`, for example, the tensor computations are distributed across two GPUs. The GPUs cooperate closely during inference and exchange intermediate results continuously. Because of this communication overhead, tensor parallelism performs **best on systems where GPUs are connected through high-bandwidth interconnects such as [NVLink](https://www.nvidia.com/en-us/data-center/nvlink/) or similarly optimized PCIe topologies**.
-
-*Pipeline parallelism* works differently. Instead of splitting tensor operations inside a layer, it splits the model itself into sequential layer groups called pipeline stages. Each GPU becomes responsible for a different section of the model. During inference, the request passes through these stages in sequence until the output is produced.
-
-With `pipelineParallelSize: 2`, one GPU may process the earlier transformer layers while another GPU processes the later layers. This approach is useful **when the hardware environment does not provide fast GPU-to-GPU communication for efficient tensor parallelism or when model layers need to be distributed more explicitly across available devices**.
-
-In practice, tensor parallelism is generally preferred for high-performance multi-GPU inference because it allows GPUs to work concurrently on the same operations. Pipeline parallelism is often used when GPU interconnect performance is limited or when the deployment architecture requires explicit layer partitioning.
-
-These parameters must align with the GPU resources requested from Kubernetes. The effective GPU requirement is determined by the parallelism configuration. For example:
-
-- `tensorParallelSize: 2` requires at least 2 GPUs.
-- `pipelineParallelSize: 2` also requires at least 2 GPUs.
-- **The overall resource requirement we claim is the multiplication of both variables**. For example, `tensorParallelSize: 2` and `pipelineParallelSize: 2` require 4 GPUs in total.
-
-The Kubernetes resource request must therefore provide sufficient GPUs for the configured parallelism model; otherwise, the vLLM workload cannot initialize correctly.
-
-### Resource Allocation and Scheduling
-
-The `requestCPU`, `requestMemory`, and `requestGPU` values define infrastructure resource allocation at the Kubernetes level, while `tensorParallelSize` and `pipelineParallelSize` define how vLLM internally distributes the model execution across the allocated GPUs.
-
-This distinction is important because Kubernetes itself does not understand how the model is executed. Kubernetes only schedules containers onto nodes based on requested resources.
-
-```yaml
-requestCPU: 4
-requestMemory: "16Gi"
-requestGPU: 1
+```yaml title="pvc-vllm-models"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-vllm-models
+  labels:
+    model: "vllm-models"
+  annotations:
+    everest.io/volume-as: absolute-path                
+    everest.io/sfsturbo-share-id: <SFSTURBO_SHARE_ID>        
+    everest.io/path: /vllm-models                                
+    everest.io/reclaim-policy: retain-volume-only      
+    everest.io/csi.enable-sfsturbo-dir-quota: "true"   
+spec:
+  accessModes:
+    - ReadWriteMany      
+  resources:
+    requests:
+      storage: 500Gi      
+  storageClassName: csi-sfsturbo     
 ```
 
-These parameters instruct Kubernetes to reserve 4 CPU cores, 16 GiB of system memory, and 1 GPU for the serving pod. They affect pod scheduling, node placement, and infrastructure capacity planning, **but they do not control how vLLM uses the GPU internally**.
-
-The vLLM parallelism settings operate at the inference engine layer:
-
-```yaml
-tensorParallelSize: 1
-pipelineParallelSize: 2
+```bash
+kubectl create namespace vllm
+kubectl apply -f pvc-vllm-models
 ```
 
-These parameters determine how the model itself is partitioned and executed across GPUs during inference. In practice, the Kubernetes resource requests define the available hardware resources, while the vLLM parallelism settings define how the inference engine consumes and coordinates those resources.
+:::important
+Replace the value of `everest.io/sfsturbo-share-id` with the one matching your environment
+:::
 
-:warning: Both layers must remain consistent with each other. For example:
+## Installing KubeRay Operator (Optional)
 
-- `requestGPU: 1` means Kubernetes allocates one GPU to the pod.  
-- `tensorParallelSize: 2` tells vLLM to distribute tensor operations across two GPUs.  
+:::note
+[KubeRay](https://github.com/ray-project/kuberay) is the Kubernetes integration project for [Ray](https://github.com/ray-project/ray). It allows Ray clusters and Ray applications to run natively on Kubernetes 
+by introducing Kubernetes-aware management and automation capabilities for Ray workloads.
 
-:bangbang: **This creates a mismatch** because vLLM expects access to two GPUs while Kubernetes provides only one. The workload **would therefore fail during initialization or scheduling**.
+Ray itself is a distributed computing framework used primarily for AI and machine learning workloads. It provides mechanisms for distributing Python-based execution across multiple processes, GPUs, and nodes. 
+Ray is commonly used for distributed model training, batch processing, distributed inference, and scalable serving applications. More information about the framework can be found in its [official site](https://www.ray.io/).
+:::
 
-The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is configured, the deployment must provide at least two GPUs because the model is split into two execution stages.
+The KubeRay Operator is the Kubernetes Operator component of the KubeRay project. It extends Kubernetes through Custom Resource Definitions (CRDs) and controllers that automate the deployment and lifecycle management of Ray clusters. 
+Instead of manually creating and coordinating Ray head nodes, worker nodes, services, and scaling logic, the operator manages these resources declaratively through Kubernetes manifests.
+
+:::important
+**Kuberay is necessary only for distributed vLLM serving patterns that require multi-node orchestration**, such as pipeline parallelism or distributed prefill/decode deployments. For single-node, single-GPU deployments, 
+KubeRay is not required and the vLLM Production Stack can operate with standard Kubernetes resources alone.
+:::
+
+In this blueprint, the KubeRay Operator is installed to provide the Kubernetes control layer required for distributed Ray-based inference workloads. The vLLM Production Stack uses `RayCluster` and `RayService` resources to 
+deploy, scale, and manage distributed vLLM serving instances across the Kubernetes cluster. This step prepares the CCE environment with the necessary Kubernetes extensions and controllers required for distributed inference 
+orchestration.
+
+### When to use KubeRay?
+
+| Use Case                                                |  KubeRay Required  | Advantages                                                                           | Trade-Offs                                                            | Typical Prerequisites                                                                   |
+| ------------------------------------------------------- | :----------------: | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Serving very large language models across multiple GPUs | :white_check_mark: | Enables tensor parallelism and distributed inference execution across nodes and GPUs | Increased operational complexity and additional Kubernetes components | Multi-GPU worker nodes, high-speed node networking, distributed storage considerations  |
+| High-throughput production inference APIs               | :white_check_mark: | Supports horizontal scaling, workload distribution, and centralized orchestration    | More complex deployment lifecycle and monitoring requirements         | Kubernetes autoscaling strategy, GPU capacity planning, ingress and observability stack |
+| Shared enterprise AI inference platform                 | :white_check_mark: | Centralized management, automated recovery, scalable multi-workload orchestration    | Higher infrastructure footprint and operational overhead              | Multi-node Kubernetes cluster, GPU scheduling strategy, cluster observability           |
+| Dynamic scaling of inference workloads                  | :white_check_mark: | Enables automated scaling and distributed worker management                          | Additional dependency on Ray and KubeRay control components           | KEDA or autoscaling integration, sufficient spare cluster resources                     |
+| Single-node vLLM deployment                             |  :no_entry_sign:   | Simpler deployment and reduced operational overhead                                  | Limited scalability and no distributed execution                      | Single GPU-enabled Kubernetes worker node                                               |
+| Development and proof-of-concept environments           |  :no_entry_sign:   | Faster setup and easier troubleshooting                                              | Not suitable for large-scale or distributed inference workloads       | Minimal Kubernetes cluster with GPU support                                             |
+| Low-throughput internal inference services              |  :no_entry_sign:   | Lightweight operational model with fewer moving components                           | Limited high-availability and scaling capabilities                    | One or few GPU worker nodes                                                             |
+| Standalone model serving without distributed execution  |  :no_entry_sign:   | Easier maintenance and simpler Kubernetes manifests                                  | No multi-node coordination or distributed scheduling                  | Standard Kubernetes deployment with vLLM container image                                |
+
+### Deploying the Operator
+
+IWe are going to deploy the KubeRay Operator using the official Helm chart:
+
+```bash
+helm repo add kuberay https://ray-project.github.io/kuberay-helm/
+helm repo update
+
+helm install kuberay-operator kuberay/kuberay-operator \
+  -n kuberay-system \
+  --create-namespace
+```
+
 
 ## Scenarios
 
 | Scenario | Pattern                                            | Use Case                                                                                                                      | Prerequisites                                                                                | Limitations                                                                                   |
 | :------: | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| A        | Single GPU, standalone serving                     | Baseline inference deployment where the model fits entirely into one GPU                                                      | One GPU-enabled CCE worker node, vLLM Production Stack, optional Hugging Face token          | Limited by the VRAM and throughput of a single GPU                                            |
-| B        | Multi-node distributed serving                     | Serving a model across GPUs located on different Kubernetes worker nodes                                                      | Ray/KubeRay, distributed networking between nodes, compatible vLLM distributed configuration | Cross-node GPU communication introduces network overhead                                      |
-| C        | Single-node tensor parallelism                     | Serving a large model on a multi-GPU node by splitting tensor operations across GPUs                                          | One Kubernetes worker node with multiple GPUs, fast GPU interconnect preferred               | Performance depends heavily on GPU topology and interconnect bandwidth                        |
-| D        | Disaggregated prefill/decode serving               | Separating prompt ingestion and token generation workloads for higher serving efficiency                                      | Multiple coordinated vLLM instances, KV cache transfer support, routing layer                | Operationally more complex than standard distributed inference                                |
-| E        | Multi-node pipeline parallelism                    | Splitting model layers into sequential execution stages distributed across nodes                                              | Ray/KubeRay, multiple GPU-enabled nodes, pipeline stage configuration                        | Sequential stage execution can introduce additional latency                                   |
-| F        | Hybrid parallelism (Tensor + Pipeline Parallelism) | Large-scale inference deployments where tensor parallelism is used within nodes and pipeline parallelism is used across nodes | Multi-GPU nodes, Ray/KubeRay, distributed networking, aligned TP/PP configuration            | Most operationally complex deployment model; requires careful GPU topology and scaling design |
+|    A     | Single GPU, standalone serving                     | Baseline inference deployment where the model fits entirely into one GPU                                                      | One GPU-enabled CCE worker node, vLLM Production Stack, optional Hugging Face token          | Limited by the VRAM and throughput of a single GPU                                            |
+|    B     | Multi-node distributed serving                     | Serving a model across GPUs located on different Kubernetes worker nodes                                                      | Ray/KubeRay, distributed networking between nodes, compatible vLLM distributed configuration | Cross-node GPU communication introduces network overhead                                      |
+|    C     | Single-node tensor parallelism                     | Serving a large model on a multi-GPU node by splitting tensor operations across GPUs                                          | One Kubernetes worker node with multiple GPUs, fast GPU interconnect preferred               | Performance depends heavily on GPU topology and interconnect bandwidth                        |
+|    D     | Disaggregated prefill/decode serving               | Separating prompt ingestion and token generation workloads for higher serving efficiency                                      | Multiple coordinated vLLM instances, KV cache transfer support, routing layer                | Operationally more complex than standard distributed inference                                |
+|    E     | Multi-node pipeline parallelism                    | Splitting model layers into sequential execution stages distributed across nodes                                              | Ray/KubeRay, multiple GPU-enabled nodes, pipeline stage configuration                        | Sequential stage execution can introduce additional latency                                   |
+{/* |    F     | Hybrid parallelism (Tensor + Pipeline Parallelism) | Large-scale inference deployments where tensor parallelism is used within nodes and pipeline parallelism is used across nodes | Multi-GPU nodes, Ray/KubeRay, distributed networking, aligned TP/PP configuration            | Most operationally complex deployment model; requires careful GPU topology and scaling design | */}
 
 ### Single-Node, Standalone Serving
 
@@ -228,7 +256,6 @@ helm upgrade --install vllm vllm/vllm-stack \
   --reset-values
 ```
 
-### Multi-Node, Distributed Serving
 
 ### Single-Node, Tensor Parallelism
 
@@ -370,9 +397,9 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_15-20-01.png)
 
   </TabItem>
-  <TabItem value="v100" label="Running on NVIDIA Volta Series (V100)">
+  <TabItem value="v100" label="Running on legacy NVIDIA Volta Series (V100)">
 This scenario demonstrates how vLLM can serve a large language model that does not fit into a single GPU by using tensor parallelism across multiple GPUs 
-on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llam/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) 
+on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llama/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) 
 model in a GPTQ INT4 quantized format.
 
 :::note
@@ -528,10 +555,172 @@ curl http://127.0.0.1:8000/v1/chat/completions \
   </TabItem>
 </Tabs>
 
+### Multi-Node, Distributed Serving
+This scenario demonstrates how large language models can be served across multiple Kubernetes worker nodes when a single GPU is no longer sufficient to 
+host the model independently. Instead of relying on one large multi-GPU server, the deployment combines multiple smaller GPU nodes into a distributed 
+inference topology using Ray, KubeRay, and vLLM. This approach is particularly relevant for enterprise environments where GPU resources are fragmented across 
+several worker nodes or where high-memory accelerator platforms are either unavailable or prohibitively expensive. 
+
+The `Qwen2.5-32B-Instruct-AWQ` model is distributed across two single-GPU NVIDIA L4 worker nodes through pipeline parallelism. Each node contributes one GPU 
+to the inference pipeline, while  Ray orchestrates the distributed execution and communication between the participating workers. From the client 
+perspective, however, the deployment still behaves as a single OpenAI-compatible inference endpoint. The complexity of model distribution, stage coordination, 
+and GPU communication remains fully abstracted behind the vLLM serving layer.
+
+This architecture addresses one of the most common operational challenges in enterprise AI adoption: deploying models that exceed the practical memory 
+capacity of individual accelerators without requiring specialized high-end GPU servers. By distributing the model across multiple commodity GPU nodes, 
+organizations can increase the usable capacity of their existing Kubernetes GPU infrastructure while maintaining centralized API access, Kubernetes-native 
+orchestration, and scalable distributed inference management through KubeRay.
+
+:::tip Can Qwen2.5-32B-Instruct-AWQ run on a single NVIDIA L4?
+The selected AWQ INT4 model requires approximately 18-22 GB of effective GPU memory during inference once model weights, runtime overhead, and KV cache 
+allocation are taken into account. Although this is significantly smaller than a full-precision 32B model, it leaves little practical headroom on a single 
+NVIDIA L4 with 24 GB VRAM. For this scenario, the model is therefore distributed across two single-GPU L4 nodes with Ray and pipeline parallelism, 
+allowing vLLM to serve the model through one endpoint while spreading the memory load across both GPUs.
+:::
+
+The final configuration should look like this:
+
+```yaml title="values-multi-node-distributed.yaml"
+servingEngineSpec:
+  vllmApiKey:
+    secretName: vllm-prodstack-secrets
+    secretKey: VLLM_MASTER_KEY
+
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+  modelSpec:
+    - name: qwen2-5-32b-instruct-awq
+      repository: vllm/vllm-openai
+      tag: v0.8.5
+      modelURL: Qwen/Qwen2.5-32B-Instruct-AWQ
+
+      hf_token:
+        secretName: vllm-prodstack-secrets
+        secretKey: HF_TOKEN
+
+      replicaCount: 1
+
+      requestCPU: 4
+      requestMemory: "20Gi"
+      requestGPU: 1
+
+      extraEnv:
+        - name: HF_HUB_DISABLE_XET
+          value: "1"
+        - name: VLLM_ATTENTION_BACKEND
+          value: "FLASHINFER"
+      extraVolumes:
+        - name: vllm-model-cache
+          persistentVolumeClaim:
+            claimName: pvc-vllm-models
+      extraVolumeMounts:
+        - name: vllm-model-cache
+          mountPath: /models
+
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: accelerator
+              operator: In
+              values:
+                - nvidia-l4
+
+      vllmConfig:
+        tensorParallelSize: 1
+        pipelineParallelSize: 2
+        dtype: "float16"
+        extraArgs:
+          - "--served-model-name"
+          - "qwen2-5-32b-instruct-awq"
+          - "--gpu-memory-utilization"
+          - "0.90"
+          - "--max-model-len"
+          - "2048"
+          - "--kv-cache-dtype"
+          - "fp8"
+          - "--download-dir"
+          - "/models/vllm-downloads"
+          - "--quantization"
+          - "awq"
+
+      shmSize: "12Gi"
+
+      raySpec:
+        enabled: true
+        headNode:
+          requestCPU: 4
+          requestMemory: "20Gi"
+          requestGPU: 1
+
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: accelerator
+                  operator: In
+                  values:
+                    - nvidia-l4
+```
+
+We can now deploy the vLLM Production Stack with the Helm chart:
+
+```bash
+helm repo add vllm https://vllm-project.github.io/production-stack
+helm repo update
+
+helm upgrade --install vllm vllm/vllm-stack \
+  -n vllm --create-namespace \
+  -f vllm-values-multi-node-distributed.yaml \
+  --reset-values
+```
+
+After successful deployment, use the Ray head pod to validate the distributed cluster state. The head pod is the cluster coordinator and exposes the complete Ray runtime view.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-27_13-05-12.png)
+
+:::note
+The `ray status` command validates the distributed execution layer itself. It confirms that the Ray cluster was formed successfully, that both Ray nodes joined the cluster correctly, and that the 
+distributed resources required by vLLM are available. In this scenario, the output should report two active nodes and two available GPUs, proving that the pipeline-parallel deployment spans both 
+Kubernetes worker nodes rather than running entirely on a single host.
+:::
+
+To validate GPU utilization directly, open shells on **both** the Ray head and Ray worker pods and execute:
+
+```bash
+nvidia-smi
+```
+
+Both `nvidia-smi` outputs should show active CUDA processes and allocated GPU memory from the vLLM worker runtime. This confirms that the model weights and inference pipeline stages were successfully 
+distributed across both Kubernetes worker nodes rather than executing entirely on a single GPU.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-27_13-09-17.png)
+
+:::note
+The `nvidia-smi` command validates GPU participation on each node. While Ray confirms the logical distributed cluster, `nvidia-smi` confirms that the vLLM worker processes are actively consuming GPU memory 
+on both accelerators. This is particularly important in multi-node inference scenarios because a successful API response alone does not guarantee that the model was actually distributed across both GPUs. 
+Observing active memory allocation and running CUDA processes on both nodes confirms that the model weights and inference workload were successfully placed across the distributed pipeline stages.
+:::
+
 
 ### Disaggregated Prefill/Decode Serving
+This addresses a different problem than the previous deployment patterns. The objective is no longer simply making a model fit into GPU memory, but improving inference efficiency and reducing latency under high request concurrency.
+
+Large language model inference consists of two fundamentally different phases. During the **prefill phase**, the model processes the entire input prompt and builds the KV cache. This stage is highly compute-intensive and 
+benefits from large parallel processing capacity. During the **decode phase**, the model generates tokens iteratively using the previously generated KV cache. Decode workloads are typically more latency-sensitive and often 
+become bottlenecked by memory bandwidth and cache access patterns rather than raw compute throughput.
+
+In a traditional deployment, both phases execute on the same GPU resources. This means prompt ingestion and token generation compete for the same accelerator capacity. Under heavy concurrent load, long prompts can therefore 
+negatively impact token generation latency for active inference sessions.
+
+**Disaggregated prefill/decode serving separates these workloads into dedicated execution paths**. One group of vLLM instances is optimized for prompt ingestion and KV cache generation, while another group is optimized for 
+token decoding. KV cache data is transferred between both stages through a coordinated serving layer. This allows the infrastructure to scale and tune both workloads independently depending on traffic patterns and application behavior.
+
+This architecture becomes particularly valuable for enterprise AI platforms serving many simultaneous users, agentic workflows, retrieval-augmented generation pipelines, or applications with large prompt contexts. 
+By separating prompt processing from token generation, organizations can improve GPU utilization efficiency, reduce tail latency, and optimize infrastructure allocation for different inference characteristics rather than 
+treating all inference workloads identically.
+
 ### Multi-Node, Pipeline Parallelism
-### Hybrid Parallelism
 
 ## Adding Model(s) in LiteLLM (Optional)
 
@@ -551,107 +740,58 @@ and click *Add Model*:
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_09-51-26.png)
 
-<!-- 
-## Scenario 2: Tensor Parallelism
+## Appendix A: Helm Chart Values
+ 
+### Tensor and Pipeline Parallelism
 
-The objective in this scenario, is to enable a single model-serving workload to utilize multiple GPUs through tensor parallelism instead of running entirely on a single GPU device. In practice, this allows larger language models to be distributed across several GPUs when the memory requirements exceed the capacity of a single accelerator. The configuration also improves inference scalability for workloads that require higher throughput or larger context windows.
+Under `vllmConfig` stanza we find `tensorParallelSize` and `pipelineParallelSize` which control **how a model is distributed across multiple GPUs**. These settings are important **when a model is too large for a single GPU or when inference throughput needs to scale beyond the capacity of one accelerator**.
 
-To achieve this, the deployment configuration is adjusted so that the vLLM engine requests multiple GPUs and configures the corresponding tensor parallelism settings. At the Kubernetes level, this also affects pod scheduling because the workload must be placed on nodes that can provide the requested GPU resources.
+*Tensor parallelism* splits the mathematical operations of individual neural network layers across multiple GPUs. Instead of storing and processing the full tensor operations on one GPU, the computation is divided between several GPUs that work on the same layer simultaneously. This approach is commonly used for very large models because it reduces the memory pressure on individual GPUs while allowing the model to execute in parallel.
 
-The deployment relies on Ray and the KubeRay Operator to coordinate the distributed execution of the vLLM workload across multiple GPUs and Kubernetes worker nodes. While single-GPU deployments can operate as standalone vLLM instances, multi-GPU and distributed inference configurations require an orchestration layer capable of managing worker coordination, resource scheduling, and distributed runtime communication.
+With `tensorParallelSize: 2`, for example, the tensor computations are distributed across two GPUs. The GPUs cooperate closely during inference and exchange intermediate results continuously. Because of this communication overhead, tensor parallelism performs **best on systems where GPUs are connected through high-bandwidth interconnects such as [NVLink](https://www.nvidia.com/en-us/data-center/nvlink/) or similarly optimized PCIe topologies**.
 
-:::note
-[KubeRay](https://github.com/ray-project/kuberay) is the Kubernetes integration project for [Ray](https://github.com/ray-project/ray). It allows Ray clusters and Ray applications to run natively on Kubernetes by introducing Kubernetes-aware management and automation capabilities for Ray workloads.
+*Pipeline parallelism* works differently. Instead of splitting tensor operations inside a layer, it splits the model itself into sequential layer groups called pipeline stages. Each GPU becomes responsible for a different section of the model. During inference, the request passes through these stages in sequence until the output is produced.
 
-Ray itself is a distributed computing framework used primarily for AI and machine learning workloads. It provides mechanisms for distributing Python-based execution across multiple processes, GPUs, and nodes. Ray is commonly used for distributed model training, batch processing, distributed inference, and scalable serving applications. More information about the framework can be found in its [official site](https://www.ray.io/).
-:::
+With `pipelineParallelSize: 2`, one GPU may process the earlier transformer layers while another GPU processes the later layers. This approach is useful **when the hardware environment does not provide fast GPU-to-GPU communication for efficient tensor parallelism or when model layers need to be distributed more explicitly across available devices**.
 
-### Installing KubeRay Operator
+In practice, tensor parallelism is generally preferred for high-performance multi-GPU inference because it allows GPUs to work concurrently on the same operations. Pipeline parallelism is often used when GPU interconnect performance is limited or when the deployment architecture requires explicit layer partitioning.
 
-The KubeRay Operator is the Kubernetes Operator component of the KubeRay project. It extends Kubernetes through Custom Resource Definitions (CRDs) and controllers that automate the deployment and lifecycle management of Ray clusters. Instead of manually creating and coordinating Ray head nodes, worker nodes, services, and scaling logic, the operator manages these resources declaratively through Kubernetes manifests.
+These parameters must align with the GPU resources requested from Kubernetes. The effective GPU requirement is determined by the parallelism configuration. For example:
 
-In this blueprint, the KubeRay Operator is installed to provide the Kubernetes control layer required for distributed Ray-based inference workloads. The vLLM Production Stack uses `RayCluster` and `RayService` resources to deploy, scale, and manage distributed vLLM serving instances across the Kubernetes cluster. This step prepares the CCE environment with the necessary Kubernetes extensions and controllers required for distributed inference orchestration.
+- `tensorParallelSize: 2` requires at least 2 GPUs.
+- `pipelineParallelSize: 2` also requires at least 2 GPUs.
+- **The overall resource requirement we claim is the multiplication of both variables**. For example, `tensorParallelSize: 2` and `pipelineParallelSize: 2` require 4 GPUs in total.
 
-#### When to use KubeRay?
+The Kubernetes resource request must therefore provide sufficient GPUs for the configured parallelism model; otherwise, the vLLM workload cannot initialize correctly.
 
-| Use Case                                                | KubeRay Required | Advantages                                                                           | Trade-Offs                                                            | Typical Prerequisites                                                                   |
-| ------------------------------------------------------- | :--------------: | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Serving very large language models across multiple GPUs | :white_check_mark:              | Enables tensor parallelism and distributed inference execution across nodes and GPUs | Increased operational complexity and additional Kubernetes components | Multi-GPU worker nodes, high-speed node networking, distributed storage considerations  |
-| High-throughput production inference APIs               | :white_check_mark:              | Supports horizontal scaling, workload distribution, and centralized orchestration    | More complex deployment lifecycle and monitoring requirements         | Kubernetes autoscaling strategy, GPU capacity planning, ingress and observability stack |
-| Shared enterprise AI inference platform                 | :white_check_mark:              | Centralized management, automated recovery, scalable multi-workload orchestration    | Higher infrastructure footprint and operational overhead              | Multi-node Kubernetes cluster, GPU scheduling strategy, cluster observability           |
-| Dynamic scaling of inference workloads                  | :white_check_mark:              | Enables automated scaling and distributed worker management                          | Additional dependency on Ray and KubeRay control components           | KEDA or autoscaling integration, sufficient spare cluster resources                     |
-| Single-node vLLM deployment                             | :no_entry_sign:               | Simpler deployment and reduced operational overhead                                  | Limited scalability and no distributed execution                      | Single GPU-enabled Kubernetes worker node                                               |
-| Development and proof-of-concept environments           | :no_entry_sign:               | Faster setup and easier troubleshooting                                              | Not suitable for large-scale or distributed inference workloads       | Minimal Kubernetes cluster with GPU support                                             |
-| Low-throughput internal inference services              | :no_entry_sign:               | Lightweight operational model with fewer moving components                           | Limited high-availability and scaling capabilities                    | One or few GPU worker nodes                                                             |
-| Standalone model serving without distributed execution  | :no_entry_sign:               | Easier maintenance and simpler Kubernetes manifests                                  | No multi-node coordination or distributed scheduling                  | Standard Kubernetes deployment with vLLM container image                                |
+### Resource Allocation and Scheduling
 
-#### Deploying the Operator
+The `requestCPU`, `requestMemory`, and `requestGPU` values define infrastructure resource allocation at the Kubernetes level, while `tensorParallelSize` and `pipelineParallelSize` define how vLLM internally distributes the model execution across the allocated GPUs.
 
-In this blueprint, KubeRay Operator is going to be deployed using the official Helm chart:
-
-```bash
-helm repo add kuberay https://ray-project.github.io/kuberay-helm/
-helm repo update
-
-helm install kuberay-operator kuberay/kuberay-operator \
-  -n kuberay-system \
-  --create-namespace
-```
-
-### Configuring the Helm Chart Values
-
-As we already said, this is a scenario, when the model does not fit into the memory of a single GPU, vLLM can split the model’s tensor operations across multiple GPUs. This is controlled with `tensorParallelSize`. In a two-GPU setup, the model weights and tensor computations are distributed across both GPUs so that each GPU holds and processes only part of the model.
-
-For this scenario, we will go for a two-nodes setup, where each node has one NVIDIA L4 with roughly 23 GB GPU memory available and the model we will try to serve is [**Qwen/Qwen2.5-14B-Instruct**](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct), which is a 14B dense model in BF16/FP16. Only the model weights alone are roughly 28 GB, before KV cache and runtime overhead. That makes it too large for one NVIDIA L4 GPU, but realistic to serve across two L4 GPUs with tensor parallelism.
-
-So the intended configuration would be:
+This distinction is important because Kubernetes itself does not understand how the model is executed. Kubernetes only schedules containers onto nodes based on requested resources.
 
 ```yaml
-servingEngineSpec:
-  runtimeClassName: ""
-  modelSpec:
-    - name: "qwen2-5-14b-instruct"
-      repository: "vllm/vllm-openai"
-      tag: "latest"
-      modelURL: "Qwen/Qwen2.5-14B-Instruct"
-
-      replicaCount: 1
-
-      requestCPU: 4
-      requestMemory: "16Gi"
-      requestGPU: 1
-
-      vllmConfig:
-        tensorParallelSize: 2
-        pipelineParallelSize: 1
-        extraArgs:
-          - "--gpu-memory-utilization"
-          - "0.90"
-          - "--max-model-len"
-          - "8192"
-
-      shmSize: "16Gi"
-
-      raySpec:
-        headNode:
-          requestCPU: 4
-          requestMemory: "16Gi"
-          requestGPU: 1
+requestCPU: 4
+requestMemory: "16Gi"
+requestGPU: 1
 ```
 
-:::important
-In this case:
+These parameters instruct Kubernetes to reserve 4 CPU cores, 16 GiB of system memory, and 1 GPU for the serving pod. They affect pod scheduling, node placement, and infrastructure capacity planning, **but they do not control how vLLM uses the GPU internally**.
 
-- `replicaCount` is the number of KubeRay worker pods! The Ray head node is configured separately under `raySpec.headNode`
-- `tensorParallelSize` must match the number of GPUs allocated per Ray node, including the head and worker nodes
-- `pipelineParallelSize` represents the total number of Ray nodes
+The vLLM parallelism settings operate at the inference engine layer:
 
-That means that the deployment creates two Ray nodes with GPU capacity:
+```yaml
+tensorParallelSize: 1
+pipelineParallelSize: 2
+```
 
-1 Ray head pod   x 1 GPU = 1 GPU
-1 Ray worker pod x 1 GPU = 1 GPU
-Total                      2 GPUs
+These parameters determine how the model itself is partitioned and executed across GPUs during inference. In practice, the Kubernetes resource requests define the available hardware resources, while the vLLM parallelism settings define how the inference engine consumes and coordinates those resources.
 
-:::
+:warning: Both layers must remain consistent with each other. For example:
 
-## Scenario 3: Pipeline Parallelism -->
+- `requestGPU: 1` means Kubernetes allocates one GPU to the pod.  
+- `tensorParallelSize: 2` tells vLLM to distribute tensor operations across two GPUs.  
+
+:bangbang: **This creates a mismatch** because vLLM expects access to two GPUs while Kubernetes provides only one. The workload **would therefore fail during initialization or scheduling**.
+
+The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is configured, the deployment must provide at least two GPUs because the model is split into two execution stages.
