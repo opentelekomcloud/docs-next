@@ -314,12 +314,21 @@ Replace the placeholder `whoami.example.de` with your own FQDN. After completing
 :::
 
 :::note Public vs. Private Zones
-The `external-dns.alpha.kubernetes.io/webhook-zone-type` annotation is a custom annotation provided by the T Cloud Public ExternalDNS Webhook. It allows you to explicitly define the DNS zone type that should be used when creating DNS records.
+1️⃣ The `external-dns.alpha.kubernetes.io/webhook-zone-type` annotation is a custom annotation provided by the T Cloud Public ExternalDNS Webhook. It allows you to explicitly define the DNS zone type that should be used when creating DNS records.
 
 Supported values are:
 
 - `public`: creates records in a public DNS zone
 - `private`: creates records in a private DNS zone
 
-If the annotation is **not** specified, the webhook implicitly defaults to `public`.
+2️⃣ If the annotation `external-dns.alpha.kubernetes.io/webhook-zone-type` is **not** specified, the webhook implicitly defaults to `public`.
+
+3️⃣ If both a public and a private DNS zone exist with the same domain name, you must explicitly specify which zone should be targeted by adding the `external-dns.alpha.kubernetes.io/set-identifier` annotation.
+
+For example:
+
+`external-dns.alpha.kubernetes.io/set-identifier: private`, targets the private DNS zone  
+`external-dns.alpha.kubernetes.io/set-identifier: public`, targets the public DNS zone
+
+This ensures that the ExternalDNS webhook can correctly distinguish between zones with identical names and create the DNS records in the intended zone.
 :::
