@@ -52,7 +52,7 @@ Group `dns-admins` (if it exists, otherwise create it for a more rigid permissio
 
 ## Deploying ExternalDNS on CCE
 
-We are going to deploy ExternalDNS with Helm and we are going to specify [OpenStack's Designate](https://www.openstack.org/software/releases/dalmatian/components/designate) as the ExternalDNS provider via the [out-of-tree webhook](https://github.com/inovex/external-dns-openstack-webhook).
+We are going to deploy ExternalDNS with Helm and we are going to specify [T Cloud Public DNS Service](https://www.t-cloud-public.com/en/products-services/core-services/domain-name-service) as the ExternalDNS provider via the designated T Cloud Public [out-of-tree webhook](https://github.com/opentelekomcloud/external-dns-t-cloud-public-webhook).
 
 1. Create **clouds.yaml** in your working directory:
 
@@ -70,9 +70,8 @@ clouds:
     auth_type: "password"
 ```
 
-:::warning
-Special attention is required here: although DNS is a global service, all changes must be made in the **eu-de** region.
-
+:::danger caution
+**Special attention is required here**: although DNS is a global service, all changes must be made in the **eu-de** region.
 :::
 
 1. Create a namespace to isolate the installation (if it doesn't exist already) and deploy **clouds.yaml** as a `Secret`:
@@ -103,8 +102,8 @@ provider:
   name: webhook
   webhook:
     image:
-      repository: ghcr.io/inovex/external-dns-openstack-webhook
-      tag: 1.1.0
+      repository: ghcr.io/opentelekomcloud/external-dns-t-cloud-public-webhook
+      tag: 1.1.1
     extraVolumeMounts:
       - name: oscloudsyaml
         mountPath: /etc/openstack/
@@ -116,10 +115,11 @@ extraVolumes:
       secretName: oscloudsyaml
 ```
 
-:::danger very important
+:::important very important
 By specifying:
 
-- `sources` we instruct the ExternalDNS controller which resources it should watch and for which it should automatically create or update the corresponding A records.
+- `sources`, we instruct the ExternalDNS controller which resources it should watch and for which it should automatically create or update the corresponding A records.
+- `gateway-httproute` under `sources` stanza, we instruct the ExternalDNS controller to work with Gateway API `HttpRoute` objects. You can omit it if you are using only the Ingress API.
 - `txtOwnerId`, we tell ExternalDNS to only touch records with the matching TXT record, and if that TXT record is missing, it knows to recreate both the A record AND the TXT record as a pair. `txtOwnerId` is **extremely important** because it prevents ExternalDNS from managing DNS records created by other tools or processes or have records deleted or ovewritten by other ExternalDNS instances that might be running in other clusters. **Use a different value for each ExternalDNS instance**.
 
 :::
@@ -255,11 +255,71 @@ spec:
               number: 80
 ```
 
-:::note
+:::important
 Replace the placeholder `whoami.example.de` with your own FQDN. After completing all steps, you should have the following resources:
 
 :white_check_mark: A **whoami** `Deployment` and `Service`  
 :white_check_mark: A **whoami** `Ingress` served by the Ingress Controller with class name `nginx`  
 :white_check_mark: A `whoami-example-de-tls` certificate automatically created by the T Cloud Public ACME DNS-01 solver  
-:white_check_mark: An A record and a TXT record in your `example.de` public zone, binding the EIP to `whoami.example.de`  
+:white_check_mark: An **A record** and a **TXT record** in the **public DNS zone** for `example.de`, pointing `whoami.example.de` to the assigned Elastic IP (EIP)
+
+:::
+
+### Option 3: Private DNS Zones Records
+
+We will follow the same steps as in the previous option, but this time the `Ingress` will be configured to use a private DNS zone. To achieve this, add the following annotation:
+
+```yaml
+external-dns.alpha.kubernetes.io/webhook-zone-type: private
+```
+
+So the ingress manifest should now look like:
+
+```yaml title="whoami-ingress"
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-ingress
+  namespace: demo
+  annotations:
+    cert-manager.io/cluster-issuer: opentelekomcloud-letsencrypt
+    external-dns.alpha.kubernetes.io/webhook-zone-type: private
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - whoami.example.de
+    secretName: whoami-example-de-tls
+  rules:
+  - host: "whoami.example.de"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: whoami-service
+            port:
+              number: 80
+```
+
+:::important
+Replace the placeholder `whoami.example.de` with your own FQDN. After completing all steps, you should have the following resources:
+
+:white_check_mark: A **whoami** `Deployment` and `Service`  
+:white_check_mark: A **whoami** `Ingress` served by the Ingress Controller with class name `nginx`  
+:white_check_mark: A `whoami-example-de-tls` certificate automatically created by the T Cloud Public ACME DNS-01 solver  
+:white_check_mark: An **A record** and a **TXT record** in the **private DNS zone** this time, for `example.de`, pointing `whoami.example.de` to the assigned Elastic IP (EIP)
+
+:::
+
+:::note Public vs. Private Zones
+The `external-dns.alpha.kubernetes.io/webhook-zone-type` annotation is a custom annotation provided by the T Cloud Public ExternalDNS Webhook. It allows you to explicitly define the DNS zone type that should be used when creating DNS records.
+
+Supported values are:
+
+- `public`: creates records in a public DNS zone
+- `private`: creates records in a private DNS zone
+
+If the annotation is **not** specified, the webhook implicitly defaults to `public`.
 :::
