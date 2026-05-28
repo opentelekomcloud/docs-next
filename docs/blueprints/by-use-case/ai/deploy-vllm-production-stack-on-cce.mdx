@@ -702,7 +702,6 @@ on both accelerators. This is particularly important in multi-node inference sce
 Observing active memory allocation and running CUDA processes on both nodes confirms that the model weights and inference workload were successfully placed across the distributed pipeline stages.
 :::
 
-
 ### Disaggregated Prefill/Decode Serving
 This addresses a different problem than the previous deployment patterns. The objective is no longer simply making a model fit into GPU memory, but improving inference efficiency and reducing latency under high request concurrency.
 
@@ -720,6 +719,292 @@ This architecture becomes particularly valuable for enterprise AI platforms serv
 By separating prompt processing from token generation, organizations can improve GPU utilization efficiency, reduce tail latency, and optimize infrastructure allocation for different inference characteristics rather than 
 treating all inference workloads identically.
 
+For the prefill/decode scenario, the deployment is no longer built around one vLLM engine. It defines two separate serving engines for the same model: 
+one engine handles the prefill phase, and the other handles the decode phase. Both engines, for the economy of the blueprint, use 
+the same `Qwen/Qwen2.5-14B-Instruct-AWQ` checkpoint and expose the same served model name, but they are assigned different roles in the inference flow.
+
+The prefill engine is configured as the KV cache producer. It processes the incoming prompt, builds the initial KV cache, and sends that cache to the decode 
+engine. This is why its LMCache configuration uses `kvRole: kv_producer`, `nixlRole: sender`, and points to the decode engine service through `nixlPeerHost`. 
+The decode engine is configured as the KV cache consumer. It receives the transferred cache and continues token generation, so its LMCache configuration 
+uses `kvRole: kv_consumer`, `nixlRole: receiver`, and listens on `0.0.0.0:55555`.
+
+:::note
+[LMCache](https://github.com/LMCache/LMCache) is the distributed KV cache layer used by vLLM to transfer and manage inference state between the prefill and decode engines. In a traditional 
+deployment, the KV cache remains local to the same GPU that processed the prompt. In a disaggregated architecture, however, the prompt is processed by one 
+engine while token generation continues on another engine running on a different GPU or node. The KV cache therefore needs to be transferred between both 
+stages efficiently and with minimal overhead.
+
+In this scenario, LMCache acts as the coordination and transport layer for that cache exchange. The prefill engine generates the KV cache and publishes 
+it through the LMCache producer configuration, while the decode engine receives the cache through the LMCache consumer configuration. This allows the 
+decode engine to continue token generation without reprocessing the original prompt from scratch.
+
+The deployment uses LMCache together with NIXL-enabled GPU transfer buffers. This enables the KV cache to be exchanged directly through GPU-accessible 
+memory instead of repeatedly serializing and rebuilding inference state between requests. From an architectural perspective, LMCache is the component 
+that makes disaggregated serving practical, because it decouples prompt processing from token generation while preserving the inference context required 
+for continuous generation.
+
+Without LMCache, both phases would need to execute on the same vLLM engine, which would eliminate the operational benefits of separating prompt ingestion 
+and decode workloads across independent GPU resources.
+:::
+
+Both engines enable prefix caching and LMCache because cache transfer is the core mechanism that makes disaggregated prefill/decode serving work. 
+NIXL is enabled as the transport layer for moving KV cache data between the producer and consumer, and a CUDA-backed transfer buffer is configured so 
+the cache exchange can use GPU memory.
+
+The router is also configured differently from the previous scenarios. Instead of simple request distribution, it uses `disaggregated_prefill` routing logic. 
+This allows the router to distinguish between the prefill and decode backends through their model labels and send each request through the correct two-stage 
+inference path.
+
+:::note
+[NIXL](https://github.com/ai-dynamo/nixl) is the high-performance transport layer used by LMCache to move KV cache data between the prefill and decode engines. In a disaggregated serving 
+architecture, the KV cache generated during prompt ingestion must be transferred efficiently from one GPU-backed vLLM instance to another. NIXL provides 
+the communication mechanism that enables this exchange without forcing the cache data to be repeatedly serialized through slower CPU-bound workflows.
+
+In this deployment, the prefill engine acts as the NIXL sender while the decode engine acts as the NIXL receiver. Both engines allocate dedicated 
+GPU-backed transfer buffers, allowing KV cache blocks to be exchanged directly between the participating inference workers. This significantly reduces 
+the overhead associated with transferring large prompt contexts and makes continuous token generation practical even when the inference stages are separated 
+across different Kubernetes nodes.
+
+From an architectural perspective, NIXL is what enables LMCache to operate as a distributed GPU-aware KV cache system rather than simply a software-level 
+cache manager. It provides the low-latency transport path required for real-time inference serving, especially for long-context prompts and highly concurrent 
+workloads where KV cache movement becomes a critical performance factor.
+:::
+
+The final configuration should look like this:
+
+```yaml title="values-multi-node-disaggregated.yaml"
+servingEngineSpec:
+  enableEngine: true
+  runtimeClassName: ""
+  containerPort: 8000
+
+  vllmApiKey:
+    secretName: vllm-prodstack-secrets
+    secretKey: VLLM_MASTER_KEY
+
+  modelSpec:
+    - name: qwen2-5-14b-prefill
+      repository: lmcache/vllm-openai
+      tag: 2025-05-27-v1
+
+      modelURL: Qwen/Qwen2.5-14B-Instruct-AWQ
+
+      replicaCount: 1
+
+      requestCPU: 4
+      requestMemory: "20Gi"
+      requestGPU: 1
+
+      hf_token:
+        secretName: vllm-prodstack-secrets
+        secretKey: HF_TOKEN
+
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: accelerator
+              operator: In
+              values:
+                - nvidia-l4
+
+      extraEnv:
+        - name: HF_HUB_DISABLE_XET
+          value: "1"
+
+      extraVolumes:
+        - name: vllm-model-cache
+          persistentVolumeClaim:
+            claimName: pvc-vllm-models
+
+      extraVolumeMounts:
+        - name: vllm-model-cache
+          mountPath: /models
+
+      vllmConfig:
+        enablePrefixCaching: true
+        maxModelLen: 4096
+        v1: 1
+
+        extraArgs:
+          - "--served-model-name"
+          - "qwen2-5-14b-instruct-awq"
+
+          - "--gpu-memory-utilization"
+          - "0.85"
+
+          - "--download-dir"
+          - "/models/vllm-downloads"
+
+          - "--quantization"
+          - "awq"
+
+      lmcacheConfig:
+        enabled: true
+
+        cudaVisibleDevices: "0"
+
+        kvRole: "kv_producer"
+
+        enableNixl: true
+        nixlRole: "sender"
+
+        nixlPeerHost: "vllm-qwen2-5-14b-decode-engine-service"
+        nixlPeerPort: "55555"
+
+        nixlBufferSize: "1073741824"
+        nixlBufferDevice: "cuda"
+
+        nixlEnableGc: true
+
+        enablePD: true
+
+        cpuOffloadingBufferSize: 0
+
+      labels:
+        model: qwen2-5-14b-prefill
+
+    - name: qwen2-5-14b-decode
+      repository: lmcache/vllm-openai
+      tag: 2025-05-27-v1
+
+      modelURL: Qwen/Qwen2.5-14B-Instruct-AWQ
+
+      replicaCount: 1
+
+      requestCPU: 4
+      requestMemory: "20Gi"
+      requestGPU: 1
+
+      hf_token:
+        secretName: vllm-prodstack-secrets
+        secretKey: HF_TOKEN
+
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: accelerator
+              operator: In
+              values:
+                - nvidia-l4
+
+      extraEnv:
+        - name: HF_HUB_DISABLE_XET
+          value: "1"
+
+      extraVolumes:
+        - name: vllm-model-cache
+          persistentVolumeClaim:
+            claimName: pvc-vllm-models
+
+      extraVolumeMounts:
+        - name: vllm-model-cache
+          mountPath: /models
+
+      vllmConfig:
+        enablePrefixCaching: true
+        maxModelLen: 4096
+        v1: 1
+
+        extraArgs:
+          - "--served-model-name"
+          - "qwen2-5-14b-instruct-awq"
+
+          - "--gpu-memory-utilization"
+          - "0.85"
+
+          - "--download-dir"
+          - "/models/vllm-downloads"
+
+          - "--quantization"
+          - "awq"
+
+      lmcacheConfig:
+        enabled: true
+
+        cudaVisibleDevices: "0"
+
+        kvRole: "kv_consumer"
+
+        enableNixl: true
+        nixlRole: "receiver"
+
+        nixlPeerHost: "0.0.0.0"
+        nixlPeerPort: "55555"
+
+        nixlBufferSize: "1073741824"
+        nixlBufferDevice: "cuda"
+
+        nixlEnableGc: true
+
+        enablePD: true
+
+      labels:
+        model: qwen2-5-14b-decode
+
+  containerSecurityContext:
+    capabilities:
+      add:
+        - SYS_PTRACE
+
+routerSpec:
+  enableRouter: true
+
+  repository: lmcache/lmstack-router
+  tag: latest
+
+  replicaCount: 1
+
+  containerPort: 8000
+  servicePort: 80
+
+  routingLogic: disaggregated_prefill
+
+  enablePD: true
+
+  engineScrapeInterval: 15
+  requestStatsWindow: 60
+
+  resources:
+    requests:
+      cpu: "2"
+      memory: "4Gi"
+    limits:
+      cpu: "4"
+      memory: "8Gi"
+
+  labels:
+    environment: router
+    release: router
+
+  extraArgs:
+    - "--prefill-model-labels"
+    - "qwen2-5-14b-prefill"
+
+    - "--decode-model-labels"
+    - "qwen2-5-14b-decode"
+```
+
+We can now deploy the vLLM Production Stack with the Helm chart:
+
+```bash
+helm repo add vllm https://vllm-project.github.io/production-stack
+helm repo update
+
+helm upgrade --install vllm vllm/vllm-stack \
+  -n vllm --create-namespace \
+  -f vllm-values-multi-node-disaggregated.yaml \
+  --reset-values
+```
+
+After deployment, we can confirm from the vLLM logs that both the prefill and decode engines initialized successfully with the correct KV roles and NIXL 
+configurations. The router logs should also confirm that the disaggregated prefill routing logic is active and that both engines are registered correctly 
+with their respective model labels and LMCache roles. 
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-28_08-03-17.png)
+
+Finally, we can observe active GPU memory allocation on both engines through `nvidia-smi` in their 
+respective pods, confirming that both the prefill and decode workloads are executing on their assigned GPU resources according to the disaggregated serving.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-28_09-47-41.png)
+
 ### Multi-Node, Pipeline Parallelism
 
 ## Adding Model(s) in LiteLLM (Optional)
@@ -736,25 +1021,40 @@ Navigate to *LiteLLM Dashboard* -> *Models + Endpoints* -> *Add Model* and fill 
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_09-51-51.png)
 
-and click *Add Model*:
+After completing the configuration, click *Add Model*. Repeat the same process for any additional models exposed by your vLLM deployment.
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-26_09-51-26.png)
+
+:::caution
+The most important field is **Model Mappings/Public Model Name**.
+
+This value must match the model name exposed by the vLLM deployment through `--served-model-name`. LiteLLM uses this mapping to route 
+incoming OpenAI-compatible requests to the correct backend model endpoint.
+
+If the names do not match, requests will fail with model resolution errors even though the vLLM service itself is healthy and reachable.
+:::
 
 ## Appendix A: Helm Chart Values
  
 ### Tensor and Pipeline Parallelism
 
-Under `vllmConfig` stanza we find `tensorParallelSize` and `pipelineParallelSize` which control **how a model is distributed across multiple GPUs**. These settings are important **when a model is too large for a single GPU or when inference throughput needs to scale beyond the capacity of one accelerator**.
+Under `vllmConfig` stanza we find `tensorParallelSize` and `pipelineParallelSize` which control **how a model is distributed across multiple GPUs**. These settings are important **when a model is too large for a single GPU or 
+when inference throughput needs to scale beyond the capacity of one accelerator**.
 
-*Tensor parallelism* splits the mathematical operations of individual neural network layers across multiple GPUs. Instead of storing and processing the full tensor operations on one GPU, the computation is divided between several GPUs that work on the same layer simultaneously. This approach is commonly used for very large models because it reduces the memory pressure on individual GPUs while allowing the model to execute in parallel.
+*Tensor parallelism* splits the mathematical operations of individual neural network layers across multiple GPUs. Instead of storing and processing the full tensor operations on one GPU, the computation is divided between several 
+GPUs that work on the same layer simultaneously. This approach is commonly used for very large models because it reduces the memory pressure on individual GPUs while allowing the model to execute in parallel.
 
-With `tensorParallelSize: 2`, for example, the tensor computations are distributed across two GPUs. The GPUs cooperate closely during inference and exchange intermediate results continuously. Because of this communication overhead, tensor parallelism performs **best on systems where GPUs are connected through high-bandwidth interconnects such as [NVLink](https://www.nvidia.com/en-us/data-center/nvlink/) or similarly optimized PCIe topologies**.
+With `tensorParallelSize: 2`, for example, the tensor computations are distributed across two GPUs. The GPUs cooperate closely during inference and exchange intermediate results continuously. Because of this communication overhead, 
+tensor parallelism performs **best on systems where GPUs are connected through high-bandwidth interconnects such as [NVLink](https://www.nvidia.com/en-us/data-center/nvlink/) or similarly optimized PCIe topologies**.
 
-*Pipeline parallelism* works differently. Instead of splitting tensor operations inside a layer, it splits the model itself into sequential layer groups called pipeline stages. Each GPU becomes responsible for a different section of the model. During inference, the request passes through these stages in sequence until the output is produced.
+*Pipeline parallelism* works differently. Instead of splitting tensor operations inside a layer, it splits the model itself into sequential layer groups called pipeline stages. Each GPU becomes responsible for a different section 
+of the model. During inference, the request passes through these stages in sequence until the output is produced.
 
-With `pipelineParallelSize: 2`, one GPU may process the earlier transformer layers while another GPU processes the later layers. This approach is useful **when the hardware environment does not provide fast GPU-to-GPU communication for efficient tensor parallelism or when model layers need to be distributed more explicitly across available devices**.
+With `pipelineParallelSize: 2`, one GPU may process the earlier transformer layers while another GPU processes the later layers. This approach is useful **when the hardware environment does not provide fast GPU-to-GPU communication 
+for efficient tensor parallelism or when model layers need to be distributed more explicitly across available devices**.
 
-In practice, tensor parallelism is generally preferred for high-performance multi-GPU inference because it allows GPUs to work concurrently on the same operations. Pipeline parallelism is often used when GPU interconnect performance is limited or when the deployment architecture requires explicit layer partitioning.
+In practice, tensor parallelism is generally preferred for high-performance multi-GPU inference because it allows GPUs to work concurrently on the same operations. Pipeline parallelism is often used when GPU interconnect performance 
+is limited or when the deployment architecture requires explicit layer partitioning.
 
 These parameters must align with the GPU resources requested from Kubernetes. The effective GPU requirement is determined by the parallelism configuration. For example:
 
@@ -766,7 +1066,8 @@ The Kubernetes resource request must therefore provide sufficient GPUs for the c
 
 ### Resource Allocation and Scheduling
 
-The `requestCPU`, `requestMemory`, and `requestGPU` values define infrastructure resource allocation at the Kubernetes level, while `tensorParallelSize` and `pipelineParallelSize` define how vLLM internally distributes the model execution across the allocated GPUs.
+The `requestCPU`, `requestMemory`, and `requestGPU` values define infrastructure resource allocation at the Kubernetes level, while `tensorParallelSize` and `pipelineParallelSize` define how vLLM internally distributes the 
+model execution across the allocated GPUs.
 
 This distinction is important because Kubernetes itself does not understand how the model is executed. Kubernetes only schedules containers onto nodes based on requested resources.
 
@@ -776,7 +1077,8 @@ requestMemory: "16Gi"
 requestGPU: 1
 ```
 
-These parameters instruct Kubernetes to reserve 4 CPU cores, 16 GiB of system memory, and 1 GPU for the serving pod. They affect pod scheduling, node placement, and infrastructure capacity planning, **but they do not control how vLLM uses the GPU internally**.
+These parameters instruct Kubernetes to reserve 4 CPU cores, 16 GiB of system memory, and 1 GPU for the serving pod. They affect pod scheduling, node placement, and infrastructure capacity planning, **but they do not control 
+how vLLM uses the GPU internally**.
 
 The vLLM parallelism settings operate at the inference engine layer:
 
@@ -785,7 +1087,8 @@ tensorParallelSize: 1
 pipelineParallelSize: 2
 ```
 
-These parameters determine how the model itself is partitioned and executed across GPUs during inference. In practice, the Kubernetes resource requests define the available hardware resources, while the vLLM parallelism settings define how the inference engine consumes and coordinates those resources.
+These parameters determine how the model itself is partitioned and executed across GPUs during inference. In practice, the Kubernetes resource requests define the available hardware resources, while the vLLM parallelism 
+settings define how the inference engine consumes and coordinates those resources.
 
 :warning: Both layers must remain consistent with each other. For example:
 
@@ -795,3 +1098,8 @@ These parameters determine how the model itself is partitioned and executed acro
 :bangbang: **This creates a mismatch** because vLLM expects access to two GPUs while Kubernetes provides only one. The workload **would therefore fail during initialization or scheduling**.
 
 The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is configured, the deployment must provide at least two GPUs because the model is split into two execution stages.
+
+## Appendix B: References
+
+:::tip Additional resources
+:::
