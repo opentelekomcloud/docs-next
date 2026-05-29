@@ -156,6 +156,10 @@ helm install kuberay-operator kuberay/kuberay-operator \
 
 ### Single-Node, Standalone Serving
 
+:::important prerequisites
+We will need 1 node with specs: **GPU-accelerated | pi5e.2xlarge.4 | 8 vCPUs | 32 GiB | GPU: nvidia-l4 x 1**
+:::
+
 In this scenario, we deploy the [`openai/gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) model as a standalone inference service on CCE using a 
 single NVIDIA L4 GPU. The objective is to establish a minimal production-ready deployment pattern that exposes the model through the OpenAI-compatible vLLM API 
 without introducing distributed execution or multi-node orchestration complexity.
@@ -264,9 +268,12 @@ helm upgrade --install vllm vllm/vllm-stack \
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
 <Tabs>
   <TabItem value="newer" label="Running on compact NVIDIA GPUs (T4/L4)" default>
+
+:::important prerequisites
+We will need 1 node with specs: **GPU-accelerated | pi2.4xlarge.4 | 16 vCPUs | 64 GiB | GPU: nvidia-t4 x 2**
+:::
 
 This scenario demonstrates how vLLM can use tensor parallelism to deploy larger instruction-tuned models on compact GPU configurations commonly used for edge 
 inference, development environments, or cost-sensitive AI platforms. The deployment uses a CCE worker node equipped with two NVIDIA Tesla T4 GPUs and 
@@ -400,6 +407,10 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 
   </TabItem>
   <TabItem value="v100" label="Running on legacy NVIDIA Volta Series (V100)">
+:::important prerequisites
+We will need 1 node with specs: **GPU-accelerated | p2s.4xlarge.8 | 16 vCPUs | 128 GiB | GPU: nvidia-v100-pcie-32gb x 2**
+:::
+
 This scenario demonstrates how vLLM can serve a large language model that does not fit into a single GPU by using tensor parallelism across multiple GPUs 
 on the same CCE worker node. The deployment uses a node equipped with 2x NVIDIA Tesla V100 32 GB accelerators and deploys the [`meta-llama/Llama-3.1-70B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) 
 model in a GPTQ INT4 quantized format.
@@ -558,6 +569,10 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 </Tabs>
 
 ### Multi-Node, Distributed Serving
+:::important prerequisites
+We will need 2 nodes with specs: **GPU-accelerated | pi5e.4xlarge.4 | 16 vCPUs | 64 GiB | GPU: nvidia-l4 x 1**
+:::
+
 This scenario demonstrates how large language models can be served across multiple Kubernetes worker nodes when a single GPU is no longer sufficient to 
 host the model independently. Instead of relying on one large multi-GPU server, the deployment combines multiple smaller GPU nodes into a distributed 
 inference topology using Ray, KubeRay, and vLLM. This approach is particularly relevant for enterprise environments where GPU resources are fragmented across 
@@ -705,6 +720,10 @@ Observing active memory allocation and running CUDA processes on both nodes conf
 :::
 
 ### Disaggregated Prefill/Decode Serving
+:::important prerequisites
+We will need 2 nodes with specs: **GPU-accelerated | pi5e.4xlarge.4 | 16 vCPUs | 64 GiB | GPU: nvidia-l4 x 1**
+:::
+
 This addresses a different problem than the previous deployment patterns. The objective is no longer simply making a model fit into GPU memory, but improving inference efficiency and reducing latency under high request concurrency.
 
 Large language model inference consists of two fundamentally different phases. During the **prefill phase**, the model processes the entire input prompt and builds the KV cache. This stage is highly compute-intensive and 
@@ -1092,5 +1111,5 @@ The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is config
 - [LMCache](https://lmcache.ai/)
 - [Browse AI Models on WillItRunAI](https://willitrunai.com/browse?view=list)
 - [LLM Leaderboard](https://llm-stats.com/)
-
+- [OpenRouter AI Models Ranking](https://openrouter.ai/rankings)
 :::
