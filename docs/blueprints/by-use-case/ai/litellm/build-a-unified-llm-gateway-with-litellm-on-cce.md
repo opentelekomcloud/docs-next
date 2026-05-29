@@ -18,18 +18,18 @@ Deployed on CCE, LiteLLM becomes the central ingress point for LLM workloads wit
 
 As already mentioned, LiteLLM routes requests not only to external providers but also to locally hosted inference backends running on GPU nodes inside the cluster (or even in ECS instances). In this setup, [Ollama](https://ollama.com/) and [vLLM](https://docs.vllm.ai/en/stable/) represent two different ways of serving models within that local layer. In this blueprint, Ollama is used as the initial local inference backend due to its simplicity and fast setup, making it well suited for demonstrating the architecture and validating the integration flow. A follow-up blueprint will cover a deployment based on vLLM, focusing on scenarios where higher performance and more efficient GPU utilization are required.
 
-![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_2026-04-28_123312.png)
+![image](/img/docs/blueprints/by-use-case/ai/litellm/inference-serving-cce.png)
 
 [Open WebUI](https://docs.openwebui.com/) is the interface through which users interact **non-programmatically** with the models. It connects to LiteLLM using its OpenAI-compatible API and **does not communicate directly with any underlying inference backend**. This keeps the frontend decoupled from the actual model infrastructure.
 
-In practical terms, Open WebUI serves as a lightweight chat and experimentation interface. It allows users to select models, send prompts, and view responses without needing to understand where or how the models are hosted. **All requests generated through the UI are forwarded to LiteLLM, which then decides whether to route them to a local backend such as Ollama or to an external provider**.
+In practical terms, Open WebUI serves as a lightweight chat and experimentation interface. It allows users to select models, send prompts, and view responses without needing to understand where or how the models are hosted. **All requests generated through the UI are forwarded to LiteLLM, which then decides whether to route them to a local backend such as Ollama, vLLM or to an external provider**.
 
 This separation of concerns is intentional. Open WebUI focuses purely on interaction and usability, while LiteLLM handles routing, backend abstraction, and policy enforcement. As a result, changes to the inference layer,such as switching from Ollama to a vLLM-based deployment,do not impact the user interface or require reconfiguration on the client side.
 
 :::note
-Ollama acts as a self-contained runtime for running and managing LLMs locally. It simplifies model lifecycle operations such as pulling, starting, and exposing models through an API. This makes it straightforward to get a local inference service running quickly, especially in environments where ease of deployment and operational simplicity are more important than squeezing out maximum throughput. In the context of this architecture, Ollama is the component that exposes locally hosted models to LiteLLM, which then treats it as just another backend.
+[Ollama](https://ollama.com/) acts as a self-contained runtime for running and managing LLMs locally. It simplifies model lifecycle operations such as pulling, starting, and exposing models through an API. This makes it straightforward to get a local inference service running quickly, especially in environments where ease of deployment and operational simplicity are more important than squeezing out maximum throughput. In the context of this architecture, Ollama is the component that exposes locally hosted models to LiteLLM, which then treats it as just another backend.
 
-vLLM, on the other hand, is designed as a high-performance inference engine optimized for serving large models efficiently on GPU infrastructure. It focuses on maximizing throughput and minimizing latency under concurrent workloads. Compared to Ollama, it typically requires more deliberate setup and integration, but it offers better resource utilization and scalability, which becomes relevant in production scenarios with higher demand.
+[vLLM](https://docs.vllm.ai/en/stable/), on the other hand, is designed as a high-performance inference engine optimized for serving large models efficiently on GPU infrastructure. It focuses on maximizing throughput and minimizing latency under concurrent workloads. Compared to Ollama, it typically requires more deliberate setup and integration, but it offers better resource utilization and scalability, which becomes relevant in production scenarios with higher demand.
 
 From the perspective of LiteLLM, both Ollama and vLLM can be treated as interchangeable backends as long as they expose a compatible API (commonly OpenAI-style endpoints). LiteLLM abstracts the differences between these runtimes, allowing requests to be routed to either without changing the client-side integration. This means that the choice between Ollama and vLLM is primarily an operational decision rather than an architectural one.
 :::
@@ -41,7 +41,7 @@ For the purpose of this blueprint, Ollama is used as the inference backend. The 
 
 This should not be interpreted as a recommendation for production workloads. Ollama is primarily designed for local usage and developer-focused scenarios. It does not provide the level of scalability, performance optimization, or operational control that is typically required in production environments.
 
-For production deployments, inference backends such as vLLM, SGLang, or Kubernetes-native solutions like llm-d should be considered, depending on the specific requirements of the platform. Use the following decision tree and comparison table to select the inference backend that best fits your requirements.
+For production deployments, inference backends such as [vLLM](/docs/blueprints/by-use-case/ai/deploy-vllm-production-stack-on-cce), SGLang, or Kubernetes-native solutions like llm-d should be considered, depending on the specific requirements of the platform. Use the following decision tree and comparison table to select the inference backend that best fits your requirements.
 :::
 
 ### Inference Backend Selection Decision Tree

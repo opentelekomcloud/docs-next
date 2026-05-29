@@ -13,7 +13,9 @@ The [vLLM Production Stack](https://docs.vllm.ai/projects/production-stack/en/la
 
 ## Prerequisites
 
-// TODO: say we need to fulfill the prerequisites of litellm gw
+The prerequisites for this guide are identical to those described in the blueprint [Build a Unified LLM Gateway with LiteLLM on CCE](/docs/blueprints/by-use-case/ai/litellm/build-a-unified-llm-gateway-with-litellm-on-cce.md). Before proceeding, 
+ensure that all required services, infrastructure components, access permissions, and configuration prerequisites outlined in the blueprint have been 
+completed. 
 
 ## Defining and Applying Configuration
 
@@ -143,13 +145,13 @@ helm install kuberay-operator kuberay/kuberay-operator \
 
 ## Scenarios
 
-| Scenario | Pattern                                            | Use Case                                                                                                                      | Prerequisites                                                                                | Limitations                                                                                   |
-| :------: | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-|    A     | Single GPU, standalone serving                     | Baseline inference deployment where the model fits entirely into one GPU                                                      | One GPU-enabled CCE worker node, vLLM Production Stack, optional Hugging Face token          | Limited by the VRAM and throughput of a single GPU                                            |
-|    B     | Multi-node distributed serving                     | Serving a model across GPUs located on different Kubernetes worker nodes                                                      | Ray/KubeRay, distributed networking between nodes, compatible vLLM distributed configuration | Cross-node GPU communication introduces network overhead                                      |
-|    C     | Single-node tensor parallelism                     | Serving a large model on a multi-GPU node by splitting tensor operations across GPUs                                          | One Kubernetes worker node with multiple GPUs, fast GPU interconnect preferred               | Performance depends heavily on GPU topology and interconnect bandwidth                        |
-|    D     | Disaggregated prefill/decode serving               | Separating prompt ingestion and token generation workloads for higher serving efficiency                                      | Multiple coordinated vLLM instances, KV cache transfer support, routing layer                | Operationally more complex than standard distributed inference                                |
-|    E     | Multi-node pipeline parallelism                    | Splitting model layers into sequential execution stages distributed across nodes                                              | Ray/KubeRay, multiple GPU-enabled nodes, pipeline stage configuration                        | Sequential stage execution can introduce additional latency                                   |
+|     | Scenario                             | Use Case                                                                                 | Prerequisites                                                                                | Limitations                                                            |
+| :-: | ------------------------------------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 🥉 | Single GPU, standalone serving       | Baseline inference deployment where the model fits entirely into one GPU                 | One GPU-enabled CCE worker node, vLLM Production Stack, optional Hugging Face token          | Limited by the VRAM and throughput of a single GPU                     |
+| 🥇 | Multi-node distributed serving       | Serving a model across GPUs located on different Kubernetes worker nodes                 | Ray/KubeRay, distributed networking between nodes, compatible vLLM distributed configuration | Cross-node GPU communication introduces network overhead               |
+| 🥈 | Single-node tensor parallelism       | Serving a large model on a multi-GPU node by splitting tensor operations across GPUs     | One Kubernetes worker node with multiple GPUs, fast GPU interconnect preferred               | Performance depends heavily on GPU topology and interconnect bandwidth |
+| 🥇 | Disaggregated prefill/decode serving | Separating prompt ingestion and token generation workloads for higher serving efficiency | Multiple coordinated vLLM instances, KV cache transfer support, routing layer                | Operationally more complex than standard distributed inference         |
+{/* | 🥇 | Multi-node pipeline parallelism      | Splitting model layers into sequential execution stages distributed across nodes         | Ray/KubeRay, multiple GPU-enabled nodes, pipeline stage configuration                        | Sequential stage execution can introduce additional latency            | */}
 {/* |    F     | Hybrid parallelism (Tensor + Pipeline Parallelism) | Large-scale inference deployments where tensor parallelism is used within nodes and pipeline parallelism is used across nodes | Multi-GPU nodes, Ray/KubeRay, distributed networking, aligned TP/PP configuration            | Most operationally complex deployment model; requires careful GPU topology and scaling design | */}
 
 ### Single-Node, Standalone Serving
@@ -778,15 +780,10 @@ servingEngineSpec:
   runtimeClassName: ""
   containerPort: 8000
 
-  vllmApiKey:
-    secretName: vllm-prodstack-secrets
-    secretKey: VLLM_MASTER_KEY
-
   modelSpec:
     - name: qwen2-5-14b-prefill
       repository: lmcache/vllm-openai
       tag: 2025-05-27-v1
-
       modelURL: Qwen/Qwen2.5-14B-Instruct-AWQ
 
       replicaCount: 1
@@ -827,36 +824,25 @@ servingEngineSpec:
         extraArgs:
           - "--served-model-name"
           - "qwen2-5-14b-instruct-awq"
-
           - "--gpu-memory-utilization"
           - "0.85"
-
           - "--download-dir"
           - "/models/vllm-downloads"
-
           - "--quantization"
           - "awq"
 
       lmcacheConfig:
         enabled: true
-
         cudaVisibleDevices: "0"
-
         kvRole: "kv_producer"
-
         enableNixl: true
         nixlRole: "sender"
-
         nixlPeerHost: "vllm-qwen2-5-14b-decode-engine-service"
         nixlPeerPort: "55555"
-
         nixlBufferSize: "1073741824"
         nixlBufferDevice: "cuda"
-
         nixlEnableGc: true
-
         enablePD: true
-
         cpuOffloadingBufferSize: 0
 
       labels:
@@ -865,7 +851,6 @@ servingEngineSpec:
     - name: qwen2-5-14b-decode
       repository: lmcache/vllm-openai
       tag: 2025-05-27-v1
-
       modelURL: Qwen/Qwen2.5-14B-Instruct-AWQ
 
       replicaCount: 1
@@ -906,34 +891,24 @@ servingEngineSpec:
         extraArgs:
           - "--served-model-name"
           - "qwen2-5-14b-instruct-awq"
-
           - "--gpu-memory-utilization"
           - "0.85"
-
           - "--download-dir"
           - "/models/vllm-downloads"
-
           - "--quantization"
           - "awq"
 
       lmcacheConfig:
         enabled: true
-
         cudaVisibleDevices: "0"
-
         kvRole: "kv_consumer"
-
         enableNixl: true
         nixlRole: "receiver"
-
         nixlPeerHost: "0.0.0.0"
         nixlPeerPort: "55555"
-
         nixlBufferSize: "1073741824"
         nixlBufferDevice: "cuda"
-
         nixlEnableGc: true
-
         enablePD: true
 
       labels:
@@ -946,7 +921,6 @@ servingEngineSpec:
 
 routerSpec:
   enableRouter: true
-
   repository: lmcache/lmstack-router
   tag: latest
 
@@ -956,9 +930,7 @@ routerSpec:
   servicePort: 80
 
   routingLogic: disaggregated_prefill
-
   enablePD: true
-
   engineScrapeInterval: 15
   requestStatsWindow: 60
 
@@ -977,10 +949,19 @@ routerSpec:
   extraArgs:
     - "--prefill-model-labels"
     - "qwen2-5-14b-prefill"
-
     - "--decode-model-labels"
     - "qwen2-5-14b-decode"
 ```
+
+:::warning
+`SYS_PTRACE` adds Linux process tracing capabilities to the container runtime. This is typically only 
+required for low-level debugging, profiling, or runtime inspection tools such as CUDA/NCCL diagnostics 
+and advanced GPU performance analysis.
+
+Standard vLLM inference deployments generally do not require this capability. In security-conscious 
+Kubernetes environments, container capabilities should remain minimized unless explicitly needed 
+by the workload or troubleshooting process, otherwise it can/should be omitted.
+:::
 
 We can now deploy the vLLM Production Stack with the Helm chart:
 
@@ -1005,7 +986,7 @@ respective pods, confirming that both the prefill and decode workloads are execu
 
 ![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-28_09-47-41.png)
 
-### Multi-Node, Pipeline Parallelism
+{/* ### Multi-Node, Pipeline Parallelism */}
 
 ## Adding Model(s) in LiteLLM (Optional)
 
@@ -1102,4 +1083,14 @@ The same applies to pipeline parallelism. If `pipelineParallelSize: 2` is config
 ## Appendix B: References
 
 :::tip Additional resources
+
+- [vLLM Documentation](https://docs.vllm.ai/en/stable/)
+- [vLLM Production Stack Documentation](https://docs.vllm.ai/en/stable/deployment/integrations/production-stack/)
+- [Multi-GPU LLM Inference Guide — NVLink vs PCIe, Tensor Parallelism (2026)](https://willitrunai.com/blog/multi-gpu-llm-inference-guide)
+- [Will It Run on your GPU or Mac?](https://willitrunai.com/blog/will-it-run-on-your-gpu-or-mac)
+- [What Can My GPU Do?](https://willitrunai.com/my-gpu)
+- [LMCache](https://lmcache.ai/)
+- [Browse AI Models on WillItRunAI](https://willitrunai.com/browse?view=list)
+- [LLM Leaderboard](https://llm-stats.com/)
+
 :::

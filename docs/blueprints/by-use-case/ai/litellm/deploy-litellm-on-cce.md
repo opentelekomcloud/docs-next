@@ -97,14 +97,14 @@ data:
 ```
 
 :::note
-The key section is `model_list`. Each entry represents a model that LiteLLM will expose to clients:
+1️⃣ The key section is `model_list`. Each entry represents a model that LiteLLM will expose to clients:
 
 - `model_name`: This is the name that clients will use when sending requests to LiteLLM. It is an internal alias and **does not need to match the backend model name**  
 - `litellm_params.model`: This defines the actual model and provider. In this case, `ollama_chat/...` tells LiteLLM to route the request to an Ollama backend using its chat interface  
 - `api_base`: This is the endpoint of the Ollama service in the CCE cluster that exposes the Ollama API  
 - `keep_alive`: This controls how long the model remains loaded in memory on the backend. Keeping models warm reduces latency for subsequent requests  
 
-All those entries are routing the requests to local inference backends. The last one though, is not served locally, but accessed through an external provider (with additional costs):
+2️⃣ All those entries are routing the requests to local inference backends. The last one though, is not served locally, but accessed through an external provider (with additional costs):
 
 ```yaml
 - model_name: deepseek_r1_distill_qwen_1_5b
@@ -116,6 +116,13 @@ All those entries are routing the requests to local inference backends. The last
 - `model_name`: This is the alias exposed by LiteLLM. Clients will use this name when sending requests to the gateway.
 - `litellm_params.model`: This specifies the provider and model. In this case, the request is routed through Hugging Face (via Together AI) to the `DeepSeek-R1-Distill-Qwen-1.5B` model. Unlike the Ollama examples, this does not point to a local service but to an external inference backend.
 - `api_key`: This references the `HF_TOKEN` stored in the Kubernetes `Secret` we created in the previous step. It is used to authenticate requests against the Hugging Face.
+
+3️⃣ If you used vLLM as you inference backend instead, following the blueprint [Deploy vLLM Production Stack on CCE](/docs/blueprints/by-use-case/ai/deploy-vllm-production-stack-on-cce):
+
+- `model_name`: This is the name that clients will use when sending requests to LiteLLM. It is an internal alias and **does not need to match the backend model name**  
+- `litellm_params.model`: This defines the actual model and provider. In this case, `hosted_vllm/...` tells LiteLLM to route the request to an vLLM backend using its chat interface  
+- `api_base`: This is the endpoint of the vLLM Router service in the CCE cluster that exposes the vLLM OpenAI API endpoint.  
+
 :::
 
 :::tip
