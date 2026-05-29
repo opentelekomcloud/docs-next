@@ -17,7 +17,7 @@ T Cloud Public provides diverse [migration solutions](#migration-solutions) to h
 
 ## Migration Solutions
 
-[Table 1](#table1) describes the migration solutions provided by T Cloud Public.
+[Table 1] describes the migration solutions provided by T Cloud Public.
  
 <a id="table1">Table 1 Migration solutions</a>
 

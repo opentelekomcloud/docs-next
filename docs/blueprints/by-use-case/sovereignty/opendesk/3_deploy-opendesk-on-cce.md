@@ -43,14 +43,14 @@ The same cluster-level prerequisites, as in the [Evaluation Guide](./deploy-open
 
 All of the following T Public Cloud resources must be provisioned **before** starting the deployment. The Helm charts do not create these resources automatically.
 
-| Service               | OTC Offering       | Spec                                                                    |
-| --------------------- | ------------------ | ----------------------------------------------------------------------- |
-| **PostgreSQL**        | RDS for PostgreSQL | Version **15.x**, HA (Primary+Standby), ≥ 4 vCPU / 8 GB RAM             |
-| **MySQL**             | RDS for MySQL      | Version **8.0**, HA (Primary+Standby), ≥ 2 vCPU / 4 GB RAM              |
-| **Redis**             | DCS for Redis      | Version **7.x**, HA (Master+Replica), with AUTH enabled                 |
-| **Object Storage**    | OBS                | 7 private buckets (see [Provision OBS Buckets](#provision-obs-buckets)) |
-| **Shared Filesystem** | SFS Turbo          | ≥ 500 GB, Standard or Performance type                                  |
-| **CCE Cluster**       | CCE                | Minimum 3 worker nodes across different AZs                             |
+| Service               | OTC Offering       | Spec                                                                       |
+| --------------------- | ------------------ | -------------------------------------------------------------------------- |
+| **PostgreSQL**        | RDS for PostgreSQL | Version **15.x**, HA (Primary+Standby), ≥ 4 vCPU / 8 GB RAM                |
+| **MySQL**             | RDS for MySQL      | Version **8.0**, HA (Primary+Standby), ≥ 2 vCPU / 4 GB RAM                 |
+| **Redis**             | DCS for Redis      | Version **7.x**, HA (Master+Replica), with AUTH enabled                    |
+| **Object Storage**    | OBS                | 7 private buckets (see [Provision OBS Buckets](#provisioning-obs-buckets)) |
+| **Shared Filesystem** | SFS Turbo          | ≥ 500 GB, Standard or Performance type                                     |
+| **CCE Cluster**       | CCE                | Minimum 3 worker nodes across different AZs                                |
 
 :::info Memcached Runs In-Cluster
 **Memcached is not externalized.** OTC does not offer a managed Memcached service, so the bundled in-cluster Memcached deployment is kept as-is. It is used internally by OX App Suite and is not a critical data store — no persistent state is lost if the pod restarts.
@@ -519,7 +519,7 @@ For the purpose of this guide, the following placeholder values are used as exam
 | **Portal Components** | `*.opendesk.example.com`                  | A    | `1.2.3.4`                                                 | Wildcard for all subdomains      |
 | **Mail (MX)**         | `opendesk.example.com`                    | MX   | `10 opendesk.example.com`                                 | Inbound mail                     |
 | **SPF**               | `opendesk.example.com`                    | TXT  | `v=spf1 ip4:1.2.3.4 ~all`                                 | Authorize sending IP             |
-| **DKIM**              | `default._domainkey.opendesk.example.com` | TXT  | `v=DKIM1; k=ed25519; p=<PUBLIC_KEY>`                      | [See below](#generate-dkim-keys) |
+| **DKIM**              | `default._domainkey.opendesk.example.com` | TXT  | `v=DKIM1; k=ed25519; p=<PUBLIC_KEY>`                      | [See below](#generating-dkim-keys) |
 | **DMARC**             | `_dmarc.opendesk.example.com`             | TXT  | `v=DMARC1; p=none; rua=mailto:dmarc@opendesk.example.com` | Start in monitor mode            |
 
 ### Generating DKIM Keys
@@ -595,8 +595,8 @@ The storage class name `csi-sfsturbo-opendesk` must match the `persistence.stora
 
 All production-specific overrides are located in **helmfile/environments/prod/**. Each file addresses a specific configuration area:
 
-| File                       | Purpose                                              |
-| -------------------------- | ---------------------------------------------------- |
+| File                         | Purpose                                              |
+| ---------------------------- | ---------------------------------------------------- |
 | **values.yaml.gotmpl**       | Global settings, apps, ingress, SMTP, cluster config |
 | **databases.yaml.gotmpl**    | External PostgreSQL / MySQL connection parameters    |
 | **cache.yaml.gotmpl**        | External Redis connection parameters                 |

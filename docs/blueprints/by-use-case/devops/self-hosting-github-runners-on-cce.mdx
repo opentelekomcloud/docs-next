@@ -283,7 +283,7 @@ This enables your runners to scale up rapidly in response to workflow demand and
 - Go to your GitHub organization's **Settings**.
 - Select **Webhooks** from the sidebar.
 - Click **Add webhook**.
-  - **Payload URL:** Enter the endpoint that will receive webhook events (which you provided [earlier](#install-actions-runner-controller), e.g., `https://github-webhook.example.com`).
+  - **Payload URL:** Enter the endpoint that will receive webhook events (which you provided [earlier](#installing-actions-runner-controller), e.g., `https://github-webhook.example.com`).
   - **Content type:** Choose `application/json`.
   - **Secret:** Set a strong secret token (you'll use this in your Kubernetes secret).
   - **Events to send:** Select **Let me select individual events** and check:
@@ -303,7 +303,7 @@ kubectl create secret generic github-webhook-token \
   --from-literal=GITHUB_WEBHOOK_SECRET_TOKEN=WEBHOOK_SECRET
 ```
 
-Replace `WEBHOOK_SECRET` with the exact secret set in the [previous step](#1-register-webhook-in-github).
+Replace `WEBHOOK_SECRET` with the exact secret set in the [previous step](#registering-webhook-in-github).
 
 ### Configuring a HorizontalRunnerAutoscaler
 
