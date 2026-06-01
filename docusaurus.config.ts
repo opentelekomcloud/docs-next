@@ -330,6 +330,21 @@ const config: Config = {
         dataDomains: process.env.UMAMI_DATA_DOMAIN, // comma separated list of domains, *Recommended*
       } as UmamiOptions,
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: '/data-privacy',
+            to: 'https://www.t-cloud-public.com/en/data-privacy',
+          },
+          {
+            from: '/datenschutz',
+            to: 'https://www.t-cloud-public.com/de/datenschutz',
+          },
+        ],
+      },
+    ],
   ],
 };
 
