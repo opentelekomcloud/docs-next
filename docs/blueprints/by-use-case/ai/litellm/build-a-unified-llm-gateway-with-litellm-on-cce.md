@@ -1,0 +1,203 @@
+---
+id: litellm
+title: Build a Unified LLM Gateway with LiteLLM on CCE
+tags: [cce, sfs, sfs-turbo, llm, litellm, ollama, openwebui, ai]
+---
+
+# Build a Unified LLM Gateway with LiteLLM on CCE
+
+An LLM gateway acts as a centralized entry point for all interactions between applications and large language models. Rather than binding applications to specific model APIs or providers, **the gateway introduces a stable interface that abstracts the underlying inference layer**. This separation allows platform teams to control how requests are routed, which models are used, and where inference is executed, without requiring changes at the application level. In environments where multiple model backends coexist, such as locally hosted models on GPU infrastructure and external inference services, the gateway becomes the control plane for traffic management, policy enforcement, operational consistency and costs management.
+
+From a platform perspective, an LLM gateway is also where concerns such as **authentication**, **rate limiting**, **observability**, and **cost governance** are enforced. It enables strategies like provider failover, workload-based routing, and gradual adoption of new models. This is particularly relevant in regulated or cost-sensitive environments, where decisions about whether to process requests on sovereign infrastructure or external providers must be made dynamically and transparently.
+
+[LiteLLM](https://github.com/BerriAI/litellm) implements this gateway pattern as a lightweight proxy designed for multi-provider LLM access. It exposes an OpenAI-compatible API, allowing existing clients and tools to integrate without modification, while abstracting the differences between various inference backends. Behind this interface, **LiteLLM can route requests to local runtimes or external providers, enabling a hybrid inference model**. It supports basic routing logic, fallback handling, and centralized credential management, which reduces the complexity of operating multiple LLM integrations.
+
+Deployed on CCE, LiteLLM becomes the central ingress point for LLM workloads within the cluster. It can route requests to locally hosted models running on GPU-enabled nodes or forward them to external inference providers, depending on policy or workload requirements. This setup provides a flexible foundation for building AI platforms that need to balance performance, cost, and data residency constraints while maintaining a consistent interface for application developers.
+
+## Solution Overview
+
+As already mentioned, LiteLLM routes requests not only to external providers but also to locally hosted inference backends running on GPU nodes inside the cluster (or even in ECS instances). In this setup, [Ollama](https://ollama.com/) and [vLLM](https://docs.vllm.ai/en/stable/) represent two different ways of serving models within that local layer. In this blueprint, Ollama is used as the initial local inference backend due to its simplicity and fast setup, making it well suited for demonstrating the architecture and validating the integration flow. A follow-up blueprint will cover a deployment based on vLLM, focusing on scenarios where higher performance and more efficient GPU utilization are required.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/inference-serving-cce.png)
+
+[Open WebUI](https://docs.openwebui.com/) is the interface through which users interact **non-programmatically** with the models. It connects to LiteLLM using its OpenAI-compatible API and **does not communicate directly with any underlying inference backend**. This keeps the frontend decoupled from the actual model infrastructure.
+
+In practical terms, Open WebUI serves as a lightweight chat and experimentation interface. It allows users to select models, send prompts, and view responses without needing to understand where or how the models are hosted. **All requests generated through the UI are forwarded to LiteLLM, which then decides whether to route them to a local backend such as Ollama, vLLM or to an external provider**.
+
+This separation of concerns is intentional. Open WebUI focuses purely on interaction and usability, while LiteLLM handles routing, backend abstraction, and policy enforcement. As a result, changes to the inference layer,such as switching from Ollama to a vLLM-based deployment,do not impact the user interface or require reconfiguration on the client side.
+
+:::note
+[Ollama](https://ollama.com/) acts as a self-contained runtime for running and managing LLMs locally. It simplifies model lifecycle operations such as pulling, starting, and exposing models through an API. This makes it straightforward to get a local inference service running quickly, especially in environments where ease of deployment and operational simplicity are more important than squeezing out maximum throughput. In the context of this architecture, Ollama is the component that exposes locally hosted models to LiteLLM, which then treats it as just another backend.
+
+[vLLM](https://docs.vllm.ai/en/stable/), on the other hand, is designed as a high-performance inference engine optimized for serving large models efficiently on GPU infrastructure. It focuses on maximizing throughput and minimizing latency under concurrent workloads. Compared to Ollama, it typically requires more deliberate setup and integration, but it offers better resource utilization and scalability, which becomes relevant in production scenarios with higher demand.
+
+From the perspective of LiteLLM, both Ollama and vLLM can be treated as interchangeable backends as long as they expose a compatible API (commonly OpenAI-style endpoints). LiteLLM abstracts the differences between these runtimes, allowing requests to be routed to either without changing the client-side integration. This means that the choice between Ollama and vLLM is primarily an operational decision rather than an architectural one.
+:::
+
+## Choosing Inference Backend
+
+:::important
+For the purpose of this blueprint, Ollama is used as the inference backend. The choice is made for convenience and ease of setup. Ollama provides a straightforward way to run models locally with minimal configuration, which makes it suitable for demonstrating the overall architecture and integration with OpenWebUI and LiteLLM.
+
+This should not be interpreted as a recommendation for production workloads. Ollama is primarily designed for local usage and developer-focused scenarios. It does not provide the level of scalability, performance optimization, or operational control that is typically required in production environments.
+
+For production deployments, inference backends such as [vLLM](/docs/blueprints/by-use-case/ai/deploy-vllm-production-stack-on-cce), SGLang, or Kubernetes-native solutions like llm-d should be considered, depending on the specific requirements of the platform. Use the following decision tree and comparison table to select the inference backend that best fits your requirements.
+:::
+
+### Inference Backend Selection Decision Tree
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/choosing-inference-backend.png)
+
+### Inference Backend Comparison and Selection Guide
+
+| Backend   | Best fit                                                                                                                       | Pros                                                                                                                                                                                                            | Cons                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Ollama](https://ollama.com/)    | Local development, demos, small internal deployments                                                                           | Simple to install and use; good developer experience; convenient for running local models quickly; exposes an API that can be integrated with OpenWebUI                                                         | Not primarily designed as a large-scale production inference platform; limited control over advanced serving behavior; less suitable for multi-node GPU scheduling                 |
+| [llama.cpp](https://llama-cpp.com/) | Lightweight inference, GGUF models, CPU-based inference, edge-style deployments                                                | Efficient with quantized GGUF models; can run on CPU and GPU; small operational footprint; useful where resources are limited                                                                                   | No official Kubernetes-native deployment method such as a Helm chart or operator; scaling, model lifecycle, service exposure, and GPU handling must be implemented by the operator |
+| [vLLM](https://docs.vllm.ai/en/stable/)      | Production GPU inference with high throughput                                                                                  | OpenAI-compatible serving; optimized for efficient GPU utilization; strong fit for centralized model serving behind LiteLLM; widely used for serving transformer-based LLMs                                     | Requires GPU capacity and operational tuning; Kubernetes deployment still needs careful design; less focused on structured generation workflows than SGLang                        |
+| [SGLang](https://www.sglang.io/)    | High-performance serving for LLMs and multimodal models, especially where structured generation or runtime control is required | OpenAI-compatible API; designed for low-latency and high-throughput inference; supports single-node and distributed serving; strong fit for structured generation and multimodal use cases                      | More complex than Ollama or llama.cpp; requires GPU-aware operational planning; may be unnecessary for simple deployments where vLLM or Ollama is sufficient                       |
+| [llm-d](https://llm-d.ai/)     | Kubernetes-native distributed inference at scale                                                                               | Designed for production Kubernetes environments; builds on vLLM; provides distributed serving patterns, scheduling, and platform-level inference architecture; suitable for large multi-accelerator deployments | Highest operational complexity in this group; best suited for platform teams; unnecessary for small, single-node, or experimental deployments                                      |
+
+## Prerequisites
+
+1. a **Cloud Container Engine (CCE)** cluster, with at least one GPU node 
+2. A domain name with DNS management delegated to the T Cloud Public DNS service
+3. a bastion host in **Elastic Cloud Service (ECS)**; *optional but strongly recommended*
+4. a **Distributed Cache Service (DCS)** Redis instance
+5. a **Relational Database Service (RDS)** PostgreSQL server
+6. an **Object Storage Service** bucket
+7. an **SFS Turbo** file system
+8. A Hugging Face read-only token
+
+## Creating a CCE Cluster
+
+To proceed with the setup, you'll need to provision a Cloud Container Engine (CCE) cluster. Use the T Cloud Public wizard for cluster creation, and pay close attention to the following configuration specifics:
+
+- **High Availability (HA)**: For this blueprint, a non HA-cluster was used **which is not advised for production workloads**. However, if your workload demands fault tolerance and availability guarantees, consider enabling HA during creation, as this setting is immutable post-deployment.
+- **Network Placement**: Ensure the CCE cluster is provisioned within the **same VPC** as the RDS instance to facilitate secure and low-latency communication.
+- **Subnet Configuration**: If you're using a single Subnet for both services, place the CCE worker nodes in the **same Subnet** as the RDS instance to align with the predefined security group and routing rules.
+
+![image](/img/docs/blueprints/by-use-case/security/keycloak/SCR-20231211-fp6.png)
+
+:::tip
+Decide on the access method you'll use to interact with the CCE cluster post-deployment. There are two main options:
+
+1. **Assigning an Elastic IP (EIP)** and allowing direct access over the public Internet.  
+2. **Provisioning a bastion host** in a public Subnet within the same VPC, and using it as a secure jump point to reach internal resources.
+
+While the first option is quicker to set up, **the recommended approach is to use a bastion host**. This method significantly reduces the attack surface by isolating the cluster from direct Internet exposure. The bastion can be tightly locked down with security groups and monitored more easily, aligning with best practices for secure infrastructure access.
+:::
+
+## Preparing the CCE Cluster
+
+### External Traffic
+
+Before deploying our workload, the CCE cluster must be equipped with a set of foundational components. In this section, we'll install and configure essential prerequisites such as an ingress controller for routing external traffic, cert-manager for managing TLS certificates, and other supporting workloads. These components establish the baseline infrastructure required to expose services securely and ensure smooth operation of the application stack within the Kubernetes environment.
+
+:::danger Before you continue
+Before proceeding, external access to the services deployed in CCE must be configured. This blueprint assumes the use of the [HAProxy Kubernetes Ingress Controller](https://www.haproxy.com/documentation/kubernetes-ingress/) to expose LiteLLM and related components.
+
+Follow the steps described in the best practice [Enabling External Traffic with Ingress & TLS](/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api), and make sure to go for the HAProxy option during the setup. This ensures that incoming traffic is properly routed into the cluster and secured using TLS.
+
+Do not continue with the next steps until ingress and TLS are correctly configured, as the subsequent components depend on a working external endpoint.
+:::
+
+### GPU Nodes & NVIDIA Drivers
+
+:::caution
+Adding GPU nodes and installing the respective NVIDIA drivers are only required if you plan to run inference on local backends within your CCE cluster. If your setup relies exclusively on external providers, such as commercial APIs or hosted inference services, you can skip this section. In that case, LiteLLM will route requests directly to those providers, and no local GPU-backed infrastructure or model runtimes are needed.
+
+Proceed with this steps only if you intend to deploy and operate local inference backends such as Ollama or vLLM on CCE GPU nodes.
+:::
+
+It is essential to ensure that GPU-enabled nodes are properly configured in your CCE cluster. Follow the guidelines in the blueprint [Deploy the NVIDIA GPU Operator on CCE](/docs/blueprints/by-use-case/ai/deploy-the-nvidia-gpu-operator-on-cce). Complete all required steps in that guide before proceeding, as the deployment of any local inference backend depends on a functional GPU setup.
+
+:::tip
+If your cluster uses only GPU worker nodes running on Ubuntu (without any need for special configuration e.g. MIG, vGPUs activation etc), you can streamline the setup by executing the following script:
+
+```bash
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
+
+helm install gpu-operator nvidia/gpu-operator \
+    --set driver.enabled=true \
+    --set toolkit.enabled=true \
+    -n gpu-operator --create-namespace 
+```
+
+:::
+
+## Creating PostgreSQL Clusters with RDS
+
+LiteLLM and OpenWebUI are stateful components when used beyond simple testing scenarios, as they rely on persistent storage for configuration, session data, and operational metadata. To ensure this data is retained across pod restarts and upgrades, a PostgreSQL database is required.
+
+While it is technically possible to deploy PostgreSQL as a workload within CCE, this introduces additional operational overhead in terms of maintenance, backups, and high availability. For this reason, the Relational Database Service (RDS) on T Cloud Public is the preferred option. It provides a fully managed PostgreSQL offering with built-in high availability, automated backups, and seamless integration into the platform, reducing the administrative burden.
+
+In this step, will provision PostgreSQL instances using T Cloud Public RDS service. We will deploy one database per workload to keep concerns separated and simplify operations. LiteLLM uses the database to persist configuration such as model mappings, routing rules, and API key management. This ensures that routing logic and access control remain consistent across restarts and deployments. OpenWebUI requires a database to store user data, chat history, and application settings. Without persistent storage, user interactions and configurations would be lost on pod restarts.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_from_2026-05-04_13-04-19.png)
+
+:::important
+When provisioning the PostgreSQL instances, ensure the following network and security configurations are in place:
+
+- Create a Security Group, namely `rds-instances`, as described in best practice: [Configure Security Groups for PostgreSQL RDS Instances and Clients](/docs/best-practices/databases/relational-database-service/configure-sg-for-rds-instances.md).
+- Deploy the RDS instance within the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the database.
+- Attach the previously created `rds-instances` Security Group to each RDS instance (replace the `default` one). This group must allow **inbound** traffic on port `5432` from the Subnet or Security Group associated with the CCE nodes to enable secure database access.
+- Add a rule allowing **outbound** traffic on port `5432` to the dedicated Security Groups of the worker nodes of the CCE cluster.
+:::
+
+## Creating a Redis Cluster with DCS
+
+Open WebUI requires a Redis instance to handle in-memory data such as user sessions and caching. This is necessary to support responsive interactions in the web interface and to maintain session state across multiple requests, especially when the application is scaled across multiple replicas.
+
+Instead of deploying Redis within CCE, this blueprint uses the managed Distributed Cache Service (DCS) of T Cloud Public. DCS provides a fully managed Redis-compatible service with built-in high availability, replication, and monitoring. This removes the need to manage failover, patching, and scaling manually.
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_from_2026-05-04_13-08-03.png)
+
+:::important
+Deploy the DCS Redis cluster in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the cache.
+:::
+
+## Creating an Object Storage Service Bucket
+
+Open WebUI requires an S3-compatible object storage backend to persist uploaded files, knowledge base documents, and generated assets outside the application containers. In this deployment, T Cloud Public Object Storage Service (OBS) fulfills this role through its S3-compatible API.
+
+This separation is necessary because Open WebUI containers in Kubernetes environments use ephemeral filesystems. Data stored locally inside a pod is not guaranteed to survive pod recreation, rescheduling, scaling events, or application upgrades. Relying on container-local storage would therefore introduce a risk of losing uploaded documents and user-generated content.
+
+Using OBS as the centralized storage backend ensures that uploaded content remains persistent and accessible independently of the lifecycle of individual OpenWebUI pods. It also enables multiple OpenWebUI replicas to access the same documents and attachments consistently in highly available deployments.
+
+Navigate to *T Cloud Public Console* -> *Object Storage Service* and click *Create Bucket*. Choose the respective **Region** under *General Configuration*, set the **Storage Class** as **Standard** in *Bucket Settings*, choose **Private** in *Bucket Policies* and click *Create Now*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-05-11_11-45-11.png)
+
+## Creating a SFS Turbo File System
+
+Ollama stores downloaded models on disk, and these can be large. When running multiple replicas, using shared storage avoids downloading the same models repeatedly for each pod. SFS Turbo on T Cloud Public provides a shared file system that can be mounted by multiple pods at the same time. This ensures consistent model availability and reduces startup time and storage duplication.
+
+:::note
+Expandable up to 32 TB, SFS Turbo provides fully hosted shared file storage. It features high availability and durability to support massive small files and applications requiring low latency and high IOPS. SFS Turbo is perfect to scenarios such as high-performance websites, log storage, compression and decompression, DevOps, enterprise offices, container applications and of course large language models serving.
+
+For more information on SFS Turbo, refer to the [official documentation](https://docs.otc.t-systems.com/scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html).
+:::
+
+Navigate to *T Cloud Public Console* -> *Scalable File Service* -> *SFS Turbo* -> *File Systems* and click *Create File System*. Choose the Size, Capacity and target VPC and click *Create Now*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-29_10-35-26.png)
+
+:::important
+Deploy the SFS Turbo file system in the same Virtual Private Cloud (VPC) as your CCE cluster to enable low-latency, private network communication between the application and the file systems.
+:::
+
+## Creating a Hugging Face Token
+
+Navigate to *[Hugging Face](https://huggingface.co/)* -> *Settings (or on your avatar)* -> *Access Tokens* and click *Create new token*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-30_12-18-27.png)
+
+Select **Token type** as Read, set a **Token name** and click *Create Token*:
+
+![image](/img/docs/blueprints/by-use-case/ai/litellm/Screenshot_From_2026-04-30_12-20-15.png)
+
+:::important
+Make sure to record the token value now, as it will be required in the next steps and won’t be shown again afterward.
+:::

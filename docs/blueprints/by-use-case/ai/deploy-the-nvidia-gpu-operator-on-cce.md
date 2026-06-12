@@ -2,6 +2,7 @@
 id: deploy-the-nvidia-gpu-operator-on-cce
 title: Deploy the NVIDIA GPU Operator on CCE
 tags: [nvidia,nvidia-operator,gpu, ai]
+sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
