@@ -1,10 +1,10 @@
 ---
 id: litellm
-title: Build a Unified LLM Gateway with LiteLLM on CCE
+title: Build an Unified LLM Gateway with LiteLLM on CCE
 tags: [cce, sfs, sfs-turbo, llm, litellm, ollama, openwebui, ai]
 ---
 
-# Build a Unified LLM Gateway with LiteLLM on CCE
+# Build an Unified LLM Gateway with LiteLLM on CCE
 
 An LLM gateway acts as a centralized entry point for all interactions between applications and large language models. Rather than binding applications to specific model APIs or providers, **the gateway introduces a stable interface that abstracts the underlying inference layer**. This separation allows platform teams to control how requests are routed, which models are used, and where inference is executed, without requiring changes at the application level. In environments where multiple model backends coexist, such as locally hosted models on GPU infrastructure and external inference services, the gateway becomes the control plane for traffic management, policy enforcement, operational consistency and costs management.
 

@@ -1,5 +1,5 @@
 {
-  "label": "Build a Unified LLM Gateway with LiteLLM on CCE",
+  "label": "Build an Unified LLM Gateway with LiteLLM on CCE",
   "link": {
     "type": "doc",
     "id": "litellm"
