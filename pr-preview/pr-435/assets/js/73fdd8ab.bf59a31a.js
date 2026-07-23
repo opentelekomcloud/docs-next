@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkdocs_next=globalThis.webpackChunkdocs_next||[]).push([[12858],{16737(n){n.exports=JSON.parse('{"tags":[{"label":"announcement","permalink":"/docs-next/pr-preview/pr-435/blog/tags/announcement","description":"Announcement","count":1}]}')}}]);

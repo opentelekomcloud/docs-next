@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkdocs_next=globalThis.webpackChunkdocs_next||[]).push([[67472],{55513(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome Note","permalink":"/docs-next/pr-preview/pr-435/blog/welcome","unlisted":false,"date":"2026-07-23T00:00:00.000Z"}]}')}}]);
