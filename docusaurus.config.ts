@@ -118,7 +118,7 @@ const config: Config = {
         //   position: 'left',
         //   label: 'Cloud Adoption Framework 🚧',
         // },
-        // { to: '/blog', label: 'Blog', position: 'right' },
+        { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://auth.otc.t-systems.com/',
           position: 'right',
