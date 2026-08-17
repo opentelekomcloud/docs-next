@@ -86,10 +86,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Distributed Message Service',
+          label: 'Distributed Message Service (for Kafka)',
           link: {
             type: 'generated-index',
-            title: 'Distributed Message Service',
+            title: 'Distributed Message Service (for Kafka)',
             slug: '/best-practices/application-services/distributed-message-service',
             keywords: ['distributed-message-service'],
             description: 'Distributed Message Service (DMS) is a message middleware service based on distributed, high-availability clustering technology. It provides reliable, scalable, and fully managed queues for storing messages.'
@@ -115,6 +115,24 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-message-service/index.html',
+            },
+          ],
+        },
+         {
+          type: 'category',
+          label: 'Distributed Message Service (for RocketMQ)',
+          link: {
+            type: 'generated-index',
+            title: 'Distributed Message Service (for RocketMQ)',
+            slug: '/best-practices/application-services/distributed-message-service-rocketmq',
+            keywords: ['distributed-message-service-rocketmq'],
+            description: 'Distributed Message Service for RocketMQ is a message-oriented middleware that provides low latency, high throughput, high reliability, and flexible scalability. It enables efficient communication between distributed systems and supports various messaging scenarios.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/distributed-message-service-rocketmq/index.html',
             },
           ],
         },
@@ -179,23 +197,23 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        {
-          type: 'category',
-          label: 'Data Ingestion Service',
-          link: {
-            type: 'generated-index',
-            slug: '/best-practices/big-data-and-data-analysis/data-ingestion-service',
-            keywords: ['data-ingestion-service'],
-            description: 'Data Ingestion Service (DIS) addresses the challenge of transmitting data from outside the cloud to inside the cloud. DIS builds data intake streams for custom applications capable of processing or analyzing streaming data. DIS continuously captures, transmits, and stores terabytes of data from hundreds of thousands of sources every hour, such as logs, Internet of Things (IoT) data, social media feeds, website clickstreams, and location-tracking events.'
-          },
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/data-ingestion-service/index.html',
-            },
-          ],
-        },
+        // {
+        //   type: 'category',
+        //   label: 'Data Ingestion Service',
+        //   link: {
+        //     type: 'generated-index',
+        //     slug: '/best-practices/big-data-and-data-analysis/data-ingestion-service',
+        //     keywords: ['data-ingestion-service'],
+        //     description: 'Data Ingestion Service (DIS) addresses the challenge of transmitting data from outside the cloud to inside the cloud. DIS builds data intake streams for custom applications capable of processing or analyzing streaming data. DIS continuously captures, transmits, and stores terabytes of data from hundreds of thousands of sources every hour, such as logs, Internet of Things (IoT) data, social media feeds, website clickstreams, and location-tracking events.'
+        //   },
+        //   items: [
+        //     {
+        //       type: 'link',
+        //       label: '📚 Go to Help Center',
+        //       href: 'https://docs.otc.t-systems.com/data-ingestion-service/index.html',
+        //     },
+        //   ],
+        // },
         {
           type: 'category',
           label: 'Data Lake Insight',
@@ -304,23 +322,23 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        {
-          type: 'category',
-          label: 'Bare Metal',
-          link: {
-            type: 'generated-index',
-            slug: '/best-practices/computing/bare-metal-server',
-            keywords: ['bare-metal-server'],
-            description: 'A Bare Metal Server (BMS) is a physical server dedicated to individual tenants. It provides remarkable computing performance and stability for running key applications. The BMS service can be used in conjunction with other cloud services so that you can enjoy a consistent and stable performance of server hosting and the high scalability of cloud resources together that offer the computing performance and data security required by core databases, key application systems, high-performance computing (HPC), and Big Data.'
-          },
-          items: [
-            {
-              type: 'link',
-              label: '📚 Go to Help Center',
-              href: 'https://docs.otc.t-systems.com/bare-metal-server/index.html',
-            },
-          ],
-        },
+        // {
+        //   type: 'category',
+        //   label: 'Bare Metal',
+        //   link: {
+        //     type: 'generated-index',
+        //     slug: '/best-practices/computing/bare-metal-server',
+        //     keywords: ['bare-metal-server'],
+        //     description: 'A Bare Metal Server (BMS) is a physical server dedicated to individual tenants. It provides remarkable computing performance and stability for running key applications. The BMS service can be used in conjunction with other cloud services so that you can enjoy a consistent and stable performance of server hosting and the high scalability of cloud resources together that offer the computing performance and data security required by core databases, key application systems, high-performance computing (HPC), and Big Data.'
+        //   },
+        //   items: [
+        //     {
+        //       type: 'link',
+        //       label: '📚 Go to Help Center',
+        //       href: 'https://docs.otc.t-systems.com/bare-metal-server/index.html',
+        //     },
+        //   ],
+        // },
         {
           type: 'category',
           label: 'Dedicated Host',
@@ -391,10 +409,6 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'best-practices/computing/image-management-service/migrating-service-data-across-accounts-data-disks',
             },
-            // {
-            //   type: 'doc',
-            //   id: 'best-practices/computing/image-management-service/creating-a-linux-Image-using-virtualBox-and-an-iso-file',
-            // },
             {
               type: 'doc',
               id: 'best-practices/computing/image-management-service/creating-a-linux-Image-using-virtualBox-and-an-iso-file',
@@ -533,6 +547,23 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/software-repository-container/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Ubiquitous Cloud Native Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/containers/ubiquitous-cloud-native-service',
+            keywords: ['ubiquitous-cloud-native-service'],
+            description: 'Ubiquitous Cloud Native Service (UCS) is the industry\'s first ubiquitous cloud native service. Your cloud native applications can run freely across regions and clouds with intelligent traffic distribution, and enjoy consistent experience in deployment, management, and ecosystem.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/ubiquitous-cloud-native-service/index.html',
             },
           ],
         },
@@ -815,6 +846,23 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
+          label: 'Enterprise Project Service',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/management-and-deployment/enterprise-project-service',
+            keywords: ['enterprise-project-service'],
+            description: 'Enterprise Project Service (EPS) helps you manage resources across multiple projects and provides a unified view of your cloud resources.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/enterprise-project-service/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
           label: 'Log Tank Service',
           link: {
             type: 'generated-index',
@@ -881,6 +929,23 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Networking',
       items: [
+        {
+          type: 'category',
+          label: 'Cloud Connect',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/cloud-connect',
+            keywords: ['cloud-connect'],
+            description: 'Cloud Connect provides central networks that allow you to connect Virtual Private Clouds (VPCs) in different regions, so that these VPCs can communicate over a private network as if they were within the same network. Cloud Connect can also work with Direct Connect to set up a hybrid cloud network that enables on-premises data centers to access the VPCs across regions.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/cloud-connect/index.html',
+            },
+          ],
+        },
         {
           type: 'category',
           label: 'Direct Connect',
@@ -979,6 +1044,23 @@ const sidebars: SidebarsConfig = {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/enterprise-router/index.html',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Enterprise Switch',
+          link: {
+            type: 'generated-index',
+            slug: '/best-practices/networking/enterprise-switch',
+            keywords: ['enterprise-switch'],
+            description: 'Enterprise switches enable communications between cloud and on-premises networks at Layer 2. This allows you to migrate workloads in data centers or private clouds to the cloud without changing subnets and IP addresses.'
+          },
+          items: [
+            {
+              type: 'link',
+              label: '📚 Go to Help Center',
+              href: 'https://docs.otc.t-systems.com/enterprise-switch/index.html',
             },
           ],
         },
