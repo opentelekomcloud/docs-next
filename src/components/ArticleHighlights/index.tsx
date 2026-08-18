@@ -11,10 +11,17 @@ type HighlightArticle = {
 
 const articles: HighlightArticle[] = [
   {
+    title: 'Build a Unified LLM Gateway with LiteLLM on CCE',
+    description: 'The blueprint shows how to deploy LiteLLM on T Cloud Public CCE as a unified LLM gateway, providing one OpenAI-compatible API across multiple model backends. It centralizes routing, authentication, observability, failover, and cost management while supporting both locally hosted GPU models and external AI providers. This abstraction keeps applications independent of the underlying inference infrastructure and enables flexible model selection. The architecture is designed to balance performance, cost, operational control, and data residency.',
+    href: '/docs/blueprints/by-use-case/ai/litellm/litellm',
+    label: 'New',
+    category: 'Blueprints',
+  },
+  {
     title: 'Deploy openDesk on T Cloud Public',
     description: 'OpenDesk (branded as openDesk) is an open-source, sovereign digital workplace solution designed for public administration under the coordination of the German Federal Ministry of the Interior. This series of articles showcase how to deploy scalable, high-availability (HA) instances of OpenDesk on T Cloud Public.',
     href: '/docs/blueprints/by-use-case/sovereignty/opendesk/',
-    label: 'New',
+    label: 'Featured',
     category: 'Blueprints',
   },
   {
@@ -23,13 +30,6 @@ const articles: HighlightArticle[] = [
     href: '/docs/best-practices/containers/cloud-container-engine/enabling-external-traffic-with-ingress-api',
     label: 'Featured',
     category: 'Best Practices',
-  },
-  {
-    title: 'Deploy the NVIDIA GPU Operator on CCE',
-    description: 'This guide outlines how to deploy the NVIDIA GPU Operator on CCE cluster. The process involves preparing GPU nodes, installing necessary components, configuring the cluster for GPU support, deploying an application leveraging GPUs, and verifying functionality.',
-    href: '/docs/blueprints/by-use-case/ai/deploy-the-nvidia-gpu-operator-on-cce',
-    label: 'Featured',
-    category: 'Blueprints',
   },
 ];
 

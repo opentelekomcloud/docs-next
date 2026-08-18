@@ -42,7 +42,7 @@ import CcSvg from '@site/static/img/services/cc.svg'
       icon: ElbSvg
     },
     {
-      title: "DMS",
+      title: "DMS (for Kafka)",
       text: "Distributed Message Service",
       link: "/docs/tags/dms",
       icon: DmsSvg
