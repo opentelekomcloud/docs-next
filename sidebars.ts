@@ -851,7 +851,7 @@ const sidebars: SidebarsConfig = {
             type: 'generated-index',
             slug: '/best-practices/management-and-deployment/enterprise-project-service',
             keywords: ['enterprise-project-service'],
-            description: 'Enterprise Project Service (EPS) helps you manage resources across multiple projects and provides a unified view of your cloud resources.'
+            description: 'Enterprise Project Service (EPS) enables centralized management of resources across multiple projects and supports the structured organization of cloud resources in larger environments.'
           },
           items: [
             {

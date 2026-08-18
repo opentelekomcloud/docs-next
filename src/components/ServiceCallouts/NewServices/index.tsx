@@ -1,7 +1,6 @@
 import ServiceCallouts, { Callout } from '../callout';
 
 import CciSvg from '@site/static/img/services/cci.svg'
-import CfwSvg from '@site/static/img/services/cfw.svg'
 import DmsRMQSvg from '@site/static/img/services/dms_rocketmq.svg'
 import UcsSvg from '@site/static/img/services/ucs.svg'
 import CcnSvg from '@site/static/img/services/ccn.svg'
