@@ -174,6 +174,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/big-data-and-data-analysis/cloud-search-service/configure-css-slack-notifications',
             },
             {
+              type: 'doc',
+              id: 'best-practices/big-data-and-data-analysis/cloud-search-service/using-css-to-accelerate-database-query-and-analysis',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/cloud-search-service/index.html',
