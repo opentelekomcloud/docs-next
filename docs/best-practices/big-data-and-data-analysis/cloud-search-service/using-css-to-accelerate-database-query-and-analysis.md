@@ -8,14 +8,16 @@ tags: [css, opensearch]
 
 Elasticsearch is used as a supplement to relational databases, such as MySQL and GaussDB(for MySQL), to improve the full-text search and high-concurrency ad hoc query capabilities of the databases. This best practice describes how to synchronize data from a MySQL database to CSS to accelerate full-text search and ad hoc query and analysis. The following figure shows the solution process.
 
-![**Figure 1** Using CSS to accelerate database query and analysis](_images/en-us_image_0000001299757424.png)
+<center>
 
-:::note
+![**Figure 1** Using CSS to accelerate database query and analysis](/img/docs/best-practices/big-data-and-data-analysis/cloud-search-service/en-us_image_0000001299757424.png)
 
-1. Service data is stored in the MySQL database.
-2. DRS synchronizes data from MySQL to CSS in real time.
-3. CSS is used for full-text search and data query and analysis.
+</center>
 
+:::note procedure
+💾 Service data is stored in the MySQL database, then  
+📡 DRS synchronizes data from MySQL to CSS in real time, then  
+🛠️ CSS is used for full-text search and data query and analysis.
 :::
 
 ## Prerequisites
@@ -44,9 +46,7 @@ Elasticsearch is used as a supplement to relational databases, such as MySQL and
         ('3','James Francis Cameron','68','the director of avatar');
         ```
 
-* Indexes have been created in the CSS cluster and match the table indexes in the MySQL database.
-
-    The following is an example of the indexes in the cluster in this chapter:
+* Indexes have been created in the CSS cluster and match the table indexes in the MySQL database. The following is an example of the indexes in the cluster in this chapter:
 
     ```json
     PUT student
@@ -82,9 +82,21 @@ Elasticsearch is used as a supplement to relational databases, such as MySQL and
 
 1. Use DRS to synchronize MySQL data to CSS in real time. For details, see .
 
-    In this example, configure the parameters by following the suggestions in [Table 1](#css-07-0024-table131609582113).
+    In this example, configure the parameters by following the suggestions in following table:
 
-   #### Table 1
+   | Module                                                                | Parameter                               | Suggestion                                                                                                                                                                                                                                                                                                                                                            |
+   | --------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | **Create Synchronization Instance > Synchronize Instance Details**    | Network Type                            | Select **VPC**.                                                                                                                                                                                                                                                                                                                                                       |
+   |                                                                       | Source DB Instance                      | Select the RDS for MySQL instance to be synchronized, that is, the MySQL database that stores service data.                                                                                                                                                                                                                                                           |
+   |                                                                       | Synchronization Instance Subnet         | Select the subnet where the synchronization instance is located. You are advised to select the subnet where the database instance and the CSS cluster are located.                                                                                                                                                                                                    |
+   | **Configure Source and Destination Databases > Destination Database** | VPC and Subnet                          | Select the VPC and subnet of the CSS cluster.                                                                                                                                                                                                                                                                                                                         |
+   |                                                                       | IP Address or Domain Name               | Enter the IP address of the CSS cluster. For details, see [Obtaining the IP address of a CSS cluster](https://docs.otc.t-systems.com/cloud-search-service/best-practice/using_css_to_accelerate_database_query_and_analysis.html#css-07-0024-li1999495913506).                                                                                                        |
+   |                                                                       | Database Username and Database Password | Enter the administrator username (**admin**) and password of the CSS cluster.                                                                                                                                                                                                                                                                                         |
+   |                                                                       | Encryption Certificate                  | Select the security certificate of the CSS cluster. If **SSL Connection** is not enabled, you do not need to select any certificate. For details, see [Obtaining the security certificate of a CSS cluster](https://docs.otc.t-systems.com/cloud-search-service/best-practice/using_css_to_accelerate_database_query_and_analysis.html#css-07-0024-li78671114175115). |
+   | **Set Synchronization Task**                                          | Flow Control                            | Select **No**.                                                                                                                                                                                                                                                                                                                                                        |
+   |                                                                       | Synchronization Object Type             | Deselect **Table structure**, because the indexes matching MySQL tables have been created in the CSS cluster.                                                                                                                                                                                                                                                         |
+   |                                                                       | Synchronization Object                  | Select **Tables**. Select the database and table name corresponding to CSS. Ensure the type name in the configuration item is the same as the index name, that is, _doc.                                                                                                                                                                                              |
+   | **Process Data**                                                      | -                                       | Click **Next**.                                                                                                                                                                                                                                                                                                                                                       |
 
     After the synchronization task is started, wait until the **Status** of the task changes from **Full** synchronization to **Incremental**, indicating real-time synchronization has started.
 
