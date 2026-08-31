@@ -43,7 +43,7 @@ In this blueprint, Jenkins is installed with a containerized Master and
 Agents. Kubernetes schedules the dynamic Agents:
 
 <center>
-![**Figure 1** Installing Jenkins onKubernetes](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/en-us_image_0000001348013634.jpg)
+![**Figure 1** Installing Jenkins onKubernetes](/img/docs/blueprints/by-use-case/devops/cicd-jenkins-swr-cce/Screenshot_2026_07_22_0833.png)
 </center>
 
 -   The Master handles jobs. Install Kubernetes add-ons on the Master to
@@ -100,8 +100,8 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     name: jenkins-admin
     rules:
     - apiGroups: [""]
-    resources: ["*"]
-    verbs: ["*"]
+        resources: ["*"]
+        verbs: ["*"]
     ---
     apiVersion: v1
     kind: ServiceAccount
@@ -119,13 +119,13 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     name: jenkins-admin
     subjects:
     - kind: ServiceAccount
-    name: jenkins-admin
-    namespace: jenkins
+        name: jenkins-admin
+        namespace: jenkins
     ```
 
     and apply with:
 
-    ```bash
+    ```shell
     kubectl create -f sa.yaml --namespace jenkins
     ```
 
@@ -141,12 +141,12 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     name: jenkins-pv-claim
     namespace: jenkins
     annotations:
-    everest.io/disk-volume-type: SSD
+        everest.io/disk-volume-type: SSD
     spec:
     accessModes:
-    - ReadWriteOnce
+        - ReadWriteOnce
     resources:
-    requests:
+        requests:
         storage: 10Gi
     storageClassName: csi-disk
     ```
@@ -171,19 +171,19 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     spec:
     replicas: 1
     selector:
-    matchLabels:
+        matchLabels:
         app: jenkins
     template:
-    metadata:
+        metadata:
         labels:
-        app: jenkins
-    spec:
+            app: jenkins
+        spec:
         securityContext:
-                fsGroup: 1000
-                runAsUser: 1000
+            fsGroup: 1000
+            runAsUser: 1000
         serviceAccountName: jenkins-admin
         containers:
-        - name: jenkins
+            - name: jenkins
             image: jenkins/jenkins:lts
             resources:
                 limits:
@@ -199,7 +199,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
                 containerPort: 50000
             livenessProbe:
                 httpGet:
-                path: "/login"
+                path: /login
                 port: 8080
                 initialDelaySeconds: 90
                 periodSeconds: 10
@@ -207,7 +207,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
                 failureThreshold: 5
             readinessProbe:
                 httpGet:
-                path: "/login"
+                path: /login
                 port: 8080
                 initialDelaySeconds: 60
                 periodSeconds: 10
@@ -217,7 +217,7 @@ It is **not** advised to use `latest` images on production, choose a specific ve
                 - name: jenkins-data
                 mountPath: /var/jenkins_home
         volumes:
-        - name: jenkins-data
+            - name: jenkins-data
             persistentVolumeClaim:
                 claimName: jenkins-pv-claim
     ```
@@ -245,19 +245,19 @@ It is **not** advised to use `latest` images on production, choose a specific ve
     name: jenkins-service
     namespace: jenkins
     annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/path:   /
-        prometheus.io/port:   '8080'
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/"
+        prometheus.io/port: "8080"
     spec:
-    selector: 
-    app: jenkins
-    type: NodePort  
+    selector:
+        app: jenkins
+    type: NodePort
     ports:
-    - name: httpport
+        - name: httpport
         port: 8080
         targetPort: 8080
         nodePort: 32000
-    - name: jnlpport
+        - name: jnlpport
         port: 50000
         targetPort: 50000
     ```
@@ -450,7 +450,7 @@ file in PKCS#12 format.
 
     -   **Kind**: Select `Certificate`.
     -   **Scope**: Select `Global`.
-    -   **Certificate**: Select *Upload PKCS#12 certificate* and upload the **cert.pfx** file generated in.
+    -   **Certificate**: Select *Upload PKCS#12 certificate* and upload the **cert.pfx** file generated before.
     -   **Password**: The password customized during **cert.pfx** conversion.
     -   **ID**: Set this parameter to `k8s-test-cert`, which can be customized.
 
