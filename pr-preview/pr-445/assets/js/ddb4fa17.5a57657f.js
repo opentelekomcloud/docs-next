@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkdocs_next=globalThis.webpackChunkdocs_next||[]).push([[71414],{80592(e){e.exports=JSON.parse('{"metadata":{"permalink":"/docs-next/pr-preview/pr-445/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":0,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
