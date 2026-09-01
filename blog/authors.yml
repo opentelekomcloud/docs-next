@@ -1,0 +1,28 @@
+akyriako:
+  name: Kyriakos Akriotis
+  url: https://www.medium.com/akyriako
+  image_url: /img/blog/authors/1772454972534.jpg
+  page:
+    permalink: '/all-akyriako-articles'
+  socials:
+    linkedin: akyriako
+    github: akyriako
+    # website: https://medium.com/@akyriako
+
+sgode:
+  name: Sebastian Gode
+  image_url: /img/blog/authors/70581801.jpg
+  page:
+    permalink: '/all-sgode-articles'
+  socials:
+    linkedin: sebastian-gode-047433249
+    github: SebastianGode
+
+tischrei:
+  name: Tino Schreiber
+  image_url: /img/blog/authors/1736764599205.jpg
+  page:
+    permalink: '/all-tischrei-articles'
+  socials:
+    linkedin: tino-schr-078495149
+    github: tischrei
