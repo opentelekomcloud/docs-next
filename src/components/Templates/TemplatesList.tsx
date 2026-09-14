@@ -2,8 +2,23 @@ import { TemplateItem } from './TemplateCard';
 
 import telekomPng from '@site/static/img/templates/logos/telekom.png';
 import iitsPng from '@site/static/img/templates/logos/iits.png';
+import crossplanePng from '@site/static/img/templates/logos/crossplane.png';
 
 export const TemplatesList: TemplateItem[] = [
+    {
+        title: 'CCE (Namespaced)',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/cce',
+    },
     {
         title: 'OpenShift',
         logo: telekomPng,
