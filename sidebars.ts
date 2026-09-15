@@ -138,6 +138,10 @@ const sidebars: SidebarsConfig = {
               id: 'best-practices/application-services/distributed-message-service/rocket-mq/classifying-messages-with-topic-and-tag',
             },
             {
+              type: 'doc',
+              id: 'best-practices/application-services/distributed-message-service/rocket-mq/ensuring-subscription-consistency',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/distributed-message-service-rocketmq/index.html',
