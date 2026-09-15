@@ -90,26 +90,26 @@ const sidebars: SidebarsConfig = {
           link: {
             type: 'generated-index',
             title: 'Distributed Message Service (for Kafka)',
-            slug: '/best-practices/application-services/distributed-message-service',
+            slug: '/best-practices/application-services/distributed-message-service/kafka',
             keywords: ['distributed-message-service'],
             description: 'Distributed Message Service (DMS) is a message middleware service based on distributed, high-availability clustering technology. It provides reliable, scalable, and fully managed queues for storing messages.'
           },
           items: [
             {
               type: 'doc',
-              id: 'best-practices/application-services/distributed-message-service/migrating-kafka-services',
+              id: 'best-practices/application-services/distributed-message-service/kafka/migrating-kafka-services',
             },
             {
               type: 'doc',
-              id: 'best-practices/application-services/distributed-message-service/improving-kafka-message-processing-efficiency',
+              id: 'best-practices/application-services/distributed-message-service/kafka/improving-kafka-message-processing-efficiency',
             },
             {
               type: 'doc',
-              id: 'best-practices/application-services/distributed-message-service/optimizing-consumer-polling',
+              id: 'best-practices/application-services/distributed-message-service/kafka/optimizing-consumer-polling',
             },
             {
               type: 'doc',
-              id: 'best-practices/application-services/distributed-message-service/configuring-message-accumulation-monitoring',
+              id: 'best-practices/application-services/distributed-message-service/kafka/configuring-message-accumulation-monitoring',
             },
             {
               type: 'link',
@@ -129,6 +129,14 @@ const sidebars: SidebarsConfig = {
             description: 'Distributed Message Service for RocketMQ is a message-oriented middleware that provides low latency, high throughput, high reliability, and flexible scalability. It enables efficient communication between distributed systems and supports various messaging scenarios.'
           },
           items: [
+            {
+              type: 'doc',
+              id: 'best-practices/application-services/distributed-message-service/rocket-mq/deduplicating-messages-through-message-idempotence',
+            },
+            {
+              type: 'doc',
+              id: 'best-practices/application-services/distributed-message-service/rocket-mq/classifying-messages-with-topic-and-tag',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
