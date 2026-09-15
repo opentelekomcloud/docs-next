@@ -6,7 +6,7 @@ import crossplanePng from '@site/static/img/templates/logos/crossplane.png';
 
 export const TemplatesList: TemplateItem[] = [
     {
-        title: 'CCE (Namespaced)',
+        title: 'ECS',
         logo: crossplanePng,
         description: (
             <>
@@ -17,7 +17,105 @@ export const TemplatesList: TemplateItem[] = [
             </>
         ),
         type: 'Crossplane',
-        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/cce',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/ecs',
+    },
+    {
+        title: 'Identity',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/identity',
+    },
+    {
+        title: 'KMS',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/kms',
+    },
+    {
+        title: 'OBS',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/obs',
+    },
+    {
+        title: 'RDS',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/rds',
+    },
+    {
+        title: 'SFS',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/sfs',
+    },
+    {
+        title: 'VPC',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/vpc',
+    },
+    {
+        title: 'ProviderConfig',
+        logo: crossplanePng,
+        description: (
+            <>
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/providerconfig',
     },
     {
         title: 'OpenShift',
