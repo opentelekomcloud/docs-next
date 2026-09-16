@@ -10,9 +10,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the ECS crossplane example you are able to provision a VM in T Cloud Public with all the necessary networking services using Kubernetes APIs.
+                This template creates an ECS (Elastic Cloud Server) VM with a keypair, VPC, subnet, and security group.
                
             </>
         ),
@@ -24,9 +23,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the Identity (IAM) crossplane example you can manage cloud identity and access resources in T Cloud Public via Kubernetes APIs.
+                This template covers users, groups, memberships, projects, custom roles, role assignments, agencies, credentials, access-control lists and SAML identity providers.
                
             </>
         ),
@@ -38,9 +36,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the KMS crossplane example you can manage Key Management Service keys in T Cloud Public via Kubernetes APIs.
+                This template creates an IAM user, a KMS key and a grant, giving the user encryption operations on the key.
                
             </>
         ),
@@ -52,9 +49,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the OBS crossplane example you can manage Object Storage Service buckets and objects in T Cloud Public via Kubernetes APIs.
+                This template covers buckets, objects, ACLs, static/dynamic bucket policies, KMS encryption, logging, inventory and cross-region replication.
                
             </>
         ),
@@ -66,9 +62,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the RDS crossplane example you can provision a relational database in T Cloud Public via Kubernetes APIs.
+                This template creates a PostgreSQL RDS instance with a VPC, subnet, security group, EIP and a password from a Kubernetes secret.
                
             </>
         ),
@@ -80,9 +75,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the SFS crossplane example you can provision shared NFS in T Cloud Public via Kubernetes APIs.
+                This template creates an SFS NFS share, a cert-based VPC access rule and an SFS Turbo high-performance share with a VPC, subnet, and security group.
                
             </>
         ),
@@ -94,9 +88,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the VPC crossplane example you can set up a virtual private cloud network in T Cloud Public via Kubernetes APIs.
+                This template creates a VPC with a secondary CIDR, a security group with an ingress rule and an IP address group for security rules.
                
             </>
         ),
@@ -108,9 +101,8 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
-                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                Using the ProviderConfig crossplane example you configure the provider credentials used by all namespaced managed resources in T Cloud Public.
+                This template creates the ClusterProviderConfig that reads OpenTelekomCloud AK/SK and region settings from the provider-secret Kubernetes secret in the crossplane-system namespace.
                
             </>
         ),
