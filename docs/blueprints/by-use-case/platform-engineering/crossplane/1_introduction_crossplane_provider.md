@@ -221,7 +221,7 @@ A [managedResource](https://docs.crossplane.io/latest/managed-resources/managed-
 #### Group, Kind and Version
 
 - Each managed resource is a unique API endpoint with their own `group`, `kind` and `version`.
-- For example the [T Cloud Provider](LINK) defines the `Bucket` (OBS) kind from the group `obs.opentelekomcloud.m.crossplane.io`
+- For example the [T Cloud Provider](https://github.com/opentelekomcloud/provider-opentelekomcloud) defines the `Bucket` (OBS) kind from the group `obs.opentelekomcloud.m.crossplane.io`
 
 ```yaml
 apiVersion: obs.opentelekomcloud.m.crossplane.io/v1alpha1
