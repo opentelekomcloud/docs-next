@@ -2,14 +2,119 @@ import { TemplateItem } from './TemplateCard';
 
 import telekomPng from '@site/static/img/templates/logos/telekom.png';
 import iitsPng from '@site/static/img/templates/logos/iits.png';
+import crossplanePng from '@site/static/img/templates/logos/crossplane.png';
 
 export const TemplatesList: TemplateItem[] = [
+    {
+        title: 'ECS',
+        logo: crossplanePng,
+        description: (
+            <>
+                Provision a VM in T Cloud Public with all the necessary networking services using Kubernetes APIs.
+                This template creates an ECS (Elastic Cloud Server) VM with a keypair, VPC, subnet, and security group.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/ecs',
+    },
+    {
+        title: 'Identity',
+        logo: crossplanePng,
+        description: (
+            <>
+               Manage cloud identity and access resources in T Cloud Public via Kubernetes APIs.
+                This template covers users, groups, memberships, projects, custom roles, role assignments, agencies, credentials, access-control lists and SAML identity providers.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/identity',
+    },
+    {
+        title: 'KMS',
+        logo: crossplanePng,
+        description: (
+            <>
+                Manage Key Management Service keys in T Cloud Public via Kubernetes APIs.
+                This template creates an IAM user, a KMS key and a grant, giving the user encryption operations on the key.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/kms',
+    },
+    {
+        title: 'OBS',
+        logo: crossplanePng,
+        description: (
+            <>
+                Manage Object Storage Service buckets and objects in T Cloud Public via Kubernetes APIs.
+                This template covers buckets, objects, ACLs, static/dynamic bucket policies, KMS encryption, logging, inventory and cross-region replication.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/obs',
+    },
+    {
+        title: 'RDS',
+        logo: crossplanePng,
+        description: (
+            <>
+                Provision a relational database in T Cloud Public via Kubernetes APIs.
+                This template creates a PostgreSQL RDS instance with a VPC, subnet, security group, EIP and a password from a Kubernetes secret.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/rds',
+    },
+    {
+        title: 'SFS',
+        logo: crossplanePng,
+        description: (
+            <>
+                Provision shared NFS in T Cloud Public via Kubernetes APIs.
+                This template creates an SFS NFS share, a cert-based VPC access rule and an SFS Turbo high-performance share with a VPC, subnet, and security group.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/sfs',
+    },
+    {
+        title: 'VPC',
+        logo: crossplanePng,
+        description: (
+            <>
+                Using the VPC crossplane example you can set up a virtual private cloud network in T Cloud Public via Kubernetes APIs.
+                This template creates a VPC with a secondary CIDR, a security group with an ingress rule and an IP address group for security rules.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/vpc',
+    },
+    {
+        title: 'ProviderConfig',
+        logo: crossplanePng,
+        description: (
+            <>
+                Configure the provider credentials used by all namespaced managed resources in T Cloud Public.
+                This template creates the ClusterProviderConfig that reads OpenTelekomCloud AK/SK and region settings from the provider-secret Kubernetes secret in the crossplane-system namespace.
+               
+            </>
+        ),
+        type: 'Crossplane',
+        link: 'https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/examples/namespaced/providerconfig',
+    },
     {
         title: 'OpenShift',
         logo: telekomPng,
         description: (
             <>
-                This template deploys a Self-managed OpenShift Container Platform on T Cloud Public with worker nodes in one availability zone.
+                Deploy a self-managed OpenShift Container Platform on T Cloud Public with worker nodes in one availability zone.
                 To deploy worker nodes in three availability zones, use the template OpenStack HA.
             </>
         ),
@@ -21,7 +126,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template deploys a Self-managed OpenShift Container Platform on T Cloud Public with master and worker nodes in 3 availability zones.
+                Deploy a self-managed OpenShift Container Platform on T Cloud Public with master and worker nodes in 3 availability zones.
             </>
         ),
         type: 'Cloud Create',
@@ -32,7 +137,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template deploys NextCloud app (version 28) on T Cloud Public using Object Storage and Relational Database Service as the storage back-end and the MySQL Server, respectively.
+                Deploy NextCloud app (version 28) on T Cloud Public using Object Storage and Relational Database Service as the storage back-end and the MySQL Server, respectively.
             </>
         ),
         type: 'Cloud Create',
@@ -43,7 +148,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                Use this template to deploy a CCE cluster with a NAT gateway, worker nodes, a bastion host, and a kubectl client. The kubectl client is pre-configured with a kubeconfig file on the bastion host and is ready to connect to the CCE cluster. You can adjust the CustomSetup script on the bastion host to configure k8s resources inside the CCE cluster with the kubectl command.
+                Deploy a CCE cluster with a NAT gateway, worker nodes, a bastion host, and a kubectl client. The kubectl client is pre-configured with a kubeconfig file on the bastion host and is ready to connect to the CCE cluster. You can adjust the CustomSetup script on the bastion host to configure k8s resources inside the CCE cluster with the kubectl command.
             </>
         ),
         type: 'Cloud Create',
@@ -54,7 +159,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template demonstrates the usecase of the bastion host and the NAT gateway. The bastion host is used as a jump-host to access the private compute via the Admin Network. The private compute has the network port in the Data Network as the default port for outgoing traffic. The NAT gateway is used for SNAT outgoing traffic from the private compute.
+                This template demonstrates the use-case of the bastion host and the NAT gateway. The bastion host is used as a jump-host to access the private compute via the Admin Network. The private compute has the network port in the Data Network as the default port for outgoing traffic. The NAT gateway is used for SNAT outgoing traffic from the private compute.
             </>
         ),
         type: 'Cloud Create',
