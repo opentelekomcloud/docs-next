@@ -10,7 +10,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the ECS crossplane example you are able to provision a VM in T Cloud Public with all the necessary networking services using Kubernetes APIs.
+                Provision a VM in T Cloud Public with all the necessary networking services using Kubernetes APIs.
                 This template creates an ECS (Elastic Cloud Server) VM with a keypair, VPC, subnet, and security group.
                
             </>
@@ -23,7 +23,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the Identity (IAM) crossplane example you can manage cloud identity and access resources in T Cloud Public via Kubernetes APIs.
+               Manage cloud identity and access resources in T Cloud Public via Kubernetes APIs.
                 This template covers users, groups, memberships, projects, custom roles, role assignments, agencies, credentials, access-control lists and SAML identity providers.
                
             </>
@@ -36,7 +36,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the KMS crossplane example you can manage Key Management Service keys in T Cloud Public via Kubernetes APIs.
+                Manage Key Management Service keys in T Cloud Public via Kubernetes APIs.
                 This template creates an IAM user, a KMS key and a grant, giving the user encryption operations on the key.
                
             </>
@@ -49,7 +49,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the OBS crossplane example you can manage Object Storage Service buckets and objects in T Cloud Public via Kubernetes APIs.
+                Manage Object Storage Service buckets and objects in T Cloud Public via Kubernetes APIs.
                 This template covers buckets, objects, ACLs, static/dynamic bucket policies, KMS encryption, logging, inventory and cross-region replication.
                
             </>
@@ -62,7 +62,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the RDS crossplane example you can provision a relational database in T Cloud Public via Kubernetes APIs.
+                Provision a relational database in T Cloud Public via Kubernetes APIs.
                 This template creates a PostgreSQL RDS instance with a VPC, subnet, security group, EIP and a password from a Kubernetes secret.
                
             </>
@@ -75,7 +75,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the SFS crossplane example you can provision shared NFS in T Cloud Public via Kubernetes APIs.
+                Provision shared NFS in T Cloud Public via Kubernetes APIs.
                 This template creates an SFS NFS share, a cert-based VPC access rule and an SFS Turbo high-performance share with a VPC, subnet, and security group.
                
             </>
@@ -101,7 +101,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: crossplanePng,
         description: (
             <>
-                Using the ProviderConfig crossplane example you configure the provider credentials used by all namespaced managed resources in T Cloud Public.
+                Configure the provider credentials used by all namespaced managed resources in T Cloud Public.
                 This template creates the ClusterProviderConfig that reads OpenTelekomCloud AK/SK and region settings from the provider-secret Kubernetes secret in the crossplane-system namespace.
                
             </>
@@ -114,7 +114,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template deploys a Self-managed OpenShift Container Platform on T Cloud Public with worker nodes in one availability zone.
+                Deploy a self-managed OpenShift Container Platform on T Cloud Public with worker nodes in one availability zone.
                 To deploy worker nodes in three availability zones, use the template OpenStack HA.
             </>
         ),
@@ -126,7 +126,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template deploys a Self-managed OpenShift Container Platform on T Cloud Public with master and worker nodes in 3 availability zones.
+                Deploy a self-managed OpenShift Container Platform on T Cloud Public with master and worker nodes in 3 availability zones.
             </>
         ),
         type: 'Cloud Create',
@@ -137,7 +137,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template deploys NextCloud app (version 28) on T Cloud Public using Object Storage and Relational Database Service as the storage back-end and the MySQL Server, respectively.
+                Deploy NextCloud app (version 28) on T Cloud Public using Object Storage and Relational Database Service as the storage back-end and the MySQL Server, respectively.
             </>
         ),
         type: 'Cloud Create',
@@ -148,7 +148,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                Use this template to deploy a CCE cluster with a NAT gateway, worker nodes, a bastion host, and a kubectl client. The kubectl client is pre-configured with a kubeconfig file on the bastion host and is ready to connect to the CCE cluster. You can adjust the CustomSetup script on the bastion host to configure k8s resources inside the CCE cluster with the kubectl command.
+                Deploy a CCE cluster with a NAT gateway, worker nodes, a bastion host, and a kubectl client. The kubectl client is pre-configured with a kubeconfig file on the bastion host and is ready to connect to the CCE cluster. You can adjust the CustomSetup script on the bastion host to configure k8s resources inside the CCE cluster with the kubectl command.
             </>
         ),
         type: 'Cloud Create',
@@ -159,7 +159,7 @@ export const TemplatesList: TemplateItem[] = [
         logo: telekomPng,
         description: (
             <>
-                This template demonstrates the usecase of the bastion host and the NAT gateway. The bastion host is used as a jump-host to access the private compute via the Admin Network. The private compute has the network port in the Data Network as the default port for outgoing traffic. The NAT gateway is used for SNAT outgoing traffic from the private compute.
+                This template demonstrates the use-case of the bastion host and the NAT gateway. The bastion host is used as a jump-host to access the private compute via the Admin Network. The private compute has the network port in the Data Network as the default port for outgoing traffic. The NAT gateway is used for SNAT outgoing traffic from the private compute.
             </>
         ),
         type: 'Cloud Create',
