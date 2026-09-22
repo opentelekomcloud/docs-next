@@ -4,118 +4,95 @@ title: Introduction to the T Cloud Public Crossplane Provider
 tags: [crossplane, platform-engineering]
 ---
 
-## What is Crossplane
+Crossplane extends Kubernetes into a control plane for managing cloud infrastructure and services through Kubernetes-style APIs. Running as an operator in virtually any Kubernetes environment (including CCE, OpenShift, and local clusters such as kind), it continuously reconciles declared resources with their desired state. Combined with GitOps workflows and tools such as Helm, Helmfile, and Argo CD, Crossplane provides a Kubernetes-native approach to provisioning and managing T Cloud Public services such as VPC, ECS, CCE, RDS, and OBS.
 
-[Crossplane](https://docs.crossplane.io/latest/whats-crossplane/) is an open-source control plane that extends Kubernetes to manage cloud infrastructure and services using Kubernetes. It enables platform teams to provision and manage resources across providers such as AWS, Azure, GCP, **T Cloud Public** through declarative, Kubernetes-native configurations.
-
-By turning Kubernetes into a universal control plane for infrastructure, Crossplane allows teams to define reusable platform abstractions and self-service APIs that encapsulate organizational standards, security policies, and operational best practices. Developers consume high-level resources, while Crossplane automatically provisions and manages the underlying cloud infrastructure.
-
-By treating infrastructure as code within Kubernetes and integrating naturally with GitOps workflows, Crossplane helps automate deployments, improve consistency, reduce operational overhead, and simplify cloud operations.
-
-
-#### In short:
-- Manage cloud services with:
-    - Kubernetes-style APIs
-    - Reconciliation loops:
-	    - Drives from observed to desired state automatically
-    - GitOps tools/workflows:
-	    - helm
-	    - helmfile
-	    - argocd
-- Installed as a **control-plane/operator** inside a Kubernetes cluster
-	- Runs on:
-	    - kind
-	    - CCE
-	    - OpenShift
-	    - Any Kubernetes flavor actually
-- Enables management of **T Cloud Public** services like:
-	- RDS
-	- OBS
-	- VPC
-	- ECS
-	- CCE
-	- many **more**
-
-
-## Crossplane architecture
+## Crossplane Architecture
 
 When managing cloud resources in Crossplane, there are four key components working together:
 
-1. **Kubernetes API** – Store resources, validate requests, enforce RBAC, notify controllers.
-2. **Crossplane core** – Compositions, packages, functions, dependency management, resource orchestration.
-3. **Crossplane Providers** – The cloud/service specific implementations(APIs + controllers).
-4. **ETCD** - Persistent storage of desired and observed state.
+1. **Kubernetes API**: Store resources, validate requests, enforce RBAC, notify controllers.
+2. **Crossplane core**: Compositions, packages, functions, dependency management, resource orchestration.
+3. **Crossplane Providers**: The cloud/service specific implementations(APIs + controllers).
+4. **etcd**: Persistent storage of desired and observed state.
 
 When you apply any Crossplane manifest, the Provider reconciles the desired state in Kubernetes with the actual state in the cloud provider's API, creating, updating, or deleting the external resource as needed.
+
 ![image](/img/docs/blueprints/by-use-case/platformengineering/using-crossplane/using-crossplane-architecture-img.png)
 
-## Terraform vs Crossplane operation  
-Crossplane does sound like automated Terraform, but what are the differences?
+## Terraform vs. Crossplane Operations
 
-| Aspect                  | Terraform-Based Operations                                            | Crossplane-Based Operations                                               |
-| ----------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **Primary Model**       | Infrastructure as Code using Terraform hcl configurations             | Kubernetes-native infrastructure management using Custom Resources (CRDs) |
-| **Control Plane**       | Terraform CLI, Terraform Cloud, or automation pipelines               | Kubernetes acts as the control plane                                      |
-| **State Management**    | Requires separate state files (local or remote backend) + state drama | State stored in Kubernetes' etcd                                          |
-| **Resource Lifecycle**  | CI/CD pipelines or manual runs                                        | Continuously reconciled by Kubernetes controllers                         |
-| **Drift Detection**     | Periodic `terraform plan` required                                    | Automatic and continuous reconciliation                                   |
-| **Operational Model**   | Push-based execution                                                  | Pull-based reconciliation                                                 |
-| **Multi-Cloud Support** | Mature and extensive                                                  | Limited, but catching up                                                  |
-| **GitOps Integration**  | Indirect, usually through CI/CD runners                               | Native fit with GitOps tools like ArgoCD                                  |
-| **Learning Curve**      | Easier for infrastructure teams                                       | "Easier" for Kubernetes-centric platform teams, but can be more complex   |
+Crossplane and Terraform both support infrastructure provisioning and management, but they use different approaches to defining, applying, and maintaining infrastructure state:
 
-It is important to highlight that Crossplane is not a direct replacement for Terraform. Engineering teams should evaluate their infrastructure and engineering needs and determine which tool is best suited to each system and use case. Rather than choosing one over the other, teams may benefit from using both tools where appropriate.
-## Crossplane providers
+| Aspect                  | Terraform-Based Operations                                | Crossplane-Based Operations                                                          |
+| ----------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Primary Model**       | Infrastructure as Code using Terraform HCL configurations | Kubernetes-native infrastructure management using Custom Resource Definitions (CRDs) |
+| **Control Plane**       | Terraform CLI, Terraform Cloud, or automation pipelines   | Kubernetes acts as the control plane                                                 |
+| **State Management**    | Requires separate state files (local or remote backend)   | State stored in Kubernetes' etcd                                                     |
+| **Resource Lifecycle**  | CI/CD pipelines or manual runs                            | Continuously reconciled by Kubernetes controllers                                    |
+| **Drift Detection**     | Periodic `terraform plan` required                        | Automatic and continuous reconciliation                                              |
+| **Operational Model**   | Push-based execution                                      | Pull-based reconciliation                                                            |
+| **Multi-Cloud Support** | Mature and extensive                                      | Limited, but catching up                                                             |
+| **GitOps Integration**  | Indirect, usually through CI/CD runners                   | Native fit with GitOps tools like Argo CD                                            |
+| **Learning Curve**      | Lower for infrastructure teams                            | *Lower* for Kubernetes-centric platform teams, but can be more complex.              |
 
-- [Providers](https://docs.crossplane.io/latest/packages/providers/) are responsible for all aspects of connecting to non-Kubernetes resources:
-    - Define cloud APIs as Kubernetes CRDs
-    - Handle Authentication
-    - Implement controllers
-    - Manage external infrastructure resources
-- Most providers are built from **Terraform providers** with [upjet](https://github.com/crossplane/upjet) 
+:::important
+It is crucial to highlight that Crossplane is not a direct replacement for Terraform. Engineering teams should evaluate their infrastructure and engineering needs and determine which tool is best suited to each system and use case. Rather than choosing one over the other, teams may benefit from using both tools where appropriate.
+:::
+
+## Crossplane Providers
+
+[Providers](https://docs.crossplane.io/latest/packages/providers/) enable Crossplane to interact with external services and manage resources outside the Kubernetes cluster. They define external APIs as Kubernetes custom resource definitions (CRDs), handle authentication with the target service, and provide the controllers that reconcile and manage external resources.
+
+Most Crossplane providers are generated from existing Terraform providers using [Upjet](https://github.com/crossplane/upjet) code generation framework.
 
 ### provider-opentelekomcloud
 
-- Provider built using **Upjet tooling**
-- Upjet [generates](https://github.com/crossplane/upjet-provider-template) Crossplane providers from Terraform providers
-- All Terraform-supported services are configurable
-- Some services still lack dynamic value assignment support: [tracker](https://github.com/opentelekomcloud/provider-opentelekomcloud/issues/7)
+The provider is built using Upjet, which generates Crossplane providers based on the existing Terraform providers. This makes all services supported by the underlying Terraform provider available for configuration through Crossplane.
 
+:::warning
+Some services currently have limitations regarding dynamic value assignment; these are documented in the corresponding [issue tracker](https://github.com/opentelekomcloud/provider-opentelekomcloud/issues/7).
+:::
 
-The provider ships hundreds of new APIs and controllers by default, which will increase the load on `kube-apiserver` and `etcd`. Please consider using [ManagedResourceActivationPolicies](https://docs.crossplane.io/latest/managed-resources/managed-resource-activation-policies/) to only activate needed resources.
-> Below you can see how kube-apiserver reacts when installing Crossplane and the Provider with all controllers enabled.
+The provider includes hundreds of managed resource types, each represented by a Kubernetes CRD and managed by a corresponding controller. Activating all available managed resource types increases the number of CRDs and controllers in the cluster and adds load to the Kubernetes API server and `etcd`.
+
+If only a subset of these managed resource types is required, consider using [ManagedResourceActivationPolicies](https://docs.crossplane.io/latest/managed-resources/managed-resource-activation-policies/) to activate only those that are needed. This reduces the number of active managed resource types and limits unnecessary control-plane overhead.
+
+<center>
 ![image](/img/docs/blueprints/by-use-case/platformengineering/using-crossplane/using-crossplane-crossplane_metrics.png)
+**Figure 1**: How kube-apiserver reacts when installing Crossplane and the Provider with all controllers enabled
+</center>
 
 ## Installing and Configuring the Provider
 
-### Install Crossplane core
+### Installing Crossplane Core
 
 1. Create a namespace for Crossplane
 ```bash
 kubectl create namespace crossplane-system
 ```
 
-2. Add the Crossplane Helm repository and update it
+2. Adding the Crossplane Helm Repository and update it
 ```bash
 helm repo add crossplane-stable https://charts.crossplane.io/stable
 helm repo update
 ```
 
-3. Install Crossplane using Helm
+3. Deploying Crossplane using Helm
 ```bash
 helm install crossplane crossplane-stable/crossplane \
   --set provider.defaultActivations={"*.opentelekomcloud.m.crossplane.io"} \
 -n crossplane-system
 ```
 
-4. Verify that Crossplane is running correctly
+4. Verifying that Crossplane is running correct
 ```bash
 kubectl -n crossplane-system wait --for=condition=Available deployment --all --timeout=5m
 ```
 
-### Install the T Cloud Public Provider
-1. Install the Provider package
-> `Provider` kind is a CRD installed and managed by Crossplane as a [package](https://docs.crossplane.io/latest/packages/), thus you need Crossplane up and running to install the Provider.
+### Deploying the T Cloud Public Provider
+
+1. Install the Provider Package
+
 ```yaml
 cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
@@ -127,17 +104,20 @@ spec:
 EOF
 ```
 
+:::note
+`Provider` is a CRD installed and managed by Crossplane as a [package](https://docs.crossplane.io/latest/packages/), hence you need Crossplane up and running before installing the Provider.
+:::
+
 2. Set up AUTH for `ClusterProviderConfig`
+   
 ```shell
 export CROSSPLANE_CLOUD_CREDENTIALS='{"user_name":"USERNAME","access_key":"MY_AK", "secret_key":"MY_SK","auth_url":"https://iam.eu-de.otc.t-systems.com/v3","domain_name":"MYDOMAIN","tenant_name":"eu-de_PROJECT","swauth":"false","allow_reauth":"true","max_retries":"2","max_backoff_retries":"6","backoff_retry_timeout":"60","insecure":"false"}'
-```
 
-```shell
 kubectl -n crossplane-system create secret generic provider-secret --from-literal=credentials="${CROSSPLANE_CLOUD_CREDENTIALS}" --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-3. Create `ClusterProviderConfig`
-> `ClusterProviderConfig` kind is installed and managed by the T Cloud Provider. You might need to wait 1-2 minutes while the Provider starts all controllers.
+1. Create a `ClusterProviderConfig`
+
 ```yaml
 cat <<EOF | kubectl apply -f -
 apiVersion: opentelekomcloud.m.crossplane.io/v1beta1
@@ -154,7 +134,12 @@ spec:
 EOF
 ```
 
-4. Deploy a `Bucket` as a test
+:::info
+`ClusterProviderConfig` is installed and managed by the T Cloud Provider. It may take one or two minutes to become available while the provider initializes its controllers.
+:::
+
+2. Deploy a `Bucket` as a test
+   
 ```yaml
 cat <<EOF | kubectl apply -f -
 apiVersion: obs.opentelekomcloud.m.crossplane.io/v1alpha1
@@ -176,7 +161,7 @@ EOF
 ```
 
 ```yaml
-kubectl get bucket.obs.opentelekomcloud.m.crossplane.io -oyaml
+kubectl get bucket.obs.opentelekomcloud.m.crossplane.io -o yaml
 [...]
   spec:
     forProvider:
@@ -213,26 +198,27 @@ kubectl get bucket.obs.opentelekomcloud.m.crossplane.io -oyaml
 
 
 ```
+
 ## ManagedResources (MR)
 
 A [managedResource](https://docs.crossplane.io/latest/managed-resources/managed-resources/) (`MR`) represents an external service in a Provider. When users create a new managed resource, the Provider reacts by creating an external resource inside the Provider’s environment.
+
 ### Managed resource fields
 
 #### Group, Kind and Version
 
-- Each managed resource is a unique API endpoint with their own `group`, `kind` and `version`.
-- For example the [T Cloud Provider](https://github.com/opentelekomcloud/provider-opentelekomcloud) defines the `Bucket` (OBS) kind from the group `obs.opentelekomcloud.m.crossplane.io`
+Each managed resource type is exposed through a Kubernetes API identified by its API `group`, `version`, and `kind`. For example, the [T Cloud Provider](https://github.com/opentelekomcloud/provider-opentelekomcloud) provides the `Bucket` managed resource for OBS in the `obs.opentelekomcloud.m.crossplane.io` API group.
 
 ```yaml
 apiVersion: obs.opentelekomcloud.m.crossplane.io/v1alpha1
 kind: Bucket
 ```
 
-#### forProvider
+#### spec.forProvider
 
-- The `spec.forProvider` of a managed resource maps to the parameters of the external cloud resource.
-- For example, when creating a `Bucket` instance, the Provider supports defining the `region`, `versioning` and [other](https://marketplace.upbound.io/providers/opentelekomcloud/provider-opentelekomcloud/v0.9.0/resources/obs.opentelekomcloud.m.crossplane.io/Bucket/v1alpha1#doc:spec) fields here.
-- Single [source of truth](https://docs.crossplane.io/latest/managed-resources/managed-resources/#forprovider) and desired state definition.
+The `spec.forProvider` field defines the desired configuration of the external cloud resource and maps to the parameters supported by the provider. For example, an OBS `Bucket` resource can specify parameters such as `region`, `versioning`, and other provider-specific settings in `spec.forProvider`.
+
+Crossplane treats `spec.forProvider` as the source of truth for the desired state of the managed resource.
 
 ```yaml
 spec:
@@ -242,10 +228,9 @@ spec:
     bucket: my-crossplane-test-1
 ```
 
-#### atProvider
+#### status.atProvider
 
-- The `status.atProvider` of a managed resource contains the observed state of the external resource.
-- For example, after creating a `Bucket` instance, the Provider may populate fields such as the `storageClass`, `acl`, `forceDestroy` and other values returned by the external resource.
+The `status.atProvider` field contains the observed state of the external cloud resource. For example, after creating an OBS `Bucket` resource, the provider may populate fields such as `storageClass`, `acl`, `forceDestroy`, and other values observed from the external resource.
 
 ```yaml
 status:
@@ -266,13 +251,18 @@ status:
     versioning: true
 ```
 
-In short: `forProvider` describes what you want to configure, while `atProvider` describes what Crossplane observes on the external resource.
-
+:::tip
+In summary, `forProvider` describes what you want to configure, while `atProvider` describes what Crossplane observes on the external resource.
+:::
 
 ### Automatic reconciliation
-Crossplane and Providers continuously reconciling to the desired state defined in Kubernetes. The Provider watches the `ManagedResource` state in the cloud API and compares it's state with the desired configuration. If a resource is modified outside of Crossplane , the Provider automatically detects and corrects this drift unless configured otherwise. By default the reconciliation loop runs every 10 minutes, but it is configurable with [DeploymentRuntimeConfig](https://github.com/opentelekomcloud/provider-opentelekomcloud/blob/main/docs/configure-the-provider.md), but be aware of API rate limits.
+
+Crossplane and its providers continuously reconcile managed resources against the desired state defined in Kubernetes. The provider observes the state of each `ManagedResource` through the cloud API and compares it with the desired configuration. If a resource is modified outside Crossplane, the provider detects the configuration drift and restores the desired state unless configured otherwise.
+
+By default, the reconciliation interval is 10 minutes. The interval can be adjusted using a [DeploymentRuntimeConfig](https://github.com/opentelekomcloud/provider-opentelekomcloud/blob/main/docs/configure-the-provider.md). When reducing the interval, consider the API rate limits of the services managed by the provider.
 
 ### Deletion protection
+
 By default, the provider protects resources from accidental deletion or re-creation. External resources are deleted only when the Kubernetes resource is intentionally removed.
 
 ```
@@ -283,36 +273,41 @@ By default, the provider protects resources from accidental deletion or re-creat
 ```
 
 ## Composite Resources (XR)
-A [composite resource](https://docs.crossplane.io/latest/composition/composite-resources/), or XR, represents a set of Kubernetes resources as a single Kubernetes object. Crossplane creates composite resources when users access a custom self built APIs, defined in the [CompositeResourceDefinition](https://docs.crossplane.io/latest/composition/composite-resource-definitions/) (XRD).
 
-- Composite resource definitions (`XRDs`) define the schema for a custom API.
-- [Compositions](https://docs.crossplane.io/latest/composition/compositions/) are a template for creating multiple Kubernetes resources as a single composite resource.
+A [composite resource](https://docs.crossplane.io/latest/composition/composite-resources/), or `XR`, represents a set of Kubernetes resources as a single Kubernetes object. Crossplane creates composite resources when users access a custom self built APIs, defined in the [CompositeResourceDefinition](https://docs.crossplane.io/latest/composition/composite-resource-definitions/) (XRD).
+
+Composite Resource Definitions (`XRDs`) define the schema and API of a custom composite resource. [Compositions](https://docs.crossplane.io/latest/composition/compositions/) define how an instance of that composite resource is translated into one or more Kubernetes resources.
 
 ![image](/img/docs/blueprints/by-use-case/platformengineering/using-crossplane/using-crossplane-xrd-img.png)
 
-#### Compositions can enable:
+**Compositions can enable:**
 
-- **Multi-cloud engineering** – Enables composing infrastructure APIs that work consistently across multiple cloud providers.
-- **Standardized cloud resources** – Allows platform teams to define approved infrastructure patterns, ensuring consistency, security, and compliance across the organization.
-- **Self-service infrastructure** – Gives developers simple, application-focused APIs to provision infrastructure without needing deep expertise in cloud platforms.
-- **Infrastructure abstraction** – Hides cloud-provider-specific complexity behind higher-level APIs that align with business and platform requirements.
-- **Reusable infrastructure patterns** – Packages common architectures (such as databases, Kubernetes clusters, or application environments) into reusable building blocks that can be deployed repeatedly and consistently.
+- **Multi-cloud engineering**: Enables composing infrastructure APIs that work consistently across multiple cloud providers.
+- **Standardized cloud resources**: Allows platform teams to define approved infrastructure patterns, ensuring consistency, security, and compliance across the organization.
+- **Self-service infrastructure**: Gives developers simple, application-focused APIs to provision infrastructure without needing deep expertise in cloud platforms.
+- **Infrastructure abstraction**: Hides cloud-provider-specific complexity behind higher-level APIs that align with business and platform requirements.
+- **Reusable infrastructure patterns**: Packages common architectures (such as databases, Kubernetes clusters, or application environments) into reusable building blocks that can be deployed repeatedly and consistently.
 
-## Standardized Database example XR
+## Examples
 
-Imagine a company with multiple development teams, each needing an SQL database for their applications. Using Crossplane, the Platform Engineering team can create guardrails, security policies, and standards that developers must follow. This allows development teams to self-service database provisioning without needing to understand the underlying database infrastructure, cloud APIs or Crossplane.
+### Standardized Database
 
-**Company requirements:**
+Consider an organization with multiple development teams that require SQL databases for their applications. With Crossplane, the platform engineering team can define a standardized database API with built-in configuration, security requirements, and organizational policies. Development teams can then provision databases through this API without requiring detailed knowledge of the underlying cloud services, cloud APIs, or Crossplane configuration.
 
-- PostgreSQL only 
-- Backups must be enabled 
-- Only approved database flavors can be used
-- Maximum database size: 500 GB
-- Internal access only
-- All resources must be deployed in the same namespace
-- Only `CLOUDSSD` block storage is allowed
+**Requirements:**
 
-The Crossplane solution: Platform Engineering team creates a custom abstraction API using Crossplane Composite Resources. Development teams can then provision a compliant database using a simple manifest:
+* Database engine: PostgreSQL
+* Backups must be enabled.
+* Only approved database flavors are permitted.
+* Maximum database size: 500 GB
+* Network access: internal only
+* All resources must be deployed in the same namespace.
+* Storage type: `CLOUDSSD` only
+
+#### The Solution
+
+The platform engineering team defines a custom API using Crossplane composite resources that incorporates the required configuration and constraints. Development teams can then provision a compliant database using a simple Kubernetes manifest:
+
 ```yaml
 apiVersion: database.example.org/v1alpha1
 kind: DbInstance
@@ -327,7 +322,8 @@ spec:
   team: team-a
 ```
 
-After applying the manifest above, the Provider provisions an RDS instance and all required supporting resources, including networking and security groups. This will create an `RDS` instance with the following specifications:
+After the manifest is applied, the provider provisions the RDS instance and its required supporting resources, including network and security group resources. The resulting RDS instance has the following specifications:
+
 ```yaml
 spec:
   forProvider:
@@ -370,19 +366,26 @@ spec:
       matchControllerRef: true
 ```
 
-As demonstrated in the example above, Crossplane and our Provider can help you standardize and abstract your Kubernetes and cloud infrastructure, enabling a self-service experience where developers can provision what they need without having to understand the underlying infrastructure.
+As demonstrated in the example above, Crossplane and the T Cloud Provider can be used to standardize and abstract Kubernetes and cloud infrastructure. This enables development teams to provision the resources they need through a self-service API without requiring detailed knowledge of the underlying infrastructure.
 
-#### Links for the working example:
-[Function](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/001_function.yaml)  
-[Composite Resource Definition](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/002_xrd.yaml)  
-[Composition](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/003_xr.yaml)  
-[DbInstance](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/004_psql.yaml)  
+:::note Links for the working example
 
-## Where to find out more about the Provider and Crossplane
+- [Function](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/001_function.yaml)  
+- [Composite Resource Definition](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/002_xrd.yaml)  
+- [Composition](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/003_xr.yaml)  
+- [DbInstance](https://github.com/dombisza/obsidian/blob/master/crossplane-intro/manifests/xr/004_psql.yaml)  
 
-- Official Crossplane [docs](https://docs.crossplane.io/latest/) is a good place to start
-- Our Github has a [quick start guide](https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main#getting-started) for the Provider's deployment
-- Understanding [ProviderConfig](https://docs.crossplane.io/latest/packages/providers/#provider-configuration) types 
-- Configuration, upgrade and import [docs](https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/docs) 
-- CRDs are self documenting, but [Upbound's](https://marketplace.upbound.io/providers/opentelekomcloud/provider-opentelekomcloud/v0.9.0?tab=managedResources) page might be friendlier
-- If you are having issues you can request help in [Github](https://github.com/opentelekomcloud/provider-opentelekomcloud/issues)
+:::
+
+## Appendix
+
+:::tip References
+
+* [Official Documentation](https://docs.crossplane.io/latest/) for Crossplane concepts, installation, managed resources, and compositions.
+* [T Cloud Provider Quick-Start](https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main#getting-started): Getting started with installing and configuring the provider.
+* [Provider Configuration](https://docs.crossplane.io/latest/packages/providers/#provider-configuration): Crossplane documentation for configuring provider credentials and authentication.
+* [T Cloud Provider Documentation](https://github.com/opentelekomcloud/provider-opentelekomcloud/tree/main/docs): Configuration, upgrades, resource imports, and other provider-specific topics.
+* [T Cloud Provider Resource Reference](https://marketplace.upbound.io/providers/opentelekomcloud/provider-opentelekomcloud/v0.9.0?tab=managedResources) for the managed resource types provided by the T Cloud Provider.
+* [GitHub issues](https://github.com/opentelekomcloud/provider-opentelekomcloud/issues): Report problems, request support, or track known issues with the T Cloud Provider.
+
+:::
