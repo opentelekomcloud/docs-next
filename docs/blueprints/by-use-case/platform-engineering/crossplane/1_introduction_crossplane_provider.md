@@ -17,7 +17,7 @@ When managing cloud resources in Crossplane, there are four key components worki
 
 When you apply any Crossplane manifest, the Provider reconciles the desired state in Kubernetes with the actual state in the cloud provider's API, creating, updating, or deleting the external resource as needed.
 
-![image](/img/docs/blueprints/by-use-case/platformengineering/using-crossplane/using-crossplane-architecture-img.png)
+![image](/img/docs/blueprints/by-use-case/platformengineering/using-crossplane/ExcaliExport_2026_07_22_0833.png)
 
 ## Terraform vs. Crossplane Operations
 
