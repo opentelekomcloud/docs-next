@@ -280,6 +280,10 @@ const sidebars: SidebarsConfig = {
           },
           items: [
             {
+              type: 'doc',
+              id: 'best-practices/big-data-and-data-analysis/mapreduce-service/using-dbeaver-to-connect-to-mrs-hetuengine',
+            },
+            {
               type: 'link',
               label: '📚 Go to Help Center',
               href: 'https://docs.otc.t-systems.com/mapreduce-service/index.html',
