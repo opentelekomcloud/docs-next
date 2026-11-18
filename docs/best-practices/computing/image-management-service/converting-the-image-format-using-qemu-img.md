@@ -15,7 +15,6 @@ qemu-img is an open-source tool for converting image formats. You can obtain it 
 ## Constraints
 
 * **qemu-img** can be used for mutual conversion of image formats VHD, VMDK, QCOW2, RAW, VHDX, QCOW, VDI, and QED.
-* ZVHD and ZVHD2 are the cloud's self-developed image file formats and cannot be identified by **qemu-img**. To convert image files to any of the two formats, use the **qemu-img-hw** tool. For details, see [Converting the Image Format Using qemu-img-hw](https://support.huaweicloud.com/intl/en-us/bestpractice-ims/ims_bp_0052.html).
 * When you run a command to convert the format of VHD image files, replace **vhd** with **vpc**.
 
     For example, to convert a CentOS 6.9 image file from VHD to QCOW2, run the following command:
