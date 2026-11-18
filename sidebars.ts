@@ -429,6 +429,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'best-practices/computing/image-management-service/clean-up-the-disk-space-of-windows-ecs',
             },
+             {
+              type: 'doc',
+              id: 'best-practices/computing/image-management-service/converting-the-image-format-using-qemu-img',
+            },
             {
               type: 'link',
               label: '📚 Go to Help Center',
